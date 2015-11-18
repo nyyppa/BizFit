@@ -47,13 +47,7 @@ public class Tracker {
         resetCalender.setTimeInMillis(lastReset);
         resetCalender.add(Calendar.MONTH, monthInterval);
         resetCalender.add(Calendar.DAY_OF_MONTH,dayInterval);
-        if(monthInterval>0&&dayInterval>0){
-
-        }else if(monthInterval>0){
-
-        }else if(dayInterval>0){
-
-        }
+        updateElapsedTime();
         if(currentCalendar.after(resetCalender)){
             do{
                 resetCalender.add(Calendar.MONTH, monthInterval);
@@ -61,6 +55,9 @@ public class Tracker {
             }while((currentCalendar.after(resetCalender)));
             lastReset=resetCalender.getTimeInMillis();
         }
+    }
+    private void updateElapsedTime(){
+        elapsedTime=System.currentTimeMillis()-startDate;
     }
 
     public void addProgress(float progress){
