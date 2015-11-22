@@ -23,6 +23,7 @@ public class Tracker implements java.io.Serializable {
     long timeProgressNeed;
     String name;
     String targetType;
+    String id;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
 
     Tracker(int DayInterval,int monthInterval){
