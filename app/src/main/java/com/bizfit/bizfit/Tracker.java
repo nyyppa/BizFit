@@ -1,13 +1,15 @@
 package com.bizfit.bizfit;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Atte on 17.11.2015.
  */
-public class Tracker {
+public class Tracker implements java.io.Serializable {
     long startDate;
     long elapsedTime;
     long lastReset;
@@ -19,10 +21,13 @@ public class Tracker {
     float defaultIncrement=1;
     long timeProgress;
     long timeProgressNeed;
+    String name;
+    String targetType;
+    List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
 
     Tracker(int DayInterval,int monthInterval){
         startDate=System.currentTimeMillis();
-        startStuff(dayInterval,monthInterval);
+        startStuff(DayInterval,monthInterval);
     }
     Tracker(Date startDate,int dayInterval,int monthInterval){
         this.startDate=startDate.getTime();
@@ -54,12 +59,16 @@ public class Tracker {
         }else if(dayInterval>0){
 
         }
+        int day = 0;
+        int month;
         if(currentCalendar.after(resetCalender)){
             do{
-                resetCalender.add(Calendar.MONTH, monthInterval);
-                resetCalender.add(Calendar.DAY_OF_MONTH,dayInterval);
+                resetCalender.add(Calendar.DAY_OF_MONTH,1);
+                day=resetCalender.get(Calendar.DATE);
             }while((currentCalendar.after(resetCalender)));
+            addOldProgress(new OldProgress(lastReset, resetCalender.getTimeInMillis(), currentProgress, targetProgress));
             lastReset=resetCalender.getTimeInMillis();
+            currentProgress=0;
         }
     }
 
@@ -108,6 +117,17 @@ public class Tracker {
 
     public void setDayInterval(int dayInterval) {
         this.dayInterval = dayInterval;
+    }
+    public void setTargetAmount(float amount){
+        this.targetProgress=amount;
+    }
+
+    public void addOldProgress(OldProgress o){
+        oldProgress.add(o);
+    }
+
+    public List<OldProgress> getOldProgress(){
+        return oldProgress;
     }
 
 
