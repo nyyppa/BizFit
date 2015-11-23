@@ -4,6 +4,10 @@ package com.bizfit.bizfit;
  * Created by Atte on 22.11.2015.
  */
 public class OldProgress implements java.io.Serializable{
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8599112903840590954L;
     private long startDate;
     private long endDate;
     private float endProgress;
@@ -34,3 +38,4 @@ public class OldProgress implements java.io.Serializable{
     }
 
 }
+

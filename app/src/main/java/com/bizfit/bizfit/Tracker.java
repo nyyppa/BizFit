@@ -10,6 +10,10 @@ import java.util.List;
  * Created by Atte on 17.11.2015.
  */
 public class Tracker implements java.io.Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -9151429274382287394L;
     long startDate;
     long elapsedTime;
     long lastReset;
@@ -23,7 +27,6 @@ public class Tracker implements java.io.Serializable {
     long timeProgressNeed;
     String name;
     String targetType;
-    String id;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
 
     Tracker(int DayInterval,int monthInterval){
@@ -43,7 +46,6 @@ public class Tracker implements java.io.Serializable {
         calander.add(Calendar.DAY_OF_MONTH,dayInterval);
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
-
     }
 
     public void update(){
@@ -60,9 +62,9 @@ public class Tracker implements java.io.Serializable {
         }else if(dayInterval>0){
 
         }
-        int day = 0;
-        int month;
+
         if(currentCalendar.after(resetCalender)){
+            int day = 0;
             do{
                 resetCalender.add(Calendar.DAY_OF_MONTH,1);
                 day=resetCalender.get(Calendar.DATE);
@@ -130,8 +132,6 @@ public class Tracker implements java.io.Serializable {
     public List<OldProgress> getOldProgress(){
         return oldProgress;
     }
-
-
 
 
 
