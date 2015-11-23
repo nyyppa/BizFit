@@ -1,8 +1,5 @@
 package com.bizfit.bizfit;
 
-/**
- * Created by Käyttäjä on 23.11.2015.
- */
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,6 +16,7 @@ public class SaveState implements java.io.Serializable{
     private static final long serialVersionUID = 8425799364006222365L;
     ArrayList<Tracker> trackers;
     String user;
+
     SaveState(String user){
         this.user=user;
         System.out.println(this.user);
@@ -27,11 +25,34 @@ public class SaveState implements java.io.Serializable{
             trackers=new ArrayList<Tracker>(0);
         }
     }
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException{
+        try {
+            user=Encrypt.encrypt(user);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        out.defaultWriteObject();
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        try {
+            user=Encrypt.decrypt(user);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
     public static SaveState getInstance(String user){
         FileInputStream f_in = null;
         try {
-            f_in = new FileInputStream(user+".SaveState");
+            f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
         } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -79,8 +100,8 @@ public class SaveState implements java.io.Serializable{
         return trackers;
     }
 
-    public void save() throws IOException{
-        FileOutputStream f_out = new FileOutputStream(user+".SaveState");
+    public void save() throws Exception{
+        FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
         obj_out.writeObject (this);
         obj_out.close();
