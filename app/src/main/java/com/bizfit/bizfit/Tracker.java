@@ -125,7 +125,4 @@ public class Tracker implements java.io.Serializable {
     public List<OldProgress> getOldProgress(){
         return oldProgress;
     }
-
-
-
 }
