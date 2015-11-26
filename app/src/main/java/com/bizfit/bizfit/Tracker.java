@@ -55,7 +55,7 @@ public class Tracker implements java.io.Serializable {
         resetCalender.setTimeInMillis(lastReset);
         resetCalender.add(Calendar.MONTH, monthInterval);
         resetCalender.add(Calendar.DAY_OF_MONTH,dayInterval);
-
+        resetCalender.add(Calendar.YEAR,yearInterval);
         if(currentCalendar.after(resetCalender)){
             int day = 0;
             do{
