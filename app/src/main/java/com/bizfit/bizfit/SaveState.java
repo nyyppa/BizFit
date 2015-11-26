@@ -20,6 +20,10 @@ public class SaveState implements java.io.Serializable{
     ArrayList<Tracker> trackers;
     String user;
 
+    /**
+     * Do not manually construct new saveStates, rather call SaveState.getInstance(String user)
+     * @param user User name
+     */
     SaveState(String user){
         this.user=user;
         if(trackers==null){
@@ -27,6 +31,11 @@ public class SaveState implements java.io.Serializable{
         }
     }
 
+    /**
+     * encrypts user name before saving it to memory
+     * @param out
+     * @throws IOException
+     */
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
         try {
             user=Encrypt.encrypt(user);
@@ -37,6 +46,12 @@ public class SaveState implements java.io.Serializable{
         out.defaultWriteObject();
     }
 
+    /**
+     * decrypts user name when reading it from memory
+     * @param in
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
         in.defaultReadObject();
         try {
@@ -47,6 +62,12 @@ public class SaveState implements java.io.Serializable{
         }
 
     }
+
+    /**
+     * If user has SaveState reads it from memory and returns it, if no data is found for user it constructs new SaveState for that user and returns it
+     * @param user  User name
+     * @return  SaveState for the user
+     */
     public static SaveState getInstance(String user){
         FileInputStream f_in = null;
         try {
@@ -83,6 +104,11 @@ public class SaveState implements java.io.Serializable{
         return s;
     }
 
+    /**
+     * Adds tracker to users information and then saves everything to the memory
+     * @param t     Tracker to add for user
+     * @return      ArrayList containing all of the users Trackers
+     */
     public ArrayList<Tracker> addTracker(Tracker t){
         trackers.add(t);
         try {
@@ -93,10 +119,19 @@ public class SaveState implements java.io.Serializable{
         return trackers;
     }
 
+    /**
+     *
+     * @return  Returns all the users trackers
+     */
     public ArrayList<Tracker> getTrackers(){
         return trackers;
     }
 
+    /**
+     * Removes Tracker from users infromation and then saves everything
+     * @param t     Tracker to remove
+     * @return      ArrayList containing all of the users Trackers
+     */
     public ArrayList<Tracker> removeTracker(Tracker t){
         Iterator<Tracker> iterator=trackers.iterator();
         while(iterator.hasNext()){
@@ -115,6 +150,10 @@ public class SaveState implements java.io.Serializable{
         return trackers;
     }
 
+    /**
+     * Saves users current information
+     * @throws Exception    Everything that can go wrong
+     */
     public void save() throws Exception{
         //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
         //FileOutputStream f_out = new FileOutputStream(file);
