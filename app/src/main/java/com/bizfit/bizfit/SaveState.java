@@ -1,5 +1,8 @@
 package com.bizfit.bizfit;
 
+import android.content.Context;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,7 +22,6 @@ public class SaveState implements java.io.Serializable{
 
     SaveState(String user){
         this.user=user;
-        System.out.println(this.user);
 
         if(trackers==null){
             trackers=new ArrayList<Tracker>(0);
@@ -48,6 +50,8 @@ public class SaveState implements java.io.Serializable{
     public static SaveState getInstance(String user){
         FileInputStream f_in = null;
         try {
+            //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
+            //FileOutputStream f_out = new FileOutputStream(file);
             f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -101,6 +105,8 @@ public class SaveState implements java.io.Serializable{
     }
 
     public void save() throws Exception{
+        //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
+        //FileOutputStream f_out = new FileOutputStream(file);
         FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
         obj_out.writeObject (this);
