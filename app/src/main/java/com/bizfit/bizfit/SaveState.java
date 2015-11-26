@@ -22,11 +22,11 @@ public class SaveState implements java.io.Serializable{
 
     SaveState(String user){
         this.user=user;
-
         if(trackers==null){
             trackers=new ArrayList<Tracker>(0);
         }
     }
+
     private void writeObject(java.io.ObjectOutputStream out) throws IOException{
         try {
             user=Encrypt.encrypt(user);
@@ -85,6 +85,11 @@ public class SaveState implements java.io.Serializable{
 
     public ArrayList<Tracker> addTracker(Tracker t){
         trackers.add(t);
+        try {
+            save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return trackers;
     }
 
@@ -100,6 +105,11 @@ public class SaveState implements java.io.Serializable{
                 iterator.remove();
                 break;
             }
+        }
+        try {
+            save();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return trackers;
     }
