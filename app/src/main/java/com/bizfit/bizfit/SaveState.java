@@ -111,6 +111,7 @@ public class SaveState implements java.io.Serializable{
      */
     public ArrayList<Tracker> addTracker(Tracker t){
         trackers.add(t);
+        t.parentSaveState=this;
         try {
             save();
         } catch (Exception e) {
@@ -138,6 +139,7 @@ public class SaveState implements java.io.Serializable{
             Tracker current=iterator.next();
             if(current==t){
                 iterator.remove();
+                t.parentSaveState=null;
                 break;
             }
         }
