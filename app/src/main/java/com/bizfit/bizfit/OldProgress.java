@@ -13,6 +13,13 @@ public class OldProgress implements java.io.Serializable{
     private float endProgress;
     private float targetProgress;
 
+    /**
+     *
+     * @param startDate Start date of tracked time period in milliseconds
+     * @param endDate   end date of tracked time period in milliseconds
+     * @param endProgress   how much progress was achieved
+     * @param targetProgress    what was desired progress
+     */
     OldProgress(long startDate,long endDate,float endProgress,float targetProgress){
         this.startDate=startDate;
         this.endDate=endDate;
@@ -21,18 +28,42 @@ public class OldProgress implements java.io.Serializable{
 
     }
 
+    /**
+     *
+     * @return start date in milliseconds
+     */
     public long getStartDate() {
         return startDate;
     }
+
+    /**
+     *
+     * @return  end date in milliseconds
+     */
     public long getEndDate() {
         return endDate;
     }
+
+    /**
+     *
+     * @return  how great progress was achieved in persents, 1=100%
+     */
     public float getProgressPercent() {
         return endProgress/targetProgress;
     }
+
+    /**
+     *
+     * @return achieved progress as absolute amount
+     */
     public float getProgress(){
         return endProgress;
     }
+
+    /**
+     *
+     * @return  desired progress as absolute amount
+     */
     public float getTargetProgress(){
         return targetProgress;
     }
