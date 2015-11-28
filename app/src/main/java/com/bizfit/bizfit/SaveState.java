@@ -163,5 +163,6 @@ public class SaveState implements java.io.Serializable{
         ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
         obj_out.writeObject (this);
         obj_out.close();
+        user=Encrypt.decrypt(user);
     }
 }
