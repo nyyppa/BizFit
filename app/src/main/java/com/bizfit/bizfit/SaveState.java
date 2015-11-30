@@ -1,6 +1,6 @@
 package com.bizfit.bizfit;
 
-import android.content.Context;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -164,5 +164,6 @@ public class SaveState implements java.io.Serializable{
         obj_out.writeObject (this);
         obj_out.close();
         user=Encrypt.decrypt(user);
+
     }
 }

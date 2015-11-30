@@ -28,8 +28,19 @@ public class Tracker implements java.io.Serializable {
     String name;
     String targetType;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
+    DailyProgress daily=new DailyProgress();
     SaveState parentSaveState;
-
+    
+    Tracker(Tracker t){
+    	this.startDate=System.currentTimeMillis();
+    	startStuff(t.getDayInterval(),t.monthInterval);
+    	targetProgress=t.getTargetProgress();
+    	defaultIncrement=t.getDefaultIncrement();
+    	name=t.getName();
+    	targetType=t.getName();
+  
+    	
+    }
     /**
      *
      * @param DayInterval   days between resets
@@ -49,6 +60,22 @@ public class Tracker implements java.io.Serializable {
     Tracker(Date startDate,int dayInterval,int monthInterval){
         this.startDate=startDate.getTime();
         startStuff(dayInterval,monthInterval);
+    }
+    
+    public String getName(){
+    	return name;
+    }
+    
+    public String getTargetType(){
+    	return targetType;
+    }
+    
+    public Date getStartDate(){
+    	return new Date(startDate);
+    }
+    
+    public DailyProgress getDailyProgress(){
+    	return daily;
     }
 
     /**
@@ -70,6 +97,7 @@ public class Tracker implements java.io.Serializable {
      * call this regularly to notify object of passing time
      */
     public void update(){
+    	timeProgress=System.currentTimeMillis()-lastReset;
         GregorianCalendar currentCalendar=new GregorianCalendar();
         currentCalendar.setTimeInMillis(System.currentTimeMillis());
         GregorianCalendar resetCalender=new GregorianCalendar();
@@ -78,12 +106,11 @@ public class Tracker implements java.io.Serializable {
         resetCalender.add(Calendar.DAY_OF_MONTH,dayInterval);
         resetCalender.add(Calendar.YEAR,yearInterval);
         if(currentCalendar.after(resetCalender)){
-            int day = 0;
             do{
                 resetCalender.add(Calendar.DAY_OF_MONTH,1);
-                day=resetCalender.get(Calendar.DATE);
             }while((currentCalendar.after(resetCalender)));
-            addOldProgress(new OldProgress(lastReset, resetCalender.getTimeInMillis(), currentProgress, targetProgress));
+            addOldProgress(new OldProgress(lastReset, resetCalender.getTimeInMillis(), currentProgress, targetProgress,daily));
+            daily=new DailyProgress();
             lastReset=resetCalender.getTimeInMillis();
             currentProgress=0;
         }
@@ -95,6 +122,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void addProgress(float progress){
         currentProgress+=progress;
+        daily.addDailyProgress(progress, System.currentTimeMillis());
         fieldUpdated();
     }
 
@@ -110,8 +138,7 @@ public class Tracker implements java.io.Serializable {
      * adds default increment to current progress
      */
     public void autoIncrement(){
-        currentProgress+=defaultIncrement;
-        fieldUpdated();
+        addProgress(defaultIncrement);
     }
 
     /**
@@ -231,5 +258,9 @@ public class Tracker implements java.io.Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void setDefaultInrement(float increment){
+    	this.defaultIncrement=increment;
+    	fieldUpdated();
     }
 }

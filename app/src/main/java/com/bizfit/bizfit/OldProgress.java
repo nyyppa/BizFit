@@ -1,5 +1,7 @@
 package com.bizfit.bizfit;
 
+import java.util.List;
+
 /**
  * Created by Atte on 22.11.2015.
  */
@@ -12,6 +14,7 @@ public class OldProgress implements java.io.Serializable{
     private long endDate;
     private float endProgress;
     private float targetProgress;
+    private DailyProgress daily;
 
     /**
      *
@@ -20,11 +23,12 @@ public class OldProgress implements java.io.Serializable{
      * @param endProgress   how much progress was achieved
      * @param targetProgress    what was desired progress
      */
-    OldProgress(long startDate,long endDate,float endProgress,float targetProgress){
+    OldProgress(long startDate,long endDate,float endProgress,float targetProgress,DailyProgress dailyProgress){
         this.startDate=startDate;
         this.endDate=endDate;
         this.endProgress=endProgress;
         this.targetProgress=targetProgress;
+        this.daily=dailyProgress;
 
     }
 
@@ -66,6 +70,10 @@ public class OldProgress implements java.io.Serializable{
      */
     public float getTargetProgress(){
         return targetProgress;
+    }
+    
+    public DailyProgress getDailyProgress(){
+    	return daily;
     }
 
 }
