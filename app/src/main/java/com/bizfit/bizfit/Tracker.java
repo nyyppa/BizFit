@@ -30,16 +30,23 @@ public class Tracker implements java.io.Serializable {
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
     DailyProgress daily=new DailyProgress();
     SaveState parentSaveState;
-    
+    boolean weekly;
+
     Tracker(Tracker t){
-    	this.startDate=System.currentTimeMillis();
-    	startStuff(t.getDayInterval(),t.monthInterval);
-    	targetProgress=t.getTargetProgress();
-    	defaultIncrement=t.getDefaultIncrement();
-    	name=t.getName();
-    	targetType=t.getName();
-  
-    	
+        if(t.weekly){
+            weeklyStart();
+        }else{
+            this.startDate=System.currentTimeMillis();
+            startStuff(new GregorianCalendar(),t.getDayInterval(),t.monthInterval);
+        }
+
+
+        targetProgress=t.getTargetProgress();
+        defaultIncrement=t.getDefaultIncrement();
+        name=t.getName();
+        targetType=t.getName();
+
+
     }
     /**
      *
@@ -48,7 +55,7 @@ public class Tracker implements java.io.Serializable {
      */
     Tracker(int DayInterval,int monthInterval){
         startDate=System.currentTimeMillis();
-        startStuff(DayInterval,monthInterval);
+        startStuff(new GregorianCalendar(),DayInterval,monthInterval);
     }
 
     /**
@@ -59,23 +66,41 @@ public class Tracker implements java.io.Serializable {
      */
     Tracker(Date startDate,int dayInterval,int monthInterval){
         this.startDate=startDate.getTime();
-        startStuff(dayInterval,monthInterval);
+        startStuff(new GregorianCalendar(),dayInterval,monthInterval);
     }
-    
+    Tracker(){
+        weeklyStart();
+
+    }
+
+    private void weeklyStart(){
+        weekly=true;
+        GregorianCalendar c=new GregorianCalendar();
+        c.setTimeInMillis(System.currentTimeMillis());
+        int day=c.get(Calendar.DAY_OF_WEEK);
+        if(day==1){
+            c.add(Calendar.DAY_OF_MONTH, -6);
+        }else{
+            c.add(Calendar.DAY_OF_MONTH, -day+2);
+        }
+        this.startDate=c.getTimeInMillis();
+        startStuff(c, 7, 0);
+    }
+
     public String getName(){
-    	return name;
+        return name;
     }
-    
+
     public String getTargetType(){
-    	return targetType;
+        return targetType;
     }
-    
+
     public Date getStartDate(){
-    	return new Date(startDate);
+        return new Date(startDate);
     }
-    
+
     public DailyProgress getDailyProgress(){
-    	return daily;
+        return daily;
     }
 
     /**
@@ -83,11 +108,10 @@ public class Tracker implements java.io.Serializable {
      * @param dayInterval
      * @param monthInterval
      */
-    private void startStuff(int dayInterval,int monthInterval){
+    private void startStuff(GregorianCalendar calander,int dayInterval,int monthInterval){
         lastReset=startDate;
         this.dayInterval=dayInterval;
         this.monthInterval=monthInterval;
-        GregorianCalendar calander=new GregorianCalendar();
         calander.add(Calendar.DAY_OF_MONTH,dayInterval);
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
@@ -97,7 +121,7 @@ public class Tracker implements java.io.Serializable {
      * call this regularly to notify object of passing time
      */
     public void update(){
-    	timeProgress=System.currentTimeMillis()-lastReset;
+        timeProgress=System.currentTimeMillis()-lastReset;
         GregorianCalendar currentCalendar=new GregorianCalendar();
         currentCalendar.setTimeInMillis(System.currentTimeMillis());
         GregorianCalendar resetCalender=new GregorianCalendar();
@@ -260,7 +284,7 @@ public class Tracker implements java.io.Serializable {
         }
     }
     public void setDefaultInrement(float increment){
-    	this.defaultIncrement=increment;
-    	fieldUpdated();
+        this.defaultIncrement=increment;
+        fieldUpdated();
     }
 }

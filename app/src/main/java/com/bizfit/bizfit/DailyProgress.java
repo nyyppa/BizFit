@@ -7,7 +7,7 @@ import java.util.List;
 
 
 
-public class DailyProgress {
+public class DailyProgress implements java.io.Serializable{
 	List<DayPool>dayPool=new ArrayList<DayPool>(0);
 	public DailyProgress(){
 		
@@ -24,7 +24,7 @@ public class DailyProgress {
 	}
 	
 
-	private class DayPool{
+	private class DayPool implements java.io.Serializable{
 		float TotalAmount;
 		long time;
 		List<DaySingle>daySingle=new ArrayList<DaySingle>(0);
@@ -56,7 +56,7 @@ public class DailyProgress {
 	}
 	
 	
-	private class DaySingle{
+	private class DaySingle implements java.io.Serializable{
 		private long time;
 		private float amount;
 		DaySingle(long Time,float amount) {
