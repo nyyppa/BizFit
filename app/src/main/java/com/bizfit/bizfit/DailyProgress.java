@@ -34,6 +34,7 @@ public class DailyProgress implements java.io.Serializable{
 		}
 		public void addDaySingle(float amount,long time){
 			daySingle.add(new DaySingle(time,amount));
+			TotalAmount+=amount;
 		}
 		public float getTotalAmount(){
 			return TotalAmount;
