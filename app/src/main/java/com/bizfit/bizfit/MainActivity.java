@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         arcProgress = (ArcProgress) findViewById(R.id.arc_progress);
-        arcProgress.setBottomText("Testing");
         arcProgress.setMax(100);
 
         anim = new ValueAnimator().ofFloat(0, arcProgress.getMax());

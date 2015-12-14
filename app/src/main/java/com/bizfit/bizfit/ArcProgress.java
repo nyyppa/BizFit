@@ -1,7 +1,5 @@
 package com.bizfit.bizfit;
 
-import android.animation.FloatEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -104,12 +102,13 @@ public class ArcProgress extends View {
         default_bottom_text_size = Utils.sp2px(getResources(), 10);
         default_stroke_width = Utils.dp2px(getResources(), 4);
         textOffsetX = Utils.dp2px(getResources(), 0);
-        textOffsetY = Utils.dp2px(getResources(), -20);
+        textOffsetY = Utils.dp2px(getResources(), -40);
+        bottomOffsetY = Utils.dp2px(getResources(), 40);
+
 
         TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ArcProgress, defStyleAttr, 0);
         initByAttributes(attributes);
         attributes.recycle();
-
 
         initPainters();
     }
@@ -127,8 +126,6 @@ public class ArcProgress extends View {
         suffixText = TextUtils.isEmpty(attributes.getString(R.styleable.ArcProgress_arc_suffix_text)) ? default_suffix_text : attributes.getString(R.styleable.ArcProgress_arc_suffix_text);
         suffixTextPadding = attributes.getDimension(R.styleable.ArcProgress_arc_suffix_text_padding, default_suffix_padding);
         suffixColor = attributes.getColor(R.styleable.ArcProgress_arc_suffix_color, getResources().getColor(R.color.colorPrimaryLight));
-        bottomOffsetX = attributes.getDimension(R.styleable.ArcProgress_arc_bottom_text_offsetX, default_bottom_text_offsetx);
-        bottomOffsetY = attributes.getDimension(R.styleable.ArcProgress_arc_bottom_text_offsetY, default_bottom_text_offsety);
 
         bottomTextSize = attributes.getDimension(R.styleable.ArcProgress_arc_bottom_text_size, default_bottom_text_size);
         bottomText = attributes.getString(R.styleable.ArcProgress_arc_bottom_text);
@@ -277,6 +274,7 @@ public class ArcProgress extends View {
 
     public void setSuffixColor(int suffixColor) {
         this.suffixColor = suffixColor;
+        this.invalidate();
     }
 
     public void setSuffixTextPadding(float suffixTextPadding) {
@@ -290,6 +288,7 @@ public class ArcProgress extends View {
 
     public void setBottomOffsetY(float bottomOffsetY) {
         this.bottomOffsetY = bottomOffsetY;
+        this.invalidate();
     }
 
     public float getBottomOffsetX() {
@@ -298,6 +297,7 @@ public class ArcProgress extends View {
 
     public void setBottomOffsetX(float bottomOffsetX) {
         this.bottomOffsetX = bottomOffsetX;
+        this.invalidate();
     }
 
     @Override
@@ -342,19 +342,19 @@ public class ArcProgress extends View {
             textPaint.setColor(suffixColor);
             float suffixHeight = textPaint.descent() + textPaint.ascent();
             canvas.drawText(suffixText, getWidth() / 2.0f + textPaint.measureText(text) + suffixTextPadding, textBaseline + textHeight - suffixHeight, textPaint);
-        }
 
-        if (!TextUtils.isEmpty(getBottomText())) {
-            textPaint.setTextSize(bottomTextSize);
-            float bottomTextBaseline = (getHeight() - arcBottomHeight - (textPaint.descent() + textPaint.ascent()) / 2) + bottomOffsetY;
-            canvas.drawText(getBottomText(), ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f) + bottomOffsetX, bottomTextBaseline, textPaint);
+            if (!TextUtils.isEmpty(getBottomText())) {
+                textPaint.setTextSize(bottomTextSize);
+                textBaseline += bottomOffsetY;
+                canvas.drawText(getBottomText(), ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f), textBaseline, textPaint);
 
-            // Tämä perkele tässä on placeholder
-            textPaint.setTextSize(Utils.sp2px(getResources(), 18f));
-            textPaint.setColor(getResources().getColor(R.color.colorPrimaryLighter));
-            float baseline = (bottomTextBaseline + Utils.dp2px(getResources(), 20));
-            canvas.drawText("3 päivää", ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f), baseline, textPaint);
+                // Tämä perkele tässä on placeholder
+                textPaint.setTextSize(Utils.sp2px(getResources(), 18f));
+                textPaint.setColor(getResources().getColor(R.color.colorPrimaryLighter));
+                textBaseline  += Utils.dp2px(getResources(), 20);
+                canvas.drawText("3 päivää", ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f), textBaseline, textPaint);
 
+            }
         }
     }
 
@@ -376,7 +376,7 @@ public class ArcProgress extends View {
         bundle.putInt(INSTANCE_UNFINISHED_STROKE_COLOR, getUnfinishedStrokeColor());
         bundle.putFloat(INSTANCE_ARC_ANGLE, getArcAngle());
         bundle.putString(INSTANCE_SUFFIX, getSuffixText());
-        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSETY, getBottomOffsetY());
+        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSETX, getBottomOffsetY());
         bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSETY, getBottomOffsetX());
         return bundle;
     }
@@ -398,8 +398,6 @@ public class ArcProgress extends View {
             unfinishedStrokeColor = bundle.getInt(INSTANCE_UNFINISHED_STROKE_COLOR);
             suffixText = bundle.getString(INSTANCE_SUFFIX);
             suffixColor = bundle.getInt(INSTANCE_SUFFIX_COLOR);
-            bottomOffsetX = bundle.getFloat(INSTANCE_BOTTOM_TEXT_OFFSETX);
-            bottomOffsetY = bundle.getFloat(INSTANCE_BOTTOM_TEXT_OFFSETY);
             initPainters();
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));
             return;

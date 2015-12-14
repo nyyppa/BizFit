@@ -23,8 +23,9 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center|top"
-            app:arc_bottom_text_offsetY="-75dp"
-            app:arc_bottom_text_size="24sp"/>
+            app:arc_bottom_text_size="24sp"
+            app:arc_bottom_text="Testing"
+            app:arc_bottom_text_offset_y="40sp"/>
     </GridLayout>
 
 </RelativeLayout>
