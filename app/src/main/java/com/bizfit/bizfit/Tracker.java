@@ -15,8 +15,8 @@ public class Tracker implements java.io.Serializable {
      */
     private static final long serialVersionUID = -9151429274382287394L;
     long startDate;
-    long elapsedTime;
     long lastReset;
+
     int dayInterval;
     int monthInterval;
     int yearInterval;
@@ -32,6 +32,44 @@ public class Tracker implements java.io.Serializable {
     SaveState parentSaveState;
     boolean weekly;
 
+    Tracker lastChanges[]=new Tracker[10];
+
+    Tracker(Boolean doesntMatter){
+
+    }
+
+    public void undo(){
+        setAttributes(lastChanges[lastChanges.length-1]);
+        for (int i=lastChanges.length-1;i>0;i--){
+            lastChanges[i].setAttributes(lastChanges[i-1]);
+        }
+        fieldUpdated();
+    }
+    private void saveChange(){
+        for (int i=0;i<lastChanges.length;i++){
+            if(i==lastChanges.length-1){
+                lastChanges[i].setAttributes(this);
+            }else{
+                lastChanges[i].setAttributes(lastChanges[i+1]);
+            }
+        }
+    }
+
+
+    private void setAttributes(Tracker t){
+        this.dayInterval=t.dayInterval;
+        this.monthInterval=t.monthInterval;
+        this.yearInterval=t.yearInterval;
+        this.targetProgress=t.targetProgress;
+        this.currentProgress=t.currentProgress;
+        this.defaultIncrement=t.defaultIncrement;
+        this.name=t.name;
+        this.targetType=t.targetType;
+
+        this.daily=t.daily;
+        this.weekly=t.weekly;
+    }
+
     Tracker(Tracker t){
         if(t.weekly){
             weeklyStart();
@@ -41,10 +79,7 @@ public class Tracker implements java.io.Serializable {
         }
 
 
-        targetProgress=t.getTargetProgress();
-        defaultIncrement=t.getDefaultIncrement();
-        name=t.getName();
-        targetType=t.getName();
+       setAttributes(t);
 
 
     }
@@ -66,7 +101,7 @@ public class Tracker implements java.io.Serializable {
      */
     Tracker(Date startDate,int dayInterval,int monthInterval){
         this.startDate=startDate.getTime();
-        startStuff(new GregorianCalendar(),dayInterval,monthInterval);
+        startStuff(new GregorianCalendar(), dayInterval, monthInterval);
     }
     Tracker(){
         weeklyStart();
@@ -115,6 +150,9 @@ public class Tracker implements java.io.Serializable {
         calander.add(Calendar.DAY_OF_MONTH,dayInterval);
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
+        for (int i=0;i<lastChanges.length;i++){
+            lastChanges[i]=new Tracker(true);
+        }
     }
 
     /**
@@ -137,6 +175,7 @@ public class Tracker implements java.io.Serializable {
             daily=new DailyProgress();
             lastReset=resetCalender.getTimeInMillis();
             currentProgress=0;
+            fieldUpdated();
         }
     }
 
@@ -147,6 +186,7 @@ public class Tracker implements java.io.Serializable {
     public void addProgress(float progress){
         currentProgress+=progress;
         daily.addDailyProgress(progress, System.currentTimeMillis());
+        saveChange();
         fieldUpdated();
     }
 
@@ -203,6 +243,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setMonthInterval(int monthInterval) {
         this.monthInterval = monthInterval;
+        saveChange();
         fieldUpdated();
     }
 
@@ -220,6 +261,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setYearInterval(int yearInterval) {
         this.yearInterval = yearInterval;
+        saveChange();
         fieldUpdated();
     }
 
@@ -237,6 +279,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setDayInterval(int dayInterval) {
         this.dayInterval = dayInterval;
+        saveChange();
         fieldUpdated();
     }
 
@@ -246,6 +289,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setTargetAmount(float amount){
         this.targetProgress=amount;
+        saveChange();
         fieldUpdated();
     }
 
@@ -255,6 +299,7 @@ public class Tracker implements java.io.Serializable {
      */
     private void addOldProgress(OldProgress o){
         oldProgress.add(o);
+        saveChange();
         fieldUpdated();
     }
 
@@ -285,6 +330,8 @@ public class Tracker implements java.io.Serializable {
     }
     public void setDefaultInrement(float increment){
         this.defaultIncrement=increment;
+        saveChange();
         fieldUpdated();
     }
+
 }
