@@ -43,6 +43,8 @@ public class Tracker implements java.io.Serializable {
         for (int i=lastChanges.length-1;i>0;i--){
             lastChanges[i].setAttributes(lastChanges[i-1]);
         }
+        //tarvii chekin ettei poistetan enempää kuin muissakaan
+        daily.undoLast();
         fieldUpdated();
     }
     private void saveChange(){
@@ -71,6 +73,7 @@ public class Tracker implements java.io.Serializable {
     }
 
     Tracker(Tracker t){
+        setAttributes(t);
         if(t.weekly){
             weeklyStart();
         }else{
@@ -78,8 +81,6 @@ public class Tracker implements java.io.Serializable {
             startStuff(new GregorianCalendar(),t.getDayInterval(),t.monthInterval);
         }
 
-
-       setAttributes(t);
 
 
     }

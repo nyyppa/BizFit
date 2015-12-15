@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-
+import java.util.ListIterator;
 
 
 public class DailyProgress implements java.io.Serializable{
@@ -21,6 +21,23 @@ public class DailyProgress implements java.io.Serializable{
 		}else{
 			dayPool.add(new DayPool(amount, time));	
 		}
+	}
+
+	public void undoLast(){
+		if(dayPool.size()!=0){
+			boolean wasLast=dayPool.get(dayPool.size()-1).removeLast();
+			if(wasLast){
+				removeLast();
+			}
+		}
+	}
+
+	private void removeLast(){
+		ListIterator<DayPool>iterator=dayPool.listIterator();
+		while (iterator.hasNext()){
+			iterator.next();
+		}
+		iterator.remove();
 	}
 	
 
@@ -52,7 +69,21 @@ public class DailyProgress implements java.io.Serializable{
 			}else{
 				return false;
 			}
-			
+		}
+
+		public boolean removeLast(){
+			ListIterator<DaySingle> iterator=daySingle.listIterator();
+			DaySingle a=null;
+			while(iterator.hasNext()){
+				a=iterator.next();
+			}
+			TotalAmount-=a.getAmount();
+			iterator.remove();
+			if(daySingle.size()==0){
+				return true;
+			}
+			return false;
+
 		}
 	}
 	
