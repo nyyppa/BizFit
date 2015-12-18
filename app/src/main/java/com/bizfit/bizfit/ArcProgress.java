@@ -79,8 +79,8 @@ public class ArcProgress extends View {
     private static final String INSTANCE_UNFINISHED_STROKE_COLOR = "unfinished_stroke_color";
     private static final String INSTANCE_ARC_ANGLE = "arc_angle";
     private static final String INSTANCE_SUFFIX = "suffix";
-    private static final String INSTANCE_BOTTOM_TEXT_OFFSETX = "bottom_text_offsety";
-    private static final String INSTANCE_BOTTOM_TEXT_OFFSETY = "bottom_text_offsetx";
+    private static final String INSTANCE_BOTTOM_TEXT_OFFSET_X = "arc_bottom_text_offset_x";
+    private static final String INSTANCE_BOTTOM_TEXT_OFFSET_Y = "arc_bottom_text_offset_y";
 
     public ArcProgress(Context context) {
         this(context, null);
@@ -376,8 +376,8 @@ public class ArcProgress extends View {
         bundle.putInt(INSTANCE_UNFINISHED_STROKE_COLOR, getUnfinishedStrokeColor());
         bundle.putFloat(INSTANCE_ARC_ANGLE, getArcAngle());
         bundle.putString(INSTANCE_SUFFIX, getSuffixText());
-        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSETX, getBottomOffsetY());
-        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSETY, getBottomOffsetX());
+        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSET_X, getBottomOffsetX());
+        bundle.putFloat(INSTANCE_BOTTOM_TEXT_OFFSET_Y, getBottomOffsetY());
         return bundle;
     }
 
@@ -398,6 +398,8 @@ public class ArcProgress extends View {
             unfinishedStrokeColor = bundle.getInt(INSTANCE_UNFINISHED_STROKE_COLOR);
             suffixText = bundle.getString(INSTANCE_SUFFIX);
             suffixColor = bundle.getInt(INSTANCE_SUFFIX_COLOR);
+            bottomOffsetX = bundle.getFloat(INSTANCE_BOTTOM_TEXT_OFFSET_X);
+            bottomOffsetY = bundle.getFloat(INSTANCE_BOTTOM_TEXT_OFFSET_Y);
             initPainters();
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));
             return;
