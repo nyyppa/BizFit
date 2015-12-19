@@ -71,9 +71,9 @@ public class SaveState implements java.io.Serializable{
     public static SaveState getInstance(String user){
         FileInputStream f_in = null;
         try {
-            //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
-            //FileOutputStream f_out = new FileOutputStream(file);
-            f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+            File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
+            f_in = new FileInputStream(file);
+            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
