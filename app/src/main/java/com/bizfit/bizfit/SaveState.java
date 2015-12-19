@@ -157,9 +157,9 @@ public class SaveState implements java.io.Serializable{
      * @throws Exception    Everything that can go wrong
      */
     public void save() throws Exception{
-        //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
-        //FileOutputStream f_out = new FileOutputStream(file);
-        FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+        File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user)+".SaveState");
+        FileOutputStream f_out = new FileOutputStream(file);
+        //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
         obj_out.writeObject (this);
         obj_out.close();
