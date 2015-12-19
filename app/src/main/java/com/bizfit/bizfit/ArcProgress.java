@@ -99,7 +99,7 @@ public class ArcProgress extends View {
         default_suffix_text_size = Utils.sp2px(getResources(), 20);
         default_suffix_padding = Utils.dp2px(getResources(), 8);
         default_suffix_text = "%";
-        default_bottom_text_size = Utils.sp2px(getResources(), 10);
+        default_bottom_text_size = Utils.sp2px(getResources(), 35);
         default_stroke_width = Utils.dp2px(getResources(), 4);
         textOffsetX = Utils.dp2px(getResources(), 0);
         textOffsetY = Utils.dp2px(getResources(), -40);

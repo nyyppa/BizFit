@@ -4,17 +4,24 @@ import android.animation.FloatEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgress;
     private int mProgressStatus = 0;
     private Handler mHandler = new Handler();
+    private static final int GET_NEW_GOAL = 1;
     private ValueAnimator anim;
+    private GridLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,34 +43,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        layout = (GridLayout)findViewById(R.id.goal_container);
+        layout.setColumnCount(2);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetAnimation();
+                changeActivity();
             }
         });
 
-        arcProgress = (ArcProgress) findViewById(R.id.arc_progress);
-        arcProgress.setMax(100);
+    }
 
-        anim = new ValueAnimator().ofFloat(0, arcProgress.getMax());
-        anim.setDuration(2000);
-
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Float value = (Float) animation.getAnimatedValue();
-                int tmp = value.intValue();
-
-                arcProgress.setProgress(tmp);
-            }
-        });
-
-        anim.start();
-
-
-
+    private void changeActivity() {
+        Intent intent = new Intent(this, AddGoalActivity.class);
+        startActivityForResult(intent, GET_NEW_GOAL);
     }
 
     @Override
@@ -92,5 +89,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         anim.start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
+            ArcProgress newTrackable = new ArcProgress(getApplicationContext());
+            newTrackable.setMax(data.getIntExtra("target", 0));
+            newTrackable.setBottomText(data.getStringExtra("name"));
+            System.out.println(data.getStringExtra("name"));
+            GridLayout.LayoutParams param =new GridLayout.LayoutParams();
+            param.height = (int)Utils.dp2px(getResources(), 150);
+            param.width = (int)Utils.dp2px(getResources(), 150);
+            param.rightMargin = (int)Utils.dp2px(getResources(), 10);
+            param.topMargin = (int)Utils.dp2px(getResources(), 10);
+            param.setGravity(Gravity.CENTER);
+            newTrackable.setLayoutParams(param);
+            layout.addView(newTrackable);
+        }
     }
 }
