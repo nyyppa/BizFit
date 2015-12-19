@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by Atte on 17.11.2015.
@@ -32,30 +33,59 @@ public class Tracker implements java.io.Serializable {
     SaveState parentSaveState;
     boolean weekly;
 
-    Tracker lastChanges[]=new Tracker[10];
+    List<Change> changes=new ArrayList<Change>(0);
 
-    Tracker(Boolean doesntMatter){
-
-    }
 
     public void undo(){
-        setAttributes(lastChanges[lastChanges.length-1]);
-        for (int i=lastChanges.length-1;i>0;i--){
-            lastChanges[i].setAttributes(lastChanges[i-1]);
+        ListIterator<Change>iterator=changes.listIterator();
+        if (iterator.hasNext()) {
+            Change last=iterator.next();
+            switch (last.getEnum()) {
+                case currentProgress:
+                    removeProgress(Float.parseFloat(last.getValue()));
+                    break;
+                case daily:
+                    this.daily.undoLast();
+                    break;
+                case dayInterval:
+                    this.dayInterval=Integer.parseInt(last.getValue());
+                    break;
+                case defaultIncrement:
+                    this.defaultIncrement=Float.parseFloat(last.getValue());
+                    break;
+                case lastReset:
+                    this.lastReset=Long.parseLong(last.getValue());
+                    break;
+                case monthInterval:
+                    this.monthInterval=Integer.parseInt(last.getValue());
+                    break;
+                case name:
+                    this.name=last.getValue();
+                    break;
+                case targetProgress:
+                    this.targetProgress=Float.parseFloat(last.getValue());
+                    break;
+                case targetType:
+                    this.targetType=last.getValue();
+                    break;
+                case timeProgress:
+                    this.timeProgress=Long.parseLong(last.getValue());
+                    break;
+                case weekly:
+                    this.weekly=Boolean.parseBoolean(last.getValue());
+                    break;
+                case yearInterval:
+                    this.yearInterval=Integer.parseInt(last.getValue());
+                    break;
+                default:
+                    break;
+
+            }
+            iterator.remove();
         }
-        //tarvii chekin ettei poistetan enempää kuin muissakaan
-        daily.undoLast();
         fieldUpdated();
     }
-    private void saveChange(){
-        for (int i=0;i<lastChanges.length;i++){
-            if(i==lastChanges.length-1){
-                lastChanges[i].setAttributes(this);
-            }else{
-                lastChanges[i].setAttributes(lastChanges[i+1]);
-            }
-        }
-    }
+
 
 
     private void setAttributes(Tracker t){
@@ -151,9 +181,7 @@ public class Tracker implements java.io.Serializable {
         calander.add(Calendar.DAY_OF_MONTH,dayInterval);
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
-        for (int i=0;i<lastChanges.length;i++){
-            lastChanges[i]=new Tracker(true);
-        }
+
     }
 
     /**
@@ -179,7 +207,11 @@ public class Tracker implements java.io.Serializable {
             fieldUpdated();
         }
     }
-
+    private void removeProgress(float progress){
+        currentProgress-=progress;
+        daily.undoLast();
+        fieldUpdated();
+    }
     /**
      *
      * @param progress  progress that should be added to tracker
@@ -187,7 +219,7 @@ public class Tracker implements java.io.Serializable {
     public void addProgress(float progress){
         currentProgress+=progress;
         daily.addDailyProgress(progress, System.currentTimeMillis());
-        saveChange();
+        changes.add(0,new Change(progress+"",lastModification.currentProgress));
         fieldUpdated();
     }
 
@@ -244,7 +276,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setMonthInterval(int monthInterval) {
         this.monthInterval = monthInterval;
-        saveChange();
+        changes.add(0,new Change(monthInterval+"",lastModification.monthInterval));
         fieldUpdated();
     }
 
@@ -262,7 +294,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setYearInterval(int yearInterval) {
         this.yearInterval = yearInterval;
-        saveChange();
+        changes.add(0,new Change(yearInterval+"",lastModification.yearInterval));
         fieldUpdated();
     }
 
@@ -280,7 +312,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setDayInterval(int dayInterval) {
         this.dayInterval = dayInterval;
-        saveChange();
+        changes.add(0,new Change(dayInterval+"",lastModification.dayInterval));
         fieldUpdated();
     }
 
@@ -290,7 +322,7 @@ public class Tracker implements java.io.Serializable {
      */
     public void setTargetAmount(float amount){
         this.targetProgress=amount;
-        saveChange();
+        changes.add(0,new Change(amount+"",lastModification.targetProgress));
         fieldUpdated();
     }
 
@@ -300,7 +332,6 @@ public class Tracker implements java.io.Serializable {
      */
     private void addOldProgress(OldProgress o){
         oldProgress.add(o);
-        saveChange();
         fieldUpdated();
     }
 
@@ -331,8 +362,32 @@ public class Tracker implements java.io.Serializable {
     }
     public void setDefaultInrement(float increment){
         this.defaultIncrement=increment;
-        saveChange();
+        changes.add(0,new Change(increment+"",lastModification.defaultIncrement));
         fieldUpdated();
+    }
+
+    public enum lastModification{
+        lastReset,dayInterval,monthInterval,yearInterval,
+        targetProgress,currentProgress,defaultIncrement,timeProgress
+        ,name,targetType,daily,weekly;
+
+    }
+    public class Change{
+
+        lastModification mod;
+        String value;
+        Change(String value, lastModification l){
+            this.value=value;
+            this.mod=l;
+        }
+
+        String getValue(){
+            return value;
+        }
+
+        lastModification getEnum(){
+            return mod;
+        }
     }
 
 }

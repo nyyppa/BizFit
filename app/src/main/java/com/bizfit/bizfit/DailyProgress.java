@@ -10,16 +10,16 @@ import java.util.ListIterator;
 public class DailyProgress implements java.io.Serializable{
 	List<DayPool>dayPool=new ArrayList<DayPool>(0);
 	public DailyProgress(){
-		
+
 	}
-	
+
 	public void addDailyProgress(float amount, long time){
 		if(dayPool.size()==0){
-			dayPool.add(new DayPool(amount, time));		
+			dayPool.add(new DayPool(amount, time));
 		}else if(dayPool.get(dayPool.size()-1).sameDate(time)){
 			dayPool.get(dayPool.size()-1).addDaySingle(amount, time);
 		}else{
-			dayPool.add(new DayPool(amount, time));	
+			dayPool.add(new DayPool(amount, time));
 		}
 	}
 
@@ -39,7 +39,7 @@ public class DailyProgress implements java.io.Serializable{
 		}
 		iterator.remove();
 	}
-	
+
 
 	private class DayPool implements java.io.Serializable{
 		float TotalAmount;
@@ -86,8 +86,8 @@ public class DailyProgress implements java.io.Serializable{
 
 		}
 	}
-	
-	
+
+
 	private class DaySingle implements java.io.Serializable{
 		private long time;
 		private float amount;
@@ -102,6 +102,6 @@ public class DailyProgress implements java.io.Serializable{
 		public float getAmount(){
 			return amount;
 		}
-		
+
 	}
 }
