@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class SaveState implements java.io.Serializable{
     /**
@@ -31,6 +32,21 @@ public class SaveState implements java.io.Serializable{
         }
     }
 
+    public static List<String> getUsers(){
+        String[] s=MainActivity.activity.getFilesDir().list();
+
+        List<String> users=new ArrayList<String>(0);
+        for(String m:s){
+            if(m.endsWith(".SaveState")){
+                String[] split=m.split(File.separator);
+                users.add(split[split.length-1].replaceAll(".SaveState",""));
+            }
+        }
+        if(users.size()==0){
+            users.add("Default");
+        }
+        return users;
+    }
     /**
      * encrypts user name before saving it to memory
      * @param out
