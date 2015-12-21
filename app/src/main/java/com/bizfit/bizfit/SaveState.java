@@ -2,6 +2,8 @@ package com.bizfit.bizfit;
 
 
 
+import com.bizfit.bizfit.activities.MainActivity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +35,7 @@ public class SaveState implements java.io.Serializable{
     }
 
     public static List<String> getUsers(){
-        String[] s=MainActivity.activity.getFilesDir().list();
+        String[] s= MainActivity.activity.getFilesDir().list();
 
         List<String> users=new ArrayList<String>(0);
         for(String m:s){
