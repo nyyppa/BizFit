@@ -38,7 +38,6 @@
 
         <attr name="label" format="string" />
         <attr name="label_size" format="dimension" />
-        <attr name="label_padding_bottom" format="dimension" />
 
         <attr name="time_left" format="integer" />
         <attr name="time_left_suffix" format="string" />

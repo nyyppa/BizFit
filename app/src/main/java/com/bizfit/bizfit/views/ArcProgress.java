@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,9 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.Utils;
 
 /**
  * "3 päivää jäljellä" toteutus on absoluuttinen placeholder! Mukauta
@@ -48,9 +51,9 @@ public class ArcProgress extends View {
     private float bottomOffsetY;
 
     private final int default_finished_color = R.color.colorAccent;
-    private final int default_unfinished_color = R.color.colorPrimaryLightest;
+    private final int default_unfinished_color = R.color.colorPrimary50;
     private final int default_text_color = R.color.colorPrimary;
-    private final int default_suffix_color = R.color.colorPrimaryLight;
+    private final int default_suffix_color = R.color.colorPrimary75;
     private final float default_suffix_text_size;
     private final float default_suffix_padding;
     private final float default_bottom_text_size;
@@ -125,7 +128,7 @@ public class ArcProgress extends View {
         suffixTextSize = attributes.getDimension(R.styleable.ArcProgress_arc_suffix_text_size, default_suffix_text_size);
         suffixText = TextUtils.isEmpty(attributes.getString(R.styleable.ArcProgress_arc_suffix_text)) ? default_suffix_text : attributes.getString(R.styleable.ArcProgress_arc_suffix_text);
         suffixTextPadding = attributes.getDimension(R.styleable.ArcProgress_arc_suffix_text_padding, default_suffix_padding);
-        suffixColor = attributes.getColor(R.styleable.ArcProgress_arc_suffix_color, getResources().getColor(R.color.colorPrimaryLight));
+        suffixColor = attributes.getColor(R.styleable.ArcProgress_arc_suffix_color, getResources().getColor(R.color.colorPrimary75));
 
         bottomTextSize = attributes.getDimension(R.styleable.ArcProgress_arc_bottom_text_size, default_bottom_text_size);
         bottomText = attributes.getString(R.styleable.ArcProgress_arc_bottom_text);
@@ -350,7 +353,7 @@ public class ArcProgress extends View {
 
                 // Tämä perkele tässä on placeholder
                 textPaint.setTextSize(Utils.sp2px(getResources(), 18f));
-                textPaint.setColor(getResources().getColor(R.color.colorPrimaryLighter));
+                textPaint.setColor(getResources().getColor(R.color.colorPrimary75));
                 textBaseline  += Utils.dp2px(getResources(), 20);
                 canvas.drawText("3 päivää", ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f), textBaseline, textPaint);
 

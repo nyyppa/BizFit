@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.utils;
 
 import android.content.res.Resources;
 

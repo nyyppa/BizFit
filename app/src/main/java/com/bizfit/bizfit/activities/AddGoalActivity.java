@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+
+import com.bizfit.bizfit.R;
 
 /**
  * Created by Käyttäjä on 19.12.2015.

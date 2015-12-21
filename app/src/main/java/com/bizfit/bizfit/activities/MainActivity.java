@@ -1,29 +1,26 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.activities;
 
-import android.animation.FloatEvaluator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.GridLayout;
-import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.util.LinkedList;
+import com.bizfit.bizfit.views.ArcProgress;
+import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.Utils;
+
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private static final int GET_NEW_GOAL = 1;
     private ValueAnimator anim;
-    private GridLayout layout;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        layout = (GridLayout)findViewById(R.id.goal_container);
-        layout.setColumnCount(2);
+        layout = (LinearLayout)findViewById(R.id.goal_container);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             newTrackable.setBottomText(data.getStringExtra("name"));
             System.out.println(data.getStringExtra("name"));
             GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-            param.height = (int)Utils.dp2px(getResources(), 150);
+            param.height = (int) Utils.dp2px(getResources(), 150);
             param.width = (int)Utils.dp2px(getResources(), 150);
             param.rightMargin = (int)Utils.dp2px(getResources(), 10);
             param.topMargin = (int)Utils.dp2px(getResources(), 10);
