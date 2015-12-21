@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Atte on 17.11.2015.
@@ -32,6 +33,8 @@ public class Tracker implements java.io.Serializable {
     DailyProgress daily=new DailyProgress();
     SaveState parentSaveState;
     boolean weekly;
+    boolean repeat;
+    boolean completed;
 
     List<Change> changes=new ArrayList<Change>(0);
 
@@ -76,6 +79,9 @@ public class Tracker implements java.io.Serializable {
                     break;
                 case yearInterval:
                     this.yearInterval=Integer.parseInt(last.getValue());
+                    break;
+                case repeat:
+                    this.repeat=Boolean.parseBoolean(last.getValue());
                     break;
                 default:
                     break;
@@ -138,6 +144,16 @@ public class Tracker implements java.io.Serializable {
         weeklyStart();
 
     }
+    //tarvii undon
+    public void setTargetDate(int year, int month, int day, boolean repeat){
+        this.repeat=repeat;
+        GregorianCalendar c=new GregorianCalendar(year,month,day);
+        GregorianCalendar a=new GregorianCalendar();
+        startDate=System.currentTimeMillis();
+        int dayInterval=(int) (TimeUnit.DAYS.toDays(c.getTimeInMillis()-a.getTimeInMillis()));
+        startStuff(a, dayInterval, 0);
+
+    }
 
     private void weeklyStart(){
         weekly=true;
@@ -188,23 +204,30 @@ public class Tracker implements java.io.Serializable {
      * call this regularly to notify object of passing time
      */
     public void update(){
-        timeProgress=System.currentTimeMillis()-lastReset;
-        GregorianCalendar currentCalendar=new GregorianCalendar();
-        currentCalendar.setTimeInMillis(System.currentTimeMillis());
-        GregorianCalendar resetCalender=new GregorianCalendar();
-        resetCalender.setTimeInMillis(lastReset);
-        resetCalender.add(Calendar.MONTH, monthInterval);
-        resetCalender.add(Calendar.DAY_OF_MONTH,dayInterval);
-        resetCalender.add(Calendar.YEAR,yearInterval);
-        if(currentCalendar.after(resetCalender)){
-            do{
-                resetCalender.add(Calendar.DAY_OF_MONTH,1);
-            }while((currentCalendar.after(resetCalender)));
-            addOldProgress(new OldProgress(lastReset, resetCalender.getTimeInMillis(), currentProgress, targetProgress,daily));
-            daily=new DailyProgress();
-            lastReset=resetCalender.getTimeInMillis();
-            currentProgress=0;
-            fieldUpdated();
+        if (!completed) {
+            timeProgress = System.currentTimeMillis() - lastReset;
+            GregorianCalendar currentCalendar = new GregorianCalendar();
+            currentCalendar.setTimeInMillis(System.currentTimeMillis());
+            GregorianCalendar resetCalender = new GregorianCalendar();
+            resetCalender.setTimeInMillis(lastReset);
+            resetCalender.add(Calendar.MONTH, monthInterval);
+            resetCalender.add(Calendar.DAY_OF_MONTH, dayInterval);
+            resetCalender.add(Calendar.YEAR, yearInterval);
+            if (currentCalendar.after(resetCalender)) {
+                do {
+                    resetCalender.add(Calendar.DAY_OF_MONTH, 1);
+                } while ((currentCalendar.after(resetCalender)));
+                addOldProgress(new OldProgress(lastReset,
+                        resetCalender.getTimeInMillis(), currentProgress,
+                        targetProgress, daily));
+                daily = new DailyProgress();
+                lastReset = resetCalender.getTimeInMillis();
+                currentProgress = 0;
+                if(!repeat){
+                    completed=true;
+                }
+                fieldUpdated();
+            }
         }
     }
     private void removeProgress(float progress){
@@ -350,6 +373,14 @@ public class Tracker implements java.io.Serializable {
         parentSaveState.removeTracker(this);
     }
 
+    public void setRepeat(boolean repeat){
+        this.repeat=repeat;
+    }
+
+    public boolean getRepeat(boolean repeat){
+        return this.repeat;
+    }
+
     /**
      * tells users SaveState to save itself
      */
@@ -369,7 +400,7 @@ public class Tracker implements java.io.Serializable {
     public enum lastModification{
         lastReset,dayInterval,monthInterval,yearInterval,
         targetProgress,currentProgress,defaultIncrement,timeProgress
-        ,name,targetType,daily,weekly;
+        ,name,targetType,daily,weekly,repeat;
 
     }
     public class Change{
