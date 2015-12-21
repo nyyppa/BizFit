@@ -22,5 +22,11 @@
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:columnCount="2"
-        ></GridLayout>
+        >
+
+        <com.bizfit.bizfit.TrackableView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view" />
+    </GridLayout>
 </ScrollView>

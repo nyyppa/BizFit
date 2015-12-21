@@ -25,5 +25,32 @@
 
     <declare-styleable name="Themes">
         <attr name="arcProgressStyle" format="reference"/>
+        <attr name="TrackableView" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TrackableView">
+        <attr name="text_color_primary" format="color" />
+        <attr name="text_color_seconday" format="color" />
+        <attr name="text_color_tertiary" format="color" />
+        <attr name="finished_color" format="color" />
+        <attr name="unfinished_color" format="color" />
+        <attr name="bar_height" format="dimension" />
+
+        <attr name="label" format="string" />
+        <attr name="label_size" format="dimension" />
+        <attr name="label_padding_bottom" format="dimension" />
+
+        <attr name="time_left" format="integer" />
+        <attr name="time_left_suffix" format="string" />
+
+        <attr name="percentage" format="integer" />
+        <attr name="percentage_size" format="dimension" />
+        <attr name="percentage_padding_right" format="dimension" />
+        <attr name="percentage_suffix_size" format="dimension" />
+        <attr name="percentage_suffix_padding_right" format="dimension" />
+
+        <attr name="indicator_positive" format="reference" />
+        <attr name="indicator_negative" format="reference" />
+        <attr name="indiactor_padding_right" format="dimension" />
     </declare-styleable>
 </resources>
