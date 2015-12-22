@@ -15,5 +15,15 @@
         android:layout_height="match_parent"
         android:id="@+id/goal_container"
         android:baselineAligned="false">
+
+        <com.bizfit.bizfit.views.TrackableView
+            android:layout_width="match_parent"
+            android:layout_height="131dp"
+            android:id="@+id/view"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp" />
     </LinearLayout>
 </ScrollView>

@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,12 +20,12 @@ import android.widget.ProgressBar;
 import com.bizfit.bizfit.views.ArcProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Utils;
+import com.bizfit.bizfit.views.TrackableView;
 
 import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
-    private ArcProgress arcProgress;
     private Timer timer;
     private ProgressBar mProgress;
     private int mProgressStatus = 0;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        layout = (LinearLayout)findViewById(R.id.goal_container);
+        layout = (LinearLayout) findViewById(R.id.goal_container);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void resetAnimation(){
+    public void resetAnimation() {
         if (anim.isRunning()) {
             anim.end();
         }
@@ -90,17 +91,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
-            ArcProgress newTrackable = new ArcProgress(getApplicationContext());
-            newTrackable.setMax(data.getIntExtra("target", 0));
-            newTrackable.setBottomText(data.getStringExtra("name"));
-            System.out.println(data.getStringExtra("name"));
-            GridLayout.LayoutParams param =new GridLayout.LayoutParams();
-            param.height = (int) Utils.dp2px(getResources(), 150);
-            param.width = (int)Utils.dp2px(getResources(), 150);
-            param.rightMargin = (int)Utils.dp2px(getResources(), 10);
-            param.topMargin = (int)Utils.dp2px(getResources(), 10);
-            param.setGravity(Gravity.CENTER);
+        if (requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
+            TrackableView newTrackable = new TrackableView(getApplicationContext());
+
+            newTrackable.setLabel(data.getStringExtra("name"));
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Utils.dp2px(getResources(), 131));
             newTrackable.setLayoutParams(param);
             layout.addView(newTrackable);
         }

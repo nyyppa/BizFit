@@ -47,9 +47,10 @@
         <attr name="percentage_padding_right" format="dimension" />
         <attr name="percentage_suffix_size" format="dimension" />
         <attr name="percentage_suffix_padding_right" format="dimension" />
+        <attr name="percentage_suffix_padding_left" format="dimension" />
 
         <attr name="indicator_positive" format="reference" />
         <attr name="indicator_negative" format="reference" />
-        <attr name="indiactor_padding_right" format="dimension" />
+        <attr name="indicator_distance_to_midLine" format="dimension" />
     </declare-styleable>
 </resources>

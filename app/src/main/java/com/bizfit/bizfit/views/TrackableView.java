@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -22,10 +24,7 @@ import com.bizfit.bizfit.utils.Utils;
 public class TrackableView extends View {
     // TODO list:
     // Some way to animate the percentage.
-    // Probably add "max" as styleable attribute, or extract percentage from activity being tracked?
-    // Add text side as a styleable attribute!
     // Fontfaces as stylable attributes.
-    // Add negative / positive indicator as styleable attribute.
 
     private TextPaint textPaint;
     private Paint paint;
@@ -33,6 +32,7 @@ public class TrackableView extends View {
     // Label of the item being tracked.
     private String label;
     private float labelSize;
+    private float labelBarPadding;
 
     // Time left indicator
     private int timeLeft;
@@ -42,6 +42,7 @@ public class TrackableView extends View {
     private int percentage;
     private float percentageSize;
     private float percentagePaddingRight;
+    private float percentagePaddingLeft;
 
     private float percentageSuffixSize;
     private float percentageSuffixPaddingRight;
@@ -55,30 +56,45 @@ public class TrackableView extends View {
     private float barHeight;
     private int finishedColor;
     private int unfinishedColor;
+    // Icon colors
+    private int indicatorPositiveColor;
+    private int indicatorNegativeColor;
+    private int timeLeftIconColor;
 
     // Show show if the progress is on track.
     private Drawable indicatorPositive;
     private Drawable indicatorNegative;
-    private float indicatorPaddingRight;
+    private Drawable timeLeftIcon;
+    private float indicatorDistanceToMidLine;
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = Utils.sp2px(getResources(), 26);
+    private final float labelSizeDefault = Utils.sp2px(getResources(), 24);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
-    private final int percentageDefault = 100;
-    private final float percentageSizeDefault = Utils.sp2px(getResources(), 50);
+    private final int percentageDefault = 50;
+    private final float percentageSizeDefault = Utils.sp2px(getResources(), 35);
     private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), -2);
+    private final float percentagePaddingLeftDefault = Utils.dp2px(getResources(), 20);
     private final String percentageSuffix = "%";
-    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 26);
-    private final float percentageSuffixPaddingRightDefault = Utils.dp2px(getResources(), 20);
-    private final int textColorPrimaryDefault = R.color.colorPrimaryDark;
-    private final int textColorSecondaryDefault = R.color.colorPrimary;
+    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 15);
+    private final float percentageSuffixPaddingRightDefault = Utils.dp2px(getResources(), 8);
+    private final int textColorPrimaryDefault = R.color.colorPrimary95;
+    private final int textColorSecondaryDefault = R.color.colorPrimary75;
     private final int textColorTertiaryDefault = R.color.colorPrimary50;
-    private final float barHeightDefault = Utils.dp2px(getResources(), 20);
+    private final float barHeightDefault = Utils.dp2px(getResources(), 8);
     private final int finishedColorDefault = R.color.colorAccent;
-    private final int unfinishedColorDefault = R.color.colorPrimary50;
-    private final float indicatorPaddingRightDefault = Utils.dp2px(getResources(), 10);
+    private final int unfinishedColorDefault = R.color.colorPrimary10;
+    private final float indicatorDistanceToMidLineDefault = Utils.dp2px(getResources(), 2);
+
+    // TODO make these into stylebale attributes. Also handle saving and loading.
+    private final int indicatorPositiveColorDefault = R.color.colorAccent;
+    private final int indicatorNegativeColorDefault = R.color.colorAccentSecondary;
+    private final int timeLeftIconColorDefault = R.color.colorPrimary95;
+    private final int indicatorPositiveDefault = R.drawable.positive;
+    private final int indicatorNegativeDefault = R.drawable.negative;
+    private final int timeLeftIconDefault = R.drawable.ic_timelapse_black_48dp;
+    private final float labelBarPaddingDefault = Utils.dp2px(getResources(), 5);
 
     // Styleable names. Used for saving.
     private static final String INSTANCE_STATE = "saved_instance";
@@ -96,14 +112,39 @@ public class TrackableView extends View {
     private static final String INSTANCE_PERCENTAGE = "percentage";
     private static final String INSTANCE_PERCENTAGE_SIZE = "percentage_size";
     private static final String INSTANCE_PERCENTAGE_PADDING_RIGHT = "percentage_padding_right";
+    private static final String INSTANCE_PERCENTAGE_PADDING_LEFT = "percentage_padding_left";
     private static final String INSTANCE_PERCENTAGE_SUFFIX_SIZE = "percentage_suffix_size";
     private static final String INSTANCE_PERCENTAGE_SUFFIX_PADDING_RIGHT = "percentage_suffix_padding_right";
     private static final String INSTANCE_INDICATOR_POSITIVE = "indicator_positive";
     private static final String INSTANCE_INDICATOR_NEGATIVE = "indicator_negative";
-    private static final String INSTANCE_INDICATOR_PADDING_RIGHT = "indiactor_padding_right";
+    private static final String INSTANCE_INDICATOR_PADDING_RIGHT = "indicator_distance_to_midLine";
 
     // Constraints in which the visible components must reside in.
     private RectF rect = new RectF();
+
+    // Positionings of the visible elements.
+    // Calculated once onMeasure is called.
+    private float horizontalCenter;
+    private float percentageBaseline;
+    private float percentageX;
+    private float suffixBaseLine;
+    private float suffixX;
+    private float labelBaseLine;
+
+    // BarX same as label X.
+    private float barX;
+    private float barBaseline;
+    private float finishedWidth;
+    private float timeleftX;
+    private float timeLeftSuffixX;
+    private float timeLeftIconX;
+
+    private RectF unfinished = new RectF();
+    private RectF finished = new RectF();
+
+    public TrackableView(Context context) {
+        this(context, null);
+    }
 
     public TrackableView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -113,6 +154,20 @@ public class TrackableView extends View {
                 R.styleable.TrackableView,
                 0, 0);
         initAttributes(a);
+
+        // TODO convcert these into styleable attributes.
+        indicatorPositive = ContextCompat.getDrawable(context, indicatorPositiveDefault);
+        indicatorPositiveColor = ContextCompat.getColor(context, indicatorPositiveColorDefault);
+
+        indicatorNegative = ContextCompat.getDrawable(context, indicatorNegativeDefault);
+        indicatorNegativeColor = ContextCompat.getColor(context, indicatorNegativeColorDefault);
+
+        timeLeftIcon = ContextCompat.getDrawable(context, timeLeftIconDefault);
+        timeLeftIconColor = ContextCompat.getColor(context, timeLeftIconColorDefault);
+
+        labelBarPadding = labelBarPaddingDefault;
+
+
     }
 
 
@@ -128,6 +183,7 @@ public class TrackableView extends View {
             setPercentage(attributes.getInt(R.styleable.TrackableView_percentage, percentageDefault));
             setPercentageSize(attributes.getDimension(R.styleable.TrackableView_percentage_size, percentageSizeDefault));
             setPercentagePaddingRight(attributes.getDimension(R.styleable.TrackableView_percentage_padding_right, percentagePaddingRightDefault));
+            setPercentagePaddingLeft(attributes.getDimension(R.styleable.TrackableView_percentage_padding_right, percentagePaddingLeftDefault));
             setPercentageSuffixSize(attributes.getDimension(R.styleable.TrackableView_percentage_suffix_size, percetangeSuffixSizeDefault));
             setPercentageSuffixPaddingRight(attributes.getDimension(R.styleable.TrackableView_percentage_suffix_padding_right, percentageSuffixPaddingRightDefault));
             setTextColorPrimary(attributes.getColor(R.styleable.TrackableView_text_color_primary, getResources().getColor(textColorPrimaryDefault)));
@@ -136,7 +192,7 @@ public class TrackableView extends View {
             setBarHeight(attributes.getDimension(R.styleable.TrackableView_bar_height, barHeightDefault));
             setFinishedColor(attributes.getColor(R.styleable.TrackableView_finished_color, getResources().getColor(finishedColorDefault)));
             setUnfinishedColor(attributes.getColor(R.styleable.TrackableView_unfinished_color, getResources().getColor(unfinishedColorDefault)));
-            setIndicatorPaddingRight(attributes.getDimension(R.styleable.TrackableView_indiactor_padding_right, indicatorPaddingRightDefault));
+            setIndicatorDistanceToMidLine(attributes.getDimension(R.styleable.TrackableView_indicator_distance_to_midLine, indicatorDistanceToMidLineDefault));
         } finally {
             attributes.recycle();
         }
@@ -165,7 +221,7 @@ public class TrackableView extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paintText(canvas);
-        paintIcons(canvas);
+        paintBar(canvas);
     }
 
     /**
@@ -173,12 +229,12 @@ public class TrackableView extends View {
      *
      * @param canvas
      */
-    private void paintBar(Canvas canvas, float x) {
+    private void paintBar(Canvas canvas) {
         paint.setColor(unfinishedColor);
-        canvas.drawRect(x, rect.bottom - barHeight, rect.right, rect.bottom, paint);
+        canvas.drawRect(unfinished, paint);
 
         paint.setColor(finishedColor);
-        canvas.drawRect(x, rect.bottom - barHeight, rect.right / 2, rect.bottom, paint);
+        canvas.drawRect(finished, paint);
     }
 
     /**
@@ -187,33 +243,20 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintText(Canvas canvas) {
-        textPaint.setColor(textColorPrimary);
-        textPaint.setTextSize(percentageSize);
-        textPaint.setTextAlign(Paint.Align.RIGHT);
-        textPaint.setTypeface(AssetManagerOur.getFont(getContext(), AssetManagerOur.boldCondense));
-        float offset = textPaint.measureText("100");
-        float x = rect.left + offset;
-        canvas.drawText(percentage + "", x, rect.bottom - 2, textPaint);
-        float ascent = textPaint.ascent();
-        float descent = textPaint.descent();
+        prepPercentagePainter();
+        canvas.drawText(String.valueOf(percentage), percentageX, percentageBaseline, textPaint);
 
+        prepSuffixPainter();
+        canvas.drawText(percentageSuffix, suffixX, suffixBaseLine, textPaint);
 
-        textPaint.setColor(textColorTertiary);
-        textPaint.setTextSize(percentageSuffixSize);
-        textPaint.setTextAlign(Paint.Align.LEFT);
-        textPaint.setTypeface(AssetManagerOur.getFont(getContext(), AssetManagerOur.regular));
-        x += percentagePaddingRight;
-        float width = textPaint.measureText("%");
-        float suffixHeight = rect.bottom + ascent - textPaint.ascent();
-        canvas.drawText(percentageSuffix, x, suffixHeight, textPaint);
+        prepLabelPainter();
+        canvas.drawText(label, finished.left, labelBaseLine, textPaint);
 
-        textPaint.setColor(textColorPrimary);
-        textPaint.setTextSize(labelSize);
-        x += percentageSuffixPaddingRight + width;
-        float height = rect.bottom - barHeight - Utils.dp2px(getResources(), 2);
-        canvas.drawText(label, x, height, textPaint);
+        prepTimeLeftSuffixPainter();
+        canvas.drawText(timeLeftSuffix, timeLeftSuffixX, labelBaseLine, textPaint);
 
-        paintBar(canvas, x);
+        prepTimeLeftPainter();
+        canvas.drawText(String.valueOf(timeLeft), timeleftX, labelBaseLine, textPaint);
     }
 
     /**
@@ -222,7 +265,7 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintIcons(Canvas canvas) {
-        //TODO
+        paint.setColor(textColorPrimary);
     }
 
 
@@ -256,6 +299,83 @@ public class TrackableView extends View {
                 , getRight() - getPaddingRight()
                 , getBottom() - getPaddingBottom());
 
+        // The rest of the method calculates the children's positions.
+        horizontalCenter = rect.top + rect.height() / 2;
+
+        prepPercentagePainter();
+        float percentageHeight = textPaint.descent() + textPaint.ascent();
+        percentageBaseline = horizontalCenter - percentageHeight / 2;
+        percentageX = rect.left + getPercentagePaddingLeft() + textPaint.measureText("100");
+
+        prepSuffixPainter();
+        suffixX = percentageX + percentagePaddingRight;
+        Rect tmp = new Rect();
+        textPaint.getTextBounds(percentageSuffix, 0, 1, tmp);
+        float suffixHeight = tmp.height();
+        suffixBaseLine = horizontalCenter + percentageHeight / 2 + suffixHeight;
+
+        barX = suffixX + labelBarPadding + textPaint.measureText(percentageSuffix);
+        prepLabelPainter();
+        float endSectionHeight = (Math.abs(textPaint.descent() + textPaint.ascent())) + barHeight + labelBarPadding;
+        barBaseline = horizontalCenter + endSectionHeight /  2;
+        float barTop = barBaseline - barHeight;
+
+        unfinished.set(barX, barTop, rect.right, barBaseline);
+        float progress = unfinished.width() * (((float)percentage) / 100);
+        finished.set(unfinished.left, unfinished.top, unfinished.left + progress, unfinished.bottom);
+        labelBaseLine = (horizontalCenter - endSectionHeight /  2) - (textPaint.ascent() + textPaint.descent());
+
+
+        // TODO change so that icons are displayed
+        // TODO change this into scalable format
+        timeLeftSuffixX = unfinished.right;
+        prepTimeLeftSuffixPainter();
+
+        // TODO change this into scalable format
+        timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix) - Utils.dp2px(getResources(), 2);
+    }
+
+    private void prepTimeLeftSuffixPainter() {
+        textPaint.setColor(textColorTertiary);
+
+        // TODO Make this into a stylebale attribute
+        textPaint.setTextSize(Utils.sp2px(getResources(), 20));
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.light));
+    }
+
+    private void prepLabelPainter() {
+        textPaint.setColor(textColorSecondary);
+        textPaint.setTextSize(labelSize);
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+    }
+
+    private void prepSuffixPainter() {
+        textPaint.setColor(textColorTertiary);
+        textPaint.setTextSize(percentageSuffixSize);
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+    }
+
+    /**
+     * Prepares textPaint for painting the percentage.
+     */
+    private void prepPercentagePainter() {
+        textPaint.setColor(textColorPrimary);
+        textPaint.setTextSize(percentageSize);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.boldCondense));
+    }
+
+
+    private void prepTimeLeftPainter() {
+        textPaint.setColor(textColorSecondary);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+
+        // TODO make the size a styleable attribute.
+        textPaint.setTextSize(Utils.sp2px(getResources(), 20));
     }
 
     /**
@@ -458,12 +578,12 @@ public class TrackableView extends View {
         this.invalidate();
     }
 
-    public float getIndicatorPaddingRight() {
-        return indicatorPaddingRight;
+    public float getIndicatorDistanceToMidLine() {
+        return indicatorDistanceToMidLine;
     }
 
-    public void setIndicatorPaddingRight(float indicatorPaddingRight) {
-        this.indicatorPaddingRight = indicatorPaddingRight;
+    public void setIndicatorDistanceToMidLine(float indicatorDistanceToMidLine) {
+        this.indicatorDistanceToMidLine = indicatorDistanceToMidLine;
         this.invalidate();
     }
 
@@ -474,5 +594,45 @@ public class TrackableView extends View {
     public void setBarHeight(float barHeight) {
         this.barHeight = barHeight;
         this.invalidate();
+    }
+
+    public float getPercentagePaddingLeft() {
+        return percentagePaddingLeft;
+    }
+
+    public void setPercentagePaddingLeft(float percentagePaddingLeft) {
+        this.percentagePaddingLeft = percentagePaddingLeft;
+    }
+
+    public int getIndicatorPositiveColor() {
+        return indicatorPositiveColor;
+    }
+
+    public void setIndicatorPositiveColor(int indicatorPositiveColor) {
+        this.indicatorPositiveColor = indicatorPositiveColor;
+    }
+
+    public int getIndicatorNegativeColor() {
+        return indicatorNegativeColor;
+    }
+
+    public void setIndicatorNegativeColor(int indicatorNegativeColor) {
+        this.indicatorNegativeColor = indicatorNegativeColor;
+    }
+
+    public int getTimeLeftIconColor() {
+        return timeLeftIconColor;
+    }
+
+    public void setTimeLeftIconColor(int timeLeftIconColor) {
+        this.timeLeftIconColor = timeLeftIconColor;
+    }
+
+    public Drawable getTimeLeftIcon() {
+        return timeLeftIcon;
+    }
+
+    public void setTimeLeftIcon(Drawable timeLeftIcon) {
+        this.timeLeftIcon = timeLeftIcon;
     }
 }
