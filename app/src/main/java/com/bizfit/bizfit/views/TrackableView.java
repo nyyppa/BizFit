@@ -190,7 +190,7 @@ public class TrackableView extends View {
         textPaint.setColor(textColorPrimary);
         textPaint.setTextSize(percentageSize);
         textPaint.setTextAlign(Paint.Align.RIGHT);
-        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.robotoBlack));
+        textPaint.setTypeface(AssetManagerOur.getFont(getContext(), AssetManagerOur.boldCondense));
         float offset = textPaint.measureText("100");
         float x = rect.left + offset;
         canvas.drawText(percentage + "", x, rect.bottom - 2, textPaint);
@@ -201,7 +201,7 @@ public class TrackableView extends View {
         textPaint.setColor(textColorTertiary);
         textPaint.setTextSize(percentageSuffixSize);
         textPaint.setTextAlign(Paint.Align.LEFT);
-        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.robotoMedium));
+        textPaint.setTypeface(AssetManagerOur.getFont(getContext(), AssetManagerOur.regular));
         x += percentagePaddingRight;
         float width = textPaint.measureText("%");
         float suffixHeight = rect.bottom + ascent - textPaint.ascent();

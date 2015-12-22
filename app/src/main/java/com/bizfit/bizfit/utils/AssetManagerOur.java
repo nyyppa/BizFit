@@ -1,8 +1,10 @@
 package com.bizfit.bizfit.utils;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 
+import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.FontHolder;
 
 import java.util.ArrayList;
@@ -14,21 +16,22 @@ import com.bizfit.bizfit.activities.MainActivity;
  * Created by Käyttäjä on 22.12.2015.
  */
 public class AssetManagerOur {
-    public static final String robotoBlack = "Roboto-Black.ttf";
-    public static final String robotoBold = "Roboto-Bold.ttf";
-    public static final String robotoMedium = "Roboto-Medium.ttf";
-    public static final String robotoLight = "Roboto-Light.ttf";
+
+
+    public static final String boldCondense = "fonts/RobotoCondensed-Bold.ttf";
+    public static final String regular = "fonts/Roboto-Regular.ttf";
+    public static final String light = "fonts/Roboto-Light.ttf";
 
     private static List<FontHolder> fonts = new ArrayList<FontHolder>(0);
 
-    public static Typeface getFont(String file) {
+    public static Typeface getFont(Context context, String file) {
         for (int i = 0; i < fonts.size(); i++) {
             if (fonts.get(i).file.equals(file)) {
                 return fonts.get(i).font;
             }
         }
-        Uri path = Uri.parse("android.resource://com.bizfit.bizfit/fonts/" + file);
-        Typeface font = Typeface.createFromFile(path.toString());
+
+        Typeface font = Typeface.createFromAsset(context.getAssets(), file);
         FontHolder holder = new FontHolder(font, file);
         fonts.add(holder);
         return holder.font;
