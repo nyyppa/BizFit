@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 
-import com.bizfit.bizfit.R;
+
 import com.bizfit.bizfit.utils.FontHolder;
 
 import java.util.ArrayList;
@@ -24,14 +24,15 @@ public class AssetManagerOur {
 
     private static List<FontHolder> fonts = new ArrayList<FontHolder>(0);
 
-    public static Typeface getFont(Context context, String file) {
+    public static Typeface getFont(String file) {
         for (int i = 0; i < fonts.size(); i++) {
             if (fonts.get(i).file.equals(file)) {
                 return fonts.get(i).font;
             }
         }
 
-        Typeface font = Typeface.createFromAsset(context.getAssets(), file);
+        Typeface font = Typeface.createFromAsset(MainActivity.activity.getAssets(), file);
+
         FontHolder holder = new FontHolder(font, file);
         fonts.add(holder);
         return holder.font;
