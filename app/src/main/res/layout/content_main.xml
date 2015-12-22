@@ -22,8 +22,19 @@
             android:id="@+id/view"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:layout_gravity="center_horizontal"
             android:paddingBottom="20dp"
-            android:paddingTop="20dp" />
+            android:paddingTop="20dp"
+            android:background="#d38f8f" />
+
+        <com.bizfit.bizfit.views.TrackableView
+            android:layout_width="fill_parent"
+            android:layout_height="131dp"
+            android:id="@+id/view2"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:background="#4c8e69" />
+
     </LinearLayout>
 </ScrollView>

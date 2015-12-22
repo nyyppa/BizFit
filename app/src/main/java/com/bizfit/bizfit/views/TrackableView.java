@@ -120,7 +120,7 @@ public class TrackableView extends View {
     private static final String INSTANCE_INDICATOR_PADDING_RIGHT = "indicator_distance_to_midLine";
 
     // Constraints in which the visible components must reside in.
-    private RectF rect = new RectF();
+    private Rect rect;
 
     // Positionings of the visible elements.
     // Calculated once onMeasure is called.
@@ -142,13 +142,9 @@ public class TrackableView extends View {
     private RectF unfinished = new RectF();
     private RectF finished = new RectF();
 
-    public TrackableView(Context context) {
-        this(context, null);
-    }
-
     public TrackableView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        rect = new Rect();
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.TrackableView,
@@ -167,7 +163,7 @@ public class TrackableView extends View {
 
         labelBarPadding = labelBarPaddingDefault;
 
-
+        requestLayout();
     }
 
 
@@ -220,6 +216,8 @@ public class TrackableView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        paint.setColor(getResources().getColor(R.color.colorPrimaryDark));
+        canvas.drawRect(rect, paint);
         paintText(canvas);
         paintBar(canvas);
     }
@@ -271,14 +269,6 @@ public class TrackableView extends View {
 
     /**
      * Measures View's dimensions.
-     * <p/>
-     * To be implemented.
-     * <p/>
-     * Accounts for positioning of the View's children.
-     * (Our job to handle that). It is also our responsibility to account
-     * for padding and such. Gotta make sure this is done. To prevent
-     * the label and the remaining time text's overlapping, some form of
-     * trimming should be implemented for the label. Probably in this method.
      *
      * @param widthMeasureSpec
      * @param heightMeasureSpec
@@ -289,18 +279,40 @@ public class TrackableView extends View {
         int minw = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
         int w = resolveSizeAndState(minw, widthMeasureSpec, 1);
 
-        // Whatever the width ends up being, ask for a height that would let the pie
-        // get as big as it can
         int minh = MeasureSpec.getSize(w) + getPaddingBottom() + getPaddingTop();
         int h = resolveSizeAndState(MeasureSpec.getSize(w), heightMeasureSpec, 0);
+
         setMeasuredDimension(w, h);
-        rect.set(getLeft() + getPaddingLeft()
-                , getTop() + getPaddingTop()
-                , getRight() - getPaddingRight()
-                , getBottom() - getPaddingBottom());
+    }
+
+    /**
+     * Calculates the positioning of the View's children.
+     * <p/>
+     * (Our job to handle that). It is also our responsibility to account
+     * for padding and such. To prevent the label and the remaining time text's
+     * overlapping, some form of trimming should be implemented for the label.
+     * Probably in this method.
+     *
+     * @param changed
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+
+
+
+        rect.set(left + getPaddingLeft()
+                , top + getPaddingTop()
+                , right - getPaddingRight()
+                , bottom - getPaddingBottom());
 
         // The rest of the method calculates the children's positions.
-        horizontalCenter = rect.top + rect.height() / 2;
+        horizontalCenter = rect.bottom - (rect.bottom - rect.top) / 2;
+
+        System.out.println("Horizontal center: " + horizontalCenter + "   Top: " + rect.top + "  Bottom: " + rect.bottom);
 
         prepPercentagePainter();
         float percentageHeight = textPaint.descent() + textPaint.ascent();
@@ -317,13 +329,13 @@ public class TrackableView extends View {
         barX = suffixX + labelBarPadding + textPaint.measureText(percentageSuffix);
         prepLabelPainter();
         float endSectionHeight = (Math.abs(textPaint.descent() + textPaint.ascent())) + barHeight + labelBarPadding;
-        barBaseline = horizontalCenter + endSectionHeight /  2;
+        barBaseline = horizontalCenter + endSectionHeight / 2;
         float barTop = barBaseline - barHeight;
 
         unfinished.set(barX, barTop, rect.right, barBaseline);
-        float progress = unfinished.width() * (((float)percentage) / 100);
+        float progress = unfinished.width() * (((float) percentage) / 100);
         finished.set(unfinished.left, unfinished.top, unfinished.left + progress, unfinished.bottom);
-        labelBaseLine = (horizontalCenter - endSectionHeight /  2) - (textPaint.ascent() + textPaint.descent());
+        labelBaseLine = (horizontalCenter - endSectionHeight / 2) - (textPaint.ascent() + textPaint.descent());
 
 
         // TODO change so that icons are displayed
@@ -333,6 +345,8 @@ public class TrackableView extends View {
 
         // TODO change this into scalable format
         timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix) - Utils.dp2px(getResources(), 2);
+
+        System.out.println("Baseline: " + horizontalCenter);
     }
 
     private void prepTimeLeftSuffixPainter() {
@@ -444,6 +458,7 @@ public class TrackableView extends View {
     public void setLabelSize(float labelSize) {
         this.labelSize = labelSize;
         this.invalidate();
+        this.requestLayout();
     }
 
     public int getTimeLeft() {
@@ -453,6 +468,7 @@ public class TrackableView extends View {
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
         this.invalidate();
+        this.requestLayout();
     }
 
     public String getTimeLeftSuffix() {
@@ -468,6 +484,7 @@ public class TrackableView extends View {
         }
 
         this.invalidate();
+        this.requestLayout();
     }
 
     public int getPercentage() {
@@ -477,6 +494,7 @@ public class TrackableView extends View {
     public void setPercentage(int percentage) {
         this.percentage = percentage;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getPercentageSize() {
@@ -486,6 +504,7 @@ public class TrackableView extends View {
     public void setPercentageSize(float percentageSize) {
         this.percentageSize = percentageSize;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getPercentagePaddingRight() {
@@ -495,6 +514,7 @@ public class TrackableView extends View {
     public void setPercentagePaddingRight(float percentagePaddingRight) {
         this.percentagePaddingRight = percentagePaddingRight;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getPercentageSuffixSize() {
@@ -504,6 +524,7 @@ public class TrackableView extends View {
     public void setPercentageSuffixSize(float percentageSuffixSize) {
         this.percentageSuffixSize = percentageSuffixSize;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getPercentageSuffixPaddingRight() {
@@ -513,6 +534,7 @@ public class TrackableView extends View {
     public void setPercentageSuffixPaddingRight(float percentageSuffixPaddingRight) {
         this.percentageSuffixPaddingRight = percentageSuffixPaddingRight;
         this.invalidate();
+        this.requestLayout();
     }
 
     public int getTextColorPrimary() {
@@ -558,6 +580,7 @@ public class TrackableView extends View {
     public void setIndicatorNegative(Drawable indicatorNegative) {
         this.indicatorNegative = indicatorNegative;
         this.invalidate();
+        this.requestLayout();
     }
 
     public Drawable getIndicatorPositive() {
@@ -567,6 +590,7 @@ public class TrackableView extends View {
     public void setIndicatorPositive(Drawable indicatorPositive) {
         this.indicatorPositive = indicatorPositive;
         this.invalidate();
+        this.requestLayout();
     }
 
     public int getUnfinishedColor() {
@@ -585,6 +609,7 @@ public class TrackableView extends View {
     public void setIndicatorDistanceToMidLine(float indicatorDistanceToMidLine) {
         this.indicatorDistanceToMidLine = indicatorDistanceToMidLine;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getBarHeight() {
@@ -594,6 +619,7 @@ public class TrackableView extends View {
     public void setBarHeight(float barHeight) {
         this.barHeight = barHeight;
         this.invalidate();
+        this.requestLayout();
     }
 
     public float getPercentagePaddingLeft() {
@@ -602,6 +628,8 @@ public class TrackableView extends View {
 
     public void setPercentagePaddingLeft(float percentagePaddingLeft) {
         this.percentagePaddingLeft = percentagePaddingLeft;
+        this.invalidate();
+        this.requestLayout();
     }
 
     public int getIndicatorPositiveColor() {
@@ -610,6 +638,7 @@ public class TrackableView extends View {
 
     public void setIndicatorPositiveColor(int indicatorPositiveColor) {
         this.indicatorPositiveColor = indicatorPositiveColor;
+        this.invalidate();
     }
 
     public int getIndicatorNegativeColor() {
@@ -618,6 +647,7 @@ public class TrackableView extends View {
 
     public void setIndicatorNegativeColor(int indicatorNegativeColor) {
         this.indicatorNegativeColor = indicatorNegativeColor;
+        this.invalidate();
     }
 
     public int getTimeLeftIconColor() {
@@ -626,6 +656,7 @@ public class TrackableView extends View {
 
     public void setTimeLeftIconColor(int timeLeftIconColor) {
         this.timeLeftIconColor = timeLeftIconColor;
+        this.invalidate();
     }
 
     public Drawable getTimeLeftIcon() {
@@ -634,5 +665,6 @@ public class TrackableView extends View {
 
     public void setTimeLeftIcon(Drawable timeLeftIcon) {
         this.timeLeftIcon = timeLeftIcon;
+        this.invalidate();
     }
 }

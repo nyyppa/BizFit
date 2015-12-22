@@ -3,6 +3,7 @@ package com.bizfit.bizfit.activities;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
-            TrackableView newTrackable = new TrackableView(getApplicationContext());
+            TrackableView newTrackable = new TrackableView(getApplicationContext(), null);
 
             newTrackable.setLabel(data.getStringExtra("name"));
             LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Utils.dp2px(getResources(), 131));
