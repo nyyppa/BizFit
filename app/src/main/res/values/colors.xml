@@ -6,4 +6,6 @@
     <color name="colorPrimary75">#5145454b</color>
     <color name="colorPrimary50">#51454532</color>
     <color name="colorAccent">#5b9499</color>
+    <color name="colorAccentSecondary">#995b5b</color>
+    <color name="colorBackground">#fffcf7</color>
 </resources>

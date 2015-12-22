@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.Utils;
 
 /**
@@ -23,6 +24,7 @@ public class TrackableView extends View {
     // Some way to animate the percentage.
     // Probably add "max" as styleable attribute, or extract percentage from activity being tracked?
     // Add text side as a styleable attribute!
+    // Fontfaces as stylable attributes.
     // Add negative / positive indicator as styleable attribute.
 
     private TextPaint textPaint;
@@ -41,8 +43,8 @@ public class TrackableView extends View {
     private float percentageSize;
     private float percentagePaddingRight;
 
-    private float percetangeSuffixSize;
-    private float percetangeSuffixPaddingRight;
+    private float percentageSuffixSize;
+    private float percentageSuffixPaddingRight;
 
     // Text colors.
     private int textColorPrimary;
@@ -61,18 +63,19 @@ public class TrackableView extends View {
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = Utils.sp2px(getResources(), 10);
+    private final float labelSizeDefault = Utils.sp2px(getResources(), 26);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
-    private final int percentageDefault = 0;
+    private final int percentageDefault = 100;
     private final float percentageSizeDefault = Utils.sp2px(getResources(), 50);
-    private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), 20);
+    private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), -2);
     private final String percentageSuffix = "%";
     private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 26);
+    private final float percentageSuffixPaddingRightDefault = Utils.dp2px(getResources(), 20);
     private final int textColorPrimaryDefault = R.color.colorPrimaryDark;
     private final int textColorSecondaryDefault = R.color.colorPrimary;
     private final int textColorTertiaryDefault = R.color.colorPrimary50;
-    private final float barHeightDefault = Utils.dp2px(getResources(), 4);
+    private final float barHeightDefault = Utils.dp2px(getResources(), 20);
     private final int finishedColorDefault = R.color.colorAccent;
     private final int unfinishedColorDefault = R.color.colorPrimary50;
     private final float indicatorPaddingRightDefault = Utils.dp2px(getResources(), 10);
@@ -125,7 +128,8 @@ public class TrackableView extends View {
             setPercentage(attributes.getInt(R.styleable.TrackableView_percentage, percentageDefault));
             setPercentageSize(attributes.getDimension(R.styleable.TrackableView_percentage_size, percentageSizeDefault));
             setPercentagePaddingRight(attributes.getDimension(R.styleable.TrackableView_percentage_padding_right, percentagePaddingRightDefault));
-            setPercetangeSuffixSize(attributes.getDimension(R.styleable.TrackableView_percentage_suffix_size, percetangeSuffixSizeDefault));
+            setPercentageSuffixSize(attributes.getDimension(R.styleable.TrackableView_percentage_suffix_size, percetangeSuffixSizeDefault));
+            setPercentageSuffixPaddingRight(attributes.getDimension(R.styleable.TrackableView_percentage_suffix_padding_right, percentageSuffixPaddingRightDefault));
             setTextColorPrimary(attributes.getColor(R.styleable.TrackableView_text_color_primary, getResources().getColor(textColorPrimaryDefault)));
             setTextColorSecondary(attributes.getColor(R.styleable.TrackableView_text_color_seconday, getResources().getColor(textColorSecondaryDefault)));
             setTextColorTertiary(attributes.getColor(R.styleable.TrackableView_text_color_tertiary, getResources().getColor(textColorTertiaryDefault)));
@@ -160,7 +164,6 @@ public class TrackableView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paintBar(canvas);
         paintText(canvas);
         paintIcons(canvas);
     }
@@ -170,8 +173,12 @@ public class TrackableView extends View {
      *
      * @param canvas
      */
-    private void paintBar(Canvas canvas) {
-        //TODO
+    private void paintBar(Canvas canvas, float x) {
+        paint.setColor(unfinishedColor);
+        canvas.drawRect(x, rect.bottom - barHeight, rect.right, rect.bottom, paint);
+
+        paint.setColor(finishedColor);
+        canvas.drawRect(x, rect.bottom - barHeight, rect.right / 2, rect.bottom, paint);
     }
 
     /**
@@ -180,7 +187,33 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintText(Canvas canvas) {
-        //TODO
+        textPaint.setColor(textColorPrimary);
+        textPaint.setTextSize(percentageSize);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.robotoBlack));
+        float offset = textPaint.measureText("100");
+        float x = rect.left + offset;
+        canvas.drawText(percentage + "", x, rect.bottom - 2, textPaint);
+        float ascent = textPaint.ascent();
+        float descent = textPaint.descent();
+
+
+        textPaint.setColor(textColorTertiary);
+        textPaint.setTextSize(percentageSuffixSize);
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.robotoMedium));
+        x += percentagePaddingRight;
+        float width = textPaint.measureText("%");
+        float suffixHeight = rect.bottom + ascent - textPaint.ascent();
+        canvas.drawText(percentageSuffix, x, suffixHeight, textPaint);
+
+        textPaint.setColor(textColorPrimary);
+        textPaint.setTextSize(labelSize);
+        x += percentageSuffixPaddingRight + width;
+        float height = rect.bottom - barHeight - Utils.dp2px(getResources(), 2);
+        canvas.drawText(label, x, height, textPaint);
+
+        paintBar(canvas, x);
     }
 
     /**
@@ -209,17 +242,20 @@ public class TrackableView extends View {
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
+        // Try for a width based on our minimum
+        int minw = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
+        int w = resolveSizeAndState(minw, widthMeasureSpec, 1);
 
-        rect.set(getPaddingLeft()
-                , MeasureSpec.getSize(heightMeasureSpec) - getPaddingTop()
-                , width - getPaddingRight()
-                , getPaddingBottom());
+        // Whatever the width ends up being, ask for a height that would let the pie
+        // get as big as it can
+        int minh = MeasureSpec.getSize(w) + getPaddingBottom() + getPaddingTop();
+        int h = resolveSizeAndState(MeasureSpec.getSize(w), heightMeasureSpec, 0);
+        setMeasuredDimension(w, h);
+        rect.set(getLeft() + getPaddingLeft()
+                , getTop() + getPaddingTop()
+                , getRight() - getPaddingRight()
+                , getBottom() - getPaddingBottom());
 
-        if (rect.height() < percentageSize) {
-            setPercentageSize(rect.height());
-        }
     }
 
     /**
@@ -235,7 +271,7 @@ public class TrackableView extends View {
     protected Parcelable onSaveInstanceState() {
         final Bundle bundle = new Bundle();
         bundle.putParcelable(INSTANCE_STATE, super.onSaveInstanceState());
-        // Put attributes in the bundle here.
+        // TODO Put attributes in the bundle here.
         return bundle;
     }
 
@@ -250,7 +286,7 @@ public class TrackableView extends View {
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             final Bundle bundle = (Bundle) state;
-            // Set attributes here
+            // TODO Set attributes here
             initPainters();
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));
             return;
@@ -341,21 +377,21 @@ public class TrackableView extends View {
         this.invalidate();
     }
 
-    public float getPercetangeSuffixSize() {
-        return percetangeSuffixSize;
+    public float getPercentageSuffixSize() {
+        return percentageSuffixSize;
     }
 
-    public void setPercetangeSuffixSize(float percetangeSuffixSize) {
-        this.percetangeSuffixSize = percetangeSuffixSize;
+    public void setPercentageSuffixSize(float percentageSuffixSize) {
+        this.percentageSuffixSize = percentageSuffixSize;
         this.invalidate();
     }
 
-    public float getPercetangeSuffixPaddingRight() {
-        return percetangeSuffixPaddingRight;
+    public float getPercentageSuffixPaddingRight() {
+        return percentageSuffixPaddingRight;
     }
 
-    public void setPercetangeSuffixPaddingRight(float percetangeSuffixPaddingRight) {
-        this.percetangeSuffixPaddingRight = percetangeSuffixPaddingRight;
+    public void setPercentageSuffixPaddingRight(float percentageSuffixPaddingRight) {
+        this.percentageSuffixPaddingRight = percentageSuffixPaddingRight;
         this.invalidate();
     }
 
