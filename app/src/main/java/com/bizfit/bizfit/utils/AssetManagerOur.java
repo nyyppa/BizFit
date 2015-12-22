@@ -27,8 +27,8 @@ public class AssetManagerOur {
                 return fonts.get(i).font;
             }
         }
-        Uri path = Uri.parse("android.resource://com.bizfit.bizfit/fonts/" + file);
-        Typeface font = Typeface.createFromFile(path.toString());
+
+        Typeface font = Typeface.createFromAsset(MainActivity.activity.getResources().getAssets(), file);
         FontHolder holder = new FontHolder(font, file);
         fonts.add(holder);
         return holder.font;
