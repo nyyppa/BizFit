@@ -12,6 +12,7 @@ import com.bizfit.bizfit.activities.MainActivity;
  */
 public class AssetManagerOur {
     private static List<FontHolder>fonts=new ArrayList<FontHolder>(0);
+
     public static Typeface getFont(String file){
         for(int i=0;i<fonts.size();i++){
             if(fonts.get(i).file.equals(file)){
