@@ -311,7 +311,8 @@ public class TrackableView extends View {
 
         // The rest of the method calculates the children's positions.
         horizontalCenter = rect.bottom - (rect.bottom - rect.top) / 2;
-
+        horizontalCenter=bottom/2-top/2;
+        System.out.println(top+" "+bottom);
         System.out.println("Horizontal center: " + horizontalCenter + "   Top: " + rect.top + "  Bottom: " + rect.bottom);
 
         prepPercentagePainter();
