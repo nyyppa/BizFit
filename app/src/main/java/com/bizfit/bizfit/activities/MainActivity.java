@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GET_NEW_GOAL = 1;
     private ValueAnimator anim;
     private LinearLayout layout;
-
+    public static SaveState currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 changeActivity();
             }
         });
+        currentUser=SaveState.getLastUser();
 
 
     }
