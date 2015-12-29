@@ -2,6 +2,8 @@ package com.bizfit.bizfit.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -22,9 +24,9 @@ import com.bizfit.bizfit.utils.Utils;
  *
  */
 public class TrackableView extends View {
+
     // TODO list:
     // Some way to animate the percentage.
-    // Fontfaces as stylable attributes.
 
     private TextPaint textPaint;
     private Paint paint;
@@ -106,9 +108,10 @@ public class TrackableView extends View {
     private static final String INSTANCE_BAR_HEIGHT = "bar_height";
     private static final String INSTANCE_LABEL = "label";
     private static final String INSTANCE_LABEL_SIZE = "label_size";
-    private static final String INSTANCE_LABEL_PADDING_BOTTOM = "label_padding_bottom";
+    private static final String INSTANCE_LABEL_BAR_PADDING = "label_bar_padding";
     private static final String INSTANCE_TIME_LEFT = "time_left";
     private static final String INSTANCE_TIME_LEFT_SUFFIX = "time_left_suffix";
+    private static final String INSTANCE_TIME_LEFT_ICON = "time_left_icon";
     private static final String INSTANCE_PERCENTAGE = "percentage";
     private static final String INSTANCE_PERCENTAGE_SIZE = "percentage_size";
     private static final String INSTANCE_PERCENTAGE_PADDING_RIGHT = "percentage_padding_right";
@@ -149,19 +152,7 @@ public class TrackableView extends View {
                 attrs,
                 R.styleable.TrackableView,
                 0, 0);
-        initAttributes(a);
-
-        // TODO convcert these into styleable attributes.
-        indicatorPositive = ContextCompat.getDrawable(context, indicatorPositiveDefault);
-        indicatorPositiveColor = ContextCompat.getColor(context, indicatorPositiveColorDefault);
-
-        indicatorNegative = ContextCompat.getDrawable(context, indicatorNegativeDefault);
-        indicatorNegativeColor = ContextCompat.getColor(context, indicatorNegativeColorDefault);
-
-        timeLeftIcon = ContextCompat.getDrawable(context, timeLeftIconDefault);
-        timeLeftIconColor = ContextCompat.getColor(context, timeLeftIconColorDefault);
-
-        labelBarPadding = labelBarPaddingDefault;
+        initAttributes(a, context);
 
         requestLayout();
     }
@@ -170,7 +161,7 @@ public class TrackableView extends View {
     /**
      * @param attributes
      */
-    private void initAttributes(TypedArray attributes) {
+    private void initAttributes(TypedArray attributes, Context context) {
         try {
             setLabel(attributes.getString(R.styleable.TrackableView_label));
             setLabelSize(attributes.getDimension(R.styleable.TrackableView_label_size, labelSizeDefault));
@@ -189,6 +180,14 @@ public class TrackableView extends View {
             setFinishedColor(attributes.getColor(R.styleable.TrackableView_finished_color, getResources().getColor(finishedColorDefault)));
             setUnfinishedColor(attributes.getColor(R.styleable.TrackableView_unfinished_color, getResources().getColor(unfinishedColorDefault)));
             setIndicatorDistanceToMidLine(attributes.getDimension(R.styleable.TrackableView_indicator_distance_to_midLine, indicatorDistanceToMidLineDefault));
+            setIndicatorPositive(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_indicator_positive, indicatorPositiveDefault)));
+            setIndicatorPositiveColor(attributes.getColor(R.styleable.TrackableView_indicator_positive_color, getResources().getColor(indicatorPositiveColorDefault)));
+            setIndicatorNegative(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_indicator_negative, indicatorNegativeDefault)));
+            setIndicatorNegativeColor(attributes.getColor(R.styleable.TrackableView_indicator_negative_color, getResources().getColor(indicatorNegativeColorDefault)));
+            setTimeLeftIcon(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_time_left_icon, timeLeftIconDefault)));
+            setTimeLeftIconColor(attributes.getColor(R.styleable.TrackableView_time_left_icon_color, getResources().getColor(timeLeftIconColorDefault)));
+            setLabelBarPadding(attributes.getDimension(R.styleable.TrackableView_label_bar_padding, labelBarPaddingDefault));
+
         } finally {
             attributes.recycle();
         }
@@ -217,9 +216,9 @@ public class TrackableView extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setColor(getResources().getColor(R.color.colorPrimaryDark));
-        canvas.drawRect(rect, paint);
         paintText(canvas);
         paintBar(canvas);
+        paintIcons(canvas);
     }
 
     /**
@@ -264,6 +263,8 @@ public class TrackableView extends View {
      */
     private void paintIcons(Canvas canvas) {
         paint.setColor(textColorPrimary);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
+
     }
 
 
@@ -302,19 +303,14 @@ public class TrackableView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 
-
-
+        // Do note that the left and right values are what matter in the case
+        // of rect. Bottom and top values are not used.
         rect.set(left + getPaddingLeft()
-                , top + getPaddingTop()
+                , top
                 , right - getPaddingRight()
-                , bottom - getPaddingBottom());
+                , bottom);
 
-        // The rest of the method calculates the children's positions.
-        horizontalCenter = rect.bottom - (rect.bottom - rect.top) / 2;
-        horizontalCenter=bottom/2-top/2;
-        System.out.println(top+" "+bottom);
-        System.out.println("Horizontal center: " + horizontalCenter + "   Top: " + rect.top + "  Bottom: " + rect.bottom);
-
+        horizontalCenter = bottom / 2 - top / 2;
         prepPercentagePainter();
         float percentageHeight = textPaint.descent() + textPaint.ascent();
         percentageBaseline = horizontalCenter - percentageHeight / 2;
@@ -405,8 +401,32 @@ public class TrackableView extends View {
     @Override
     protected Parcelable onSaveInstanceState() {
         final Bundle bundle = new Bundle();
+
         bundle.putParcelable(INSTANCE_STATE, super.onSaveInstanceState());
-        // TODO Put attributes in the bundle here.
+        bundle.putInt(INSTANCE_TEXT_COLOR_PRIMARY, textColorPrimary);
+        bundle.putInt(INSTANCE_TEXT_COLOR_SECONDAY, textColorSecondary);
+        bundle.putInt(INSTANCE_TEXT_COLOR_TERTIARY, textColorTertiary);
+        bundle.putInt(INSTANCE_FINISHED_COLOR, finishedColor);
+        bundle.putInt(INSTANCE_UNFINISHED_COLOR, unfinishedColor);
+        bundle.putFloat(INSTANCE_BAR_HEIGHT, barHeight);
+        bundle.putString(INSTANCE_LABEL, label);
+        bundle.putFloat(INSTANCE_LABEL_SIZE, labelSize);
+        bundle.putFloat(INSTANCE_LABEL_BAR_PADDING, labelBarPadding);
+        bundle.putLong(INSTANCE_TIME_LEFT, timeLeft);
+        bundle.putString(INSTANCE_TIME_LEFT_SUFFIX, timeLeftSuffix);
+        bundle.putInt(INSTANCE_PERCENTAGE, percentage);
+        bundle.putFloat(INSTANCE_PERCENTAGE_SIZE, percentageSize);
+        bundle.putFloat(INSTANCE_PERCENTAGE_PADDING_RIGHT, percentagePaddingRight);
+        bundle.putFloat(INSTANCE_PERCENTAGE_PADDING_LEFT, percentagePaddingLeft);
+        bundle.putFloat(INSTANCE_PERCENTAGE_SUFFIX_SIZE, percentageSuffixSize);
+        bundle.putFloat(INSTANCE_PERCENTAGE_SUFFIX_PADDING_RIGHT, percentageSuffixPaddingRight);
+
+        // TODO
+        // Convert these into ints for saving. Only the reference int should be saved.
+        // bundle.putInt( INSTANCE_TIME_LEFT_ICON, timeLeftIcon);
+        // bundle.putInt(INSTANCE_INDICATOR_NEGATIVE, indicatorNegative);
+        // bundle.putInt( INSTANCE_INDICATOR_POSITIVE, indicatorPositive);
+
         return bundle;
     }
 
@@ -421,7 +441,23 @@ public class TrackableView extends View {
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             final Bundle bundle = (Bundle) state;
-            // TODO Set attributes here
+            textColorPrimary = bundle.getInt(INSTANCE_TEXT_COLOR_PRIMARY);
+            textColorSecondary = bundle.getInt(INSTANCE_TEXT_COLOR_SECONDAY);
+            textColorTertiary = bundle.getInt(INSTANCE_TEXT_COLOR_TERTIARY);
+            finishedColor = bundle.getInt(INSTANCE_FINISHED_COLOR);
+            unfinishedColor = bundle.getInt(INSTANCE_UNFINISHED_COLOR);
+            barHeight = bundle.getFloat(INSTANCE_BAR_HEIGHT);
+            label = bundle.getString(INSTANCE_LABEL);
+            labelSize = bundle.getFloat(INSTANCE_LABEL_SIZE);
+            labelBarPadding = bundle.getFloat(INSTANCE_LABEL_BAR_PADDING);
+            timeLeft = bundle.getInt(INSTANCE_TIME_LEFT);
+            timeLeftSuffix = bundle.getString(INSTANCE_TIME_LEFT_SUFFIX);
+            percentage = bundle.getInt(INSTANCE_PERCENTAGE);
+            percentageSize = bundle.getFloat(INSTANCE_PERCENTAGE_SIZE);
+            percentagePaddingRight = bundle.getFloat(INSTANCE_PERCENTAGE_PADDING_RIGHT);
+            percentagePaddingLeft = bundle.getFloat(INSTANCE_PERCENTAGE_PADDING_LEFT);
+            percentageSuffixSize = bundle.getFloat(INSTANCE_PERCENTAGE_SUFFIX_SIZE);
+            percentageSuffixPaddingRight = bundle.getFloat(INSTANCE_PERCENTAGE_SUFFIX_SIZE);
             initPainters();
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));
             return;
@@ -667,5 +703,15 @@ public class TrackableView extends View {
     public void setTimeLeftIcon(Drawable timeLeftIcon) {
         this.timeLeftIcon = timeLeftIcon;
         this.invalidate();
+    }
+
+    public float getLabelBarPadding() {
+        return labelBarPadding;
+    }
+
+    public void setLabelBarPadding(float labelBarPadding) {
+        this.labelBarPadding = labelBarPadding;
+        this.invalidate();
+        requestLayout();
     }
 }
