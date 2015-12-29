@@ -18,6 +18,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.views.ArcProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Utils;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 changeActivity();
             }
         });
+
 
     }
 

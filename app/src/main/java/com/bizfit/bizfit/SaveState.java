@@ -21,7 +21,7 @@ public class SaveState implements java.io.Serializable{
      */
     private static final long serialVersionUID = 8425799364006222365L;
     ArrayList<Tracker> trackers;
-    String user;
+    public String user;
 
     /**
      * Do not manually construct new saveStates, rather call SaveState.getInstance(String user)
@@ -44,7 +44,7 @@ public class SaveState implements java.io.Serializable{
                 users.add(split[split.length-1].replaceAll(".SaveState",""));
             }
         }
-        if(users.size()==0){
+        if(users.isEmpty()){
             users.add("Default");
         }
         return users;
