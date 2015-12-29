@@ -2,6 +2,9 @@ package com.bizfit.bizfit;
 
 
 
+import android.database.Cursor;
+import android.provider.ContactsContract;
+
 import com.bizfit.bizfit.activities.MainActivity;
 
 import java.io.File;
@@ -22,6 +25,7 @@ public class SaveState implements java.io.Serializable{
     private static final long serialVersionUID = 8425799364006222365L;
     ArrayList<Tracker> trackers;
     public String user;
+    LastUser lastUser;
 
     /**
      * Do not manually construct new saveStates, rather call SaveState.getInstance(String user)
@@ -36,7 +40,6 @@ public class SaveState implements java.io.Serializable{
 
     public static List<String> getUsers(){
         String[] s= MainActivity.activity.getFilesDir().list();
-
         List<String> users=new ArrayList<String>(0);
         for(String m:s){
             if(m.endsWith(".SaveState")){
@@ -44,8 +47,13 @@ public class SaveState implements java.io.Serializable{
                 users.add(split[split.length-1].replaceAll(".SaveState",""));
             }
         }
+
         if(users.isEmpty()){
-            users.add("Default");
+            Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
+            c.moveToFirst();
+            users.add(c.getString(c.getColumnIndex("display_name")));
+            c.close();
+
         }
         return users;
     }
@@ -119,7 +127,17 @@ public class SaveState implements java.io.Serializable{
         if(s==null){
             s=new SaveState(user);
         }
+        s.createLastUser();
+        try {
+            s.lastUser.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return s;
+    }
+
+    private void createLastUser(){
+        this.lastUser=new LastUser();
     }
 
     /**
@@ -179,9 +197,76 @@ public class SaveState implements java.io.Serializable{
         FileOutputStream f_out = new FileOutputStream(file);
         //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
+        user=Encrypt.encrypt(user);
         obj_out.writeObject (this);
         obj_out.close();
         user=Encrypt.decrypt(user);
+
+    }
+
+    public static SaveState getLastUser(){
+        FileInputStream f_in = null;
+        try {
+            File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
+            f_in = new FileInputStream(file);
+            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ObjectInputStream obj_in=null;
+        LastUser s=null;
+        if (f_in!=null) {
+            try {
+                obj_in = new ObjectInputStream(f_in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                Object obj = obj_in.readObject();
+                s = (LastUser) obj;
+                obj_in.close();
+            } catch (ClassNotFoundException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        String user=null;
+        if(s==null){
+            Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
+            c.moveToFirst();
+            user=(c.getString(c.getColumnIndex("display_name")));
+            c.close();
+        }else{
+            try {
+                user=s.getLastUser();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return getInstance(user);
+    }
+
+    public class LastUser implements java.io.Serializable{
+        String lastUser;
+        String getLastUser() throws Exception {
+            return Encrypt.decrypt(lastUser);
+        }
+
+
+        void save(String lastUser) throws Exception {
+            this.lastUser=Encrypt.encrypt(lastUser);
+            File file = new File(MainActivity.activity.getFilesDir(),"LastUser.LastUser");
+            FileOutputStream f_out = new FileOutputStream(file);
+            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+            ObjectOutputStream obj_out = new ObjectOutputStream (f_out);
+            obj_out.writeObject (new LastUser());
+            obj_out.close();
+        }
+
 
     }
 }
