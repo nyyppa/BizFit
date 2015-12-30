@@ -244,8 +244,11 @@ public class SaveState implements java.io.Serializable {
         String user = null;
         if (s == null) {
             Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-            c.moveToFirst();
-            user = (c.getString(c.getColumnIndex("display_name")));
+            if(c.moveToFirst()){
+                user = (c.getString(c.getColumnIndex("display_name")));
+            }else{
+                user="Default";
+            }
             c.close();
         } else {
             try {
