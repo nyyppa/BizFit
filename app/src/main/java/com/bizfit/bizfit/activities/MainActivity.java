@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         layout = (LinearLayout) findViewById(R.id.goal_container);
-
+        currentUser = SaveState.getLastUser();
+        createTrackableViews();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,16 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 changeActivity();
             }
         });
-        currentUser = SaveState.getLastUser();
-        createTrackableViews();
     }
 
     private void createTrackableViews() {
+        System.out.println("Current used tracker count: " + currentUser.getTrackers().size());
         for(Tracker tracker : currentUser.getTrackers()) {
             TrackableView view = new TrackableView(getBaseContext(), null);
             view.setLabel(tracker.getName());
             view.setPercentage(
                     (int) Math.floor(tracker.getProgressPercent()));
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                    , (int) Utils.dp2px(getResources()
+                    , 131));
+
+            view.setLayoutParams(param);
+            layout.addView(view);
         }
     }
 
