@@ -395,13 +395,13 @@ public class Tracker implements java.io.Serializable {
         fieldUpdated();
     }
 
-    public enum lastModification{
+    public enum lastModification {
         lastReset,dayInterval,monthInterval,yearInterval,
         targetProgress,currentProgress,defaultIncrement,timeProgress
         ,name,targetType,daily,weekly,repeat;
 
     }
-    public class Change{
+    public class Change implements java.io.Serializable{
 
         lastModification mod;
         String value;

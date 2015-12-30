@@ -72,6 +72,11 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         out.defaultWriteObject();
+        try {
+            user=Encrypt.decrypt(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -103,8 +108,11 @@ public class SaveState implements java.io.Serializable {
     public static SaveState getInstance(String user) {
         FileInputStream f_in = null;
         try {
-            File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
-            f_in = new FileInputStream(file);
+            //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
+            File file = new File(MainActivity.activity.getFilesDir(), user + ".SaveState");
+            if(file.exists()){
+                f_in = new FileInputStream(file);
+            }
             //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -155,6 +163,7 @@ public class SaveState implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentSaveState = this;
+        System.out.println("meh");
         try {
             save();
         } catch (Exception e) {
@@ -201,7 +210,8 @@ public class SaveState implements java.io.Serializable {
      * @throws Exception Everything that can go wrong
      */
     public void save() throws Exception {
-        File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
+        //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
+        File file = new File(MainActivity.activity.getFilesDir(), user + ".SaveState");
         FileOutputStream f_out = new FileOutputStream(file);
         //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
@@ -254,7 +264,14 @@ public class SaveState implements java.io.Serializable {
             try {
                 user = s.getLastUser();
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
+                if(c.moveToFirst()){
+                    user = (c.getString(c.getColumnIndex("display_name")));
+                }else{
+                    user="Default";
+                }
+                c.close();
             }
         }
         return getInstance(user);

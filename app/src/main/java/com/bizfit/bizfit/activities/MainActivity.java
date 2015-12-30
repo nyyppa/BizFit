@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
             Tracker newTracker = new Tracker();
+            currentUser.addTracker(newTracker);
             newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
             newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
-            currentUser.addTracker(newTracker);
 
             TrackableView newTrackableView = new TrackableView(getBaseContext(), null);
             newTrackableView.setLabel(newTracker.getName());
