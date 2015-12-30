@@ -72,11 +72,13 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         out.defaultWriteObject();
+        System.out.println(user + "testi");
         try {
             user=Encrypt.decrypt(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(user+"testi");
     }
 
     /**
@@ -94,6 +96,7 @@ public class SaveState implements java.io.Serializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
 
     }
 
@@ -215,10 +218,9 @@ public class SaveState implements java.io.Serializable {
         FileOutputStream f_out = new FileOutputStream(file);
         //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
-        user = Encrypt.encrypt(user);
         obj_out.writeObject(this);
         obj_out.close();
-        user = Encrypt.decrypt(user);
+        System.out.println(user+"hehehiehiehiehei");
     }
 
     public static SaveState getLastUser() {
