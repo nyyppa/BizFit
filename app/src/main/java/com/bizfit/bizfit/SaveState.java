@@ -274,6 +274,7 @@ public class SaveState implements java.io.Serializable {
                 c.close();
             }
         }
+        System.out.println("olen tunniste "+user);
         return getInstance(user);
     }
 
