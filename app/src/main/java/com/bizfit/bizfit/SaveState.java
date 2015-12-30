@@ -297,4 +297,36 @@ public class SaveState implements java.io.Serializable {
             obj_out.close();
         }
     }
+
+    public class Users implements java.io.Serializable{
+        List<ArrayList<String>> UserFiles=new ArrayList<ArrayList<String>>(0);
+        int fileId=0;
+        public String getFileName(String user){
+            try {
+                user=Encrypt.encrypt(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            for(int i=0;i<UserFiles.size();i++){
+                if(UserFiles.get(i).get(1).equals(user)){
+                    return UserFiles.get(i).get(0);
+                }
+            }
+            return null;
+        }
+
+        public String addUserFile(String user){
+            ArrayList<String>temp=new ArrayList<String>(2);
+            fileId++;
+            temp.add(0,fileId+"");
+            try {
+                temp.add(1,Encrypt.encrypt(user));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            UserFiles.add(temp);
+            return fileId+"";
+        }
+    }
 }
