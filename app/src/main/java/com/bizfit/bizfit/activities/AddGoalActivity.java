@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.FieldNames;
 
 /**
  * Created by Käyttäjä on 19.12.2015.
@@ -53,10 +54,9 @@ public class AddGoalActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("name", name.getText().toString());
-        returnIntent.putExtra("target", Integer.parseInt(target.getText().toString()));
+        returnIntent.putExtra(FieldNames.TRACKERNAME, name.getText().toString());
+        returnIntent.putExtra(FieldNames.TARGET, Float.parseFloat(target.getText().toString()));
         setResult(Activity.RESULT_OK, returnIntent);
         super.finish();
     }

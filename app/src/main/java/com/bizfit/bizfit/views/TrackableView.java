@@ -27,6 +27,8 @@ public class TrackableView extends View {
 
     // TODO list:
     // Some way to animate the percentage.
+    // paintIcons() needs implementation.
+    // Make sure all the styleable attributes are saved and loaded properly.
 
     private TextPaint textPaint;
     private Paint paint;
@@ -263,7 +265,8 @@ public class TrackableView extends View {
      */
     private void paintIcons(Canvas canvas) {
         paint.setColor(textColorPrimary);
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
+
+        // Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
 
     }
 

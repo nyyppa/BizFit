@@ -19,11 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.bizfit.bizfit.SaveState;
+import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.views.ArcProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.TrackableView;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private int mProgressStatus = 0;
     private Handler mHandler = new Handler();
     private static final int GET_NEW_GOAL = 1;
-    private ValueAnimator anim;
     private LinearLayout layout;
     public static SaveState currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +55,17 @@ public class MainActivity extends AppCompatActivity {
                 changeActivity();
             }
         });
-        currentUser=SaveState.getLastUser();
+        currentUser = SaveState.getLastUser();
+        createTrackableViews();
+    }
 
-
+    private void createTrackableViews() {
+        for(Tracker tracker : currentUser.getTrackers()) {
+            TrackableView view = new TrackableView(getBaseContext(), null);
+            view.setLabel(tracker.getName());
+            view.setPercentage(
+                    (int) Math.floor(tracker.getProgressPercent()));
+        }
     }
 
     private void changeActivity() {
@@ -84,24 +95,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void resetAnimation() {
-        if (anim.isRunning()) {
-            anim.end();
-        }
-
-        anim.start();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
-            TrackableView newTrackable = new TrackableView(getApplicationContext(), null);
+            Tracker newTracker = new Tracker();
+            newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
+            newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
+            currentUser.addTracker(newTracker);
 
-            newTrackable.setLabel(data.getStringExtra("name"));
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Utils.dp2px(getResources(), 131));
-            newTrackable.setLayoutParams(param);
-            layout.addView(newTrackable);
+            TrackableView newTrackableView = new TrackableView(getBaseContext(), null);
+            newTrackableView.setLabel(newTracker.getName());
+            newTrackableView.setPercentage(
+                    (int) Math.floor(newTracker.getProgressPercent()));
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                    , (int) Utils.dp2px(getResources()
+                    , 131));
+
+            newTrackableView.setLayoutParams(param);
+            layout.addView(newTrackableView);
         }
     }
 }

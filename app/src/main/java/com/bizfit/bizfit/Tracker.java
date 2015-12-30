@@ -108,7 +108,7 @@ public class Tracker implements java.io.Serializable {
         this.weekly=t.weekly;
     }
 
-    Tracker(Tracker t){
+    public Tracker(Tracker t){
         setAttributes(t);
         if(t.weekly){
             weeklyStart();
@@ -116,16 +116,14 @@ public class Tracker implements java.io.Serializable {
             this.startDate=System.currentTimeMillis();
             startStuff(new GregorianCalendar(),t.getDayInterval(),t.monthInterval);
         }
-
-
-
     }
+
     /**
      *
      * @param DayInterval   days between resets
      * @param monthInterval months between resets
      */
-    Tracker(int DayInterval,int monthInterval){
+    public Tracker(int DayInterval,int monthInterval){
         startDate=System.currentTimeMillis();
         startStuff(new GregorianCalendar(),DayInterval,monthInterval);
     }
@@ -136,14 +134,15 @@ public class Tracker implements java.io.Serializable {
      * @param dayInterval   days between resets
      * @param monthInterval months between resets
      */
-    Tracker(Date startDate,int dayInterval,int monthInterval){
+    public Tracker(Date startDate,int dayInterval,int monthInterval){
         this.startDate=startDate.getTime();
         startStuff(new GregorianCalendar(), dayInterval, monthInterval);
     }
-    Tracker(){
-        weeklyStart();
 
+    public Tracker(){
+        weeklyStart();
     }
+
     //tarvii undon
     public void setTargetDate(int year, int month, int day, boolean repeat){
         this.repeat=repeat;
@@ -152,7 +151,6 @@ public class Tracker implements java.io.Serializable {
         startDate=System.currentTimeMillis();
         int dayInterval=(int) (TimeUnit.DAYS.toDays(c.getTimeInMillis()-a.getTimeInMillis()));
         startStuff(a, dayInterval, 0);
-
     }
 
     private void weeklyStart(){
@@ -421,4 +419,7 @@ public class Tracker implements java.io.Serializable {
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }
