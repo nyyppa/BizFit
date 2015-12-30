@@ -242,7 +242,7 @@ public class SaveState implements java.io.Serializable{
             c.close();
         }else{
             try {
-                user=s.getLastUser();
+                user=Encrypt.decrypt(s.getLastUser());
             } catch (Exception e) {
                 e.printStackTrace();
             }
