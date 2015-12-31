@@ -38,6 +38,7 @@ public class Tracker implements java.io.Serializable {
 
     List<Change> changes=new ArrayList<Change>(0);
 
+    long lastTestUpdate;
 
     public void undo(){
         ListIterator<Change>iterator=changes.listIterator();
@@ -125,7 +126,7 @@ public class Tracker implements java.io.Serializable {
      */
     public Tracker(int DayInterval,int monthInterval){
         startDate=System.currentTimeMillis();
-        startStuff(new GregorianCalendar(),DayInterval,monthInterval);
+        startStuff(new GregorianCalendar(), DayInterval, monthInterval);
     }
 
     /**
@@ -196,6 +197,38 @@ public class Tracker implements java.io.Serializable {
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
 
+    }
+
+    public void testUpdate(Long millis){
+        if (!completed) {
+            if(lastTestUpdate==0){
+                lastTestUpdate=System.currentTimeMillis();
+            }
+            lastTestUpdate+=millis;
+            timeProgress = System.currentTimeMillis() - lastReset;
+            GregorianCalendar currentCalendar = new GregorianCalendar();
+            currentCalendar.setTimeInMillis(lastTestUpdate);
+            GregorianCalendar resetCalender = new GregorianCalendar();
+            resetCalender.setTimeInMillis(lastReset);
+            resetCalender.add(Calendar.MONTH, monthInterval);
+            resetCalender.add(Calendar.DAY_OF_MONTH, dayInterval);
+            resetCalender.add(Calendar.YEAR, yearInterval);
+            if (currentCalendar.after(resetCalender)) {
+                do {
+                    resetCalender.add(Calendar.DAY_OF_MONTH, 1);
+                } while ((currentCalendar.after(resetCalender)));
+                addOldProgress(new OldProgress(lastReset,
+                        resetCalender.getTimeInMillis(), currentProgress,
+                        targetProgress, daily));
+                daily = new DailyProgress();
+                lastReset = resetCalender.getTimeInMillis();
+                currentProgress = 0;
+                if(!repeat){
+                    completed=true;
+                }
+                fieldUpdated();
+            }
+        }
     }
 
     /**
