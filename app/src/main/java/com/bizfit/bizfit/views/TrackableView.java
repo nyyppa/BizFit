@@ -1,9 +1,8 @@
 package com.bizfit.bizfit.views;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -14,10 +13,13 @@ import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
+import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
 
 /**
@@ -39,7 +41,7 @@ public class TrackableView extends View {
     private float labelBarPadding;
 
     // Time left indicator
-    private int timeLeft;
+    private long timeLeft;
     private String timeLeftSuffix;
 
     // The current progress in percentages.
@@ -147,9 +149,13 @@ public class TrackableView extends View {
     private RectF unfinished = new RectF();
     private RectF finished = new RectF();
 
-    public TrackableView(Context context, AttributeSet attrs) {
+    private Tracker host;
+
+    public TrackableView(Context context, AttributeSet attrs, Tracker host) {
         super(context, attrs);
+        setClickable(true);
         rect = new Rect();
+        this.host = host;
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.TrackableView,
@@ -157,6 +163,8 @@ public class TrackableView extends View {
         initAttributes(a, context);
 
         requestLayout();
+
+
     }
 
 
@@ -269,7 +277,6 @@ public class TrackableView extends View {
         // Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
 
     }
-
 
     /**
      * Measures View's dimensions.
@@ -453,7 +460,7 @@ public class TrackableView extends View {
             label = bundle.getString(INSTANCE_LABEL);
             labelSize = bundle.getFloat(INSTANCE_LABEL_SIZE);
             labelBarPadding = bundle.getFloat(INSTANCE_LABEL_BAR_PADDING);
-            timeLeft = bundle.getInt(INSTANCE_TIME_LEFT);
+            timeLeft = bundle.getLong(INSTANCE_TIME_LEFT);
             timeLeftSuffix = bundle.getString(INSTANCE_TIME_LEFT_SUFFIX);
             percentage = bundle.getInt(INSTANCE_PERCENTAGE);
             percentageSize = bundle.getFloat(INSTANCE_PERCENTAGE_SIZE);
@@ -473,6 +480,12 @@ public class TrackableView extends View {
     public void invalidate() {
         initPainters();
         super.invalidate();
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     public String getLabel() {
@@ -501,7 +514,7 @@ public class TrackableView extends View {
         this.requestLayout();
     }
 
-    public int getTimeLeft() {
+    public long getTimeLeft() {
         return timeLeft;
     }
 
@@ -716,5 +729,33 @@ public class TrackableView extends View {
         this.labelBarPadding = labelBarPadding;
         this.invalidate();
         requestLayout();
+    }
+
+    public void animateFromZero() {
+        ValueAnimator animator = ValueAnimator.ofInt(0, (int) (Math.floor(host.getProgressPercent() * 100)));
+        animator.setDuration(Constants.FROM_ZERO_ANIM);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) animation.getAnimatedValue();
+                setPercentage(value);
+            }
+        });
+
+        animator.start();
+    }
+
+    public void animateProgressAdded() {
+        ValueAnimator animator = ValueAnimator.ofInt(percentage, (int) (Math.floor(host.getProgressPercent() * 100)));
+        animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) animation.getAnimatedValue();
+                setPercentage(value);
+            }
+        });
+
+        animator.start();
     }
 }

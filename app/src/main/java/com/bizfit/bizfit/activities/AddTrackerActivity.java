@@ -16,7 +16,7 @@ import com.bizfit.bizfit.utils.FieldNames;
 /**
  * Created by Käyttäjä on 19.12.2015.
  */
-public class AddGoalActivity extends AppCompatActivity {
+public class AddTrackerActivity extends AppCompatActivity {
     public static Activity activity = null;
     EditText name;
     EditText date;
@@ -26,7 +26,7 @@ public class AddGoalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
-        setContentView(R.layout.activity_add_goal);
+        setContentView(R.layout.activity_add_tracker);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

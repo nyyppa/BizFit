@@ -11,6 +11,7 @@ package com.bizfit.bizfit.utils;
 public class FieldNames {
     public static final String TRACKERNAME = "name";
     public static final String TARGET = "target";
+    public static final String TRACKER = "tracker";
 
     private FieldNames() {}
 }
