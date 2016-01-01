@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void createTrackableViews() {
 
-        for(Tracker tracker : currentUser.getTrackers()) {
+        for (Tracker tracker : currentUser.getTrackers()) {
             createTrackableView(tracker);
         }
     }
 
     private void createTrackableView(final Tracker tracker) {
-        TrackableView view = new TrackableView(getBaseContext(), null, tracker);
+        TrackableView view = new TrackableView(getBaseContext(), null);
         view.setLabel(tracker.getName());
         view.setPercentage(
                 (int) Math.floor(tracker.getProgressPercent() * 100));
@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
     private void animateProgressAdded() {
         int count = layout.getChildCount();
         TrackableView view = null;
-        for(int i=0; i<count; i++) {
-            view = (TrackableView)layout.getChildAt(i);
+        for (int i = 0; i < count; i++) {
+            view = (TrackableView) layout.getChildAt(i);
             view.animateProgressAdded();
         }
     }
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
     private void animateTrackerViewsFromZero() {
         int count = layout.getChildCount();
         TrackableView view = null;
-        for(int i=0; i<count; i++) {
-            view = (TrackableView)layout.getChildAt(i);
+        for (int i = 0; i < count; i++) {
+            view = (TrackableView) layout.getChildAt(i);
             view.animateFromZero();
         }
     }

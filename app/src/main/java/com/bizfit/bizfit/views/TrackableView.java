@@ -151,11 +151,10 @@ public class TrackableView extends View {
 
     private Tracker host;
 
-    public TrackableView(Context context, AttributeSet attrs, Tracker host) {
+    public TrackableView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClickable(true);
         rect = new Rect();
-        this.host = host;
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.TrackableView,
@@ -352,8 +351,6 @@ public class TrackableView extends View {
 
         // TODO change this into scalable format
         timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix) - Utils.dp2px(getResources(), 2);
-
-        System.out.println("Baseline: " + horizontalCenter);
     }
 
     private void prepTimeLeftSuffixPainter() {
@@ -731,10 +728,9 @@ public class TrackableView extends View {
         requestLayout();
     }
 
-    public void animateFromZero() {
-        ValueAnimator animator = ValueAnimator.ofInt(0, (int) (Math.floor(host.getProgressPercent() * 100)));
+    public void animateFromZero(int progress) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, progress);
         animator.setDuration(Constants.FROM_ZERO_ANIM);
-
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (Integer) animation.getAnimatedValue();
@@ -745,10 +741,9 @@ public class TrackableView extends View {
         animator.start();
     }
 
-    public void animateProgressAdded() {
-        ValueAnimator animator = ValueAnimator.ofInt(percentage, (int) (Math.floor(host.getProgressPercent() * 100)));
+    public void animateProgressAdded(int progress) {
+        ValueAnimator animator = ValueAnimator.ofInt(percentage, progress);
         animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
-
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (Integer) animation.getAnimatedValue();
