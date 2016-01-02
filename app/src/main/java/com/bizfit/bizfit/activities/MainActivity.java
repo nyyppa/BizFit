@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    protected void onStart(){
+        super.onStart();
         activity = this;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -133,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         animateTrackerViewsFromZero();
+        System.out.println((int) Math.floor(currentUser.getTrackers().get(0).getProgressPercent() * 100));
     }
 
     private void animateProgressAdded() {
@@ -140,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         TrackableView view = null;
         for (int i = 0; i < count; i++) {
             view = (TrackableView) layout.getChildAt(i);
-            view.animateProgressAdded();
+            //view.animateProgressAdded();
         }
     }
 
@@ -149,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         TrackableView view = null;
         for (int i = 0; i < count; i++) {
             view = (TrackableView) layout.getChildAt(i);
-            view.animateFromZero();
+            view.animateFromZero((int) Math.floor(currentUser.getTrackers().get(i).getProgressPercent() * 100));
         }
     }
 }
