@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         animateTrackerViewsFromZero();
-        System.out.println((int) Math.floor(currentUser.getTrackers().get(0).getProgressPercent() * 100));
+
     }
 
     private void animateProgressAdded() {

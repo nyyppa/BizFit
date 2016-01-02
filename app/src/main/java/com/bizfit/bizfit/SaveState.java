@@ -109,10 +109,11 @@ public class SaveState implements java.io.Serializable {
      * @return SaveState for the user
      */
     public static SaveState getInstance(String user) {
+        Users users=loadUsers();
         FileInputStream f_in = null;
         try {
             //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
-            File file = new File(MainActivity.activity.getFilesDir(), user + ".SaveState");
+            File file = new File(MainActivity.activity.getFilesDir(), users.getFileName(user) + ".SaveState");
             if(file.exists()){
                 f_in = new FileInputStream(file);
             }
@@ -214,15 +215,48 @@ public class SaveState implements java.io.Serializable {
      */
     public void save() throws Exception {
         //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
-        File file = new File(MainActivity.activity.getFilesDir(), user + ".SaveState");
+        File file = new File(MainActivity.activity.getFilesDir(), loadUsers().getFileName(user) + ".SaveState");
         FileOutputStream f_out = new FileOutputStream(file);
         //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
         obj_out.writeObject(this);
         obj_out.close();
-        System.out.println(user+"hehehiehiehiehei");
     }
-
+    private static Users loadUsers(){
+        FileInputStream f_in = null;
+        try {
+            File file = new File(MainActivity.activity.getFilesDir(), "Users.Users");
+            f_in = new FileInputStream(file);
+            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ObjectInputStream obj_in = null;
+        Users s = null;
+        if (f_in != null) {
+            try {
+                obj_in = new ObjectInputStream(f_in);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                Object obj = obj_in.readObject();
+                s = (Users) obj;
+                obj_in.close();
+            } catch (ClassNotFoundException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        if(s==null){
+            s=new Users();
+        }
+        return s;
+    }
     public static SaveState getLastUser() {
         FileInputStream f_in = null;
         try {
@@ -276,7 +310,6 @@ public class SaveState implements java.io.Serializable {
                 c.close();
             }
         }
-        System.out.println("olen tunniste "+user);
         return getInstance(user);
     }
 
@@ -298,9 +331,17 @@ public class SaveState implements java.io.Serializable {
         }
     }
 
-    public class Users implements java.io.Serializable{
+    public static class  Users implements java.io.Serializable{
         List<ArrayList<String>> UserFiles=new ArrayList<ArrayList<String>>(0);
         int fileId=0;
+        public void save()throws Exception {
+            File file = new File(MainActivity.activity.getFilesDir(), "Users.Users");
+            FileOutputStream f_out = new FileOutputStream(file);
+            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+            ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
+            obj_out.writeObject(this);
+            obj_out.close();
+        }
         public String getFileName(String user){
             try {
                 user=Encrypt.encrypt(user);
@@ -312,21 +353,27 @@ public class SaveState implements java.io.Serializable {
                     return UserFiles.get(i).get(0);
                 }
             }
-            return null;
+            return addUserFile(user);
         }
 
-        public String addUserFile(String user){
+        private String addUserFile(String user){
             ArrayList<String>temp=new ArrayList<String>(2);
             fileId++;
             temp.add(0,fileId+"");
             try {
-                temp.add(1,Encrypt.encrypt(user));
+                temp.add(1,user);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             UserFiles.add(temp);
+            try {
+                save();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return fileId+"";
         }
+
     }
 }
