@@ -95,7 +95,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
         Intent returnIntent = new Intent();
 
-        if (name.getText() != null && date.getText() != null && target.getText() != null ) {
+        if (!isEmpty(name) && !isEmpty(date)&& !isEmpty(target)) {
             returnIntent.putExtra(FieldNames.TRACKERNAME
                     , name.getText().toString());
             returnIntent.putExtra(FieldNames.TARGET
@@ -136,6 +136,14 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, month, day);
             date.setText(dateFormatter.format(newDate.getTime()));
+        }
+    }
+
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
