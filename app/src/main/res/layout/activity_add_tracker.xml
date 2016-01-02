@@ -38,7 +38,7 @@
         android:ems="10"
         android:id="@+id/target_date"
         android:capitalize="sentences"
-        android:hint="@string/target_date_hint"/>
+        android:hint="@string/target_date_hint" />
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
         android:layout_width="wrap_content" android:layout_height="wrap_content"

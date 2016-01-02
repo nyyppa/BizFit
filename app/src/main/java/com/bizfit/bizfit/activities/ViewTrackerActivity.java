@@ -34,6 +34,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 host.addProgress(100);
+                System.out.println(host.getProgressPercent());
             }
         });
     }

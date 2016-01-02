@@ -149,7 +149,7 @@ public class TrackableView extends View {
     private RectF unfinished = new RectF();
     private RectF finished = new RectF();
 
-    private Tracker host;
+    ValueAnimator animator;
 
     public TrackableView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -729,7 +729,7 @@ public class TrackableView extends View {
     }
 
     public void animateFromZero(int progress) {
-        ValueAnimator animator = ValueAnimator.ofInt(0, progress);
+        animator = ValueAnimator.ofInt(0, progress);
         animator.setDuration(Constants.FROM_ZERO_ANIM);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -742,7 +742,8 @@ public class TrackableView extends View {
     }
 
     public void animateProgressAdded(int progress) {
-        ValueAnimator animator = ValueAnimator.ofInt(percentage, progress);
+
+        animator = ValueAnimator.ofInt(percentage, progress);
         animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
