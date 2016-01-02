@@ -7,12 +7,14 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -22,6 +24,7 @@ import com.bizfit.bizfit.utils.FieldNames;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -32,10 +35,11 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
     private static EditText name;
     private static EditText date;
     private static EditText target;
+    private static CheckBox checkBox;
 
     private static DatePickerDialog datePicker;
-
     private static SimpleDateFormat dateFormatter;
+    private static Calendar setDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         name = (EditText) findViewById(R.id.target_name);
         date = (EditText) findViewById(R.id.target_date);
         target = (EditText) findViewById(R.id.target_amount);
+        checkBox = (CheckBox) findViewById(R.id.recurring);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +63,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         date.setOnClickListener(this);
         date.setInputType(InputType.TYPE_NULL);
 
@@ -66,13 +71,14 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
         datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                date.setText(dateFormatter.format(newDate.getTime()));
+            public void onDateSet(DatePicker view, int year, int monthOfYear
+                    , int dayOfMonth) {
+                setDate = Calendar.getInstance();
+                setDate.set(year, monthOfYear, dayOfMonth);
+                date.setText(dateFormatter.format(setDate.getTime()));
             }
 
-        },newCalendar.get(Calendar.YEAR)
+        }, newCalendar.get(Calendar.YEAR)
                 , newCalendar.get(Calendar.MONTH)
                 , newCalendar.get(Calendar.DAY_OF_MONTH));
     }
@@ -86,18 +92,29 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void finish() {
+
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(FieldNames.TRACKERNAME
-                , name.getText().toString());
-        returnIntent.putExtra(FieldNames.TARGET
-                , Float.parseFloat(target.getText().toString()));
-        setResult(Activity.RESULT_OK, returnIntent);
+
+        if (name.getText() != null && date.getText() != null && target.getText() != null ) {
+            returnIntent.putExtra(FieldNames.TRACKERNAME
+                    , name.getText().toString());
+            returnIntent.putExtra(FieldNames.TARGET
+                    , Float.parseFloat(target.getText().toString()));
+            returnIntent.putExtra(FieldNames.DAY, setDate.get(Calendar.DAY_OF_MONTH));
+            returnIntent.putExtra(FieldNames.MONTH, setDate.get(Calendar.MONTH));
+            returnIntent.putExtra(FieldNames.YEAR, setDate.get(Calendar.YEAR));
+            returnIntent.putExtra(FieldNames.RECURRING, checkBox.isChecked());
+            setResult(Activity.RESULT_OK, returnIntent);
+        } else {
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+        }
+
         super.finish();
     }
 
     @Override
     public void onClick(View v) {
-        if(v.equals(date)) {
+        if (v.equals(date)) {
             datePicker.show();
         }
     }
