@@ -33,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
+    public static PauseableThread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PauseableThread a=new PauseableThread(1000);
-        a.start();
+        thread=new PauseableThread(1000);
+        thread.start();
     }
 
     protected void onStart(){
@@ -107,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    @Override
+    public void onDestroy (){
+        super.onDestroy();
+        thread.stopThread();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
