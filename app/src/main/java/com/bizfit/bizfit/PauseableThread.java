@@ -8,7 +8,10 @@ import com.bizfit.bizfit.activities.MainActivity;
 public class PauseableThread extends Thread {
     boolean exit = false;
     long pauseEnds;
-
+    long millis;
+    PauseableThread(long millis){
+        this.millis=millis;
+    }
     public void run () {
         while (true) {
             synchronized (this) {
@@ -26,6 +29,7 @@ public class PauseableThread extends Thread {
                 MainActivity.currentUser.getTrackers().get(i).update();
                 //MainActivity.currentUser.getTrackers().get(i).testUpdate(1000);
             }
+            pause(millis);
         }
     }
 
