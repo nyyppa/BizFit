@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -32,13 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
+    public static final int viewHorizontalPadding = (int) Utils.dp2px(Resources.getSystem(), 16);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         activity = this;
         setContentView(R.layout.activity_main);
@@ -62,29 +64,9 @@ public class MainActivity extends AppCompatActivity {
         /*for (Tracker tracker : currentUser.getTrackers()) {
             createTrackableView(tracker);
         }*/
-        for(int i=0;i<currentUser.getTrackers().size();i++){
+        for (int i = 0; i < currentUser.getTrackers().size(); i++) {
             createTrackableView(i);
         }
-    }
-
-    private void createTrackableView(final int i) {
-        TrackableView view = new TrackableView(getBaseContext(), null);
-        view.setLabel(currentUser.getTrackers().get(i).getName());
-        view.setPercentage(
-                (int) Math.floor(currentUser.getTrackers().get(i).getProgressPercent() * 100));
-
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) Utils.dp2px(getResources()
-                , 131));
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchViewTrackerActivity(currentUser.getTrackers().get(i));
-            }
-        });
-        view.setLayoutParams(param);
-        layout.addView(view);
     }
 
     private void launchViewTrackerActivity(Tracker tracker) {
@@ -131,10 +113,31 @@ public class MainActivity extends AppCompatActivity {
             newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
             newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
                     , data.getIntExtra(FieldNames.MONTH, 1)
-            , data.getIntExtra(FieldNames.DAY, 1)
-            , data.getBooleanExtra(FieldNames.RECURRING, false));
+                    , data.getIntExtra(FieldNames.DAY, 1)
+                    , data.getBooleanExtra(FieldNames.RECURRING, false));
             createTrackableView(currentUser.getTrackers().size() - 1);
         }
+    }
+
+    private void createTrackableView(final int i) {
+        TrackableView view = new TrackableView(getBaseContext(), null);
+        view.setLabel(currentUser.getTrackers().get(i).getName());
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT
+                , (int) Utils.dp2px(getResources()
+                , 131));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchViewTrackerActivity(currentUser.getTrackers().get(i));
+            }
+        });
+        view.setLayoutParams(param);
+        view.setPadding(viewHorizontalPadding, 0, viewHorizontalPadding, 0);
+        view.setTimeLeft(currentUser.getTrackers().get(i).timeRemaining());
+        view.setTimeLeft(currentUser.getTrackers().get(i).timeRemaining());
+        view.setTimeLeftSuffix("days");
+        layout.addView(view);
     }
 
     @Override

@@ -455,4 +455,9 @@ public class Tracker implements java.io.Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int timeRemaining(){
+        // TODO
+        return 0;
+    }
 }

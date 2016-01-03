@@ -75,28 +75,28 @@ public class TrackableView extends View {
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = Utils.sp2px(getResources(), 24);
+    private final float labelSizeDefault = Utils.sp2px(getResources(), 17);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
     private final int percentageDefault = 50;
-    private final float percentageSizeDefault = Utils.sp2px(getResources(), 35);
+    private final float percentageSizeDefault = Utils.sp2px(getResources(), 34);
     private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), -2);
     private final float percentagePaddingLeftDefault = Utils.dp2px(getResources(), 20);
     private final String percentageSuffix = "%";
-    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 15);
+    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 14);
     private final float percentageSuffixPaddingRightDefault = Utils.dp2px(getResources(), 8);
-    private final int textColorPrimaryDefault = R.color.colorPrimary95;
-    private final int textColorSecondaryDefault = R.color.colorPrimary75;
-    private final int textColorTertiaryDefault = R.color.colorPrimary50;
+    private final int textColorPrimaryDefault = R.color.colorTextPrimary;
+    private final int textColorSecondaryDefault = R.color.colorTextSecondary;
+    private final int textColorTertiaryDefault = R.color.colorTextTertiary;
     private final float barHeightDefault = Utils.dp2px(getResources(), 8);
     private final int finishedColorDefault = R.color.colorAccent;
-    private final int unfinishedColorDefault = R.color.colorPrimary10;
+    private final int unfinishedColorDefault = R.color.colorUnfinishedColor;
     private final float indicatorDistanceToMidLineDefault = Utils.dp2px(getResources(), 2);
 
     // TODO make these into stylebale attributes. Also handle saving and loading.
     private final int indicatorPositiveColorDefault = R.color.colorAccent;
     private final int indicatorNegativeColorDefault = R.color.colorAccentSecondary;
-    private final int timeLeftIconColorDefault = R.color.colorPrimary95;
+    private final int timeLeftIconColorDefault = R.color.colorTextPrimary;
     private final int indicatorPositiveDefault = R.drawable.positive;
     private final int indicatorNegativeDefault = R.drawable.negative;
     private final int timeLeftIconDefault = R.drawable.ic_timelapse_black_48dp;
@@ -332,16 +332,24 @@ public class TrackableView extends View {
         float suffixHeight = tmp.height();
         suffixBaseLine = horizontalCenter + percentageHeight / 2 + suffixHeight;
 
-        barX = suffixX + labelBarPadding + textPaint.measureText(percentageSuffix);
+        barX = suffixX + labelBarPadding +
+                textPaint.measureText(percentageSuffix);
         prepLabelPainter();
-        float endSectionHeight = (Math.abs(textPaint.descent() + textPaint.ascent())) + barHeight + labelBarPadding;
+        float endSectionHeight = (Math.abs(
+                textPaint.descent() + textPaint.ascent()))
+                + barHeight + labelBarPadding;
         barBaseline = horizontalCenter + endSectionHeight / 2;
         float barTop = barBaseline - barHeight;
 
         unfinished.set(barX, barTop, rect.right, barBaseline);
-        float progress = unfinished.width() * (((float) percentage) / 100);
-        finished.set(unfinished.left, unfinished.top, unfinished.left + progress, unfinished.bottom);
-        labelBaseLine = (horizontalCenter - endSectionHeight / 2) - (textPaint.ascent() + textPaint.descent());
+        float progress = (percentage > 100) ? unfinished.width() :
+                unfinished.width() * (((float) percentage) / 100);
+        finished.set(unfinished.left
+                , unfinished.top
+                , unfinished.left + progress
+                , unfinished.bottom);
+        labelBaseLine = (horizontalCenter - endSectionHeight / 2) -
+                (textPaint.ascent() + textPaint.descent());
 
 
         // TODO change so that icons are displayed
@@ -357,7 +365,7 @@ public class TrackableView extends View {
         textPaint.setColor(textColorTertiary);
 
         // TODO Make this into a stylebale attribute
-        textPaint.setTextSize(Utils.sp2px(getResources(), 20));
+        textPaint.setTextSize(labelSize);
         textPaint.setTextAlign(Paint.Align.RIGHT);
         textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.light));
     }
@@ -393,7 +401,7 @@ public class TrackableView extends View {
         textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
 
         // TODO make the size a styleable attribute.
-        textPaint.setTextSize(Utils.sp2px(getResources(), 20));
+        textPaint.setTextSize(labelSize);
     }
 
     /**

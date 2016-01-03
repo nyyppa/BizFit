@@ -1,11 +1,15 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -24,7 +28,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activity = this;
         setContentView(R.layout.activity_view_tracker);
-        host = (Tracker)(getIntent().getSerializableExtra(FieldNames.TRACKER));
+        host = (Tracker) (getIntent().getSerializableExtra(FieldNames.TRACKER));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(host.getName());
         setSupportActionBar(toolbar);
@@ -33,9 +37,39 @@ public class ViewTrackerActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                host.addProgress(100);
-                System.out.println(host.getProgressPercent());
+                openDialoque();
             }
         });
     }
+
+    private void openDialoque() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Amount to add");
+
+
+        final EditText input = new EditText(this);
+
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                float progress = Float.parseFloat(input.getText().toString());
+                System.out.println(progress);
+                host.addProgress(progress);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+
 }
