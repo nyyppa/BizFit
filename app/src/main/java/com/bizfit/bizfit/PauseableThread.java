@@ -9,7 +9,7 @@ public class PauseableThread extends Thread {
     boolean exit = false;
     long pauseEnds;
     long millis;
-    PauseableThread(long millis){
+    public PauseableThread(long millis){
         this.millis=millis;
     }
     public void run () {

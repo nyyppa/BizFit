@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PauseableThread a=new PauseableThread(1000);
+        a.start();
     }
 
     protected void onStart(){
@@ -131,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
             newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
             newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
                     , data.getIntExtra(FieldNames.MONTH, 1)
-            , data.getIntExtra(FieldNames.DAY, 1)
-            , data.getBooleanExtra(FieldNames.RECURRING, false));
+                    , data.getIntExtra(FieldNames.DAY, 1)
+                    , data.getBooleanExtra(FieldNames.RECURRING, false));
             createTrackableView(currentUser.getTrackers().size() - 1);
         }
     }
