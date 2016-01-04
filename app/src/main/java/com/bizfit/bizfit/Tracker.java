@@ -100,9 +100,9 @@ public class Tracker implements java.io.Serializable {
     }
     public OnTrack getProgressOnTrack(){
         double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
-        if(getCurrentProgress()<timeProgressPersent-tolerance/10){
+        if(getCurrentProgress()<timeProgressPersent-tolerance/100){
             return OnTrack.behing;
-        }else if(getCurrentProgress()>timeProgressPersent+tolerance/10){
+        }else if(getCurrentProgress()>timeProgressPersent+tolerance/100){
             return OnTrack.ahead;
         }else{
             return OnTrack.onTime;
