@@ -207,7 +207,7 @@ public class Tracker implements java.io.Serializable {
                 lastTestUpdate=System.currentTimeMillis();
             }
             lastTestUpdate+=millis;
-            timeProgress = System.currentTimeMillis() - lastReset+millis;
+            timeProgress = System.currentTimeMillis() - lastReset+lastTestUpdate;
             GregorianCalendar currentCalendar = new GregorianCalendar();
             currentCalendar.setTimeInMillis(lastTestUpdate);
             GregorianCalendar resetCalender = new GregorianCalendar();
