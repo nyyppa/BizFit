@@ -35,7 +35,7 @@ public class Tracker implements java.io.Serializable {
     boolean weekly;
     boolean repeat;
     boolean completed;
-
+    public float tolerance=10;
     List<Change> changes=new ArrayList<Change>(0);
 
     long lastTestUpdate;
@@ -98,7 +98,16 @@ public class Tracker implements java.io.Serializable {
     public RemainingTime getTimeRemaining(){
        return new RemainingTime(timeProgressNeed-timeProgress);
     }
-
+    public OnTrack getProgressOnTrack(){
+        double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
+        if(getCurrentProgress()<timeProgressPersent-tolerance/10){
+            return OnTrack.behing;
+        }else if(getCurrentProgress()>timeProgressPersent+tolerance/10){
+            return OnTrack.ahead;
+        }else{
+            return OnTrack.onTime;
+        }
+    }
     private void setAttributes(Tracker t){
         this.dayInterval=t.dayInterval;
         this.monthInterval=t.monthInterval;
@@ -484,5 +493,9 @@ public class Tracker implements java.io.Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public enum OnTrack{
+        behing,onTime,ahead;
     }
 }
