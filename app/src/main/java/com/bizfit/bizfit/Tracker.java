@@ -92,7 +92,9 @@ public class Tracker implements java.io.Serializable {
         }
         fieldUpdated();
     }
-
+    public int getDaysRemaining(){
+        return (int) (TimeUnit.DAYS.toDays(timeProgressNeed-timeProgress));
+    }
     public RemainingTime getTimeRemaining(){
        return new RemainingTime(timeProgressNeed-timeProgress);
     }
