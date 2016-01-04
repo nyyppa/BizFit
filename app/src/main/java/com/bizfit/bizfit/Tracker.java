@@ -93,8 +93,8 @@ public class Tracker implements java.io.Serializable {
         fieldUpdated();
     }
 
-    public int getDaysRemaining(){
-        return (int) (TimeUnit.DAYS.toDays(timeProgressNeed-timeProgress));
+    public RemainingTime getTimeRemaining(){
+       return new RemainingTime(timeProgressNeed-timeProgress);
     }
 
     private void setAttributes(Tracker t){
@@ -452,6 +452,32 @@ public class Tracker implements java.io.Serializable {
         lastModification getEnum(){
             return mod;
         }
+    }
+
+    public class RemainingTime{
+        RemaininTimeType timeType;
+        int time;
+        RemainingTime(long millis){
+            float daysRemaining=(float)TimeUnit.DAYS.toDays(millis);
+            if(daysRemaining>30){
+                timeType=RemaininTimeType.months;
+                daysRemaining/=30;
+                time=Math.round(daysRemaining);
+            }else{
+                timeType=RemaininTimeType.days;
+                time=(int)daysRemaining;
+            }
+        }
+        public RemaininTimeType getTimeType(){
+            return timeType;
+        }
+        public int getTimeRemaining(){
+            return time;
+        }
+    }
+
+    public enum RemaininTimeType{
+        days,months;
     }
 
     public void setName(String name) {
