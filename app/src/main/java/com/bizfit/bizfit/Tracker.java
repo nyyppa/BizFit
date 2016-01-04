@@ -93,7 +93,9 @@ public class Tracker implements java.io.Serializable {
         fieldUpdated();
     }
 
-
+    public int getDaysRemaining(){
+        return (int) (TimeUnit.DAYS.toDays(timeProgressNeed-timeProgress));
+    }
 
     private void setAttributes(Tracker t){
         this.dayInterval=t.dayInterval;
@@ -205,7 +207,7 @@ public class Tracker implements java.io.Serializable {
                 lastTestUpdate=System.currentTimeMillis();
             }
             lastTestUpdate+=millis;
-            timeProgress = System.currentTimeMillis() - lastReset;
+            timeProgress = System.currentTimeMillis() - lastReset+millis;
             GregorianCalendar currentCalendar = new GregorianCalendar();
             currentCalendar.setTimeInMillis(lastTestUpdate);
             GregorianCalendar resetCalender = new GregorianCalendar();
