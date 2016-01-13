@@ -35,7 +35,7 @@ public class Tracker implements java.io.Serializable {
     boolean weekly;
     boolean repeat;
     boolean completed;
-
+    public float tolerance=10;
     List<Change> changes=new ArrayList<Change>(0);
 
     long lastTestUpdate;
@@ -92,9 +92,22 @@ public class Tracker implements java.io.Serializable {
         }
         fieldUpdated();
     }
-
-
-
+    public int getDaysRemaining(){
+        return (int) (TimeUnit.DAYS.toDays(timeProgressNeed-timeProgress));
+    }
+    public RemainingTime getTimeRemaining(){
+       return new RemainingTime(timeProgressNeed-timeProgress);
+    }
+    public OnTrack getProgressOnTrack(){
+        double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
+        if(getCurrentProgress()<timeProgressPersent-tolerance/100){
+            return OnTrack.behing;
+        }else if(getCurrentProgress()>timeProgressPersent+tolerance/100){
+            return OnTrack.ahead;
+        }else{
+            return OnTrack.onTime;
+        }
+    }
     private void setAttributes(Tracker t){
         this.dayInterval=t.dayInterval;
         this.monthInterval=t.monthInterval;
@@ -205,7 +218,7 @@ public class Tracker implements java.io.Serializable {
                 lastTestUpdate=System.currentTimeMillis();
             }
             lastTestUpdate+=millis;
-            timeProgress = System.currentTimeMillis() - lastReset;
+            timeProgress = System.currentTimeMillis() - lastReset+lastTestUpdate;
             GregorianCalendar currentCalendar = new GregorianCalendar();
             currentCalendar.setTimeInMillis(lastTestUpdate);
             GregorianCalendar resetCalender = new GregorianCalendar();
@@ -452,12 +465,37 @@ public class Tracker implements java.io.Serializable {
         }
     }
 
+    public class RemainingTime{
+        RemaininTimeType timeType;
+        int time;
+        RemainingTime(long millis){
+            float daysRemaining=(float)TimeUnit.DAYS.toDays(millis);
+            if(daysRemaining>30){
+                timeType=RemaininTimeType.months;
+                daysRemaining/=30;
+                time=Math.round(daysRemaining);
+            }else{
+                timeType=RemaininTimeType.days;
+                time=(int)daysRemaining;
+            }
+        }
+        public RemaininTimeType getTimeType(){
+            return timeType;
+        }
+        public int getTimeRemaining(){
+            return time;
+        }
+    }
+
+    public enum RemaininTimeType{
+        days,months;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public int timeRemaining(){
-        // TODO
-        return 0;
+    public enum OnTrack{
+        behing,onTime,ahead;
     }
 }

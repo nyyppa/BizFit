@@ -2,7 +2,6 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
@@ -33,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
-    public static final int viewHorizontalPadding = (int) Utils.dp2px(Resources.getSystem(), 16);
+    public static PauseableThread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        thread=new PauseableThread(1000);
+        thread.start();
     }
 
-    protected void onStart() {
+    protected void onStart(){
         super.onStart();
         activity = this;
         setContentView(R.layout.activity_main);
@@ -64,9 +66,29 @@ public class MainActivity extends AppCompatActivity {
         /*for (Tracker tracker : currentUser.getTrackers()) {
             createTrackableView(tracker);
         }*/
-        for (int i = 0; i < currentUser.getTrackers().size(); i++) {
+        for(int i=0;i<currentUser.getTrackers().size();i++){
             createTrackableView(i);
         }
+    }
+
+    private void createTrackableView(final int i) {
+        TrackableView view = new TrackableView(getBaseContext(), null);
+        view.setLabel(currentUser.getTrackers().get(i).getName());
+        view.setPercentage(
+                (int) Math.floor(currentUser.getTrackers().get(i).getProgressPercent() * 100));
+
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT
+                , (int) Utils.dp2px(getResources()
+                , 131));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchViewTrackerActivity(currentUser.getTrackers().get(i));
+            }
+        });
+        view.setLayoutParams(param);
+        layout.addView(view);
     }
 
     private void launchViewTrackerActivity(Tracker tracker) {
@@ -86,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    @Override
+    public void onDestroy (){
+        super.onDestroy();
+        thread.stopThread();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -117,27 +143,6 @@ public class MainActivity extends AppCompatActivity {
                     , data.getBooleanExtra(FieldNames.RECURRING, false));
             createTrackableView(currentUser.getTrackers().size() - 1);
         }
-    }
-
-    private void createTrackableView(final int i) {
-        TrackableView view = new TrackableView(getBaseContext(), null);
-        view.setLabel(currentUser.getTrackers().get(i).getName());
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) Utils.dp2px(getResources()
-                , 131));
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchViewTrackerActivity(currentUser.getTrackers().get(i));
-            }
-        });
-        view.setLayoutParams(param);
-        view.setPadding(viewHorizontalPadding, 0, viewHorizontalPadding, 0);
-        view.setTimeLeft(currentUser.getTrackers().get(i).timeRemaining());
-        view.setTimeLeft(currentUser.getTrackers().get(i).timeRemaining());
-        view.setTimeLeftSuffix("days");
-        layout.addView(view);
     }
 
     @Override
