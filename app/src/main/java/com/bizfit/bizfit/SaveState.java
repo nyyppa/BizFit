@@ -158,16 +158,14 @@ public class SaveState implements java.io.Serializable {
 
     public SortedTrackers getAlpapheticalSortedTrackers(){
         SortedTrackers sorted=new SortedTrackers();
-        Collections.sort(sorted.currentTrackers, new Comparator<Tracker>() {
-            public int compare(Tracker s1, Tracker s2) {
-                return s1.getName().compareToIgnoreCase(s2.getName());
+        Comparator<Tracker> t=new Comparator<Tracker>() {
+            @Override
+            public int compare(Tracker lhs, Tracker rhs) {
+                return lhs.getName().compareToIgnoreCase(rhs.getName());
             }
-        });
-        Collections.sort(sorted.expiredTrackers, new Comparator<Tracker>() {
-            public int compare(Tracker s1, Tracker s2) {
-                return s1.getName().compareToIgnoreCase(s2.getName());
-            }
-        });
+        };
+        Collections.sort(sorted.currentTrackers, t);
+        Collections.sort(sorted.expiredTrackers, t);
         return sorted;
     }
 
