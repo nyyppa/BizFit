@@ -1,6 +1,8 @@
 package com.bizfit.bizfit;
 
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
@@ -289,25 +291,25 @@ public class SaveState implements java.io.Serializable {
         }
         String user = null;
         if (s == null) {
-            Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-            if(c.moveToFirst()){
-                user = (c.getString(c.getColumnIndex("display_name")));
-            }else{
-                user="Default";
+            final AccountManager manager = AccountManager.get(MainActivity.activity);
+            final Account[] accounts = manager.getAccountsByType("com.google");
+            final int size = accounts.length;
+            String[] names = new String[size];
+            for (int i = 0; i < size; i++) {
+                names[i] = accounts[i].name;
+
             }
-            c.close();
+            if(names.length>0){
+                user=names[0];
+            }else{
+                user="default";
+            }
         } else {
             try {
                 user = s.getLastUser();
             } catch (Exception e) {
-                //e.printStackTrace();
-                Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-                if(c.moveToFirst()){
-                    user = (c.getString(c.getColumnIndex("display_name")));
-                }else{
-                    user="Default";
-                }
-                c.close();
+                e.printStackTrace();
+
             }
         }
         return getInstance(user);
