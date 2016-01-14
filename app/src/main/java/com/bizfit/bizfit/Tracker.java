@@ -108,6 +108,12 @@ public class Tracker implements java.io.Serializable {
             return OnTrack.onTime;
         }
     }
+
+    public double getProgressComperedToTime(){
+        double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
+
+        return getCurrentProgress()-timeProgressPersent;
+    }
     private void setAttributes(Tracker t){
         this.dayInterval=t.dayInterval;
         this.monthInterval=t.monthInterval;
