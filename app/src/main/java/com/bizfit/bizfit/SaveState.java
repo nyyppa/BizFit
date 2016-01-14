@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -154,6 +156,21 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         return s;
+    }
+
+    public SortedTrackers getAlpapheticalSortedTrackers(){
+        SortedTrackers sorted=new SortedTrackers();
+        Collections.sort(sorted.currentTrackers, new Comparator<Tracker>() {
+            public int compare(Tracker s1, Tracker s2) {
+                return s1.getName().compareToIgnoreCase(s2.getName());
+            }
+        });
+        Collections.sort(sorted.expiredTrackers, new Comparator<Tracker>() {
+            public int compare(Tracker s1, Tracker s2) {
+                return s1.getName().compareToIgnoreCase(s2.getName());
+            }
+        });
+        return null;
     }
 
     private void createLastUser() {
@@ -377,5 +394,19 @@ public class SaveState implements java.io.Serializable {
             return fileId+"";
         }
 
+    }
+
+    public class SortedTrackers{
+        protected List<Tracker>currentTrackers=new ArrayList<Tracker>(0);
+        protected List<Tracker>expiredTrackers=new ArrayList<Tracker>(0);
+        SortedTrackers(){
+            for(int i=0;i<trackers.size();i++){
+                if(trackers.get(i).completed){
+                    expiredTrackers.add(trackers.get(i));
+                }else {
+                    currentTrackers.add(trackers.get(i));
+                }
+            }
+        }
     }
 }
