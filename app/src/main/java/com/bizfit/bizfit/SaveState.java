@@ -76,13 +76,11 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         out.defaultWriteObject();
-        System.out.println(user + "testi");
         try {
             user=Encrypt.decrypt(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(user+"testi");
     }
 
     /**
@@ -170,7 +168,7 @@ public class SaveState implements java.io.Serializable {
                 return s1.getName().compareToIgnoreCase(s2.getName());
             }
         });
-        return null;
+        return sorted;
     }
 
     private void createLastUser() {
@@ -186,7 +184,6 @@ public class SaveState implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentSaveState = this;
-        System.out.println("meh");
         try {
             save();
         } catch (Exception e) {
@@ -326,6 +323,19 @@ public class SaveState implements java.io.Serializable {
                 user = s.getLastUser();
             } catch (Exception e) {
                 e.printStackTrace();
+                final AccountManager manager = AccountManager.get(MainActivity.activity);
+                final Account[] accounts = manager.getAccountsByType("com.google");
+                final int size = accounts.length;
+                String[] names = new String[size];
+                for (int i = 0; i < size; i++) {
+                    names[i] = accounts[i].name;
+
+                }
+                if(names.length>0){
+                    user=names[0];
+                }else{
+                    user="default";
+                }
 
             }
         }
@@ -397,8 +407,8 @@ public class SaveState implements java.io.Serializable {
     }
 
     public class SortedTrackers{
-        protected List<Tracker>currentTrackers=new ArrayList<Tracker>(0);
-        protected List<Tracker>expiredTrackers=new ArrayList<Tracker>(0);
+        public List<Tracker>currentTrackers=new ArrayList<Tracker>(0);
+        public List<Tracker>expiredTrackers=new ArrayList<Tracker>(0);
         SortedTrackers(){
             for(int i=0;i<trackers.size();i++){
                 if(trackers.get(i).completed){

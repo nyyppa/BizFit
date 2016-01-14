@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         animateTrackerViewsFromZero();
+
     }
 
     private void createTrackableViews() {

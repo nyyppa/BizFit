@@ -34,7 +34,7 @@ public class Tracker implements java.io.Serializable {
     SaveState parentSaveState;
     boolean weekly;
     boolean repeat;
-    boolean completed;
+    boolean completed=false;
     public float tolerance=10;
     List<Change> changes=new ArrayList<Change>(0);
 
