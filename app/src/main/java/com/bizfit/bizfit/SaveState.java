@@ -156,6 +156,20 @@ public class SaveState implements java.io.Serializable {
         return s;
     }
 
+    public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending){
+        final int asc=ascending?1:-1;
+        SortedTrackers sorted=new SortedTrackers();
+        Comparator<Tracker> t=new Comparator<Tracker>() {
+            @Override
+            public int compare(Tracker lhs, Tracker rhs) {
+                return asc*(lhs.getRemainingTimeMillis()-rhs.getRemainingTimeMillis());
+            }
+        };
+        Collections.sort(sorted.currentTrackers, t);
+        Collections.sort(sorted.expiredTrackers, t);
+        return sorted;
+    }
+
     public SortedTrackers getProgressComparedToTimeSortedTrackers(boolean ascending){
         final int asc=ascending?1:-1;
         SortedTrackers sorted=new SortedTrackers();
