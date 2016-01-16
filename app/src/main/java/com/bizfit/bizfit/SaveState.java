@@ -157,12 +157,8 @@ public class SaveState implements java.io.Serializable {
     }
 
     public SortedTrackers getAlpapheticalSortedTrackers(boolean ascending){
-        final int asc;
-        if(ascending){
-            asc=-1;
-        }else{
-            asc=1;
-        }
+        final int asc=ascending?1:-1;
+
         SortedTrackers sorted=new SortedTrackers();
         Comparator<Tracker> t=new Comparator<Tracker>() {
             @Override
