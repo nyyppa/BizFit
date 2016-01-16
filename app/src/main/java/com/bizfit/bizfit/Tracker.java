@@ -101,7 +101,7 @@ public class Tracker implements java.io.Serializable {
     public OnTrack getProgressOnTrack(){
         double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
         if(getCurrentProgress()<timeProgressPersent-tolerance/100){
-            return OnTrack.behing;
+            return OnTrack.behind;
         }else if(getCurrentProgress()>timeProgressPersent+tolerance/100){
             return OnTrack.ahead;
         }else{
@@ -508,6 +508,10 @@ public class Tracker implements java.io.Serializable {
     }
 
     public enum OnTrack{
-        behing,onTime,ahead;
+        behind,onTime,ahead;
+    }
+
+    public DailyProgress getDaily() {
+        return daily;
     }
 }

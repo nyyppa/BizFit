@@ -5,4 +5,6 @@
     <string name="target_date_hint">Date</string>
     <string name="target_name_hint">Name</string>
     <string name="target_amount_hint">Amount</string>
+    <string name="view_tracker_target">Target</string>
+    <string name="view_tracker_time_left">Time left</string>
 </resources>

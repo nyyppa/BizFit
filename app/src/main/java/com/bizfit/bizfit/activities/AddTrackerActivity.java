@@ -83,13 +83,6 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
                 , newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_new_goal, menu);
-        return true;
-    }
-
     @Override
     public void finish() {
 

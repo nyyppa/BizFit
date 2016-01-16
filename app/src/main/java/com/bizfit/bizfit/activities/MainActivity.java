@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -28,10 +29,6 @@ import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
-    private Timer timer;
-    private ProgressBar mProgress;
-    private int mProgressStatus = 0;
-    private Handler mHandler = new Handler();
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
@@ -40,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        thread=new PauseableThread(1000);
+        thread = new PauseableThread(1000);
         thread.start();
 
     }
 
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         activity = this;
         setContentView(R.layout.activity_main);
@@ -65,12 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void createTrackableViews() {
 
-        /*for (Tracker tracker : currentUser.getTrackers()) {
-            createTrackableView(tracker);
-        }*/
-        for(int i=0;i<currentUser.getTrackers().size();i++){
+    private void createTrackableViews() {
+        for (int i = 0; i < currentUser.getTrackers().size(); i++) {
             createTrackableView(i);
         }
     }
@@ -78,20 +72,28 @@ public class MainActivity extends AppCompatActivity {
     private void createTrackableView(final int i) {
         TrackableView view = new TrackableView(getBaseContext(), null);
         view.setLabel(currentUser.getTrackers().get(i).getName());
-        view.setPercentage(
-                (int) Math.floor(currentUser.getTrackers().get(i).getProgressPercent() * 100));
+        view.setPercentage((int) Math.floor(
+                currentUser.getTrackers().get(i).getProgressPercent() * 100));
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) Utils.dp2px(getResources()
-                , 131));
+                , 75));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchViewTrackerActivity(currentUser.getTrackers().get(i));
             }
         });
+
         view.setLayoutParams(param);
+        view.setPadding((int) Utils.dp2px(getResources(), 16)
+                , (int) Utils.dp2px(getResources(), 24)
+                , (int) Utils.dp2px(getResources(), 16)
+                , 0);
+
+        view.setBackgroundResource(R.drawable.ripple_effect);
+
         layout.addView(view);
     }
 
@@ -112,11 +114,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
-    public void onDestroy (){
+    public void onDestroy() {
         super.onDestroy();
         thread.stopThread();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

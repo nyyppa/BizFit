@@ -10,10 +10,16 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
+import com.bizfit.bizfit.utils.Utils;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 /**
  *
@@ -22,6 +28,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     Activity activity;
     Tracker host;
+    GraphView graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,38 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
+
+        fillInfo();
+        createGraphs();
+    }
+
+    private void createGraphs() {
+        graph = new GraphView(getBaseContext());
+        graph.addSeries(createDataPoints());
+        ((FrameLayout)(findViewById(R.id.total_progress_container))).addView(graph);
+        graph.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT
+                , FrameLayout.LayoutParams.MATCH_PARENT
+        ));
+    }
+
+    private LineGraphSeries<DataPoint> createDataPoints() {
+         return new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+    }
+
+    private void fillInfo() {
+        TextView targetAmount = (TextView) findViewById(R.id.target_amount);
+        targetAmount.setText((int)host.getTargetProgress() + "");
+
+        TextView timeLeft = (TextView) findViewById(R.id.time_left_amount);
+        Tracker.RemainingTime time = host.getTimeRemaining();
+        timeLeft.setText(time.getTimeRemaining() + " " + time.getTimeType());
     }
 
     private void openDialoque() {

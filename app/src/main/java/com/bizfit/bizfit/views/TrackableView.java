@@ -80,7 +80,7 @@ public class TrackableView extends View {
     private final String timeLeftSuffixDefault = "Null";
     private final int percentageDefault = 50;
     private final float percentageSizeDefault = Utils.sp2px(getResources(), 34);
-    private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), -2);
+    private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), 0);
     private final float percentagePaddingLeftDefault = Utils.dp2px(getResources(), 20);
     private final String percentageSuffix = "%";
     private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 14);
@@ -88,7 +88,7 @@ public class TrackableView extends View {
     private final int textColorPrimaryDefault = R.color.colorTextPrimary;
     private final int textColorSecondaryDefault = R.color.colorTextSecondary;
     private final int textColorTertiaryDefault = R.color.colorTextTertiary;
-    private final float barHeightDefault = Utils.dp2px(getResources(), 8);
+    private final float barHeightDefault = Utils.dp2px(getResources(), 6);
     private final int finishedColorDefault = R.color.colorAccent;
     private final int unfinishedColorDefault = R.color.colorUnfinishedColor;
     private final float indicatorDistanceToMidLineDefault = Utils.dp2px(getResources(), 2);
@@ -129,7 +129,7 @@ public class TrackableView extends View {
     // Constraints in which the visible components must reside in.
     private Rect rect;
 
-    // Positionings of the visible elements.
+    // Positioning of the visible elements.
     // Calculated once onMeasure is called.
     private float horizontalCenter;
     private float percentageBaseline;
@@ -319,7 +319,7 @@ public class TrackableView extends View {
                 , right - getPaddingRight()
                 , bottom);
 
-        horizontalCenter = bottom / 2 - top / 2;
+        horizontalCenter = (bottom - getPaddingBottom()) / 2 - (top - getPaddingTop()) / 2;
         prepPercentagePainter();
         float percentageHeight = textPaint.descent() + textPaint.ascent();
         percentageBaseline = horizontalCenter - percentageHeight / 2;
@@ -371,7 +371,7 @@ public class TrackableView extends View {
     }
 
     private void prepLabelPainter() {
-        textPaint.setColor(textColorSecondary);
+        textPaint.setColor(textColorPrimary);
         textPaint.setTextSize(labelSize);
         textPaint.setTextAlign(Paint.Align.LEFT);
         textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
