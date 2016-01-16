@@ -187,6 +187,8 @@ public class Tracker implements java.io.Serializable {
         startStuff(c, 7, 0);
     }
 
+
+
     public String getName(){
         return name;
     }
@@ -216,6 +218,10 @@ public class Tracker implements java.io.Serializable {
         calander.add(Calendar.MONTH,monthInterval);
         timeProgressNeed=calander.getTimeInMillis()-startDate;
 
+    }
+
+    public int getRemainingTimeMillis(){
+        return (int)timeProgressNeed;
     }
 
     public void testUpdate(Long millis){
