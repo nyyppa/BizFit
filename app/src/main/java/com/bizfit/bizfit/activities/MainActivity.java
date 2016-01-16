@@ -1,5 +1,7 @@
 package com.bizfit.bizfit.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         thread=new PauseableThread(1000);
         thread.start();
+
     }
 
     protected void onStart(){
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         animateTrackerViewsFromZero();
+
     }
 
     private void createTrackableViews() {

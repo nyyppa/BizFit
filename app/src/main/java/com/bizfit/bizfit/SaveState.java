@@ -1,6 +1,8 @@
 package com.bizfit.bizfit;
 
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
@@ -14,6 +16,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -72,13 +76,11 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         out.defaultWriteObject();
-        System.out.println(user + "testi");
         try {
             user=Encrypt.decrypt(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(user+"testi");
     }
 
     /**
@@ -154,6 +156,25 @@ public class SaveState implements java.io.Serializable {
         return s;
     }
 
+    public SortedTrackers getAlpapheticalSortedTrackers(boolean ascending){
+        final int asc;
+        if(ascending){
+            asc=-1;
+        }else{
+            asc=1;
+        }
+        SortedTrackers sorted=new SortedTrackers();
+        Comparator<Tracker> t=new Comparator<Tracker>() {
+            @Override
+            public int compare(Tracker lhs, Tracker rhs) {
+                return asc*(lhs.getName().compareToIgnoreCase(rhs.getName()));
+            }
+        };
+        Collections.sort(sorted.currentTrackers, t);
+        Collections.sort(sorted.expiredTrackers, t);
+        return sorted;
+    }
+
     private void createLastUser() {
         this.lastUser = new LastUser();
     }
@@ -167,7 +188,6 @@ public class SaveState implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentSaveState = this;
-        System.out.println("meh");
         try {
             save();
         } catch (Exception e) {
@@ -289,25 +309,38 @@ public class SaveState implements java.io.Serializable {
         }
         String user = null;
         if (s == null) {
-            Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-            if(c.moveToFirst()){
-                user = (c.getString(c.getColumnIndex("display_name")));
-            }else{
-                user="Default";
+            final AccountManager manager = AccountManager.get(MainActivity.activity);
+            final Account[] accounts = manager.getAccountsByType("com.google");
+            final int size = accounts.length;
+            String[] names = new String[size];
+            for (int i = 0; i < size; i++) {
+                names[i] = accounts[i].name;
+
             }
-            c.close();
+            if(names.length>0){
+                user=names[0];
+            }else{
+                user="default";
+            }
         } else {
             try {
                 user = s.getLastUser();
             } catch (Exception e) {
-                //e.printStackTrace();
-                Cursor c = MainActivity.activity.getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-                if(c.moveToFirst()){
-                    user = (c.getString(c.getColumnIndex("display_name")));
-                }else{
-                    user="Default";
+                e.printStackTrace();
+                final AccountManager manager = AccountManager.get(MainActivity.activity);
+                final Account[] accounts = manager.getAccountsByType("com.google");
+                final int size = accounts.length;
+                String[] names = new String[size];
+                for (int i = 0; i < size; i++) {
+                    names[i] = accounts[i].name;
+
                 }
-                c.close();
+                if(names.length>0){
+                    user=names[0];
+                }else{
+                    user="default";
+                }
+
             }
         }
         return getInstance(user);
@@ -375,5 +408,19 @@ public class SaveState implements java.io.Serializable {
             return fileId+"";
         }
 
+    }
+
+    public class SortedTrackers{
+        public List<Tracker>currentTrackers=new ArrayList<Tracker>(0);
+        public List<Tracker>expiredTrackers=new ArrayList<Tracker>(0);
+        SortedTrackers(){
+            for(int i=0;i<trackers.size();i++){
+                if(trackers.get(i).completed){
+                    expiredTrackers.add(trackers.get(i));
+                }else {
+                    currentTrackers.add(trackers.get(i));
+                }
+            }
+        }
     }
 }
