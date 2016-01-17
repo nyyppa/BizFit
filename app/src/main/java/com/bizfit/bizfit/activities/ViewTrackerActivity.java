@@ -18,6 +18,8 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.Utils;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -54,16 +56,27 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     private void createGraphs() {
         graph = new GraphView(getBaseContext());
-        graph.addSeries(createDataPoints());
-        ((FrameLayout)(findViewById(R.id.total_progress_container))).addView(graph);
+        LineGraphSeries<DataPoint> series = createDataPoints();
+        ((FrameLayout) (findViewById(R.id.total_progress_container))).addView(graph);
         graph.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT
                 , FrameLayout.LayoutParams.MATCH_PARENT
         ));
+        stylize(graph, series);
+        graph.addSeries(series);
+    }
+
+    private void stylize(GraphView graph, LineGraphSeries<DataPoint> series) {
+        GridLabelRenderer renderer = graph.getGridLabelRenderer();
+        renderer.setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+        renderer.setHorizontalLabelsColor(R.color.colorTextPrimary);
+        renderer.setVerticalLabelsColor(R.color.colorTextPrimary);
+        series.setColor(R.color.colorTextPrimary);
+        series.setThickness((int) Utils.dp2px(getResources(), 1));
     }
 
     private LineGraphSeries<DataPoint> createDataPoints() {
-         return new LineGraphSeries<DataPoint>(new DataPoint[] {
+        return new LineGraphSeries<DataPoint>(new DataPoint[]{
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
                 new DataPoint(2, 3),
@@ -74,7 +87,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     private void fillInfo() {
         TextView targetAmount = (TextView) findViewById(R.id.target_amount);
-        targetAmount.setText((int)host.getTargetProgress() + "");
+        targetAmount.setText((int) host.getTargetProgress() + "");
 
         TextView timeLeft = (TextView) findViewById(R.id.time_left_amount);
         Tracker.RemainingTime time = host.getTimeRemaining();

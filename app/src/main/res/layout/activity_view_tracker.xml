@@ -19,10 +19,10 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/info_text_container"
-        android:layout_weight="0.11"
+        android:layout_weight="0.09"
         android:layout_marginTop="16dp">
 
         <TextView
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.19"
+        android:layout_weight="0.33"
         android:id="@+id/total_progress_container"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"></FrameLayout>

@@ -3,6 +3,8 @@ package com.bizfit.bizfit.views;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -272,7 +274,6 @@ public class TrackableView extends View {
      */
     private void paintIcons(Canvas canvas) {
         paint.setColor(textColorPrimary);
-
         // Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
 
     }
