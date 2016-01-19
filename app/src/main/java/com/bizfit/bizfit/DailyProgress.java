@@ -40,6 +40,22 @@ public class DailyProgress implements java.io.Serializable{
 		iterator.remove();
 	}
 
+	public class DayTime extends GregorianCalendar{
+		DayTime(long time){
+			super();
+			this.setTimeInMillis(time);
+		}
+
+		public int getYear(){
+			return this.get(YEAR);
+		}
+		public int getMonth(){
+			return this.get(MONTH);
+		}
+		public int getDay(){
+			return this.get(DAY_OF_MONTH);
+		}
+	}
 
 	private class DayPool implements java.io.Serializable{
 		float TotalAmount;
@@ -52,6 +68,9 @@ public class DailyProgress implements java.io.Serializable{
 		public void addDaySingle(float amount,long time){
 			daySingle.add(new DaySingle(time,amount));
 			TotalAmount+=amount;
+		}
+		public DayTime getDayTime(){
+			return new DayTime(time);
 		}
 		public float getTotalAmount(){
 			return TotalAmount;
