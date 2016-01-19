@@ -93,7 +93,7 @@ public class Tracker implements java.io.Serializable {
         fieldUpdated();
     }
     public int getDaysRemaining(){
-        return (int) (TimeUnit.DAYS.toDays(timeProgressNeed-timeProgress));
+        return (int) (TimeUnit.MILLISECONDS.toDays(timeProgressNeed-timeProgress));
     }
     public RemainingTime getTimeRemaining(){
        return new RemainingTime(timeProgressNeed-timeProgress);
@@ -166,11 +166,14 @@ public class Tracker implements java.io.Serializable {
     //tarvii undon
     public void setTargetDate(int year, int month, int day, boolean repeat){
         this.repeat=repeat;
-        GregorianCalendar c=new GregorianCalendar(year,month,day);
+        GregorianCalendar c=new GregorianCalendar(year,month,day,23,59);
         GregorianCalendar a=new GregorianCalendar();
         startDate=System.currentTimeMillis();
-        int dayInterval=(int) (TimeUnit.DAYS.toDays(c.getTimeInMillis()-a.getTimeInMillis()));
+        int dayInterval=(int) (TimeUnit.MILLISECONDS.toDays(c.getTimeInMillis()-a.getTimeInMillis()));
+        System.out.println("tunniste: "+dayInterval);
         startStuff(a, dayInterval, 0);
+        fieldUpdated();
+
     }
 
     private void weeklyStart(){
@@ -481,7 +484,8 @@ public class Tracker implements java.io.Serializable {
         RemaininTimeType timeType;
         int time;
         RemainingTime(long millis){
-            float daysRemaining=(float)TimeUnit.DAYS.toDays(millis);
+            //System.out.println("tunniste: ");
+            float daysRemaining=(float)TimeUnit.MILLISECONDS.toDays(millis);
             if(daysRemaining>30){
                 timeType=RemaininTimeType.months;
                 daysRemaining/=30;
