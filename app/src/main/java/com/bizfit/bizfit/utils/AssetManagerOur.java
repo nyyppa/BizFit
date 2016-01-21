@@ -21,6 +21,8 @@ public class AssetManagerOur {
     public static final String boldCondense = "fonts/RobotoCondensed-Bold.ttf";
     public static final String regular = "fonts/Roboto-Regular.ttf";
     public static final String light = "fonts/Roboto-Light.ttf";
+    public static final String bold = "fonts/Roboto-Bold.ttf";
+    public static final String medium = "fonts/Roboto-Medium.ttf";
 
     private static List<FontHolder> fonts = new ArrayList<FontHolder>(0);
 

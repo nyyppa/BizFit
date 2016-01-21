@@ -23,6 +23,7 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Utils;
+import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableView;
 
 import java.util.Timer;
@@ -50,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         layout = (LinearLayout) findViewById(R.id.goal_container);
         currentUser = SaveState.getLastUser();
+
+        Separator test = new Separator(getBaseContext(), null);
+        test.setLabel("A");
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT
+                , (int) Utils.dp2px(getResources()
+                , 50));
+        test.setLayoutParams(param);
+        test.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
+        test.setLabelPaddingBottom((int)Utils.dp2px(getResources(), 3));
+        layout.addView(test);
+
+
         createTrackableViews();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 launchAddTrackerActivity();
             }
         });
-        animateTrackerViewsFromZero();
+        //animateTrackerViewsFromZero();
+
 
     }
-
 
     private void createTrackableViews() {
         for (int i = 0; i < currentUser.getTrackers().size(); i++) {
@@ -159,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        animateTrackerViewsFromZero();
+        // animateTrackerViewsFromZero();
 
     }
 

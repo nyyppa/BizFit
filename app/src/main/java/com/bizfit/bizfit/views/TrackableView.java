@@ -98,7 +98,7 @@ public class TrackableView extends View {
     // TODO make these into stylebale attributes. Also handle saving and loading.
     private final int indicatorPositiveColorDefault = R.color.colorAccent;
     private final int indicatorNegativeColorDefault = R.color.colorAccentSecondary;
-    private final int timeLeftIconColorDefault = R.color.colorTextPrimary;
+    private final int timeLeftIconColorDefault = R.color.colorTextSecondary;
     private final int indicatorPositiveDefault = R.drawable.positive;
     private final int indicatorNegativeDefault = R.drawable.negative;
     private final Bitmap timeLeftIconDefault = BitmapFactory.decodeResource(
@@ -369,7 +369,7 @@ public class TrackableView extends View {
 
         // TODO change so that icons are displayed
         // TODO change this into scalable format
-        timeLeftSuffixX = timeLeftIconX - Utils.dp2px(getResources(), 3);
+        timeLeftSuffixX = timeLeftIconX - Utils.dp2px(getResources(), 12);
         prepTimeLeftSuffixPainter();
 
         // TODO change this into scalable format
