@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         view.setLayoutParams(param);
+
+        // TODO
+        // NOT hardcore these values. For whatever reason, values from
+        // dimens.xml translate to weirdly large values.
         view.setPadding((int) Utils.dp2px(getResources(), 16)
                 , (int) Utils.dp2px(getResources(), 24)
                 , (int) Utils.dp2px(getResources(), 16)
@@ -184,8 +188,12 @@ public class MainActivity extends AppCompatActivity {
         int count = layout.getChildCount();
         TrackableView view = null;
         for (int i = 0; i < count; i++) {
-            view = (TrackableView) layout.getChildAt(i);
-            //view.animateProgressAdded();
+            View tmp = layout.getChildAt(i);
+
+            if (tmp instanceof TrackableView) {
+                view = (TrackableView) tmp;
+                view.animateProgressAdded();
+            }
         }
     }
 

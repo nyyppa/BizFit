@@ -11,10 +11,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -66,14 +64,19 @@ public class TrackableView extends View {
     private float barHeight;
     private int finishedColor;
     private int unfinishedColor;
+
     // Icon colors
     private int indicatorPositiveColor;
     private int indicatorNegativeColor;
     private int timeLeftIconColor;
 
+    // Icon sizes
+    private int indicatorSize = (int) Utils.dp2px(getResources(), 16);
+    private int timeLeftIconSize = (int) Utils.dp2px(getResources(), 16);
+
     // Show show if the progress is on track.
-    private Drawable indicatorPositive;
-    private Drawable indicatorNegative;
+    private Bitmap indicatorPositive;
+    private Bitmap indicatorNegative;
     private Bitmap timeLeftIcon;
     private float indicatorDistanceToMidLine;
 
@@ -81,7 +84,7 @@ public class TrackableView extends View {
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = Utils.sp2px(getResources(), 14);
+    private final float labelSizeDefault = Utils.sp2px(getResources(), 16);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
     private final int percentageDefault = 50;
@@ -103,12 +106,19 @@ public class TrackableView extends View {
     private final int indicatorPositiveColorDefault = R.color.colorAccent;
     private final int indicatorNegativeColorDefault = R.color.colorAccentSecondary;
     private final int timeLeftIconColorDefault = R.color.colorTextSecondary;
-    private final int indicatorPositiveDefault = R.drawable.positive;
-    private final int indicatorNegativeDefault = R.drawable.negative;
+    private final float labelBarPaddingDefault = Utils.dp2px(getResources(), 5);
+
+    private final Bitmap indicatorPositiveDefault = BitmapFactory.decodeResource(
+            getResources()
+            , R.drawable.positive);
+
+    private final Bitmap indicatorNegativeDefault = BitmapFactory.decodeResource(
+            getResources()
+            , R.drawable.negative);
+
     private final Bitmap timeLeftIconDefault = BitmapFactory.decodeResource(
             getResources()
             , R.drawable.ic_timelapse);
-    private final float labelBarPaddingDefault = Utils.dp2px(getResources(), 5);
 
     // Styleable names. Used for saving.
     private static final String INSTANCE_STATE = "saved_instance";
@@ -154,6 +164,7 @@ public class TrackableView extends View {
     private float timeLeftSuffixX;
     private float timeLeftIconX;
     private float timeLeftIconY;
+    private float indicatorY;
 
     private RectF unfinished = new RectF();
     private RectF finished = new RectF();
@@ -199,13 +210,13 @@ public class TrackableView extends View {
             setFinishedColor(attributes.getColor(R.styleable.TrackableView_finished_color, getResources().getColor(finishedColorDefault)));
             setUnfinishedColor(attributes.getColor(R.styleable.TrackableView_unfinished_color, getResources().getColor(unfinishedColorDefault)));
             setIndicatorDistanceToMidLine(attributes.getDimension(R.styleable.TrackableView_indicator_distance_to_midLine, indicatorDistanceToMidLineDefault));
-            setIndicatorPositive(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_indicator_positive, indicatorPositiveDefault)));
             setIndicatorPositiveColor(attributes.getColor(R.styleable.TrackableView_indicator_positive_color, getResources().getColor(indicatorPositiveColorDefault)));
-            setIndicatorNegative(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_indicator_negative, indicatorNegativeDefault)));
             setIndicatorNegativeColor(attributes.getColor(R.styleable.TrackableView_indicator_negative_color, getResources().getColor(indicatorNegativeColorDefault)));
 
             // TODO
             // Make this into styleable attribute.
+            setIndicatorPositive(indicatorPositiveDefault);
+            setIndicatorNegative(indicatorNegativeDefault);
             setTimeLeftIcon(timeLeftIconDefault);
             setTimeLeftIconColor(attributes.getColor(R.styleable.TrackableView_time_left_icon_color, getResources().getColor(timeLeftIconColorDefault)));
             setLabelBarPadding(attributes.getDimension(R.styleable.TrackableView_label_bar_padding, labelBarPaddingDefault));
@@ -286,12 +297,26 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintIcons(Canvas canvas) {
-        prepIconPainter();
+        prepTimeLeftIconPainter();
         timeLeftIcon.prepareToDraw();
         canvas.drawBitmap(timeLeftIcon
                 , timeLeftIconX
                 , timeLeftIconY
                 , paint);
+
+        if (host.getProgressOnTrack().equals(Tracker.OnTrack.ahead)) {
+            prepIndicatorPositiveIconPainter();
+            canvas.drawBitmap(indicatorPositive
+                    , rect.left
+                    , indicatorY
+                    , paint);
+        } else if (host.getProgressOnTrack().equals(Tracker.OnTrack.behind)) {
+            prepIndicatorNegativeIconPainter();
+            canvas.drawBitmap(indicatorNegative
+                    , rect.left
+                    , indicatorY
+                    , paint);
+        }
 
     }
 
@@ -342,6 +367,7 @@ public class TrackableView extends View {
         float percentageHeight = textPaint.descent() + textPaint.ascent();
         percentageBaseline = horizontalCenter - percentageHeight / 2;
         percentageX = rect.left + getPercentagePaddingLeft() + textPaint.measureText("100");
+        indicatorY = percentageBaseline + percentageHeight;
 
         prepSuffixPainter();
         suffixX = percentageX + percentagePaddingRight;
@@ -370,7 +396,7 @@ public class TrackableView extends View {
                 (textPaint.ascent() + textPaint.descent());
 
         timeLeftIconX = unfinished.right - timeLeftIcon.getWidth();
-        timeLeftIconY =  labelBaseLine - (int)(timeLeftIcon.getHeight() * 0.95);
+        timeLeftIconY = labelBaseLine - (int) (timeLeftIcon.getHeight() * 0.95);
 
 
         // TODO change so that icons are displayed
@@ -427,10 +453,24 @@ public class TrackableView extends View {
         textPaint.setTextSize(labelSize);
     }
 
-    private void prepIconPainter() {
+    private void prepTimeLeftIconPainter() {
         paint.setColorFilter(
                 new PorterDuffColorFilter(
                         timeLeftIconColor, PorterDuff.Mode.SRC_IN
+                ));
+    }
+
+    private void prepIndicatorPositiveIconPainter() {
+        paint.setColorFilter(
+                new PorterDuffColorFilter(
+                        indicatorPositiveColor, PorterDuff.Mode.SRC_IN
+                ));
+    }
+
+    private void prepIndicatorNegativeIconPainter() {
+        paint.setColorFilter(
+                new PorterDuffColorFilter(
+                        indicatorNegativeColor, PorterDuff.Mode.SRC_IN
                 ));
     }
 
@@ -580,7 +620,7 @@ public class TrackableView extends View {
     }
 
     public void setPercentage(int percentage) {
-        this.percentage = percentage;
+        this.percentage = (percentage > 999) ? 999 : percentage;
         this.invalidate();
         this.requestLayout();
     }
@@ -661,22 +701,28 @@ public class TrackableView extends View {
         this.invalidate();
     }
 
-    public Drawable getIndicatorNegative() {
+    public Bitmap getIndicatorNegative() {
         return indicatorNegative;
     }
 
-    public void setIndicatorNegative(Drawable indicatorNegative) {
-        this.indicatorNegative = indicatorNegative;
+    public void setIndicatorNegative(Bitmap indicatorNegative) {
+        this.indicatorNegative = Bitmap.createScaledBitmap(indicatorNegative
+                , indicatorSize
+                , indicatorSize
+                , true);
         this.invalidate();
         this.requestLayout();
     }
 
-    public Drawable getIndicatorPositive() {
+    public Bitmap getIndicatorPositive() {
         return indicatorPositive;
     }
 
-    public void setIndicatorPositive(Drawable indicatorPositive) {
-        this.indicatorPositive = indicatorPositive;
+    public void setIndicatorPositive(Bitmap indicatorPositive) {
+        this.indicatorPositive = Bitmap.createScaledBitmap(indicatorPositive
+                , indicatorSize
+                , indicatorSize
+                , true);
         this.invalidate();
         this.requestLayout();
     }
@@ -752,9 +798,9 @@ public class TrackableView extends View {
     }
 
     public void setTimeLeftIcon(Bitmap timeLeftIcon) {
-        this.timeLeftIcon  = Bitmap.createScaledBitmap(timeLeftIcon
-                , (int)(Utils.dp2px(getResources(), 16))
-                , (int)(Utils.dp2px(getResources(), 16))
+        this.timeLeftIcon = Bitmap.createScaledBitmap(timeLeftIcon
+                , timeLeftIconSize
+                , timeLeftIconSize
                 , true);
 
         this.invalidate();
@@ -785,20 +831,21 @@ public class TrackableView extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();
                 setExactPercentage(value);
-                setPercentage((int)(Math.floor(value * 100)));
+                setPercentage((int) (Math.floor(value * 100)));
             }
         });
 
         animator.start();
     }
 
-    public void animateProgressAdded(int progress) {
-        animator = ValueAnimator.ofInt(percentage, progress);
+    public void animateProgressAdded() {
+        animator = ValueAnimator.ofFloat(percentage, host.getProgressPercent());
         animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (Integer) animation.getAnimatedValue();
-                setPercentage(value);
+                float value = (Float) animation.getAnimatedValue();
+                setExactPercentage(value);
+                setPercentage((int) (Math.floor(value * 100)));
             }
         });
 
