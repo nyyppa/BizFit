@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/goal_container"
-        android:baselineAligned="false"
-        android:paddingBottom="32dp">
+        android:baselineAligned="false">
 
     </LinearLayout>
 </ScrollView>

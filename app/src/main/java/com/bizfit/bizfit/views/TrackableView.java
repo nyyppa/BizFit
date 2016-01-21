@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -31,7 +33,6 @@ public class TrackableView extends View {
 
     // TODO list:
     // Some way to animate the percentage.
-    // paintIcons() needs implementation.
     // Make sure all the styleable attributes are saved and loaded properly.
 
     private TextPaint textPaint;
@@ -72,7 +73,7 @@ public class TrackableView extends View {
     // Show show if the progress is on track.
     private Drawable indicatorPositive;
     private Drawable indicatorNegative;
-    private Drawable timeLeftIcon;
+    private Bitmap timeLeftIcon;
     private float indicatorDistanceToMidLine;
 
     // Default values for styleable attributes.
@@ -101,7 +102,9 @@ public class TrackableView extends View {
     private final int timeLeftIconColorDefault = R.color.colorTextPrimary;
     private final int indicatorPositiveDefault = R.drawable.positive;
     private final int indicatorNegativeDefault = R.drawable.negative;
-    private final int timeLeftIconDefault = R.drawable.ic_timelapse_black_48dp;
+    private final Bitmap timeLeftIconDefault = BitmapFactory.decodeResource(
+            getResources()
+            , R.drawable.ic_timelapse);
     private final float labelBarPaddingDefault = Utils.dp2px(getResources(), 5);
 
     // Styleable names. Used for saving.
@@ -147,6 +150,7 @@ public class TrackableView extends View {
     private float timeleftX;
     private float timeLeftSuffixX;
     private float timeLeftIconX;
+    private float timeLeftIconY;
 
     private RectF unfinished = new RectF();
     private RectF finished = new RectF();
@@ -195,7 +199,10 @@ public class TrackableView extends View {
             setIndicatorPositiveColor(attributes.getColor(R.styleable.TrackableView_indicator_positive_color, getResources().getColor(indicatorPositiveColorDefault)));
             setIndicatorNegative(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_indicator_negative, indicatorNegativeDefault)));
             setIndicatorNegativeColor(attributes.getColor(R.styleable.TrackableView_indicator_negative_color, getResources().getColor(indicatorNegativeColorDefault)));
-            setTimeLeftIcon(ContextCompat.getDrawable(context, attributes.getInt(R.styleable.TrackableView_time_left_icon, timeLeftIconDefault)));
+
+            // TODO
+            // Make this into styleable attribute.
+            setTimeLeftIcon(timeLeftIconDefault);
             setTimeLeftIconColor(attributes.getColor(R.styleable.TrackableView_time_left_icon_color, getResources().getColor(timeLeftIconColorDefault)));
             setLabelBarPadding(attributes.getDimension(R.styleable.TrackableView_label_bar_padding, labelBarPaddingDefault));
 
@@ -273,8 +280,12 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintIcons(Canvas canvas) {
-        paint.setColor(textColorPrimary);
-        // Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_timelapse_black_48dp);
+        prepIconPainter();
+        timeLeftIcon.prepareToDraw();
+        canvas.drawBitmap(timeLeftIcon
+                , timeLeftIconX
+                , timeLeftIconY
+                , paint);
 
     }
 
@@ -352,14 +363,19 @@ public class TrackableView extends View {
         labelBaseLine = (horizontalCenter - endSectionHeight / 2) -
                 (textPaint.ascent() + textPaint.descent());
 
+        timeLeftIconX = unfinished.right - timeLeftIcon.getWidth();
+        timeLeftIconY =  labelBaseLine - timeLeftIcon.getHeight();
+
 
         // TODO change so that icons are displayed
         // TODO change this into scalable format
-        timeLeftSuffixX = unfinished.right;
+        timeLeftSuffixX = timeLeftIconX - Utils.dp2px(getResources(), 3);
         prepTimeLeftSuffixPainter();
 
         // TODO change this into scalable format
-        timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix) - Utils.dp2px(getResources(), 2);
+        timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix)
+                - Utils.dp2px(getResources()
+                , 2);
     }
 
     private void prepTimeLeftSuffixPainter() {
@@ -403,6 +419,13 @@ public class TrackableView extends View {
 
         // TODO make the size a styleable attribute.
         textPaint.setTextSize(labelSize);
+    }
+
+    private void prepIconPainter() {
+        paint.setColorFilter(
+                new PorterDuffColorFilter(
+                        timeLeftIconColor, PorterDuff.Mode.SRC_IN
+                ));
     }
 
     /**
@@ -718,12 +741,16 @@ public class TrackableView extends View {
         this.invalidate();
     }
 
-    public Drawable getTimeLeftIcon() {
+    public Bitmap getTimeLeftIcon() {
         return timeLeftIcon;
     }
 
-    public void setTimeLeftIcon(Drawable timeLeftIcon) {
-        this.timeLeftIcon = timeLeftIcon;
+    public void setTimeLeftIcon(Bitmap timeLeftIcon) {
+        this.timeLeftIcon  = Bitmap.createScaledBitmap(timeLeftIcon
+                , (int)(Utils.dp2px(getResources(), 16))
+                , (int)(Utils.dp2px(getResources(), 16))
+                , true);
+
         this.invalidate();
     }
 

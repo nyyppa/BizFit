@@ -71,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void createTrackableView(final int i) {
         TrackableView view = new TrackableView(getBaseContext(), null);
+        Tracker.RemainingTime time = currentUser.getTrackers().get(i).getTimeRemaining();
         view.setLabel(currentUser.getTrackers().get(i).getName());
         view.setPercentage((int) Math.floor(
                 currentUser.getTrackers().get(i).getProgressPercent() * 100));
-
+        view.setTimeLeft(time.getTimeRemaining());
+        view.setTimeLeftSuffix(time.getTimeType() + "");
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT
                 , (int) Utils.dp2px(getResources()
@@ -90,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
         view.setPadding((int) Utils.dp2px(getResources(), 16)
                 , (int) Utils.dp2px(getResources(), 24)
                 , (int) Utils.dp2px(getResources(), 16)
-                , 0);
+                , (int) Utils.dp2px(getResources(), 24)
+        );
 
         view.setBackgroundResource(R.drawable.ripple_effect);
 
