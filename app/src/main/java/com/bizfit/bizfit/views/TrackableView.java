@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
@@ -48,6 +49,7 @@ public class TrackableView extends View {
 
     // The current progress in percentages.
     private int percentage;
+    private float exactPercentage;
     private float percentageSize;
     private float percentagePaddingRight;
     private float percentagePaddingLeft;
@@ -74,6 +76,8 @@ public class TrackableView extends View {
     private Drawable indicatorNegative;
     private Bitmap timeLeftIcon;
     private float indicatorDistanceToMidLine;
+
+    private Tracker host;
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
@@ -156,10 +160,11 @@ public class TrackableView extends View {
 
     ValueAnimator animator;
 
-    public TrackableView(Context context, AttributeSet attrs) {
+    public TrackableView(Context context, AttributeSet attrs, Tracker host) {
         super(context, attrs);
         setClickable(true);
         rect = new Rect();
+        this.host = host;
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.TrackableView,
@@ -204,6 +209,7 @@ public class TrackableView extends View {
             setTimeLeftIcon(timeLeftIconDefault);
             setTimeLeftIconColor(attributes.getColor(R.styleable.TrackableView_time_left_icon_color, getResources().getColor(timeLeftIconColorDefault)));
             setLabelBarPadding(attributes.getDimension(R.styleable.TrackableView_label_bar_padding, labelBarPaddingDefault));
+            setExactPercentage(host.getProgressPercent());
 
         } finally {
             attributes.recycle();
@@ -354,8 +360,8 @@ public class TrackableView extends View {
         float barTop = barBaseline - barHeight;
 
         unfinished.set(barX, barTop, rect.right, barBaseline);
-        float progress = (percentage > 100) ? unfinished.width() :
-                unfinished.width() * (((float) percentage) / 100);
+        float progress = (exactPercentage > 1) ? unfinished.width() :
+                unfinished.width() * ((float) exactPercentage);
         finished.set(unfinished.left
                 , unfinished.top
                 , unfinished.left + progress
@@ -764,13 +770,22 @@ public class TrackableView extends View {
         requestLayout();
     }
 
-    public void animateFromZero(int progress) {
-        animator = ValueAnimator.ofInt(0, progress);
+    public float getExactPercentage() {
+        return exactPercentage;
+    }
+
+    public void setExactPercentage(float exactPercentage) {
+        this.exactPercentage = exactPercentage;
+    }
+
+    public void animateFromZero() {
+        animator = ValueAnimator.ofFloat(0, host.getProgressPercent());
         animator.setDuration(Constants.FROM_ZERO_ANIM);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (Integer) animation.getAnimatedValue();
-                setPercentage(value);
+                float value = (Float) animation.getAnimatedValue();
+                setExactPercentage(value);
+                setPercentage((int)(Math.floor(value) * 100));
             }
         });
 
@@ -778,7 +793,6 @@ public class TrackableView extends View {
     }
 
     public void animateProgressAdded(int progress) {
-
         animator = ValueAnimator.ofInt(percentage, progress);
         animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

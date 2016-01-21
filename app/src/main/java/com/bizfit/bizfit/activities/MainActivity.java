@@ -79,16 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void createTrackableViews() {
         for (int i = 0; i < currentUser.getTrackers().size(); i++) {
-            createTrackableView(i);
+            createTrackableView(currentUser.getTrackers().get(i));
         }
     }
 
-    private void createTrackableView(final int i) {
-        TrackableView view = new TrackableView(getBaseContext(), null);
-        Tracker.RemainingTime time = currentUser.getTrackers().get(i).getTimeRemaining();
-        view.setLabel(currentUser.getTrackers().get(i).getName());
-        view.setPercentage((int) Math.floor(
-                currentUser.getTrackers().get(i).getProgressPercent() * 100));
+    private void createTrackableView(final Tracker tracker) {
+        TrackableView view = new TrackableView(getBaseContext(), null, tracker);
+        Tracker.RemainingTime time = tracker.getTimeRemaining();
+        view.setLabel(tracker.getName());
+        view.setPercentage((int) Math.floor(tracker.getProgressPercent() * 100));
         view.setTimeLeft(time.getTimeRemaining());
         view.setTimeLeftSuffix(time.getTimeType() + "");
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchViewTrackerActivity(currentUser.getTrackers().get(i));
+                launchViewTrackerActivity(tracker);
             }
         });
 
@@ -165,15 +164,19 @@ public class MainActivity extends AppCompatActivity {
             newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
                     , data.getIntExtra(FieldNames.MONTH, 1)
                     , data.getIntExtra(FieldNames.DAY, 1)
-                    , data.getBooleanExtra(FieldNames.RECURRING, false));
-            createTrackableView(currentUser.getTrackers().size() - 1);
+                    , data.getBooleanExtra(FieldNames.RECURRING, false
+            ));
+
+            createTrackableView(currentUser.getTrackers().get(
+                    currentUser.getTrackers().size() - 1
+            ));
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // animateTrackerViewsFromZero();
+        animateTrackerViewsFromZero();
 
     }
 
@@ -190,8 +193,12 @@ public class MainActivity extends AppCompatActivity {
         int count = layout.getChildCount();
         TrackableView view = null;
         for (int i = 0; i < count; i++) {
-            view = (TrackableView) layout.getChildAt(i);
-            view.animateFromZero((int) Math.floor(currentUser.getTrackers().get(i).getProgressPercent() * 100));
+            View tmp = layout.getChildAt(i);
+
+            if (tmp instanceof TrackableView) {
+                view = (TrackableView) tmp;
+                view.animateFromZero();
+            }
         }
     }
 }
