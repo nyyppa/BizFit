@@ -244,6 +244,7 @@ public class TrackableView extends View {
      * @param canvas
      */
     private void paintBar(Canvas canvas) {
+        paint.setColorFilter(null);
         paint.setColor(unfinishedColor);
         canvas.drawRect(unfinished, paint);
 
