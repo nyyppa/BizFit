@@ -21,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
@@ -78,20 +77,20 @@ public class TrackableView extends View {
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = Utils.sp2px(getResources(), 17);
+    private final float labelSizeDefault = Utils.sp2px(getResources(), 14);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
     private final int percentageDefault = 50;
-    private final float percentageSizeDefault = Utils.sp2px(getResources(), 34);
+    private final float percentageSizeDefault = Utils.sp2px(getResources(), 24);
     private final float percentagePaddingRightDefault = Utils.dp2px(getResources(), 0);
     private final float percentagePaddingLeftDefault = Utils.dp2px(getResources(), 20);
     private final String percentageSuffix = "%";
-    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 14);
+    private final float percetangeSuffixSizeDefault = Utils.sp2px(getResources(), 12);
     private final float percentageSuffixPaddingRightDefault = Utils.dp2px(getResources(), 8);
     private final int textColorPrimaryDefault = R.color.colorTextPrimary;
     private final int textColorSecondaryDefault = R.color.colorTextSecondary;
     private final int textColorTertiaryDefault = R.color.colorTextTertiary;
-    private final float barHeightDefault = Utils.dp2px(getResources(), 6);
+    private final float barHeightDefault = Utils.dp2px(getResources(), 8);
     private final int finishedColorDefault = R.color.colorAccent;
     private final int unfinishedColorDefault = R.color.colorUnfinishedColor;
     private final float indicatorDistanceToMidLineDefault = Utils.dp2px(getResources(), 2);
@@ -233,10 +232,10 @@ public class TrackableView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(getResources().getColor(R.color.colorPrimaryDark));
         paintText(canvas);
         paintBar(canvas);
         paintIcons(canvas);
+
     }
 
     /**
@@ -364,7 +363,7 @@ public class TrackableView extends View {
                 (textPaint.ascent() + textPaint.descent());
 
         timeLeftIconX = unfinished.right - timeLeftIcon.getWidth();
-        timeLeftIconY =  labelBaseLine - timeLeftIcon.getHeight();
+        timeLeftIconY =  labelBaseLine - (int)(timeLeftIcon.getHeight() * 0.95);
 
 
         // TODO change so that icons are displayed
