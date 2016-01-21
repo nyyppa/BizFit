@@ -785,7 +785,7 @@ public class TrackableView extends View {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();
                 setExactPercentage(value);
-                setPercentage((int)(Math.floor(value) * 100));
+                setPercentage((int)(Math.floor(value * 100)));
             }
         });
 
