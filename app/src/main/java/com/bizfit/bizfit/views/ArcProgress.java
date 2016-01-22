@@ -53,7 +53,7 @@ public class ArcProgress extends View {
     private final int default_finished_color = R.color.colorAccent;
     private final int default_unfinished_color = R.color.colorPrimary;
     private final int default_text_color = R.color.colorPrimary;
-    private final int default_suffix_color = R.color.colorTextTertiary;
+    private final int default_suffix_color = R.color.colorBlack26;
     private final float default_suffix_text_size;
     private final float default_suffix_padding;
     private final float default_bottom_text_size;

@@ -1,13 +1,9 @@
 package com.bizfit.bizfit.activities;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
@@ -25,8 +20,6 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableView;
-
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;

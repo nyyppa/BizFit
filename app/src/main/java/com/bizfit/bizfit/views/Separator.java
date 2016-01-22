@@ -47,11 +47,11 @@ public class Separator extends View {
 
     private void initPainters() {
         paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.colorTextTertiary));
+        paint.setColor(getResources().getColor(R.color.colorBlack26));
         paint.setAntiAlias(true);
 
         textPaint = new TextPaint();
-        textPaint.setColor(getResources().getColor(R.color.colorTextPrimary));
+        textPaint.setColor(getResources().getColor(R.color.colorBlack87));
         textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(labelSize);
@@ -93,8 +93,6 @@ public class Separator extends View {
 
         labelX = bounds.left + labelPaddingLeft;
         labelY = bounds.bottom - labelPaddingBottom;
-
-        System.out.println("labelX: " + labelX + "   labelY: " + labelY);
     }
 
     public String getLabel() {

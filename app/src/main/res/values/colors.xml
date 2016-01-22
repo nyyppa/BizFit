@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimaryDark">#53565a</color>
-    <color name="colorPrimary">#fafafa</color>
+    <color name="colorPrimary">#eeeeee</color>
     <color name="colorAccent">#ef5350</color>
-    <color name="colorAccentSecondary">#995b5b</color>
-    <color name="colorBackground">#fffcf7</color>
-    <color name="colorTextPrimary">#de000000</color>
-    <color name="colorTextSecondary">#8a000000</color>
-    <color name="colorTextTertiary">#59000000</color>
-    <color name="colorUnfinishedColor">#0a000000</color>
+    <color name="colorAccentSecondary">#10ACAF</color>
+    <color name="colorGray50">#fafafa</color>
+    <color name="colorGray300">#e0e0e0</color>
+    <color name="colorBlack87">#de000000</color>
+    <color name="colorBlack57">#8a000000</color>
+    <color name="colorBlack26">#59000000</color>
+    <color name="colorBlack05">#0a000000</color>
 </resources>

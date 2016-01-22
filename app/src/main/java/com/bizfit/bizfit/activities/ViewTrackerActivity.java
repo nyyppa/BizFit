@@ -19,7 +19,6 @@ import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.Utils;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -69,9 +68,9 @@ public class ViewTrackerActivity extends AppCompatActivity {
     private void stylize(GraphView graph, LineGraphSeries<DataPoint> series) {
         GridLabelRenderer renderer = graph.getGridLabelRenderer();
         renderer.setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
-        renderer.setHorizontalLabelsColor(R.color.colorTextPrimary);
-        renderer.setVerticalLabelsColor(R.color.colorTextPrimary);
-        series.setColor(R.color.colorTextPrimary);
+        renderer.setHorizontalLabelsColor(R.color.colorBlack87);
+        renderer.setVerticalLabelsColor(R.color.colorBlack87);
+        series.setColor(R.color.colorBlack87);
         series.setThickness((int) Utils.dp2px(getResources(), 1));
     }
 
