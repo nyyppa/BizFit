@@ -17,12 +17,11 @@ public class PauseableThread extends Thread {
             synchronized (this) {
                 try {
                     while (System.currentTimeMillis()<pauseEnds)
-                        wait();
+                        wait(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-
             if (exit) return;
 
             if (MainActivity.currentUser!=null) {
