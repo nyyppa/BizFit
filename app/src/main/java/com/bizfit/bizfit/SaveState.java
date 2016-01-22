@@ -264,6 +264,7 @@ public class SaveState implements java.io.Serializable {
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
         obj_out.writeObject(this);
         obj_out.close();
+        //lastUser.save(user);
     }
     private static Users loadUsers(){
         FileInputStream f_in = null;
@@ -382,7 +383,7 @@ public class SaveState implements java.io.Serializable {
             FileOutputStream f_out = new FileOutputStream(file);
             //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
             ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
-            obj_out.writeObject(new LastUser());
+            obj_out.writeObject(this);
             obj_out.close();
         }
     }
