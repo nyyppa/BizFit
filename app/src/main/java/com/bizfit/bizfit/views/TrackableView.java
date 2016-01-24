@@ -180,8 +180,6 @@ public class TrackableView extends View {
         initAttributes(a, context);
 
         requestLayout();
-
-
     }
 
 
@@ -249,7 +247,6 @@ public class TrackableView extends View {
         paintText(canvas);
         paintBar(canvas);
         paintIcons(canvas);
-
     }
 
     /**
