@@ -45,20 +45,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         layout = (LinearLayout) findViewById(R.id.goal_container);
-
-
-        Separator test = new Separator(getBaseContext(), null);
-        test.setLabel("A");
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) Utils.dp2px(getResources()
-                , 50));
-        test.setLayoutParams(param);
-        test.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
-        test.setLabelPaddingBottom((int)Utils.dp2px(getResources(), 3));
-        layout.addView(test);
-
-
         createTrackableViews();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +59,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTrackableViews() {
-        for (int i = 0; i < currentUser.getTrackers().size(); i++) {
-            createTrackableView(currentUser.getTrackers().get(i));
+        SaveState.SortedTrackers trakers = currentUser.getAlpapheticalSortedTrackers(true);
+        for (int i = 0; i < trakers.currentTrackers.size(); i++) {
+            if (i == 0 || trakers.currentTrackers.get(i).getName().charAt(0) !=
+                    trakers.currentTrackers.get(i - 1).getName().charAt(0)) {
+                layout.addView(createSeparator(
+                        trakers.currentTrackers.get(i).getName().charAt(0) + ""
+                ));
+            }
+
+            layout.addView(createTrackableView(trakers.currentTrackers.get(i)));
+        }
+
+        for (int i = 0; i < trakers.expiredTrackers.size(); i++) {
+
+            if (i == 0 || trakers.expiredTrackers.get(i).getName().charAt(0) !=
+                    trakers.expiredTrackers.get(i - 1).getName().charAt(0)) {
+                layout.addView(createSeparator(
+                        trakers.expiredTrackers.get(i).getName().charAt(0) + ""
+                ));
+            }
+
+            layout.addView(createTrackableView(trakers.expiredTrackers.get(i)));
         }
     }
 
-    private void createTrackableView(final Tracker tracker) {
+    private TrackableView createTrackableView(final Tracker tracker) {
         TrackableView view = new TrackableView(getBaseContext(), null, tracker);
         Tracker.RemainingTime time = tracker.getTimeRemaining();
         view.setLabel(tracker.getName());
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO
         // NOT hardcore these values. For whatever reason, values from
         // dimens.xml translate to weirdly large values.
-        view.setPadding((int) Utils.dp2px(getResources(), 16)
+        view.setPadding((int) Utils.dp2px(getResources(), 32)
                 , (int) Utils.dp2px(getResources(), 24)
                 , (int) Utils.dp2px(getResources(), 16)
                 , (int) Utils.dp2px(getResources(), 24)
@@ -109,7 +115,28 @@ public class MainActivity extends AppCompatActivity {
 
         view.setBackgroundResource(R.drawable.ripple_effect);
 
-        layout.addView(view);
+        return view;
+    }
+
+    private Separator createSeparator(String label) {
+
+        //TODO Dehardcode stuff!
+        Separator separator = new Separator(getBaseContext(), null);
+        separator.setLabel(label);
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT
+                , (int) Utils.dp2px(getResources()
+                , 60));
+        separator.setLayoutParams(param);
+        separator.setPadding((int) Utils.dp2px(getResources(), 16)
+                , (int) (Utils.dp2px(getResources(), 16))
+                , (int) (Utils.dp2px(getResources(), 16))
+                , (int) (Utils.dp2px(getResources(), 4)));
+
+        separator.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
+        separator.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
+
+        return separator;
     }
 
     private void launchViewTrackerActivity(Tracker tracker) {

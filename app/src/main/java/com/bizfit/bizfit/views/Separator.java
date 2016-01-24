@@ -19,14 +19,13 @@ import com.bizfit.bizfit.utils.Utils;
  */
 public class Separator extends View {
 
-    private Rect bounds = new Rect();
     private Rect horizontalLine = new Rect();
     private String label = "null";
 
-    private int labelSize = (int) Utils.sp2px(getResources(), 20);
-    private int horizontalLineHeight = (int) Utils.dp2px(getResources(), 12);
+    private int labelSize = (int) Utils.sp2px(getResources(), 15);
+    private int horizontalLineHeight = (int) Utils.dp2px(getResources(), 1);
 
-    private int labelPaddingLeft = (int) Utils.dp2px(getResources(), 16);
+    private int labelPaddingLeft = (int) Utils.dp2px(getResources(), 4);
     private int labelPaddingBottom = (int) Utils.dp2px(getResources(), 3);
 
     private int labelX;
@@ -47,7 +46,7 @@ public class Separator extends View {
 
     private void initPainters() {
         paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.colorBlack26));
+        paint.setColor(getResources().getColor(R.color.colorBlack10));
         paint.setAntiAlias(true);
 
         textPaint = new TextPaint();
@@ -81,18 +80,13 @@ public class Separator extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        bounds.set(left + getPaddingLeft()
-                , top
+        horizontalLine.set(left  + getPaddingLeft()
+                , bottom - top - horizontalLineHeight - getPaddingBottom()
                 , right - getPaddingRight()
-                , bottom);
+                , bottom - top - getPaddingBottom());
 
-        horizontalLine.set(bounds.right
-                , bounds.bottom + horizontalLineHeight
-                , bounds.right
-                , bounds.bottom);
-
-        labelX = bounds.left + labelPaddingLeft;
-        labelY = bounds.bottom - labelPaddingBottom;
+        labelX = horizontalLine.left + labelPaddingLeft;
+        labelY = horizontalLine.top - labelPaddingBottom;
     }
 
     public String getLabel() {
