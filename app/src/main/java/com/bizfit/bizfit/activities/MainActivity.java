@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this;
-        currentUser = SaveState.getLastUser();
         thread = new PauseableThread(1000);
         thread.start();
 
@@ -40,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-
+        activity = this;
+        currentUser = SaveState.getLastUser();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
