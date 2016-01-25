@@ -8,9 +8,13 @@ import java.util.ListIterator;
 
 
 public class DailyProgress implements java.io.Serializable{
-	List<DayPool>dayPool=new ArrayList<DayPool>(0);
+	private List<DayPool>dayPool=new ArrayList<DayPool>(0);
 	public DailyProgress(){
 
+	}
+
+	public List<DayPool> getDayPoolList(){
+		return dayPool;
 	}
 
 	public void addDailyProgress(float amount, long time){
@@ -57,7 +61,7 @@ public class DailyProgress implements java.io.Serializable{
 		}
 	}
 
-	private class DayPool implements java.io.Serializable{
+	public class DayPool implements java.io.Serializable{
 		float TotalAmount;
 		long time;
 		List<DaySingle>daySingle=new ArrayList<DaySingle>(0);

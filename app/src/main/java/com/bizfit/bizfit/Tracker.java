@@ -109,6 +109,21 @@ public class Tracker implements java.io.Serializable {
         }
     }
 
+    public List<DailyProgress.DayPool> getCurrentDayPools(){
+        return daily.getDayPoolList();
+    }
+
+
+    public List<DailyProgress.DayPool> getAllDayPools(){
+        List<DailyProgress.DayPool> lista=new ArrayList<DailyProgress.DayPool>(0);
+        for(int i=0;i<oldProgress.size();i++){
+            lista.addAll(oldProgress.get(i).getDailyProgress().getDayPoolList());
+        }
+        lista.addAll(daily.getDayPoolList());
+
+        return lista;
+    }
+
     public double getProgressComperedToTime(){
         double timeProgressPersent=(double)(timeProgress)/(double)(timeProgressNeed);
 
