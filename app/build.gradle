@@ -26,6 +26,8 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('D:/Bizfit/BizFit/libs/joda-time-2.9.1.jar')
     compile files('D:/Bizfit/BizFit/libs/GraphView-4.0.1.jar')
+    compile files('D:/Bizfit/BizFit/libs/mpandroidchartlibrary-2-1-6.jar')
     compile files('libs/GraphView-4.0.1.jar')
     compile files('libs/joda-time-2.9.1.jar')
+    compile files('libs/mpandroidchartlibrary-2-1-6.jar')
 }

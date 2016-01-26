@@ -17,7 +17,6 @@ import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableView;
 
@@ -90,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
         view.setTimeLeftSuffix(time.getTimeType() + "");
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) Utils.dp2px(getResources()
-                , 75));
+                , (int) (getResources().getDimension(R.dimen.trackableview_height)));
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,13 +99,10 @@ public class MainActivity extends AppCompatActivity {
 
         view.setLayoutParams(param);
 
-        // TODO
-        // NOT hardcore these values. For whatever reason, values from
-        // dimens.xml translate to weirdly large values.
-        view.setPadding((int) Utils.dp2px(getResources(), 32)
-                , (int) Utils.dp2px(getResources(), 24)
-                , (int) Utils.dp2px(getResources(), 16)
-                , (int) Utils.dp2px(getResources(), 24)
+        view.setPadding((int) getResources().getDimension(R.dimen.activity_vertical_margin)
+                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
+                , (int) getResources().getDimension(R.dimen.activity_vertical_margin)
+                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
         );
 
         view.setBackgroundResource(R.drawable.ripple_effect);
@@ -122,16 +117,14 @@ public class MainActivity extends AppCompatActivity {
         separator.setLabel(label);
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) Utils.dp2px(getResources()
-                , 60));
+                , (int) (getResources().getDimension(R.dimen.separator_height)));
         separator.setLayoutParams(param);
-        separator.setPadding((int) Utils.dp2px(getResources(), 16)
-                , (int) (Utils.dp2px(getResources(), 16))
-                , (int) (Utils.dp2px(getResources(), 16))
-                , (int) (Utils.dp2px(getResources(), 4)));
+        separator.setPadding((int) (getResources().getDimension(R.dimen.activity_vertical_margin))
+                , (int) (getResources().getDimension(R.dimen.separator_padding_top))
+                , (int) (getResources().getDimension(R.dimen.activity_vertical_margin))
+                , (int) (getResources().getDimension(R.dimen.separator_padding_bottom)));
 
-        separator.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
-        separator.setLabelPaddingBottom((int) Utils.dp2px(getResources(), 3));
+        separator.setLabelPaddingBottom((int) (getResources().getDimension(R.dimen.separator_padding_bottom)));
 
         return separator;
     }
