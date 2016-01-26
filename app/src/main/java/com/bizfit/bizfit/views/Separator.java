@@ -14,7 +14,9 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 /**
+ * Displays a line and a label.
  *
+ * Used to separate content into logical wholes.
  */
 public class Separator extends View {
 
@@ -43,6 +45,9 @@ public class Separator extends View {
         initPainters();
     }
 
+    /**
+     * Creates and prepares all the necessary painters.
+     */
     private void initPainters() {
         paint = new Paint();
         paint.setColor(getResources().getColor(R.color.colorBlack10));

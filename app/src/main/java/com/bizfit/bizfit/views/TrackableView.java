@@ -23,7 +23,9 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 /**
+ * Is the visual element on the home screen.
  *
+ * TODO needs heavy revision. Support for .xml will be lost in the proccess.
  */
 public class TrackableView extends View {
 
@@ -179,7 +181,9 @@ public class TrackableView extends View {
 
 
     /**
-     * @param attributes
+     * Loads attributes defined in xml if present, default values otherwise.
+     *
+     * @param attributes List of attributes defined in .xml file.
      */
     private void initAttributes(TypedArray attributes, Context context) {
         try {
@@ -218,7 +222,7 @@ public class TrackableView extends View {
 
     /**
      * Prepares necessary painter for drawing the view.
-     * <p/>
+     *
      * Does not set colors nor sizes. This is to be done separately before
      * beginning to draw any shapes or texts.
      */
@@ -231,9 +235,6 @@ public class TrackableView extends View {
         paint.setStyle(Paint.Style.FILL);
     }
 
-    /**
-     * @param canvas
-     */
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -327,11 +328,12 @@ public class TrackableView extends View {
 
     /**
      * Calculates the positioning of the View's children.
-     * <p/>
+     *
      * (Our job to handle that). It is also our responsibility to account
      * for padding and such. To prevent the label and the remaining time text's
      * overlapping, some form of trimming should be implemented for the label.
      * Probably in this method.
+     * TODO redo this method completly for better readability.
      *
      * @param changed
      * @param left
@@ -495,7 +497,7 @@ public class TrackableView extends View {
 
     /**
      * Loads View's saved attributes.
-     * <p/>
+     *
      * Loads the View's attributes so it can be recreated. If
      * new attributes are defined for the View, for the love of god remember
      * to load them here!
@@ -549,7 +551,7 @@ public class TrackableView extends View {
         if (label != null && label.length() != 0) {
             // Capitalises the first letter and converts the rest to lower case.
             this.label = label.substring(0, 1).toUpperCase() + label.substring(1);
-            ;
+
         } else {
             this.label = labelDefault;
         }
@@ -802,6 +804,12 @@ public class TrackableView extends View {
         this.exactPercentage = exactPercentage;
     }
 
+    /**
+     * Animates the progress percent and progress bar elements.
+     *
+     * Animation starts from zero and continues till the state of
+     * progress is reached.
+     */
     public void animateFromZero() {
         animator = ValueAnimator.ofFloat(0, host.getProgressPercent());
         animator.setDuration(getResources().getInteger(R.integer.from_zero_anim_duration));
@@ -816,6 +824,12 @@ public class TrackableView extends View {
         animator.start();
     }
 
+    /**
+     * Animates the progress percent and progress bar elements.
+     *
+     * Animation starts from the last known state of progress and continues
+     * till the new state of progress is reached.
+     */
     public void animateProgressAdded() {
         animator = ValueAnimator.ofFloat(percentage, host.getProgressPercent());
         animator.setDuration(getResources().getInteger(R.integer.progress_added_anim_duration));

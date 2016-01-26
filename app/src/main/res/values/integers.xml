@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Represents a dp value for a method, which only accepts raw
+     dp value and does the conversion to pixels by itself.-->
     <integer name="total_progress_graph_line_width">2</integer>
+    <integer name="text_caption">12</integer>
+    <integer name="y_axis_label_offset">-4</integer>
+
+    <!-- Represents animation duration in milli seconds.-->
     <integer name="progress_added_anim_duration">500</integer>
     <integer name="from_zero_anim_duration">2000</integer>
 

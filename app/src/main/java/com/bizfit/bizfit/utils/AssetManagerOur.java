@@ -13,7 +13,10 @@ import java.util.List;
 import com.bizfit.bizfit.activities.MainActivity;
 
 /**
- * Created by Käyttäjä on 22.12.2015.
+ * Loads and hold true type fonts from the assets folder.
+ *
+ * If the font you are looking for isn't listed here, add a new attribute
+ * which contains the font path.
  */
 public class AssetManagerOur {
 
@@ -27,7 +30,15 @@ public class AssetManagerOur {
 
     private static List<FontHolder> fonts = new ArrayList<FontHolder>(0);
 
+    /**
+     *
+     * @param file File path. One of the AssetManagerOur's public attributes
+     *             should be given as an attribute.
+     * @return True type font.
+     */
     public static Typeface getFont(String file) {
+
+        // Checks if the font is already loaded.
         for (int i = 0; i < fonts.size(); i++) {
             if (fonts.get(i).file.equals(file)) {
                 return fonts.get(i).font;

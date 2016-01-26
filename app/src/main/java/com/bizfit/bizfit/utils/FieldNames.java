@@ -6,7 +6,8 @@ package com.bizfit.bizfit.utils;
  * When Intent is returned from one activity to another, these String values
  * represent the keywords used to store data within that Intent.
  * <p/>
- * Creation of objects from this class is not possible.
+ * Creation of objects from this class is not possible, nor are these Strings
+ * used to display text.
  */
 public class FieldNames {
     public static final String TRACKERNAME = "name";
