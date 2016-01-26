@@ -2,6 +2,8 @@ package com.bizfit.bizfit;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -120,6 +122,13 @@ public class Tracker implements java.io.Serializable {
             lista.addAll(oldProgress.get(i).getDailyProgress().getDayPoolList());
         }
         lista.addAll(daily.getDayPoolList());
+        Comparator<DailyProgress.DayPool> t=new Comparator<DailyProgress.DayPool>() {
+            @Override
+            public int compare(DailyProgress.DayPool lhs, DailyProgress.DayPool rhs) {
+                return (int)(-1*(lhs.getTime()-rhs.getTime()));
+            }
+        };
+        Collections.sort(lista,t);
 
         return lista;
     }
