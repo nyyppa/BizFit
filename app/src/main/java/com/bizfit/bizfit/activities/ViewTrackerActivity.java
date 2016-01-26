@@ -1,6 +1,5 @@
 package com.bizfit.bizfit.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,17 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -55,9 +53,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
-
-
         createGraphs();
+        totalProgressChart.animateX((int)Constants.FROM_ZERO_ANIM, Easing.EasingOption.EaseInOutCirc);
     }
 
     private void createGraphs() {

@@ -21,7 +21,6 @@ import android.view.View;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
-import com.bizfit.bizfit.utils.Constants;
 
 /**
  *
@@ -42,7 +41,7 @@ public class TrackableView extends View {
     // Time left indicator
     private long timeLeft;
     private String timeLeftSuffix;
-    private float timeLeftSize = (int) getResources().getDimension(R.dimen.text_subheading);
+    private float timeLeftSize = (int) getResources().getDimension(R.dimen.text_caption);
 
     // The current progress in percentages.
     private int percentage;
@@ -93,7 +92,7 @@ public class TrackableView extends View {
     private final float percetangeSuffixSizeDefault = (int) getResources().getDimension(R.dimen.text_caption);
     private final float percentageSuffixPaddingRightDefault = (int) getResources().getDimension(R.dimen.trackableview_percentage_suffix_padding_right);
     private final int textColorPrimaryDefault = R.color.colorBlack87;
-    private final int textColorSecondaryDefault = R.color.colorBlack87;
+    private final int textColorSecondaryDefault = R.color.colorBlack57;
     private final int textColorTertiaryDefault = R.color.colorBlack57;
     private final float barHeightDefault = (int) getResources().getDimension(R.dimen.trackableview_bar_height);
     private final int finishedColorDefault = R.color.colorAccent;
@@ -102,7 +101,7 @@ public class TrackableView extends View {
     // TODO make these into stylebale attributes. Also handle saving and loading.
     private final int indicatorPositiveColorDefault = R.color.colorBlack87;
     private final int indicatorNegativeColorDefault = R.color.colorAccent;
-    private final int timeLeftIconColorDefault = R.color.colorBlack87;
+    private final int timeLeftIconColorDefault = R.color.colorBlack57;
     private final float labelBarPaddingDefault = (int) getResources().getDimension(R.dimen.trackableview_lable_bar_padding);
 
     private final Bitmap indicatorPositiveDefault = BitmapFactory.decodeResource(
@@ -805,7 +804,7 @@ public class TrackableView extends View {
 
     public void animateFromZero() {
         animator = ValueAnimator.ofFloat(0, host.getProgressPercent());
-        animator.setDuration(Constants.FROM_ZERO_ANIM);
+        animator.setDuration(getResources().getInteger(R.integer.from_zero_anim_duration));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();
@@ -819,7 +818,7 @@ public class TrackableView extends View {
 
     public void animateProgressAdded() {
         animator = ValueAnimator.ofFloat(percentage, host.getProgressPercent());
-        animator.setDuration(Constants.PROGRESS_ADDED_ANIM);
+        animator.setDuration(getResources().getInteger(R.integer.progress_added_anim_duration));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (Float) animation.getAnimatedValue();

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="total_progress_graph_line_width">2</integer>
+    <integer name="progress_added_anim_duration">500</integer>
+    <integer name="from_zero_anim_duration">2000</integer>
+
 </resources>
