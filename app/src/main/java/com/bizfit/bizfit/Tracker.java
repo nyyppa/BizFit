@@ -42,6 +42,9 @@ public class Tracker implements java.io.Serializable {
 
     long lastTestUpdate;
 
+    public int daysFromStart(){
+        return (int)(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-startDate));
+    }
     public void undo(){
         ListIterator<Change>iterator=changes.listIterator();
         if (iterator.hasNext()) {
