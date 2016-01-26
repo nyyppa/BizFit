@@ -14,7 +14,7 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 /**
- * Created by Käyttäjä on 21.1.2016.
+ *
  */
 public class Separator extends View {
 
