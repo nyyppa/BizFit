@@ -190,9 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     , data.getBooleanExtra(FieldNames.RECURRING, false
             ));
 
-            createTrackableView(currentUser.getTrackers().get(
-                    currentUser.getTrackers().size() - 1
-            ));
+            createTrackableView(newTracker);
         }
     }
 

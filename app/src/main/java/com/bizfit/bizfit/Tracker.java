@@ -111,12 +111,13 @@ public class Tracker implements java.io.Serializable {
         }
     }
 
-    public List<DailyProgress.DayPool> getCurrentDayPools(){
-        return daily.getDayPoolList();
+    public DailyProgress.DayPool[] getCurrentDayPools(){
+        DailyProgress.DayPool[] d=new DailyProgress.DayPool[daily.getDayPoolList().size()];
+        return daily.getDayPoolList().toArray(d);
     }
 
 
-    public List<DailyProgress.DayPool> getAllDayPools(){
+    public DailyProgress.DayPool[] getAllDayPools(){
         List<DailyProgress.DayPool> lista=new ArrayList<DailyProgress.DayPool>(0);
         for(int i=0;i<oldProgress.size();i++){
             lista.addAll(oldProgress.get(i).getDailyProgress().getDayPoolList());
@@ -129,8 +130,10 @@ public class Tracker implements java.io.Serializable {
             }
         };
         Collections.sort(lista,t);
+        DailyProgress.DayPool[] d=new DailyProgress.DayPool[lista.size()];
 
-        return lista;
+
+        return lista.toArray(d);
     }
 
     public double getProgressComperedToTime(){
@@ -445,8 +448,9 @@ public class Tracker implements java.io.Serializable {
      *
      * @return  all passed progress for this tracker
      */
-    public List<OldProgress> getOldProgress(){
-        return oldProgress;
+    public OldProgress[] getOldProgress(){
+        OldProgress[]o=new OldProgress[oldProgress.size()];
+        return oldProgress.toArray(o);
     }
 
     /**

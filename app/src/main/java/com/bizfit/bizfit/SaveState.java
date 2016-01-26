@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -222,8 +223,9 @@ public class SaveState implements java.io.Serializable {
     /**
      * @return Returns all the users trackers
      */
-    public ArrayList<Tracker> getTrackers() {
-        return trackers;
+    public Tracker[] getTrackers() {
+        Tracker[] t=new Tracker[trackers.size()];
+        return trackers.toArray(t);
     }
 
     /**
