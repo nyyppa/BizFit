@@ -22,11 +22,11 @@ public class Separator extends View {
     private Rect horizontalLine = new Rect();
     private String label = "null";
 
-    private int labelSize = (int) Utils.sp2px(getResources(), 15);
-    private int horizontalLineHeight = (int) Utils.dp2px(getResources(), 1);
+    private int labelSize = (int)getResources().getDimension(R.dimen.text_body);
+    private int horizontalLineHeight = (int)getResources().getDimension(R.dimen.separator_line_height);
 
-    private int labelPaddingLeft = (int) Utils.dp2px(getResources(), 4);
-    private int labelPaddingBottom = (int) Utils.dp2px(getResources(), 3);
+    private int labelPaddingLeft = (int)getResources().getDimension(R.dimen.separator_label_margin_left);
+    private int labelPaddingBottom = (int)getResources().getDimension(R.dimen.separator_label_margin_right);
 
     private int labelX;
     private int labelY;

@@ -101,13 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
         view.setLayoutParams(param);
 
-        // TODO
-        // NOT hardcore these values. For whatever reason, values from
-        // dimens.xml translate to weirdly large values.
-        view.setPadding((int) Utils.dp2px(getResources(), 32)
-                , (int) Utils.dp2px(getResources(), 24)
-                , (int) Utils.dp2px(getResources(), 16)
-                , (int) Utils.dp2px(getResources(), 24)
+        view.setPadding((int)getResources().getDimension(R.dimen.activity_vertical_margin)
+                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
+                , (int)getResources().getDimension(R.dimen.activity_vertical_margin)
+                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
         );
 
         view.setBackgroundResource(R.drawable.ripple_effect);
