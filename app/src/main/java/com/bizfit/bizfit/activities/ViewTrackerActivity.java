@@ -54,7 +54,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
             }
         });
         createGraphs();
-        totalProgressChart.animateX((int)Constants.FROM_ZERO_ANIM, Easing.EasingOption.EaseInOutCirc);
     }
 
     private void createGraphs() {
