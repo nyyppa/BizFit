@@ -18,6 +18,7 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.FieldNames;
 
+import com.bizfit.bizfit.utils.YAxisRendererCustom;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,8 +30,6 @@ import java.util.ArrayList;
 
 /**
  * Displays information about the Tracker.
- *
- * TODO make the possibility to remove and modify Tracker.
  */
 public class ViewTrackerActivity extends AppCompatActivity {
     /**
@@ -94,7 +93,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     /**
      * Formats the totalProgress graph.
-     *
+     * <p/>
      * The specs are defined here. No attributes for the variables are created
      * since it would lead to an excessive amount of clutter. Any changes
      * to the formatting should be hardcoded here. Only exception are the
@@ -106,13 +105,20 @@ public class ViewTrackerActivity extends AppCompatActivity {
         totalProgressChart.setDescription("");
         totalProgressChart.setScaleYEnabled(false);
         totalProgressChart.setDrawGridBackground(false);
+        totalProgressChart.setViewPortOffsets(0, 250, 0, 0);
+        totalProgressChart.setRendererLeftYAxis(new YAxisRendererCustom(
+                totalProgressChart.getViewPortHandler()
+                , totalProgressChart.getAxisLeft()
+                , totalProgressChart.getTransformer(YAxis.AxisDependency.LEFT)
+                , host
+        ));
 
         XAxis xAxis = totalProgressChart.getXAxis();
         xAxis.setDrawLabels(false);
-        xAxis.setTextColor(getResources().getColor(R.color.white));
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
         xAxis.setAxisLineColor(getResources().getColor(R.color.white));
+        xAxis.setAxisLineWidth(getResources().getInteger(R.integer.x_axis_height));
 
         YAxis right = totalProgressChart.getAxisRight();
         right.setEnabled(false);
@@ -121,13 +127,14 @@ public class ViewTrackerActivity extends AppCompatActivity {
         left.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
         left.setTextSize(getResources().getInteger(R.integer.text_caption));
         left.setDrawAxisLine(false);
-        left.setYOffset(getResources().getInteger(R.integer.y_axis_label_offset));
+        left.setYOffset(getResources().getInteger(R.integer.y_axis_label_y_offset));
         left.setTextColor(getResources().getColor(R.color.white));
         left.setGridColor(getResources().getColor(R.color.white70));
         left.setAxisLineColor(getResources().getColor(R.color.white70));
         left.setStartAtZero(true);
         left.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        left.setAxisMaxValue(host.getTargetProgress());
+        left.setAxisMaxValue(host.getTargetProgress() < host.getCurrentProgress() ?
+                host.getCurrentProgress() : host.getTargetProgress());
 
         LineDataSet lineData = totalProgressChart.getData().getDataSets().get(0);
         lineData.setDrawValues(false);
@@ -156,7 +163,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     /**
      * Pulls data from the Tracker used to create y axis values.
-     *
+     * <p/>
      * Each data point is also given an index which represents their location
      * along the x axis.
      *
@@ -166,17 +173,17 @@ public class ViewTrackerActivity extends AppCompatActivity {
         DailyProgress.DayPool[] data = host.getAllDayPools();
         ArrayList<Entry> formattedData = new ArrayList<>();
 
-        // TODO Fetch data from Tracker.
-        for (int i = 0; i < 10; i++) {
-            formattedData.add(new Entry(( i * i * i) + 1, i));
-        }
+
+        formattedData.add(new Entry(0, 0));
+        formattedData.add(new Entry(host.getCurrentProgress(), 1));
+
 
         return formattedData;
     }
 
     /**
      * Opens a dialogue fragment used to inquire progress from user.
-     *
+     * <p/>
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment.
      */
@@ -192,6 +199,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 float progress = Float.parseFloat(input.getText().toString());
                 System.out.println(progress);
                 host.addProgress(progress);
+                totalProgressChart.invalidate();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
