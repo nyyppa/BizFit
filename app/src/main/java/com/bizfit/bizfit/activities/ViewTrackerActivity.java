@@ -84,8 +84,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
         ArrayList<String> xValues = createXValues();
 
         LineData data = new LineData(xValues, dataSets);
-        formatGraphTotalProgressChart();
         totalProgressChart.setData(data);
+        formatGraphTotalProgressChart();
         ((FrameLayout) findViewById(R.id.total_progress_container)).addView(totalProgressChart);
 
         // Called to ensure proper drawing.
