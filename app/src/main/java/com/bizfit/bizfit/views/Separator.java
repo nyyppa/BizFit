@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.AssetManagerOur;
-import com.bizfit.bizfit.utils.Utils;
 
 /**
  * Created by Käyttäjä on 21.1.2016.
@@ -22,11 +21,11 @@ public class Separator extends View {
     private Rect horizontalLine = new Rect();
     private String label = "null";
 
-    private int labelSize = (int)getResources().getDimension(R.dimen.text_body);
-    private int horizontalLineHeight = (int)getResources().getDimension(R.dimen.separator_line_height);
+    private int labelSize = (int) getResources().getDimension(R.dimen.text_body);
+    private int horizontalLineHeight = (int) getResources().getDimension(R.dimen.separator_line_height);
 
-    private int labelPaddingLeft = (int)getResources().getDimension(R.dimen.separator_label_margin_left);
-    private int labelPaddingBottom = (int)getResources().getDimension(R.dimen.separator_label_margin_right);
+    private int labelPaddingLeft = (int) getResources().getDimension(R.dimen.separator_label_padding_left);
+    private int labelPaddingBottom = (int) getResources().getDimension(R.dimen.separator_label_padding_right);
 
     private int labelX;
     private int labelY;
@@ -80,7 +79,7 @@ public class Separator extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        horizontalLine.set(left  + getPaddingLeft()
+        horizontalLine.set(left + getPaddingLeft()
                 , bottom - top - horizontalLineHeight - getPaddingBottom()
                 , right - getPaddingRight()
                 , bottom - top - getPaddingBottom());

@@ -42,7 +42,7 @@ public class TrackableView extends View {
     // Time left indicator
     private long timeLeft;
     private String timeLeftSuffix;
-    private float timeLeftSize = (int)getResources().getDimension(R.dimen.text_subheading);
+    private float timeLeftSize = (int) getResources().getDimension(R.dimen.text_subheading);
 
     // The current progress in percentages.
     private int percentage;
@@ -70,8 +70,8 @@ public class TrackableView extends View {
     private int timeLeftIconColor;
 
     // Icon sizes
-    private int indicatorSize = (int)getResources().getDimension(R.dimen.trackableview_icon_size);
-    private int timeLeftIconSize = (int)getResources().getDimension(R.dimen.trackableview_icon_size);
+    private int indicatorSize = (int) getResources().getDimension(R.dimen.trackableview_icon_size);
+    private int timeLeftIconSize = (int) getResources().getDimension(R.dimen.trackableview_icon_size);
 
     // Show show if the progress is on track.
     private Bitmap indicatorPositive;
@@ -83,19 +83,19 @@ public class TrackableView extends View {
 
     // Default values for styleable attributes.
     private final String labelDefault = "Null";
-    private final float labelSizeDefault = (int)getResources().getDimension(R.dimen.text_subheading);
+    private final float labelSizeDefault = (int) getResources().getDimension(R.dimen.text_subheading);
     private final int timeLeftDefault = 0;
     private final String timeLeftSuffixDefault = "Null";
     private final int percentageDefault = 50;
-    private final float percentageSizeDefault =(int)getResources().getDimension(R.dimen.text_headline);
-    private final float percentagePaddingLeftDefault = (int)getResources().getDimension(R.dimen.trackableview_percentage_padding_left);
+    private final float percentageSizeDefault = (int) getResources().getDimension(R.dimen.text_headline);
+    private final float percentagePaddingLeftDefault = (int) getResources().getDimension(R.dimen.trackableview_percentage_padding_left);
     private final String percentageSuffix = "%";
-    private final float percetangeSuffixSizeDefault = (int)getResources().getDimension(R.dimen.text_caption);
-    private final float percentageSuffixPaddingRightDefault = (int)getResources().getDimension(R.dimen.trackableview_percentage_suffix_padding_right);
+    private final float percetangeSuffixSizeDefault = (int) getResources().getDimension(R.dimen.text_caption);
+    private final float percentageSuffixPaddingRightDefault = (int) getResources().getDimension(R.dimen.trackableview_percentage_suffix_padding_right);
     private final int textColorPrimaryDefault = R.color.colorBlack87;
     private final int textColorSecondaryDefault = R.color.colorBlack87;
     private final int textColorTertiaryDefault = R.color.colorBlack57;
-    private final float barHeightDefault = (int)getResources().getDimension(R.dimen.trackableview_bar_height);
+    private final float barHeightDefault = (int) getResources().getDimension(R.dimen.trackableview_bar_height);
     private final int finishedColorDefault = R.color.colorAccent;
     private final int unfinishedColorDefault = R.color.colorBlack05;
 
@@ -103,7 +103,7 @@ public class TrackableView extends View {
     private final int indicatorPositiveColorDefault = R.color.colorBlack87;
     private final int indicatorNegativeColorDefault = R.color.colorAccent;
     private final int timeLeftIconColorDefault = R.color.colorBlack87;
-    private final float labelBarPaddingDefault = (int)getResources().getDimension(R.dimen.trackableview_lable_bar_padding);
+    private final float labelBarPaddingDefault = (int) getResources().getDimension(R.dimen.trackableview_lable_bar_padding);
 
     private final Bitmap indicatorPositiveDefault = BitmapFactory.decodeResource(
             getResources()
@@ -385,10 +385,10 @@ public class TrackableView extends View {
 
         timeLeftIconX = unfinished.right - timeLeftIcon.getWidth();
         timeLeftIconY = labelBaseLine - (int) (timeLeftIcon.getHeight() * 0.85);
-        timeLeftSuffixX = timeLeftIconX - (int)getResources().getDimension(R.dimen.trackableview_time_left_icon_margin);
+        timeLeftSuffixX = timeLeftIconX - (int) getResources().getDimension(R.dimen.trackableview_time_left_icon_margin);
         prepTimeLeftSuffixPainter();
         timeleftX = timeLeftSuffixX - textPaint.measureText(timeLeftSuffix)
-                - (int)getResources().getDimension(R.dimen.trackableview_time_left_margin);
+                - (int) getResources().getDimension(R.dimen.trackableview_time_left_margin);
     }
 
     private void prepTimeLeftSuffixPainter() {

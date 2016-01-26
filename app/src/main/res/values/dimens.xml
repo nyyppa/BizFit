@@ -12,10 +12,14 @@
     <dimen name="trackableview_lable_bar_padding">5dp</dimen>
     <dimen name="trackableview_time_left_icon_margin">12dp</dimen>
     <dimen name="trackableview_time_left_margin">2dp</dimen>
+    <dimen name="trackableview_height">75dp</dimen>
 
+    <dimen name="separator_height">60dp</dimen>
+    <dimen name="separator_padding_top">16dp</dimen>
+    <dimen name="separator_padding_bottom">0dp</dimen>
     <dimen name="separator_line_height">1dp</dimen>
-    <dimen name="separator_label_margin_left">4dp</dimen>
-    <dimen name="separator_label_margin_right">4dp</dimen>
+    <dimen name="separator_label_padding_left">4dp</dimen>
+    <dimen name="separator_label_padding_right">4dp</dimen>
 
     <dimen name="text_button">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>

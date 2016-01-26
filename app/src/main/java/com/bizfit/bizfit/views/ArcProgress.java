@@ -353,7 +353,7 @@ public class ArcProgress extends View {
 
                 // Tämä perkele tässä on placeholder
                 textPaint.setTextSize(Utils.sp2px(getResources(), 18f));
-                textBaseline  += Utils.dp2px(getResources(), 20);
+                textBaseline += Utils.dp2px(getResources(), 20);
                 canvas.drawText("3 päivää", ((getWidth() - textPaint.measureText(getBottomText())) / 2.0f), textBaseline, textPaint);
 
             }
