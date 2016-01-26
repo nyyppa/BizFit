@@ -49,7 +49,7 @@ public class Separator extends View {
         paint.setAntiAlias(true);
 
         textPaint = new TextPaint();
-        textPaint.setColor(getResources().getColor(R.color.colorBlack87));
+        textPaint.setColor(getResources().getColor(R.color.colorBlack57));
         textPaint.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(labelSize);

@@ -11,4 +11,6 @@
     <color name="colorBlack26">#59000000</color>
     <color name="colorBlack10">#1a000000</color>
     <color name="colorBlack05">#0a000000</color>
+    <color name="white">#fff</color>
+    <color name="white70">#80ffffff</color>
 </resources>

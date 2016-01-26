@@ -7,4 +7,5 @@
     <string name="target_amount_hint">Amount</string>
     <string name="view_tracker_target">Target</string>
     <string name="view_tracker_time_left">Time left</string>
+    <string name="insufficent_data">You haven\'t added any progress yet</string>
 </resources>

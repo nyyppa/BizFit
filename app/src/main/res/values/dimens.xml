@@ -1,5 +1,7 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Note that a the line width for a graph in ViewTrackerActivity is given in integers.xml,
+    as the method for setting the value accepts dp values only. -->
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -16,7 +18,7 @@
 
     <dimen name="separator_height">60dp</dimen>
     <dimen name="separator_padding_top">16dp</dimen>
-    <dimen name="separator_padding_bottom">0dp</dimen>
+    <dimen name="separator_padding_bottom">2dp</dimen>
     <dimen name="separator_line_height">1dp</dimen>
     <dimen name="separator_label_padding_left">4dp</dimen>
     <dimen name="separator_label_padding_right">4dp</dimen>
@@ -28,4 +30,7 @@
     <dimen name="text_title">20sp</dimen>
     <dimen name="text_headline">24sp</dimen>
     <dimen name="text_display1">34sp</dimen>
+
+    <dimen name="total_progress_graph_horizontal_padding">16dp</dimen>
+    <dimen name="total_progress_graph_height">150dp</dimen>
 </resources>
