@@ -1,14 +1,13 @@
 package com.bizfit.bizfit.views;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.util.Log;
 
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.YAxisRendererCustom;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -19,13 +18,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 
 /**
- * Created by Käyttäjä on 27.1.2016.
+ *
  */
 public class CustomLineChart extends LineChart {
 
@@ -97,7 +94,7 @@ public class CustomLineChart extends LineChart {
 
     /**
      * Pulls data from the Tracker used to create x axis values.
-     * <p/>
+     *
      * Used as x - axis labels.
      *
      * @return ArrayList containing x axis values.
@@ -168,5 +165,12 @@ public class CustomLineChart extends LineChart {
         dataSets.add(dataSet);
         LineData data = new LineData(xValues, dataSets);
         super.setData(data);
+    }
+
+    public void update() {
+        pullDataFromTracker();
+        stylize();
+        addDataToSuperClass();
+        invalidate();
     }
 }

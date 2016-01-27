@@ -118,7 +118,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
                 host.addProgress(progress);
-                totalProgressChart.invalidate();
+                totalProgressChart.update();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
