@@ -234,6 +234,14 @@ public class Tracker implements java.io.Serializable {
         return new Date(startDate);
     }
 
+    public long getStartDateMillis(){
+        return startDate;
+    }
+
+    public long getEndDateMillis(){
+        return lastReset+timeProgressNeed;
+    }
+
     public DailyProgress getDailyProgress(){
         return daily;
     }
