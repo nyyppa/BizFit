@@ -54,8 +54,6 @@ public class YAxisRendererCustom extends YAxisRenderer {
 
 
         if (customPaintEnabled) {
-            System.out.println("Heya");
-
             if (host.getTargetProgress() < host.getCurrentProgress()) {
                 mYAxis.setAxisMaxValue(host.getCurrentProgress());
                 mYAxis.mEntryCount = 2;

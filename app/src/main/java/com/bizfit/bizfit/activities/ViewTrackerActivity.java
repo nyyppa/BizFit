@@ -15,13 +15,11 @@ import android.widget.FrameLayout;
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.FieldNames;
 
-import com.bizfit.bizfit.utils.YAxisRendererCustom;
+import com.bizfit.bizfit.views.CustomLineChart;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.Entry;
@@ -33,7 +31,6 @@ import org.joda.time.Days;
 import org.joda.time.MutableDateTime;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Displays information about the Tracker.
@@ -52,16 +49,12 @@ public class ViewTrackerActivity extends AppCompatActivity {
     /**
      * Accumulative line chart which displays total progress.
      */
-    LineChart totalProgressChart;
+    CustomLineChart totalProgressChart;
 
     /**
      * Shows values added per day.
      */
     BarChart dailyProgressChart;
-
-    DateTime startDate;
-    DateTime endDate;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +72,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
-        startDate = new DateTime(host.getStartDateMillis());
-        endDate = new DateTime(host.getEndDateMillis());
+
         createGraphs();
     }
 
@@ -102,20 +94,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * Initializes, populates graph with data and adds it to container.
      */
     private void createTotalProgressChart() {
-        totalProgressChart = new LineChart(getBaseContext());
-        LineDataSet dataSet = new LineDataSet(createDataSet(), "");
-        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-        // Array containing all the data sets being added to the graph.
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(dataSet);
-
-        // X-axis values.
-        ArrayList<String> xValues = createXValues();
-
-        LineData data = new LineData(xValues, dataSets);
-        totalProgressChart.setData(data);
-        formatGraphTotalProgressChart();
+        totalProgressChart = new CustomLineChart(getBaseContext(), host);
         ((FrameLayout) findViewById(R.id.total_progress_container)).addView(totalProgressChart);
 
         // Called to ensure proper drawing.
@@ -123,105 +102,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
     }
 
     /**
-     * Formats the totalProgress graph.
-     * <p/>
-     * The specs are defined here. No attributes for the variables are created
-     * since it would lead to an excessive amount of clutter. Any changes
-     * to the formatting should be hardcoded here. Only exception are the
-     * dimensions which should be defined in the corresponding .xml files.
-     *
-     * TODO proper padding for top.
-     */
-    private void formatGraphTotalProgressChart() {
-        (totalProgressChart.getLegend()).setEnabled(false);
-        totalProgressChart.setNoDataTextDescription(getResources().getString(R.string.insufficent_data));
-        totalProgressChart.setDescription("");
-        totalProgressChart.setScaleYEnabled(false);
-        totalProgressChart.setDrawGridBackground(false);
-        //totalProgressChart.setViewPortOffsets(0, 250, 0, 0);
-        totalProgressChart.setRendererLeftYAxis(new YAxisRendererCustom(
-                totalProgressChart.getViewPortHandler()
-                , totalProgressChart.getAxisLeft()
-                , totalProgressChart.getTransformer(YAxis.AxisDependency.LEFT)
-                , host
-        ));
-
-        XAxis xAxis = totalProgressChart.getXAxis();
-        xAxis.setDrawLabels(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisLineColor(getResources().getColor(R.color.white));
-        xAxis.setAxisLineWidth(getResources().getInteger(R.integer.x_axis_height));
-        xAxis.setTextColor(getResources().getColor(R.color.white));
-
-        YAxis right = totalProgressChart.getAxisRight();
-        right.setEnabled(false);
-
-        YAxis left = totalProgressChart.getAxisLeft();
-        left.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-        left.setTextSize(getResources().getInteger(R.integer.text_caption));
-        left.setDrawAxisLine(false);
-        left.setYOffset(getResources().getInteger(R.integer.y_axis_label_y_offset));
-        left.setTextColor(getResources().getColor(R.color.white));
-        left.setGridColor(getResources().getColor(R.color.white70));
-        left.setAxisLineColor(getResources().getColor(R.color.white70));
-        left.setStartAtZero(true);
-        left.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        left.setAxisMaxValue(host.getTargetProgress() < host.getCurrentProgress() ?
-                host.getCurrentProgress() : host.getTargetProgress());
-
-        LineDataSet lineData = totalProgressChart.getData().getDataSets().get(0);
-        lineData.setDrawValues(false);
-        lineData.setColor(getResources().getColor(R.color.white));
-        lineData.setCircleColor(getResources().getColor(R.color.white));
-        lineData.setCircleSize(0);
-        lineData.setLineWidth(getResources().getInteger(R.integer.total_progress_graph_line_width));
-    }
-
-    /**
-     * Pulls data from the Tracker used to create x axis values.
-     *
-     * Used for both graphs.
-     *
-     * @return ArrayList containing x axis values.
-     */
-    private ArrayList<String> createXValues() {
-        DailyProgress.DayPool[] data = host.getAllDayPools();
-        ArrayList<String> xValues = new ArrayList<>();
-        int numberOfDays = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
-        MutableDateTime date = startDate.toMutableDateTime();
-
-        for (int i = 0; i <= numberOfDays; i++) {
-            xValues.add(date.dayOfMonth().get() + "." + date.monthOfYear().get());
-            date.addDays(1);
-        }
-
-        return xValues;
-    }
-
-    /**
-     * Pulls data from the Tracker used to create y axis values.
-     * <p/>
-     * Each data point is also given an index which represents their location
-     * along the x axis.
-     *
-     * @return Data set containing points in the x - y coorinate system.
-     */
-    private ArrayList<Entry> createDataSet() {
-        DailyProgress.DayPool[] data = host.getAllDayPools();
-        ArrayList<Entry> formattedData = new ArrayList<>();
-
-
-        formattedData.add(new Entry(0, 0));
-        formattedData.add(new Entry(host.getCurrentProgress(), 1));
-
-
-        return formattedData;
-    }
-
-    /**
      * Opens a dialogue fragment used to inquire progress from user.
-     * <p/>
+     *
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.
      */
