@@ -131,5 +131,4 @@ public class ViewTrackerActivity extends AppCompatActivity {
         builder.show();
     }
 
-
 }

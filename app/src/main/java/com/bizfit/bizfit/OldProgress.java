@@ -1,7 +1,5 @@
 package com.bizfit.bizfit;
 
-import java.util.List;
-
 /**
  * Created by Atte on 22.11.2015.
  */
@@ -71,7 +69,7 @@ public class OldProgress implements java.io.Serializable{
     public float getTargetProgress(){
         return targetProgress;
     }
-    
+
     public DailyProgress getDailyProgress(){
     	return daily;
     }

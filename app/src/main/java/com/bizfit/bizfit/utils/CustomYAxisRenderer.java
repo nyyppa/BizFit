@@ -13,12 +13,12 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  * lines at tops. One for target progress. IF that is reached, display a second
  * line for current progress.
  */
-public class YAxisRendererCustom extends YAxisRenderer {
+public class CustomYAxisRenderer extends YAxisRenderer {
 
     private boolean customPaintEnabled;
     private Tracker host;
 
-    public YAxisRendererCustom(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans, Tracker host) {
+    public CustomYAxisRenderer(ViewPortHandler viewPortHandler, YAxis yAxis, Transformer trans, Tracker host) {
         super(viewPortHandler, yAxis, trans);
         setCustomPaintEnabled(true);
         this.host = host;

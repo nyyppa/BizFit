@@ -6,9 +6,9 @@
     <integer name="text_caption">12</integer>
     <integer name="y_axis_label_y_offset">-5</integer>
     <integer name="x_axis_height">1</integer>
+    <integer name="graph_circle_size">3</integer>
 
     <!-- Represents animation duration in milli seconds.-->
     <integer name="progress_added_anim_duration">500</integer>
     <integer name="from_zero_anim_duration">2000</integer>
-
 </resources>
