@@ -3,7 +3,6 @@ package com.bizfit.bizfit.utils;
 import com.bizfit.bizfit.Tracker;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.renderer.YAxisRenderer;
-import com.github.mikephil.charting.utils.PointD;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -63,10 +62,8 @@ public class YAxisRendererCustom extends YAxisRenderer {
                 mYAxis.mEntries = new float[2];
                 mYAxis.mEntries[0] = host.getCurrentProgress();
                 mYAxis.mEntries[1] = host.getTargetProgress();
-                System.out.println("Current progress: " + host.getCurrentProgress()
-                        + "    Target progress: " + host.getTargetProgress());
+
             } else {
-                System.out.print("Im here!");
                 mYAxis.mEntryCount = 1;
                 mYAxis.mEntries = new float[]{host.getTargetProgress()};
             }

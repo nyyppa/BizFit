@@ -19,14 +19,21 @@ import com.bizfit.bizfit.utils.AssetManagerOur;
 import com.bizfit.bizfit.utils.FieldNames;
 
 import com.bizfit.bizfit.utils.YAxisRendererCustom;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.MutableDateTime;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Displays information about the Tracker.
@@ -47,6 +54,14 @@ public class ViewTrackerActivity extends AppCompatActivity {
      */
     LineChart totalProgressChart;
 
+    /**
+     * Shows values added per day.
+     */
+    BarChart dailyProgressChart;
+
+    DateTime startDate;
+    DateTime endDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +79,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
+        startDate = new DateTime(host.getStartDateMillis());
+        endDate = new DateTime(host.getEndDateMillis());
         createGraphs();
     }
 
@@ -71,6 +88,20 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * Initializes, populates graphs with data and adds them to containers.
      */
     private void createGraphs() {
+        createTotalProgressChart();
+        createDailyProgressChart();
+    }
+
+    private void createDailyProgressChart() {
+        dailyProgressChart = new BarChart(getBaseContext());
+        BarData dailyTargetReached = new BarData();
+        BarData dailyTargetNotReached = new BarData();
+    }
+
+    /**
+     * Initializes, populates graph with data and adds it to container.
+     */
+    private void createTotalProgressChart() {
         totalProgressChart = new LineChart(getBaseContext());
         LineDataSet dataSet = new LineDataSet(createDataSet(), "");
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -98,6 +129,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * since it would lead to an excessive amount of clutter. Any changes
      * to the formatting should be hardcoded here. Only exception are the
      * dimensions which should be defined in the corresponding .xml files.
+     *
+     * TODO proper padding for top.
      */
     private void formatGraphTotalProgressChart() {
         (totalProgressChart.getLegend()).setEnabled(false);
@@ -105,7 +138,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         totalProgressChart.setDescription("");
         totalProgressChart.setScaleYEnabled(false);
         totalProgressChart.setDrawGridBackground(false);
-        totalProgressChart.setViewPortOffsets(0, 250, 0, 0);
+        //totalProgressChart.setViewPortOffsets(0, 250, 0, 0);
         totalProgressChart.setRendererLeftYAxis(new YAxisRendererCustom(
                 totalProgressChart.getViewPortHandler()
                 , totalProgressChart.getAxisLeft()
@@ -114,11 +147,12 @@ public class ViewTrackerActivity extends AppCompatActivity {
         ));
 
         XAxis xAxis = totalProgressChart.getXAxis();
-        xAxis.setDrawLabels(false);
+        xAxis.setDrawLabels(true);
         xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAxisLineColor(getResources().getColor(R.color.white));
         xAxis.setAxisLineWidth(getResources().getInteger(R.integer.x_axis_height));
+        xAxis.setTextColor(getResources().getColor(R.color.white));
 
         YAxis right = totalProgressChart.getAxisRight();
         right.setEnabled(false);
@@ -147,15 +181,19 @@ public class ViewTrackerActivity extends AppCompatActivity {
     /**
      * Pulls data from the Tracker used to create x axis values.
      *
+     * Used for both graphs.
+     *
      * @return ArrayList containing x axis values.
      */
     private ArrayList<String> createXValues() {
         DailyProgress.DayPool[] data = host.getAllDayPools();
         ArrayList<String> xValues = new ArrayList<>();
+        int numberOfDays = Days.daysBetween(startDate.withTimeAtStartOfDay(), endDate.withTimeAtStartOfDay()).getDays();
+        MutableDateTime date = startDate.toMutableDateTime();
 
-        // TODO Fetch data from Tracker.
-        for (int i = 0; i < 10; i++) {
-            xValues.add(i + "");
+        for (int i = 0; i <= numberOfDays; i++) {
+            xValues.add(date.dayOfMonth().get() + "." + date.monthOfYear().get());
+            date.addDays(1);
         }
 
         return xValues;
@@ -185,7 +223,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * Opens a dialogue fragment used to inquire progress from user.
      * <p/>
      * The inputted data is added to the Tracker's total progress.
-     * TODO error handling and overall better fragment.
+     * TODO error handling and overall better fragment. Option to use slider.
      */
     private void openDialoque() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -197,7 +235,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
-                System.out.println(progress);
                 host.addProgress(progress);
                 totalProgressChart.invalidate();
             }
