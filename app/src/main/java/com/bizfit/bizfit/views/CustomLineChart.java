@@ -31,27 +31,27 @@ public class CustomLineChart extends LineChart {
     /**
      * Tracker from which data is pulled from.
      */
-    Tracker host;
+    private Tracker host;
 
     /**
      * Data from the Tracker.
      */
-    LineDataSet dataSet;
+    private LineDataSet dataSet;
 
     /**
      * X - axis labels. Ranges from startDate to endDate.
      */
-    ArrayList<String> xValues;
+    private ArrayList<String> xValues;
 
     /**
      * X - axis  minimum value.
      */
-    DateTime startDate;
+    private DateTime startDate;
 
     /**
      * X - axis maximum value.
      */
-    DateTime endDate;
+    private DateTime endDate;
 
     public CustomLineChart(Context context, Tracker host) {
         super(context);
@@ -142,7 +142,7 @@ public class CustomLineChart extends LineChart {
         MutableDateTime date = startDate.toMutableDateTime();
 
         // Look up index
-        int dayPoolIndex = 0;
+        int dayPoolIndex = data.length - 1;
 
         // Total progress
         int progress = 0;
@@ -157,14 +157,14 @@ public class CustomLineChart extends LineChart {
         // Labels the x - axis points.
         for (int i = 0; i <= numberOfDays; i++) {
             xValues.add(date.dayOfMonth().get() + "." + date.monthOfYear().get());
-            outOfData = (data.length <= dayPoolIndex);
+            outOfData = (dayPoolIndex < 0);
 
             if (!outOfData) {
-                dataTime.setTime(data[dayPoolIndex].getTime());
+                dataTime.setDate(data[dayPoolIndex].getTime());
 
                 if (sameDate(dataTime, date)) {
                     progress += data[dayPoolIndex].getTotalAmount();
-                    dayPoolIndex++;
+                    dayPoolIndex--;
                 }
 
                 formattedData.add(i
