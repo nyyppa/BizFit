@@ -18,10 +18,10 @@
 
     <dimen name="separator_height">60dp</dimen>
     <dimen name="separator_padding_top">16dp</dimen>
-    <dimen name="separator_padding_bottom">2dp</dimen>
+    <dimen name="separator_padding_bottom">0dp</dimen>
     <dimen name="separator_line_height">1dp</dimen>
     <dimen name="separator_label_padding_left">4dp</dimen>
-    <dimen name="separator_label_padding_right">4dp</dimen>
+    <dimen name="separator_label_padding_bottom">4dp</dimen>
 
     <dimen name="text_button">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>
@@ -32,5 +32,5 @@
     <dimen name="text_display1">34sp</dimen>
 
     <dimen name="total_progress_graph_horizontal_padding">16dp</dimen>
-    <dimen name="total_progress_graph_height">150dp</dimen>
+    <dimen name="total_progress_graph_height">170dp</dimen>
 </resources>

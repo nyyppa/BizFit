@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="total_progress_graph_height">230dp</dimen>
+    <dimen name="total_progress_graph_height">170dp</dimen>
 </resources>

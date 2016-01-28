@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
@@ -29,6 +30,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.MutableDateTime;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -72,7 +74,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
-
+        fillTextViews();
         createGraphs();
     }
 
@@ -103,7 +105,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     /**
      * Opens a dialogue fragment used to inquire progress from user.
-     *
+     * <p/>
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.
      */
@@ -131,4 +133,19 @@ public class ViewTrackerActivity extends AppCompatActivity {
         builder.show();
     }
 
+    /**
+     * Populates info text's with data from Tracker.
+     */
+    private void fillTextViews() {
+        DateTime endDate = new DateTime(host.getEndDateMillis());
+
+        ((TextView) findViewById(R.id.target_amount)).setText(
+                (int) host.getTargetProgress() + "");
+
+        ((TextView) findViewById(R.id.time_left_amount)).setText(
+                endDate.getDayOfMonth() + "." +
+                        endDate.getMonthOfYear() + "." +
+                        endDate.getYear()
+        );
+    }
 }

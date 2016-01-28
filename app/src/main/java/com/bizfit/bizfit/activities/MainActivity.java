@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 , (int) (getResources().getDimension(R.dimen.activity_vertical_margin))
                 , (int) (getResources().getDimension(R.dimen.separator_padding_bottom)));
 
-        separator.setLabelPaddingBottom((int) (getResources().getDimension(R.dimen.separator_padding_bottom)));
+        separator.setLabelPaddingBottom((int) (getResources().getDimension(R.dimen.separator_label_padding_bottom)));
 
         return separator;
     }

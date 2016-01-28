@@ -6,6 +6,6 @@
     <string name="target_name_hint">Name</string>
     <string name="target_amount_hint">Amount</string>
     <string name="view_tracker_target">Target</string>
-    <string name="view_tracker_time_left">Time left</string>
+    <string name="view_tracker_target_date">By date</string>
     <string name="insufficent_data">You haven\'t added any progress yet</string>
 </resources>

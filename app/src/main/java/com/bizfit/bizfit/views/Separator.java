@@ -27,7 +27,7 @@ public class Separator extends View {
     private int horizontalLineHeight = (int) getResources().getDimension(R.dimen.separator_line_height);
 
     private int labelPaddingLeft = (int) getResources().getDimension(R.dimen.separator_label_padding_left);
-    private int labelPaddingBottom = (int) getResources().getDimension(R.dimen.separator_label_padding_right);
+    private int labelPaddingBottom = (int) getResources().getDimension(R.dimen.separator_label_padding_bottom);
 
     private int labelX;
     private int labelY;
