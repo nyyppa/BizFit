@@ -43,6 +43,20 @@ public class SaveState implements java.io.Serializable {
         }
     }
 
+    /**
+     * Checks if user has already Tracker with given name
+     * @param name  name to check
+     * @return  true if tracker is found and false if tracker is not found
+     */
+    public boolean isTrackerNameAlreadyInUse(String name){
+        for(int i=0;i<trackers.size();i++){
+            if(name.equals(trackers.get(i).getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static List<String> getUsers() {
         String[] s = MainActivity.activity.getFilesDir().list();
         List<String> users = new ArrayList<String>(0);
