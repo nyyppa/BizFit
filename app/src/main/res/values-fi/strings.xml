@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BizFit</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="insufficent_data">Et ole syöttänyt vielä edistystä</string>
+    <string name="new_goal">Uusi tavoite</string>
+    <string name="target_amount_hint">Määrä</string>
+    <string name="target_date_hint">Pvm.</string>
+    <string name="target_name_hint">Nimi</string>
+    <string name="view_tracker_target">Tavoite määrä</string>
+    <string name="view_tracker_target_date">Tavoite pvm.</string>
+</resources>

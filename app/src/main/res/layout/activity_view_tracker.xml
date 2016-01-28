@@ -81,6 +81,7 @@
                     android:textColor="@color/colorBlack87" />
             </RelativeLayout>
 
+            <!-- Content added progmatically -->
             <FrameLayout
                 android:id="@+id/total_progress_container"
                 android:layout_width="match_parent"
@@ -93,6 +94,7 @@
                 android:paddingRight="@dimen/activity_vertical_margin"
                 android:paddingTop="@dimen/total_progress_graph_horizontal_padding"></FrameLayout>
 
+            <!-- Content added progmatically -->
             <FrameLayout
                 android:id="@+id/daily_progress_container"
                 android:layout_width="match_parent"
