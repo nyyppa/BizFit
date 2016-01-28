@@ -6,7 +6,7 @@ import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
-import com.bizfit.bizfit.utils.CustomYAxisRenderer;
+import com.bizfit.bizfit.utils.CustomYAxisRendererLine;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -56,13 +56,14 @@ public class CustomLineChart extends LineChart {
     public CustomLineChart(Context context, Tracker host) {
         super(context);
         setTracker(host);
-        pullDataFromTracker();
-        stylize();
-        addDataToSuperClass();
+        update();
     }
 
     /**
      * Customizes the visuals.
+     *
+     * Calls addDataToSuperclass() as customizing the viewport requires
+     * data to be set.
      */
     public void stylize() {
         getLegend().setEnabled(false);
@@ -70,15 +71,6 @@ public class CustomLineChart extends LineChart {
         setDescription("");
         setScaleYEnabled(false);
         setDrawGridBackground(false);
-
-        // TODO Better scaling limitations.
-        getViewPortHandler().setMaximumScaleX(xValues.size());
-        setRendererLeftYAxis(new CustomYAxisRenderer(
-                getViewPortHandler()
-                , getAxisLeft()
-                , getTransformer(YAxis.AxisDependency.LEFT)
-                , host
-        ));
 
         XAxis xAxis = getXAxis();
         xAxis.setDrawLabels(true);
@@ -115,6 +107,16 @@ public class CustomLineChart extends LineChart {
 
         mInfoPaint.setColor(getResources().getColor(R.color.white));
         mInfoPaint.setTextSize(getResources().getDimension(R.dimen.text_subheading));
+
+        addDataToSuperClass();
+
+        getViewPortHandler().setMaximumScaleX(xValues.size());
+        setRendererLeftYAxis(new CustomYAxisRendererLine(
+                getViewPortHandler()
+                , getAxisLeft()
+                , getTransformer(YAxis.AxisDependency.LEFT)
+                , host
+        ));
     }
 
 
@@ -201,8 +203,6 @@ public class CustomLineChart extends LineChart {
      */
     public void setTracker(Tracker host) {
         this.host = host;
-        startDate = new DateTime(host.getStartDateMillis());
-        endDate = new DateTime(host.getEndDateMillis());
     }
 
     /**
@@ -219,9 +219,10 @@ public class CustomLineChart extends LineChart {
      * Updates the drawing field.
      */
     public void update() {
+        startDate = new DateTime(host.getStartDateMillis());
+        endDate = new DateTime(host.getEndDateMillis());
         pullDataFromTracker();
         stylize();
-        addDataToSuperClass();
         invalidate();
     }
 

@@ -13,26 +13,15 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 
+import com.bizfit.bizfit.views.CustomBarChart;
 import com.bizfit.bizfit.views.CustomLineChart;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 
 import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.MutableDateTime;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 /**
  * Displays information about the Tracker.
@@ -56,7 +45,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
     /**
      * Shows values added per day.
      */
-    BarChart dailyProgressChart;
+    CustomBarChart dailyProgressChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +76,11 @@ public class ViewTrackerActivity extends AppCompatActivity {
     }
 
     private void createDailyProgressChart() {
-        dailyProgressChart = new BarChart(getBaseContext());
-        BarData dailyTargetReached = new BarData();
-        BarData dailyTargetNotReached = new BarData();
+        dailyProgressChart = new CustomBarChart(getBaseContext(), host);
+        ((FrameLayout)findViewById(R.id.daily_progress_container)).addView(dailyProgressChart);
+
+        // Called to ensure proper drawing.
+        dailyProgressChart.invalidate();
     }
 
     /**

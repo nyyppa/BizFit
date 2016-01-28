@@ -31,6 +31,6 @@
     <dimen name="text_headline">24sp</dimen>
     <dimen name="text_display1">34sp</dimen>
 
-    <dimen name="total_progress_graph_horizontal_padding">16dp</dimen>
+    <dimen name="total_progress_graph_horizontal_padding">24dp</dimen>
     <dimen name="total_progress_graph_height">170dp</dimen>
 </resources>
