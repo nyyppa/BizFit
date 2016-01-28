@@ -339,7 +339,7 @@ public class Tracker implements java.io.Serializable {
     public void addProgress(float progress){
         currentProgress+=progress;
         daily.addDailyProgress(progress, System.currentTimeMillis());
-        changes.add(0,new Change(progress+"",lastModification.currentProgress));
+        changes.add(0, new Change(progress + "", lastModification.currentProgress));
         fieldUpdated();
     }
 
@@ -493,6 +493,16 @@ public class Tracker implements java.io.Serializable {
         this.defaultIncrement=increment;
         changes.add(0,new Change(increment+"",lastModification.defaultIncrement));
         fieldUpdated();
+    }
+
+    /**
+     * get minimum progress user needs to achieve to achieve his/her object
+     * @return minimum progress needed to achieve to pass his/her goal
+     */
+    public float getMinimumProgressNeededPerDay(){
+        long daysD=TimeUnit.MICROSECONDS.toDays(timeProgressNeed);
+        float f=(float)(getTargetProgress()/daysD);
+        return f;
     }
 
     public enum lastModification {
