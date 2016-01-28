@@ -135,11 +135,17 @@ public class CustomBarChart extends BarChart {
         // Labels the x - axis points.
         for (int i = 0; i <= numberOfDays; i++) {
             xValues.add(date.dayOfMonth().get() + "." + date.monthOfYear().get());
-            dataTime.setDate(data[dayPoolIndex].getTime());
 
-            if (sameDate(dataTime, date)) {
-                pulledData.add(new BarEntry((int) data[dayPoolIndex].getTotalAmount(), i));
-                dayPoolIndex--;
+            outOfData = (dayPoolIndex < 0);
+            if (!outOfData) {
+                dataTime.setDate(data[dayPoolIndex].getTime());
+
+                if (sameDate(dataTime, date)) {
+                    pulledData.add(new BarEntry((int) data[dayPoolIndex].getTotalAmount(), i));
+                    dayPoolIndex--;
+                } else {
+                    pulledData.add(new BarEntry(0, i));
+                }
             } else {
                 pulledData.add(new BarEntry(0, i));
             }
