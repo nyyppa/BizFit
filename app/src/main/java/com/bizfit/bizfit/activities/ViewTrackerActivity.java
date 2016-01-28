@@ -112,6 +112,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 float progress = Float.parseFloat(input.getText().toString());
                 host.addProgress(progress);
                 totalProgressChart.update();
+                dailyProgressChart.update();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
