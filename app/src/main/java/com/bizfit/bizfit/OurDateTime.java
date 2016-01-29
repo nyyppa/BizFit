@@ -21,4 +21,8 @@ public class OurDateTime extends GregorianCalendar {
         return this.get(DAY_OF_MONTH);
     }
 
+    public boolean isSameDate(OurDateTime date){
+        return date.getDay()==this.getDay()&&date.getMonth()==this.getMonth()&&date.getYear()==this.getYear();
+    }
+
 }
