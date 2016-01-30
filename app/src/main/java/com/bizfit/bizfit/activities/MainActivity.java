@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.bizfit.bizfit.NotificationSender;
 import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         thread = new PauseableThread(1000);
         thread.start();
 
+
     }
 
     protected void onStart() {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //animateTrackerViewsFromZero();
+        //NotificationSender.sendNotification("t");
     }
 
     private void createTrackableViews() {
