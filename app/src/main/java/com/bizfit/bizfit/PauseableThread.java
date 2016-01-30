@@ -9,6 +9,7 @@ public class PauseableThread extends Thread {
     boolean exit = false;
     long pauseEnds;
     long millis;
+    SaveState s;
     public PauseableThread(long millis){
         this.millis=millis;
     }
@@ -23,15 +24,18 @@ public class PauseableThread extends Thread {
                 }
             }
             if (exit) return;
-
-            if (MainActivity.currentUser!=null) {
-                Tracker[]t=MainActivity.currentUser.getTrackers();
+            if(MainActivity.currentUser!=null){
+                this.s=MainActivity.currentUser;
+            }
+            if (s!=null) {
+                Tracker[]t=s.getTrackers();
                 for(Tracker tracker:t){
                     tracker.update();
                     //MainActivity.currentUser.getTrackers().get(i).testUpdate(1000);
                 }
             }
             pause(millis);
+
         }
     }
 

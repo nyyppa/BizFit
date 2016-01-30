@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bizfit.bizfit.NotificationSender;
+import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
@@ -26,13 +27,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
-    public static PauseableThread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        thread = new PauseableThread(1000);
+        /*thread = new PauseableThread(1000);
         thread.start();
+        */
+        Intent intent = new Intent(this, OurService.class);
+        startService(intent);
 
 
     }
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 launchAddTrackerActivity();
             }
         });
+
         //animateTrackerViewsFromZero();
         //NotificationSender.sendNotification("t");
     }
@@ -153,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        thread.stopThread();
     }
 
     @Override
