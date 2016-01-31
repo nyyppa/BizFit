@@ -10,9 +10,13 @@ public class PauseableThread extends Thread {
     long pauseEnds;
     long millis;
     SaveState s;
+
     public PauseableThread(long millis){
         this.millis=millis;
+
     }
+
+
     public void run () {
         while (true) {
             synchronized (this) {
@@ -35,7 +39,6 @@ public class PauseableThread extends Thread {
                 }
             }
             pause(millis);
-
         }
     }
 

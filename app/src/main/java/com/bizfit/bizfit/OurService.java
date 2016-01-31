@@ -37,11 +37,12 @@ public class OurService extends IntentService {
                 }
             }
         }
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        super.onStartCommand(intent,flags,startId);
+        super.onStartCommand(intent, flags, startId);
         if(thread==null){
             thread=new PauseableThread(1000);
             thread.start();
@@ -50,6 +51,11 @@ public class OurService extends IntentService {
             thread.start();
         }
         return START_REDELIVER_INTENT;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
 }
