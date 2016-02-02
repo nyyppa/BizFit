@@ -30,6 +30,8 @@ public class SaveState implements java.io.Serializable {
     ArrayList<Tracker> trackers;
     public String user;
     LastUser lastUser;
+    private transient static SaveState currentSaveState;
+    private transient static File saveDir;
 
     /**
      * Do not manually construct new saveStates, rather call SaveState.getInstance(String user)
@@ -168,6 +170,7 @@ public class SaveState implements java.io.Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        currentSaveState=s;
         return s;
     }
 
@@ -274,7 +277,10 @@ public class SaveState implements java.io.Serializable {
      */
     public void save() throws Exception {
         //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
-        File file = new File(MainActivity.activity.getFilesDir(), loadUsers().getFileName(user) + ".SaveState");
+        if(saveDir==null){
+            saveDir=MainActivity.activity.getFilesDir();
+        }
+        File file = new File(saveDir, loadUsers().getFileName(user) + ".SaveState");
         FileOutputStream f_out = new FileOutputStream(file);
         //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
@@ -318,6 +324,9 @@ public class SaveState implements java.io.Serializable {
         return s;
     }
     public static SaveState getLastUser() {
+        if(currentSaveState!=null){
+            return currentSaveState;
+        }
         FileInputStream f_in = null;
         try {
             File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
@@ -394,8 +403,11 @@ public class SaveState implements java.io.Serializable {
         }
 
         void save(String lastUser) throws Exception {
+            if(saveDir==null){
+                saveDir=MainActivity.activity.getFilesDir();
+            }
             this.lastUser = Encrypt.encrypt(lastUser);
-            File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
+            File file = new File(saveDir, "LastUser.LastUser");
             FileOutputStream f_out = new FileOutputStream(file);
             //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
             ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
@@ -408,7 +420,10 @@ public class SaveState implements java.io.Serializable {
         List<ArrayList<String>> UserFiles=new ArrayList<ArrayList<String>>(0);
         int fileId=0;
         public void save()throws Exception {
-            File file = new File(MainActivity.activity.getFilesDir(), "Users.Users");
+            if(saveDir==null){
+                saveDir=MainActivity.activity.getFilesDir();
+            }
+            File file = new File(saveDir, "Users.Users");
             FileOutputStream f_out = new FileOutputStream(file);
             //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
             ObjectOutputStream obj_out = new ObjectOutputStream(f_out);

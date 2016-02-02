@@ -28,9 +28,7 @@ public class PauseableThread extends Thread {
                 }
             }
             if (exit) return;
-            if(MainActivity.currentUser!=null){
-                this.s=MainActivity.currentUser;
-            }
+            s=SaveState.getLastUser();
             if (s!=null) {
                 Tracker[]t=s.getTrackers();
                 for(Tracker tracker:t){
