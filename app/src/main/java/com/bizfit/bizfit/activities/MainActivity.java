@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layout;
     public static SaveState currentUser;
 
+    public static long lastOpen;
+    public static long lastMessageTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+        lastOpen=System.currentTimeMillis();
         activity = this;
         currentUser = SaveState.getLastUser();
         setContentView(R.layout.activity_main);

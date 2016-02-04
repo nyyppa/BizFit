@@ -1,5 +1,6 @@
 package com.bizfit.bizfit;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -29,7 +30,7 @@ public class NotificationSender {
                         .setContentTitle(title)
                         .setContentText(message);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(MainActivity.activity, NotificationSender.class);
+        Intent resultIntent = new Intent(MainActivity.activity, MainActivity.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -45,6 +46,8 @@ public class NotificationSender {
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
+
+
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) MainActivity.activity.getSystemService(MainActivity.activity.NOTIFICATION_SERVICE);
