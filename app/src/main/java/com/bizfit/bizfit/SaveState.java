@@ -30,7 +30,6 @@ public class SaveState implements java.io.Serializable {
     ArrayList<Tracker> trackers;
     public String user;
     LastUser lastUser;
-    private transient static SaveState currentSaveState;
     private transient static File saveDir;
 
     /**
@@ -170,7 +169,6 @@ public class SaveState implements java.io.Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        currentSaveState=s;
         return s;
     }
 
@@ -324,9 +322,6 @@ public class SaveState implements java.io.Serializable {
         return s;
     }
     public static SaveState getLastUser() {
-        if(currentSaveState!=null){
-            return currentSaveState;
-        }
         FileInputStream f_in = null;
         try {
             File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
