@@ -185,12 +185,6 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         animateTrackerViewsFromZero();
-        updateTrackableViewTrackers();
-
-    }
-
-    private void updateTrackableViewTrackers() {
-
     }
 
     private void animateTrackerViewsFromZero() {
