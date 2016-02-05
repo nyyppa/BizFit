@@ -1,51 +1,58 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
-import com.bizfit.bizfit.NotificationSender;
 import com.bizfit.bizfit.OurService;
-import com.bizfit.bizfit.PauseableThread;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.TrackableViewInflater;
 import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableView;
+
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
+    private LinkedList<TrackableView> trackableViews;
 
     public static long lastOpen;
     public static long lastMessageTime;
+    private static TrackableViewInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inflater = new TrackableViewInflater((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        trackableViews = new LinkedList<>();
         /*thread = new PauseableThread(1000);
         thread.start();
         */
         Intent intent = new Intent(this, OurService.class);
         startService(intent);
 
-
     }
 
     protected void onStart() {
         super.onStart();
-        lastOpen=System.currentTimeMillis();
+        lastOpen = System.currentTimeMillis();
         activity = this;
         currentUser = SaveState.getLastUser();
         setContentView(R.layout.activity_main);
@@ -65,8 +72,12 @@ public class MainActivity extends AppCompatActivity {
         //NotificationSender.sendNotification("t");
     }
 
+    // TODO This whole section needs clean up.
     private void createTrackableViews() {
+
         SaveState.SortedTrackers trakers = currentUser.getAlpapheticalSortedTrackers(true);
+
+
         for (int i = 0; i < trakers.currentTrackers.size(); i++) {
             if (i == 0 || trakers.currentTrackers.get(i).getName().charAt(0) !=
                     trakers.currentTrackers.get(i - 1).getName().charAt(0)) {
@@ -75,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
-            layout.addView(createTrackableView(trakers.currentTrackers.get(i)));
+            trackableViews.add(inflater.inflate(trakers.currentTrackers.get(i), layout, this));
         }
 
         for (int i = 0; i < trakers.expiredTrackers.size(); i++) {
@@ -87,38 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
-            layout.addView(createTrackableView(trakers.expiredTrackers.get(i)));
+            trackableViews.add(inflater.inflate(trakers.expiredTrackers.get(i), layout, this));
         }
-    }
 
-    private TrackableView createTrackableView(final Tracker tracker) {
-        TrackableView view = new TrackableView(getBaseContext(), null, tracker);
-        Tracker.RemainingTime time = tracker.getTimeRemaining();
-        view.setLabel(tracker.getName());
-        view.setPercentage((int) Math.floor(tracker.getProgressPercent() * 100));
-        view.setTimeLeft(time.getTimeRemaining());
-        view.setTimeLeftSuffix(time.getTimeType() + "");
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT
-                , (int) (getResources().getDimension(R.dimen.trackableview_height)));
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchViewTrackerActivity(tracker);
-            }
-        });
 
-        view.setLayoutParams(param);
-
-        view.setPadding((int) getResources().getDimension(R.dimen.activity_vertical_margin)
-                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
-                , (int) getResources().getDimension(R.dimen.activity_vertical_margin)
-                , (int) getResources().getDimension(R.dimen.trackabeview_horizontal_margin)
-        );
-
-        view.setBackgroundResource(R.drawable.ripple_effect);
-
-        return view;
     }
 
     private Separator createSeparator(String label) {
@@ -136,11 +119,12 @@ public class MainActivity extends AppCompatActivity {
                 , (int) (getResources().getDimension(R.dimen.separator_padding_bottom)));
 
         separator.setLabelPaddingBottom((int) (getResources().getDimension(R.dimen.separator_label_padding_bottom)));
+        separator.setClickable(false);
 
         return separator;
     }
 
-    private void launchViewTrackerActivity(Tracker tracker) {
+    public void launchViewTrackerActivity(Tracker tracker) {
         Intent viewTracker = new Intent(this, ViewTrackerActivity.class);
         viewTracker.putExtra(FieldNames.TRACKER, tracker);
         startActivity(viewTracker);
@@ -193,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     , data.getBooleanExtra(FieldNames.RECURRING, false
             ));
 
-            createTrackableView(newTracker);
+            inflater.inflate(newTracker, layout, this);
         }
     }
 
@@ -201,32 +185,39 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         animateTrackerViewsFromZero();
+        updateTrackableViewTrackers();
 
     }
 
-    private void animateProgressAdded() {
-        int count = layout.getChildCount();
-        TrackableView view = null;
-        for (int i = 0; i < count; i++) {
-            View tmp = layout.getChildAt(i);
+    private void updateTrackableViewTrackers() {
 
-            if (tmp instanceof TrackableView) {
-                view = (TrackableView) tmp;
-                view.animateProgressAdded();
-            }
-        }
     }
 
     private void animateTrackerViewsFromZero() {
-        int count = layout.getChildCount();
-        TrackableView view = null;
-        for (int i = 0; i < count; i++) {
-            View tmp = layout.getChildAt(i);
-
-            if (tmp instanceof TrackableView) {
-                view = (TrackableView) tmp;
-                view.animateFromZero();
-            }
+        for (int i = 0; i < trackableViews.size(); i++) {
+            trackableViews.get(i).animateFromZero();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        final ScrollView view = (ScrollView) findViewById(R.id.scroll_view);
+
+        outState.putIntArray(FieldNames.SCROLL_POS,
+                new int[]{ view.getScrollX(), view.getScrollY()});
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final ScrollView view = (ScrollView) findViewById(R.id.scroll_view);
+
+        final int[] position = savedInstanceState.getIntArray(FieldNames.SCROLL_POS);
+        if(position != null)
+            layout.post(new Runnable() {
+                public void run() {
+                    view.scrollTo(position[0], position[1]);
+                }
+            });
     }
 }

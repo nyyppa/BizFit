@@ -8,6 +8,8 @@
     <integer name="x_axis_height">1</integer>
     <integer name="graph_circle_size">3</integer>
 
+    <integer name="number_of_bar_steps">2000</integer>
+
     <!-- Represents animation duration in milli seconds.-->
     <integer name="progress_added_anim_duration">500</integer>
     <integer name="from_zero_anim_duration">2000</integer>

@@ -17,6 +17,7 @@ public class FieldNames {
     public static final String MONTH = "month";
     public static final String YEAR = "year";
     public static final String RECURRING = "recurring";
+    public static final String SCROLL_POS = "scrollposition";
 
     private FieldNames() {
     }

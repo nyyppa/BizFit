@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BizFit</string>
+    <string name="app_name">Bizfit</string>
     <string name="action_settings">Asetukset</string>
     <string name="insufficent_data">Et ole syöttänyt vielä edistystä</string>
     <string name="new_goal">Uusi tavoite</string>

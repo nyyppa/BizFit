@@ -95,7 +95,7 @@ public class CustomLineChart extends LineChart {
         left.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         left.setAxisLineWidth(getResources().getInteger(R.integer.x_axis_height));
         left.setAxisMaxValue(host.getTargetProgress() < host.getCurrentProgress() ?
-                host.getCurrentProgress() : host.getTargetProgress());
+                host.getCurrentProgress() * 1.1f : host.getTargetProgress() * 1.1f);
 
         dataSet.setDrawValues(false);
         dataSet.setColor(getResources().getColor(R.color.white));
