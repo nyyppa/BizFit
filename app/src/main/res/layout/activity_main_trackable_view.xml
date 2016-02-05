@@ -90,9 +90,11 @@
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageView2"
+                android:id="@+id/on_time_indicator"
                 android:src="@drawable/positive"
-                android:duplicateParentState="true"/>
+                android:duplicateParentState="true"
+                android:tint="@color/colorBlack87"
+                android:tintMode="src_in" />
 
             <TextView
                 android:layout_width="wrap_content"

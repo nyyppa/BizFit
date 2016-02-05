@@ -1,13 +1,19 @@
 package com.bizfit.bizfit.views;
 
 import android.animation.ValueAnimator;
+import android.os.Build;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.utils.FieldNames;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -42,6 +48,25 @@ public class TrackableView {
 
         // Text indicator of the current progress percentage.
         percentage = (TextView) (viewHost.findViewById(R.id.percentage_container).findViewById(R.id.percentage));
+
+        ImageView indicator = (ImageView)viewHost.findViewById(R.id.percentage_container).findViewById(R.id.on_time_indicator);
+
+
+
+        // Prepare the indicator which displays current progress rate.
+        if (trackerHost.getProgressOnTrack().equals(Tracker.OnTrack.ahead)) {
+            indicator.setVisibility(View.VISIBLE);
+            indicator.setImageDrawable(viewHost.getResources().getDrawable(R.drawable.positive));
+            indicator.setColorFilter(viewHost.getResources().getColor(R.color.colorBlack87));
+
+        } else if (trackerHost.getProgressOnTrack().equals(Tracker.OnTrack.behind)) {
+            indicator.setVisibility(View.VISIBLE);
+            indicator.setImageDrawable(viewHost.getResources().getDrawable(R.drawable.negative));
+            indicator.setColorFilter(viewHost.getResources().getColor(R.color.colorAccent));
+
+        } else {
+            indicator.setVisibility(View.INVISIBLE);
+        }
     }
 
 
