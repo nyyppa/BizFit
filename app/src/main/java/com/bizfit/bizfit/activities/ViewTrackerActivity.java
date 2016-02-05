@@ -19,7 +19,6 @@ import com.bizfit.bizfit.utils.FieldNames;
 
 import com.bizfit.bizfit.views.CustomBarChart;
 import com.bizfit.bizfit.views.CustomLineChart;
-import com.github.mikephil.charting.charts.BarChart;
 
 import org.joda.time.DateTime;
 

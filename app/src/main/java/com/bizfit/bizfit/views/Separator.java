@@ -23,6 +23,7 @@ public class Separator extends View {
     private Rect horizontalLine = new Rect();
     private String label = "null";
 
+    // TODO refer to android inbuilt sizes.
     private int labelSize = (int) getResources().getDimension(R.dimen.text_body);
     private int horizontalLineHeight = (int) getResources().getDimension(R.dimen.separator_line_height);
 
