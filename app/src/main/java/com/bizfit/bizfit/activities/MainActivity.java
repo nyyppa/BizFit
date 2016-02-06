@@ -14,28 +14,35 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 
 import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.SaveState;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.utils.TrackableViewInflater;
+import com.bizfit.bizfit.views.TrackableViewInflater;
 import com.bizfit.bizfit.views.Separator;
-import com.bizfit.bizfit.views.TrackableView;
+import com.bizfit.bizfit.views.TrackableViewBase;
 
 import java.util.LinkedList;
 
+/**
+ * Displays the content of home screen.
+ */
 public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
     public static SaveState currentUser;
-    private LinkedList<TrackableView> trackableViews;
+    private LinkedList<TrackableViewBase> trackableViews;
 
     public static long lastOpen;
     public static long lastMessageTime;
     private static TrackableViewInflater inflater;
+
+    // Which kind of view should be displayed on the home screen.
+    private static final TrackableViewInflater.ViewType type = TrackableViewInflater.ViewType.ALTERNATIVE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +79,12 @@ public class MainActivity extends AppCompatActivity {
         //NotificationSender.sendNotification("t");
     }
 
-    // TODO This whole section needs clean up.
+    /**
+     * Creates content to the screen which needs to be created dynamically.
+     */
     private void createTrackableViews() {
 
         SaveState.SortedTrackers trakers = currentUser.getAlpapheticalSortedTrackers(true);
-
 
         for (int i = 0; i < trakers.currentTrackers.size(); i++) {
             if (i == 0 || trakers.currentTrackers.get(i).getName().charAt(0) !=
@@ -86,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
-            trackableViews.add(inflater.inflate(trakers.currentTrackers.get(i), layout, this));
+            trackableViews.add(inflater.inflate(trakers.currentTrackers.get(i), layout, type));
         }
 
         for (int i = 0; i < trakers.expiredTrackers.size(); i++) {
@@ -98,10 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 ));
             }
 
-            trackableViews.add(inflater.inflate(trakers.expiredTrackers.get(i), layout, this));
+            trackableViews.add(inflater.inflate(trakers.expiredTrackers.get(i), layout, type));
         }
 
-
+        // Make the bottom empty space visible if content is present.
+        if (trackableViews.size() > 0)
+            ((Space) findViewById(R.id.empty_space)).setVisibility(View.VISIBLE);
     }
 
     private Separator createSeparator(String label) {
@@ -177,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     , data.getBooleanExtra(FieldNames.RECURRING, false
             ));
 
-            inflater.inflate(newTracker, layout, this);
+            inflater.inflate(newTracker, layout, type);
         }
     }
 
@@ -199,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         final ScrollView view = (ScrollView) findViewById(R.id.scroll_view);
 
         outState.putIntArray(FieldNames.SCROLL_POS,
-                new int[]{ view.getScrollX(), view.getScrollY()});
+                new int[]{view.getScrollX(), view.getScrollY()});
     }
 
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -207,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         final ScrollView view = (ScrollView) findViewById(R.id.scroll_view);
 
         final int[] position = savedInstanceState.getIntArray(FieldNames.SCROLL_POS);
-        if(position != null)
+        if (position != null)
             layout.post(new Runnable() {
                 public void run() {
                     view.scrollTo(position[0], position[1]);

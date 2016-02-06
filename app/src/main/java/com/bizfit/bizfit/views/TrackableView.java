@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.activities.MainActivity;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 /**
@@ -21,20 +22,7 @@ import com.bizfit.bizfit.utils.AssetManagerOur;
  * additional functions. Primarily animations and checks if certain
  * components in the View should be displayed.
  */
-public class TrackableView {
-
-    // Tracker from which data is pulled from.
-    Tracker trackerHost;
-
-    // View which handles displaying information.
-    View viewHost;
-
-    // Calculates the animation values.
-    ValueAnimator animator;
-
-    // Max value for the percentage indicator. Capped so that it doesn't
-    // occupy excessive amount of space in fringe cases.
-    private final int maxPercentage = 999;
+class TrackableView extends TrackableViewBase{
 
     /**
      * Creates and stylizes a new TrackableView.
@@ -46,6 +34,7 @@ public class TrackableView {
         this.trackerHost = trackerHost;
         this.viewHost = viewHost;
         formatView();
+        prepFunctionality();
     }
 
     /**
@@ -55,7 +44,7 @@ public class TrackableView {
      * progress indicators should be displayed, Tracker name, time left,
      * typefaces and dynamic padding. The last one is not implemented yet.
      */
-    private void formatView() {
+    public void formatView() {
 
         // All the text element within the view.
         TextView label = (TextView) (viewHost.findViewById(R.id.label));
@@ -108,34 +97,6 @@ public class TrackableView {
         }
     }
 
-
-    /**
-     * Animates the percentage and progress bar.
-     *
-     * The range of values starts from 0 and extends to maxAnimatorValue.
-     */
-    public void animateFromZero() {
-        float value, maxAnimatorValue;
-
-        // Prevents the animation from targeting above the maximum
-        // allowed value.
-        maxAnimatorValue = (((value = trackerHost.getProgressPercent()) * 100) < maxPercentage)
-                ? value : (maxPercentage / 100f);
-
-        animator = ValueAnimator.ofFloat(0, maxAnimatorValue);
-        animator.setDuration(viewHost.getResources().getInteger(R.integer.from_zero_anim_duration));
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (Float) animation.getAnimatedValue();
-                updateProgressBar(value);
-                setPercentage((int) (Math.floor(value * 100)));
-            }
-        });
-
-        animator.start();
-    }
-
     /**
      * Sets the visible percentage number.
      * <p/>
@@ -143,7 +104,7 @@ public class TrackableView {
      *
      * @param percentage Percentage number to display.
      */
-    private void setPercentage(int percentage) {
+    protected void setPercentage(int percentage) {
         if (percentage > maxPercentage)
             percentage = maxPercentage;
 
@@ -157,17 +118,9 @@ public class TrackableView {
      *
      * @param progress The percentage of progress in decimals. 1 == 100%
      */
-    private void updateProgressBar(float progress) {
+    @Override
+    public void updateProgressBar(float progress) {
         ProgressBar progressBar = (ProgressBar) viewHost.findViewById(R.id.progressbar);
         progressBar.setProgress((int) (progress * progressBar.getMax()));
-    }
-
-    /**
-     * Sets the trackerHost.
-     *
-     * @param trackerHost New host to pull data from.
-     */
-    public void setTrackerHost(Tracker trackerHost) {
-        this.trackerHost = trackerHost;
     }
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="@dimen/trackableview_height"
+    android:weightSum="1"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:longClickable="true"
+    android:id="@+id/root_container">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:id="@+id/content_container">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/percentage_container">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="100"
+                android:id="@+id/percentage"
+                android:textSize="@dimen/text_headline"
+                android:duplicateParentState="true"
+                android:numeric="integer"
+                android:layout_centerVertical="true"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_info_container"
+                android:duplicateParentState="true"
+                android:layout_weight="0.1"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Label Name Place Holder"
+                    android:id="@+id/label"
+                    android:textSize="@dimen/text_title"
+                    android:duplicateParentState="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Time Left Place Holder"
+                    android:id="@+id/time_left"
+                    android:textSize="@dimen/text_body" />
+
+            </LinearLayout>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressbar"
+                android:progress="1"
+                android:max="1"
+                android:duplicateParentState="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="-8dp"
+                android:layout_marginTop="-4dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
