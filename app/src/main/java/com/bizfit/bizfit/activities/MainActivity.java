@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Separator createSeparator(String label) {
 
-        //TODO Dehardcode stuff!
+        //TODO Make Separator .xml based
         Separator separator = new Separator(getBaseContext(), null);
         separator.setLabel(label);
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(

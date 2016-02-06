@@ -1,5 +1,8 @@
 package com.bizfit.bizfit.views;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -8,10 +11,19 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
+import java.util.Random;
+
 /**
  *
  */
 class TrackableViewAlternative extends TrackableViewBase {
+
+    /**
+     * Views custom color. Reflects the type of item being tracked. Also
+     * affects the style of view tracker activity.
+     */
+    int color;
+
     /**
      * Creates and stylizes a new TrackableView.
      *
@@ -77,6 +89,27 @@ class TrackableViewAlternative extends TrackableViewBase {
 
         // number_of_bar_steps effectively defines the smoothness of the animation.
         progressBar.setMax(R.integer.number_of_bar_steps);
+
+        // Custom progressbar graph.
+        final Drawable drawable;
+        int sdk = android.os.Build.VERSION.SDK_INT;
+
+        // Check which sdk is in use.
+        if (sdk < 16) {
+            drawable = progressBar.getContext().getResources().getDrawable(R.drawable.my_progressbar);
+        } else {
+            drawable = ContextCompat.getDrawable(progressBar.getContext(), R.drawable.my_progressbar);
+        }
+
+        // Random color from predetermined range.
+        int color = randomColor();
+
+        // Sets all the colors which change dynamically.
+        viewHost.findViewById(R.id.percentage_container).setBackgroundColor(color);
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
+        // Set the progressBarDrawable to be the custom one.
+        progressBar.setProgressDrawable(drawable);
     }
 
     /**
@@ -88,5 +121,11 @@ class TrackableViewAlternative extends TrackableViewBase {
     public void updateProgressBar(float progress) {
         ProgressBar progressBar = (ProgressBar) viewHost.findViewById(R.id.progressbar);
         progressBar.setProgress((int) (progress * progressBar.getMax()));
+    }
+
+    private int randomColor() {
+        int[] androidColors = viewHost.getResources().getIntArray(R.array.trackable_view_alt_colors);
+        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+        return randomAndroidColor;
     }
 }
