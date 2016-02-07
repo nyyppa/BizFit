@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".MainActivity"
-    android:background="@color/colorGray100"
+    android:background="@color/colorGray300"
     android:animateLayoutChanges="true">
 
     <android.support.design.widget.AppBarLayout
@@ -36,6 +36,7 @@
             -->
 
     </android.support.design.widget.AppBarLayout>
+
 
     <include layout="@layout/content_main"
         android:id="@+id/include" />
