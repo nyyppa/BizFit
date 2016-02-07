@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by Käyttäjä on 19.12.2015.
@@ -88,6 +89,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
         Intent returnIntent = new Intent();
 
+
         if (!isEmpty(name) && !isEmpty(date)&& !isEmpty(target)) {
             returnIntent.putExtra(FieldNames.TRACKERNAME
                     , name.getText().toString());
@@ -97,6 +99,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
             returnIntent.putExtra(FieldNames.MONTH, setDate.get(Calendar.MONTH));
             returnIntent.putExtra(FieldNames.YEAR, setDate.get(Calendar.YEAR));
             returnIntent.putExtra(FieldNames.RECURRING, checkBox.isChecked());
+            returnIntent.putExtra(FieldNames.COLOR, randomColor());
             setResult(Activity.RESULT_OK, returnIntent);
         } else {
             setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -137,5 +140,11 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         } else {
             return true;
         }
+    }
+
+    private int randomColor() {
+        int[] androidColors = getResources().getIntArray(R.array.trackable_view_alt_colors);
+        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
+        return randomAndroidColor;
     }
 }

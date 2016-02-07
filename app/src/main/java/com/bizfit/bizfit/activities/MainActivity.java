@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
             currentUser.addTracker(newTracker);
             newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
             newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
+            newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
             newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
                     , data.getIntExtra(FieldNames.MONTH, 1)
                     , data.getIntExtra(FieldNames.DAY, 1)

@@ -101,8 +101,7 @@ class TrackableViewAlternative extends TrackableViewBase {
             drawable = ContextCompat.getDrawable(progressBar.getContext(), R.drawable.my_progressbar);
         }
 
-        // Random color from predetermined range.
-        int color = randomColor();
+        color = trackerHost.getColor();
 
         // Sets all the colors which change dynamically.
         viewHost.findViewById(R.id.percentage_container).setBackgroundColor(color);
@@ -121,11 +120,5 @@ class TrackableViewAlternative extends TrackableViewBase {
     public void updateProgressBar(float progress) {
         ProgressBar progressBar = (ProgressBar) viewHost.findViewById(R.id.progressbar);
         progressBar.setProgress((int) (progress * progressBar.getMax()));
-    }
-
-    private int randomColor() {
-        int[] androidColors = viewHost.getResources().getIntArray(R.array.trackable_view_alt_colors);
-        int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-        return randomAndroidColor;
     }
 }
