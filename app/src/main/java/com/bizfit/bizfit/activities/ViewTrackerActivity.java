@@ -3,11 +3,14 @@ package com.bizfit.bizfit.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -49,11 +52,25 @@ public class ViewTrackerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_tracker);
         activity = this;
+
+        int sdk = android.os.Build.VERSION.SDK_INT;
+
+        // Check which sdk is in use.
+        if (sdk >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(activity.getResources().getColor(R.color.statusBarColorViewTracker));
+        }
+
+
         setContentView(R.layout.activity_view_tracker);
         host = (Tracker) (getIntent().getSerializableExtra(FieldNames.TRACKER));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(host.getName());
+        toolbar.setBackgroundColor(host.getColor());
         setSupportActionBar(toolbar);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +79,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoque();
             }
         });
+        ((FrameLayout) findViewById(R.id.total_progress_container)).setBackgroundColor(host.getColor());
         fillTextViews();
         createGraphs();
     }
@@ -76,7 +94,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
     private void createDailyProgressChart() {
         dailyProgressChart = new CustomBarChart(getBaseContext(), host);
-        ((FrameLayout)findViewById(R.id.daily_progress_container)).addView(dailyProgressChart);
+        ((FrameLayout) findViewById(R.id.daily_progress_container)).addView(dailyProgressChart);
 
         // Called to ensure proper drawing.
         dailyProgressChart.invalidate();

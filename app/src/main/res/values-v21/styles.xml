@@ -1,6 +1,6 @@
 <resources>
-    <style name="AppTheme.DarkActionbar">
-        <item name="windowActionBar">false</item>
+    <style name="AppTheme.DarkActionbar" parent="AppTheme">
+        <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:timePickerDialogTheme">@style/AlertDialogCustom</item>
@@ -19,4 +19,5 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 </resources>
