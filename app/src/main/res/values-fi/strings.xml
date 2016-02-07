@@ -9,4 +9,6 @@
     <string name="target_name_hint">Nimi</string>
     <string name="view_tracker_target">Tavoite määrä</string>
     <string name="view_tracker_target_date">Tavoite pvm.</string>
+    <string name="timeType_days">päiviä</string>
+    <string name="timeType_months">kuukausia</string>
 </resources>

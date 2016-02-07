@@ -1,5 +1,7 @@
 package com.bizfit.bizfit;
 
+import com.bizfit.bizfit.activities.MainActivity;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -39,11 +41,31 @@ public class Tracker implements java.io.Serializable {
     boolean completed=false;
     public float tolerance=10;
     List<Change> changes=new ArrayList<Change>(0);
+    int color;
 
     long lastTestUpdate;
 
     public int daysFromStart(){
         return (int)(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-startDate));
+    }
+
+    /**
+     * set Color reference for this tracker
+     * @param color int reference to the color
+     * @return  color it was changed to
+     */
+    public int setColor(int color){
+        changes.add(0, new Change(this.color+"",lastModification.color));
+        this.color=color;
+        return color;
+    }
+
+    /**
+     * get Color reference for this tracker
+     * @return  int reference
+     */
+    public int getColor(){
+        return  color;
     }
     public void undo(){
         ListIterator<Change>iterator=changes.listIterator();
@@ -88,6 +110,9 @@ public class Tracker implements java.io.Serializable {
                     break;
                 case repeat:
                     this.repeat=Boolean.parseBoolean(last.getValue());
+                    break;
+                case color:
+                    this.color=Integer.parseInt(last.getValue());
                     break;
                 default:
                     break;
@@ -508,7 +533,7 @@ public class Tracker implements java.io.Serializable {
     public enum lastModification {
         lastReset,dayInterval,monthInterval,yearInterval,
         targetProgress,currentProgress,defaultIncrement,timeProgress
-        ,name,targetType,daily,weekly,repeat;
+        ,name,targetType,daily,weekly,repeat,color;
 
     }
     public class Change implements java.io.Serializable{
@@ -544,8 +569,15 @@ public class Tracker implements java.io.Serializable {
                 time=(int)daysRemaining;
             }
         }
-        public RemaininTimeType getTimeType(){
-            return timeType;
+        public String getTimeType(){
+            switch (timeType){
+                case days:
+                    return MainActivity.activity.getResources().getString(R.string.timeType_days);
+                case months:
+                    return MainActivity.activity.getResources().getString(R.string.timeType_months);
+            }
+            return null;
+
         }
         public int getTimeRemaining(){
             return time;

@@ -8,4 +8,6 @@
     <string name="view_tracker_target">Target</string>
     <string name="view_tracker_target_date">By date</string>
     <string name="insufficent_data">You haven\'t added any progress yet</string>
+    <string name="timeType_days">days</string>
+    <string name="timeType_months">months</string>
 </resources>
