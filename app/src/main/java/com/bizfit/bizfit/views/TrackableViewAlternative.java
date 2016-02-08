@@ -34,6 +34,7 @@ class TrackableViewAlternative extends TrackableViewBase {
         this.trackerHost = trackerHost;
         this.viewHost = viewHost;
         formatView();
+        viewHost.invalidate();
         prepFunctionality();
     }
 
