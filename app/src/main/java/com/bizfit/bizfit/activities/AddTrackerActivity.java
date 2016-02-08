@@ -134,6 +134,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+
     private boolean isEmpty(EditText etText) {
         if (etText.getText().toString().trim().length() > 0) {
             return false;

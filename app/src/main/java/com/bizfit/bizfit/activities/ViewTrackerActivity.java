@@ -3,6 +3,7 @@ package com.bizfit.bizfit.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ import com.bizfit.bizfit.views.CustomBarChart;
 import com.bizfit.bizfit.views.CustomLineChart;
 
 import org.joda.time.DateTime;
+
+import java.lang.reflect.Field;
 
 /**
  * Displays information about the Tracker.
@@ -122,6 +125,17 @@ public class ViewTrackerActivity extends AppCompatActivity {
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setHighlightColor(host.getColor());
+        input.setDrawingCacheBackgroundColor(host.getColor());
+        input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
+        try {
+            // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
+            Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
+            f.setAccessible(true);
+            f.set(input, R.drawable.cursor);
+        } catch (Exception ignored) {
+        }
+
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -139,7 +153,17 @@ public class ViewTrackerActivity extends AppCompatActivity {
             }
         });
 
-        builder.show();
+        // TODO Styling OUT of Java.
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        if (b1 != null)
+            b1.setTextColor(host.getColor());
+
+        Button b2 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        if (b2 != null)
+            b2.setTextColor(host.getColor());
     }
 
     /**
