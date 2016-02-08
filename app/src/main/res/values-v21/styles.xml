@@ -1,4 +1,5 @@
 <resources>
+
     <style name="AppTheme.DarkActionbar" parent="AppTheme">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
@@ -16,17 +17,15 @@
         <item name="android:datePickerDialogTheme">@style/CustomDialogueTheme</item>
     </style>
 
-    <style name="CustomDialogueTheme" parent="android:Theme.Material.Light.Dialog.Alert">
+    <style name="CustomDialogueTheme" parent="android:Theme.Material.Light.Dialog">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+        <!--
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
-        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
+        -->
     </style>
 
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">@color/colorAccent</item>
     </style>
-
-
-
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#0f0f0f</color>
-    <color name="colorPrimary">#161616</color>
-    <color name="colorAccent">#c51162</color>
+    <color name="colorPrimaryDark">#36464e</color>
+    <color name="colorPrimary">#536d79</color>
+    <color name="colorAccent">#0096a6</color>
     <color name="colorGray100">#f5f5f5</color>
     <color name="colorGray300">#e0e0e0</color>
     <color name="colorBlack87">#de000000</color>
@@ -12,19 +12,13 @@
     <color name="colorBlack05">#0a000000</color>
     <color name="white">#fff</color>
     <color name="white70">#80ffffff</color>
-    <color name="statusBarColorViewTracker">#212121</color>
-    <color name="statusBarColor">#00695c</color>
+    <color name="statusBarColorViewTracker">#606060</color>
 
-    <color name="colorAlternativeOption1">#16a085</color>
-    <color name="colorAlternativeOption2">#27ae60</color>
-    <color name="colorAlternativeOption3">#2980b9</color>
-    <color name="colorAlternativeOption4">#8e44ad</color>
-    <color name="colorAlternativeOption5">#e67e22</color>
-    <color name="colorAlternativeOption6">#e74c3c</color>
-    <color name="colorAlternativeOption7">#f39c12</color>
-    <color name="colorAlternativeOption8">#d35400</color>
-    <color name="colorAlternativeOption9">#c0392b</color>
-    <color name="colorAlternativeOption10">#566473</color>
+    <color name="colorAlternativeOption1">#d86c6c</color>
+    <color name="colorAlternativeOption2">#ff8964</color>
+    <color name="colorAlternativeOption3">#cc79a9</color>
+    <color name="colorAlternativeOption4">#f4a742</color>
+    <color name="colorAlternativeOption5">#a7af61</color>
 
     <!-- Collection of possible colors generated for the alternative trackable view-->
     <integer-array name="trackable_view_alt_colors">
@@ -33,11 +27,6 @@
         <item>@color/colorAlternativeOption3</item>
         <item>@color/colorAlternativeOption4</item>
         <item>@color/colorAlternativeOption5</item>
-        <item>@color/colorAlternativeOption6</item>
-        <item>@color/colorAlternativeOption7</item>
-        <item>@color/colorAlternativeOption8</item>
-        <item>@color/colorAlternativeOption9</item>
-        <item>@color/colorAlternativeOption10</item>
     </integer-array>
 
 </resources>
