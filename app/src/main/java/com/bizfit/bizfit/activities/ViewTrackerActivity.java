@@ -59,7 +59,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         activity = this;
 
         int sdk = android.os.Build.VERSION.SDK_INT;
-
+        /**
         // Check which sdk is in use.
         if (sdk >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
@@ -67,13 +67,13 @@ public class ViewTrackerActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(activity.getResources().getColor(R.color.statusBarColorViewTracker));
         }
-
+        */
 
         setContentView(R.layout.activity_view_tracker);
         host = (Tracker) (getIntent().getSerializableExtra(FieldNames.TRACKER));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(host.getName());
-        toolbar.setBackgroundColor(host.getColor());
+        //toolbar.setBackgroundColor(host.getColor());
         setSupportActionBar(toolbar);
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
