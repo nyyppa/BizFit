@@ -50,7 +50,7 @@ public class OurService extends IntentService {
             thread=new PauseableThread(1000);
             thread.start();
         }
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
     }
 
     @Override
