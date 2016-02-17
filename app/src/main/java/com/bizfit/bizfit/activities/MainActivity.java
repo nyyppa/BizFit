@@ -1,6 +1,8 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.bizfit.bizfit.views.TrackableViewInflater;
 import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableViewBase;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
@@ -90,7 +93,26 @@ public class MainActivity extends AppCompatActivity {
         }
         }); */
     }
+    private void startBackGroundService(){
+        Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
 
+        PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+
+
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        calendar.add(Calendar.SECOND, 6);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+    }
     protected void onStart() {
         super.onStart();
         lastOpen = System.currentTimeMillis();
@@ -108,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 launchAddTrackerActivity();
             }
         });
+
+        startBackGroundService();
+
 
         //animateTrackerViewsFromZero();
         //NotificationSender.sendNotification("t");

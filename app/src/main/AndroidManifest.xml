@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <service android:enabled="true" android:name=".OurService" />
+        <service android:name=".activities.MyAlarmService" />
 
         <!-- Splash screen -->
         <activity
