@@ -149,7 +149,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="999"
-                                    android:textColor="@color/abc_secondary_text_material_dark"
+                                    android:textColor="@color/abc_secondary_text_material_light"
                                     android:layout_weight="1"
                                     android:textAlignment="gravity"
                                     android:gravity="end"
@@ -162,7 +162,7 @@
                                     android:text="%"
                                     android:id="@+id/textView5"
                                     android:theme="@style/TextAppearance.AppCompat.Title.Inverse"
-                                    android:textColor="@color/bright_foreground_disabled_material_dark" />
+                                    android:textColor="@color/bright_foreground_disabled_material_light" />
 
                             </LinearLayout>
 

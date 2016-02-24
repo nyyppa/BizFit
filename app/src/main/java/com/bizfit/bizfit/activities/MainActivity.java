@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -20,11 +22,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
 
-import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.fragments.PagerAdapter;
+import com.bizfit.bizfit.fragments.TabFragment1;
+import com.bizfit.bizfit.fragments.TabFragment2;
+import com.bizfit.bizfit.fragments.TabFragment3;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.views.TrackableViewInflater;
@@ -68,32 +73,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**
-         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-         tabLayout.setVisibility(View.VISIBLE);
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-         final PagerAdapter adapter = new PagerAdapter
-         (getSupportFragmentManager(), tabLayout.getTabCount());
-         viewPager.setAdapter(adapter);
-         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-        @Override public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-        }
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        setupViewPager(viewPager);
 
-        @Override public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-        }); */
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
     private void startBackGroundService(){
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
@@ -130,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         startBackGroundService();
-
 
         //animateTrackerViewsFromZero();
         //NotificationSender.sendNotification("t");
@@ -283,5 +268,13 @@ public class MainActivity extends AppCompatActivity {
                     view.scrollTo(position[0], position[1]);
                 }
             });
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabFragment1(), "ONE");
+        adapter.addFragment(new TabFragment2(), "TWO");
+        adapter.addFragment(new TabFragment3(), "THREE");
+        viewPager.setAdapter(adapter);
     }
 }
