@@ -17,6 +17,7 @@ public class MyAlarmService extends Service {
 
         // TODO Auto-generated method stub
 
+
     }
 
 
@@ -80,7 +81,7 @@ public class MyAlarmService extends Service {
 
         NotificationSender.sendNotification(this, "hei", "hei");
 
-        User.update();
+        User.update(this);
 
 
 
