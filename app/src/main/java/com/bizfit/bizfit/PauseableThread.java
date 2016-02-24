@@ -11,7 +11,7 @@ public class PauseableThread extends Thread {
     boolean exit = false;
     long pauseEnds;
     long millis;
-    SaveState s;
+    User s;
     long messageCD= TimeUnit.HOURS.toMillis(12);
 
     public PauseableThread(long millis){
@@ -40,7 +40,7 @@ public class PauseableThread extends Thread {
                 }
                 if(System.currentTimeMillis()>=MainActivity.lastOpen+messageCD&&System.currentTimeMillis()>=MainActivity.lastMessageTime+messageCD){
                     MainActivity.lastMessageTime=System.currentTimeMillis();
-                    NotificationSender.sendNotification("hello "+s.user,"Remember to update your trackers!");
+                    NotificationSender.sendNotification("hello "+s.userName,"Remember to update your trackers!");
                 }
             }
 

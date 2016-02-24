@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -16,22 +14,20 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
 
+import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.OurService;
-import com.bizfit.bizfit.SaveState;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.views.TrackableViewInflater;
 import com.bizfit.bizfit.views.Separator;
 import com.bizfit.bizfit.views.TrackableViewBase;
 
-import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static Activity activity = null;
     private static final int GET_NEW_GOAL = 1;
     private LinearLayout layout;
-    public static SaveState currentUser;
+    public static User currentUser;
     private LinkedList<TrackableViewBase> trackableViews;
 
     public static long lastOpen;
@@ -94,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }); */
     }
     private void startBackGroundService(){
-        Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
+        Intent myIntent = new Intent(MainActivity.this, DailyProgress.MyAlarmService.class);
 
         PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
 
@@ -111,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         lastOpen = System.currentTimeMillis();
         activity = this;
-        currentUser = SaveState.getLastUser();
+        currentUser = User.getLastUser();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -137,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void createTrackableViews() {
 
-        SaveState.SortedTrackers trakers = currentUser.getAlpapheticalSortedTrackers(true);
+        User.SortedTrackers trakers = currentUser.getAlpapheticalSortedTrackers(true);
 
         for (int i = 0; i < trakers.currentTrackers.size(); i++) {
             if (i == 0 || trakers.currentTrackers.get(i).getName().charAt(0) !=
@@ -208,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        currentUser=null;
     }
 
     @Override

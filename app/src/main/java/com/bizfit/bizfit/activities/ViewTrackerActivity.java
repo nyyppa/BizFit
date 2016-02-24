@@ -115,7 +115,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
     }
 
     /**
-     * Opens a dialogue fragment used to inquire progress from user.
+     * Opens a dialogue fragment used to inquire progress from userName.
      * <p/>
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.

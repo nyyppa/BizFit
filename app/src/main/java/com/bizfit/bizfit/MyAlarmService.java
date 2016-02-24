@@ -1,24 +1,12 @@
-package com.bizfit.bizfit.activities;
+package com.bizfit.bizfit;
 
-/**
- * Created by Atte Ylivrronen on 13.2.2016.
- */
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
-
 import android.content.Intent;
-
 import android.os.IBinder;
 
-import android.support.annotation.Nullable;
-import android.widget.Toast;
-
-import com.bizfit.bizfit.NotificationSender;
-
-import java.util.Calendar;
-
-
+/**
+ * Created by Atte Ylivrronen on 24.2.2016.
+ */
 public class MyAlarmService extends Service {
 
 
@@ -27,7 +15,7 @@ public class MyAlarmService extends Service {
 
     public void onCreate() {
 
-// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 
@@ -36,7 +24,7 @@ public class MyAlarmService extends Service {
 
     public IBinder onBind(Intent intent) {
 
-// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
 
 
@@ -50,7 +38,7 @@ public class MyAlarmService extends Service {
 
     public void onDestroy() {
 
-// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
         super.onDestroy();
 
@@ -64,7 +52,7 @@ public class MyAlarmService extends Service {
 
     public void onStart(Intent intent, int startId) {
 
-// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
         super.onStart(intent, startId);
 
@@ -77,7 +65,7 @@ public class MyAlarmService extends Service {
 
     public boolean onUnbind(Intent intent) {
 
-// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
 
         return super.onUnbind(intent);
@@ -92,7 +80,7 @@ public class MyAlarmService extends Service {
 
         NotificationSender.sendNotification(this, "hei", "hei");
 
-
+        User.update();
 
 
 

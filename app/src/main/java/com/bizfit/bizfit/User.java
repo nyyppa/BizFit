@@ -15,37 +15,50 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class SaveState implements java.io.Serializable {
+public class User implements java.io.Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
     ArrayList<Tracker> trackers;
-    public String user;
+    public String userName;
     LastUser lastUser;
     private transient static File saveDir;
 
+
+
+
+    public static void update(){
+        User u;
+        if(MainActivity.currentUser==null){
+            u=getLastUser();
+        }else{
+            u=MainActivity.currentUser;
+        }
+        for(int i=0;i<u.trackers.size();i++){
+            u.trackers.get(i).update();
+        }
+    }
     /**
-     * Do not manually construct new saveStates, rather call SaveState.getInstance(String user)
+     * Do not manually construct new saveStates, rather call User.getInstance(String userName)
      *
-     * @param user User name
+     * @param userName User name
      */
-    SaveState(String user) {
-        this.user = user;
+    User(String userName) {
+        this.userName = userName;
         if (trackers == null) {
             trackers = new ArrayList<Tracker>(0);
         }
     }
 
     /**
-     * Checks if user has already Tracker with given name
+     * Checks if userName has already Tracker with given name
      * @param name  name to check
      * @return  true if tracker is found and false if tracker is not found
      */
@@ -62,7 +75,7 @@ public class SaveState implements java.io.Serializable {
         String[] s = MainActivity.activity.getFilesDir().list();
         List<String> users = new ArrayList<String>(0);
         for (String m : s) {
-            if (m.endsWith(".SaveState")) {
+            if (m.endsWith(".User")) {
                 String[] split = m.split(File.separator);
                 users.add(split[split.length - 1].replaceAll(".SaveState", ""));
             }
@@ -79,28 +92,28 @@ public class SaveState implements java.io.Serializable {
     }
 
     /**
-     * encrypts user name before saving it to memory
+     * encrypts userName name before saving it to memory
      *
      * @param out
      * @throws IOException
      */
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         try {
-            user = Encrypt.encrypt(user);
+            userName = Encrypt.encrypt(userName);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         out.defaultWriteObject();
         try {
-            user=Encrypt.decrypt(user);
+            userName =Encrypt.decrypt(userName);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * decrypts user name when reading it from memory
+     * decrypts userName name when reading it from memory
      *
      * @param in
      * @throws IOException
@@ -109,7 +122,7 @@ public class SaveState implements java.io.Serializable {
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         try {
-            user = Encrypt.decrypt(user);
+            userName = Encrypt.decrypt(userName);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -119,23 +132,23 @@ public class SaveState implements java.io.Serializable {
     }
 
     /**
-     * If user has SaveState reads it from memory and returns it, if no data
-     * is found for user it constructs new SaveState for that user
+     * If userName has User reads it from memory and returns it, if no data
+     * is found for userName it constructs new User for that userName
      * and returns it
      *
      * @param user User name
-     * @return SaveState for the user
+     * @return User for the userName
      */
-    public static SaveState getInstance(String user) {
+    public static User getInstance(String user) {
         Users users=loadUsers();
         FileInputStream f_in = null;
         try {
-            //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
-            File file = new File(MainActivity.activity.getFilesDir(), users.getFileName(user) + ".SaveState");
+            //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(userName) + ".User");
+            File file = new File(MainActivity.activity.getFilesDir(), users.getFileName(user) + ".User");
             if(file.exists()){
                 f_in = new FileInputStream(file);
             }
-            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+            //f_in = new FileInputStream(Encrypt.encrypt(userName)+".User");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -144,7 +157,7 @@ public class SaveState implements java.io.Serializable {
             e.printStackTrace();
         }
         ObjectInputStream obj_in = null;
-        SaveState s = null;
+        User s = null;
         if (f_in != null) {
             try {
                 obj_in = new ObjectInputStream(f_in);
@@ -153,7 +166,7 @@ public class SaveState implements java.io.Serializable {
             }
             try {
                 Object obj = obj_in.readObject();
-                s = (SaveState) obj;
+                s = (User) obj;
                 obj_in.close();
             } catch (ClassNotFoundException | IOException e) {
                 // TODO Auto-generated catch block
@@ -161,7 +174,7 @@ public class SaveState implements java.io.Serializable {
             }
         }
         if (s == null) {
-            s = new SaveState(user);
+            s = new User(user);
         }
         s.createLastUser();
         try {
@@ -221,12 +234,12 @@ public class SaveState implements java.io.Serializable {
     /**
      * Adds tracker to users information and then saves everything to the memory
      *
-     * @param t Tracker to add for user
+     * @param t Tracker to add for userName
      * @return ArrayList containing all of the users Trackers
      */
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
-        t.parentSaveState = this;
+        t.parentUser = this;
         try {
             save();
         } catch (Exception e) {
@@ -255,7 +268,7 @@ public class SaveState implements java.io.Serializable {
             Tracker current = iterator.next();
             if (current == t) {
                 iterator.remove();
-                t.parentSaveState = null;
+                t.parentUser = null;
                 break;
             }
         }
@@ -274,24 +287,24 @@ public class SaveState implements java.io.Serializable {
      * @throws Exception Everything that can go wrong
      */
     public void save() throws Exception {
-        //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(user) + ".SaveState");
+        //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(userName) + ".User");
         if(saveDir==null){
             saveDir=MainActivity.activity.getFilesDir();
         }
-        File file = new File(saveDir, loadUsers().getFileName(user) + ".SaveState");
+        File file = new File(saveDir, loadUsers().getFileName(userName) + ".User");
         FileOutputStream f_out = new FileOutputStream(file);
-        //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+        //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(userName)+".User");
         ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
         obj_out.writeObject(this);
         obj_out.close();
-        //lastUser.save(user);
+        //lastUser.save(userName);
     }
     private static Users loadUsers(){
         FileInputStream f_in = null;
         try {
             File file = new File(MainActivity.activity.getFilesDir(), "Users.Users");
             f_in = new FileInputStream(file);
-            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+            //f_in = new FileInputStream(Encrypt.encrypt(userName)+".User");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -321,12 +334,12 @@ public class SaveState implements java.io.Serializable {
         }
         return s;
     }
-    public static SaveState getLastUser() {
+    public static User getLastUser() {
         FileInputStream f_in = null;
         try {
             File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
             f_in = new FileInputStream(file);
-            //f_in = new FileInputStream(Encrypt.encrypt(user)+".SaveState");
+            //f_in = new FileInputStream(Encrypt.encrypt(userName)+".User");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -404,7 +417,7 @@ public class SaveState implements java.io.Serializable {
             this.lastUser = Encrypt.encrypt(lastUser);
             File file = new File(saveDir, "LastUser.LastUser");
             FileOutputStream f_out = new FileOutputStream(file);
-            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(userName)+".User");
             ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
             obj_out.writeObject(this);
             obj_out.close();
@@ -420,7 +433,7 @@ public class SaveState implements java.io.Serializable {
             }
             File file = new File(saveDir, "Users.Users");
             FileOutputStream f_out = new FileOutputStream(file);
-            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(user)+".SaveState");
+            //FileOutputStream f_out = new FileOutputStream(Encrypt.encrypt(userName)+".User");
             ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
             obj_out.writeObject(this);
             obj_out.close();

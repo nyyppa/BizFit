@@ -35,7 +35,7 @@ public class Tracker implements java.io.Serializable {
     String targetType;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
     DailyProgress daily=new DailyProgress();
-    SaveState parentSaveState;
+    User parentUser;
     boolean weekly;
     boolean repeat;
     boolean completed=false;
@@ -490,10 +490,10 @@ public class Tracker implements java.io.Serializable {
     }
 
     /**
-     * tells tracker to delete itself from users SaveState
+     * tells tracker to delete itself from users User
      */
     public void delete(){
-        parentSaveState.removeTracker(this);
+        parentUser.removeTracker(this);
     }
 
     public void setRepeat(boolean repeat){
@@ -505,11 +505,11 @@ public class Tracker implements java.io.Serializable {
     }
 
     /**
-     * tells users SaveState to save itself
+     * tells users User to save itself
      */
     private void fieldUpdated(){
         try {
-            parentSaveState.save();
+            parentUser.save();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -521,7 +521,7 @@ public class Tracker implements java.io.Serializable {
     }
 
     /**
-     * get minimum progress user needs to achieve to achieve his/her object
+     * get minimum progress userName needs to achieve to achieve his/her object
      * @return minimum progress needed to achieve to pass his/her goal
      */
     public float getMinimumProgressNeededPerDay(){

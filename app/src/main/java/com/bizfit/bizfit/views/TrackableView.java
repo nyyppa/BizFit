@@ -73,7 +73,7 @@ class TrackableView extends TrackableViewBase{
         // number_of_bar_steps effectively defines the smoothness of the animation.
         progressBar.setMax(R.integer.number_of_bar_steps);
 
-        // Displays if the user is on time.
+        // Displays if the userName is on time.
         ImageView indicator = (ImageView) viewHost.findViewById(R.id.percentage_container).findViewById(R.id.on_time_indicator);
 
 
