@@ -19,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.Space;
 
 import com.bizfit.bizfit.DailyProgress;
+import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.Tracker;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }); */
     }
     private void startBackGroundService(){
-        Intent myIntent = new Intent(MainActivity.this, DailyProgress.MyAlarmService.class);
+        Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
 
         PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
 
