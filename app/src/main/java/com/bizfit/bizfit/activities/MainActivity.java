@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
+
     private void startBackGroundService(){
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
 
