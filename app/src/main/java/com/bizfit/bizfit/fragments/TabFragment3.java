@@ -13,6 +13,15 @@ import com.bizfit.bizfit.R;
 
 public class TabFragment3 extends Fragment {
 
+    public TabFragment3() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_fragment_3, container, false);

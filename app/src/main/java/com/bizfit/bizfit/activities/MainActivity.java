@@ -63,32 +63,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**
-         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-         tabLayout.setVisibility(View.VISIBLE);
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-         tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-         final PagerAdapter adapter = new PagerAdapter
-         (getSupportFragmentManager(), tabLayout.getTabCount());
-         viewPager.setAdapter(adapter);
-         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-        @Override public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-        }
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        setupViewPager(viewPager);
 
-        @Override public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-        }); */
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
     private void startBackGroundService(){
         Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
@@ -275,5 +256,13 @@ public class MainActivity extends AppCompatActivity {
                     view.scrollTo(position[0], position[1]);
                 }
             });
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabFragment1(), "ONE");
+        adapter.addFragment(new TabFragment2(), "TWO");
+        adapter.addFragment(new TabFragment3(), "THREE");
+        viewPager.setAdapter(adapter);
     }
 }
