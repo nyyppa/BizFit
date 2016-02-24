@@ -33,4 +33,7 @@ dependencies {
     compile files('build/Testi/joda-time-2.9.1.jar')
     compile files('build/Testi/mpandroidchartlibrary-2-1-6.jar')
     compile files('build/meh/mpandroidchartlibrary-2-1-6.jar')
+    compile files('D:/Bizfit/BizFit/libs/mpandroidchartlibrary-2-1-6.jar')
+    compile files('D:/Bizfit/BizFit/libs/GraphView-4.0.1.jar')
+    compile files('D:/Bizfit/BizFit/libs/joda-time-2.9.1.jar')
 }

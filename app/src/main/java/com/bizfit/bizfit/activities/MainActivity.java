@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,11 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
 
-import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.fragments.PagerAdapter;
+import com.bizfit.bizfit.fragments.TabFragment1;
+import com.bizfit.bizfit.fragments.TabFragment2;
+import com.bizfit.bizfit.fragments.TabFragment3;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.views.TrackableViewInflater;
@@ -65,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
     private void startBackGroundService(){
@@ -104,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         startBackGroundService();
-
 
         //animateTrackerViewsFromZero();
         //NotificationSender.sendNotification("t");
