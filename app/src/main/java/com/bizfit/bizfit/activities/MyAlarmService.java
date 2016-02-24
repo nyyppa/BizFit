@@ -91,28 +91,12 @@ public class MyAlarmService extends Service {
 
 
         NotificationSender.sendNotification(this, "hei", "hei");
-        Intent myIntent = intent;
-
-        PendingIntent pendingIntent = PendingIntent.getService(MyAlarmService.this, 0, myIntent, 0);
-
-
-
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
-
-
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.setTimeInMillis(System.currentTimeMillis());
-
-        calendar.add(Calendar.HOUR_OF_DAY, 6);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 
 
 
-        return START_REDELIVER_INTENT;
+
+        return START_NOT_STICKY;
     }
 
 
