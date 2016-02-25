@@ -82,8 +82,7 @@ class TrackableViewAlternative extends TrackableViewBase {
         timeLeft.setText(trackerHost.getTimeRemaining().getTimeRemaining() + " "
                 + trackerHost.getTimeRemaining().getTimeType());
 
-        // Touch effect
-        viewHost.setBackgroundResource(R.drawable.ripple_effect);
+
 
         // Graphical indicator of the current progress.
         ProgressBar progressBar = (ProgressBar) viewHost.findViewById(R.id.progressbar);
