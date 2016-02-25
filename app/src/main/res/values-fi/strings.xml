@@ -13,5 +13,8 @@
     <string name="timeType_days_one">päivä</string>
     <string name="timeType_months">kuukautta</string>
     <string name="timeType_months_one">kuukausi</string>
-    <string name="my_trackers">Trackerit</string>
+    <string name="tab_my_trackers">Seuranta</string>
+    <string name="time_left">Aikaa jäljellä</string>
+    <string name="tab_history">Historia</string>
+    <string name="tab_coaches">Valmentajat</string>
 </resources>

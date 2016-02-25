@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 
-public class TabFragment2 extends Fragment {
+public class TabCoaches extends Fragment {
 
-    public TabFragment2() {
+    public TabCoaches() {
         // Required empty public constructor
     }
 

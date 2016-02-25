@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:touchscreenBlocksFocus="false"
     tools:context=".MainActivity"
-    android:background="@color/white">
+    android:background="@color/material_grey_300">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,17 +23,17 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/test_layout" />
+                layout="@layout/view_trackable_expandable" />
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/test_layout" />
+                layout="@layout/view_trackable_expandable" />
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/test_layout" />
+                layout="@layout/view_trackable_expandable" />
 
         </LinearLayout>
 

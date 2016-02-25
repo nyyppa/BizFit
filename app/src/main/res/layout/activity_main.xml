@@ -31,10 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="fixed"
-            app:tabGravity="fill" />
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabMaxWidth="264dp"/>
+
     </android.support.design.widget.AppBarLayout>
 
-    <com.bizfit.bizfit.views.ViewPagerCustom
+    <com.bizfit.bizfit.views.ViewPagerNoSwipes
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

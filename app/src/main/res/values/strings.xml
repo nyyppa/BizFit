@@ -12,5 +12,8 @@
     <string name="timeType_days_one">day</string>
     <string name="timeType_months">months</string>
     <string name="timeType_months_one">month</string>
-    <string name="my_trackers">My Trackers</string>
+    <string name="tab_my_trackers">My Trackers</string>
+    <string name="tab_coaches">Coaches</string>
+    <string name="tab_history">History</string>
+    <string name="time_left">Time left</string>
 </resources>

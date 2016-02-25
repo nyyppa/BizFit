@@ -19,7 +19,7 @@ import com.bizfit.bizfit.views.TrackableViewInflater;
 
 import java.util.LinkedList;
 
-public class TabFragment1 extends Fragment {
+public class TabTrackables extends Fragment {
 
     private LinkedList<TrackableViewBase> trackableViews;
     private static TrackableViewInflater inflater;
@@ -28,7 +28,7 @@ public class TabFragment1 extends Fragment {
     // Which kind of view should be displayed on the home screen.
     private static final TrackableViewInflater.ViewType type = TrackableViewInflater.ViewType.ALTERNATIVE;
 
-    public TabFragment1() {
+    public TabTrackables() {
         // Required empty public constructor
     }
 

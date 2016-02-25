@@ -19,9 +19,9 @@ import com.bizfit.bizfit.OurService;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.fragments.PagerAdapter;
-import com.bizfit.bizfit.fragments.TabFragment1;
-import com.bizfit.bizfit.fragments.TabFragment2;
-import com.bizfit.bizfit.fragments.TabFragment3;
+import com.bizfit.bizfit.fragments.TabTrackables;
+import com.bizfit.bizfit.fragments.TabCoaches;
+import com.bizfit.bizfit.fragments.TabHistory;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.R;
 
@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabFragment1(), getResources().getString(R.string.my_trackers));
-        adapter.addFragment(new TabFragment2(), "TWO");
-        adapter.addFragment(new TabFragment3(), "THREE");
+        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.tab_my_trackers));
+        adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
+        adapter.addFragment(new TabHistory(), getResources().getString(R.string.tab_history));
         viewPager.setAdapter(adapter);
 
 

@@ -187,7 +187,7 @@ public class CustomBarChart extends BarChart {
     private void addDataToSuperClass() {
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
-        BarData data = new BarData(xValues, dataSets);
+        BarData data = new BarData(xValues, dataSet);
         super.setData(data);
     }
 

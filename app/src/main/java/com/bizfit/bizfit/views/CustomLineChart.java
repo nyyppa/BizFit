@@ -211,7 +211,7 @@ public class CustomLineChart extends LineChart {
     private void addDataToSuperClass() {
         ArrayList<LineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
-        LineData data = new LineData(xValues, dataSets);
+        LineData data = new LineData(xValues, dataSet);
         super.setData(data);
     }
 

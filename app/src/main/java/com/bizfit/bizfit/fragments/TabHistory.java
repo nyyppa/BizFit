@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 
-public class TabFragment3 extends Fragment {
+public class TabHistory extends Fragment {
 
-    public TabFragment3() {
+    public TabHistory() {
         // Required empty public constructor
     }
 
