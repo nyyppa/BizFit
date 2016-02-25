@@ -44,7 +44,7 @@ public class CustomYAxisRendererLine extends YAxisRenderer {
 
     /**
      * Sets up the y-axis labels. Computes the desired number of labels between
-     * the two given extremes. Unlike the papareXLabels() method, this method
+     * the two given extremes. Unlike the prepareXLabels() method, this method
      * needs to be called upon every refresh of the view.
      *
      * @return
