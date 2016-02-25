@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:weightSum="1"
     android:clickable="true"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/ripple_effect"
     android:gravity="center_vertical"
     android:longClickable="true"
     android:id="@+id/root_container"
