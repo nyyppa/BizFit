@@ -13,4 +13,5 @@
     <string name="timeType_days_one">päivä</string>
     <string name="timeType_months">kuukautta</string>
     <string name="timeType_months_one">kuukausi</string>
+    <string name="my_trackers">Testi hyvin pitkä nimi</string>
 </resources>
