@@ -3,6 +3,7 @@ package com.bizfit.bizfit;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
@@ -30,12 +31,14 @@ public class User implements java.io.Serializable {
     public String userName;
     LastUser lastUser;
     private transient static File saveDir;
+    private transient static Context context;
 
 
 
 
-    public static void update(){
+    public static void update(Context c){
         User u;
+        context=c;
         if(MainActivity.currentUser==null){
             u=getLastUser();
         }else{
@@ -144,7 +147,7 @@ public class User implements java.io.Serializable {
         FileInputStream f_in = null;
         try {
             //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(userName) + ".User");
-            File file = new File(MainActivity.activity.getFilesDir(), users.getFileName(user) + ".User");
+            File file = new File(context.getFilesDir(), users.getFileName(user) + ".User");
             if(file.exists()){
                 f_in = new FileInputStream(file);
             }
@@ -289,7 +292,7 @@ public class User implements java.io.Serializable {
     public void save() throws Exception {
         //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(userName) + ".User");
         if(saveDir==null){
-            saveDir=MainActivity.activity.getFilesDir();
+            saveDir=context.getFilesDir();
         }
         File file = new File(saveDir, loadUsers().getFileName(userName) + ".User");
         FileOutputStream f_out = new FileOutputStream(file);
@@ -336,8 +339,11 @@ public class User implements java.io.Serializable {
     }
     public static User getLastUser() {
         FileInputStream f_in = null;
+        if(MainActivity.activity!=null){
+            context=MainActivity.activity;
+        }
         try {
-            File file = new File(MainActivity.activity.getFilesDir(), "LastUser.LastUser");
+            File file = new File(context.getFilesDir(), "LastUser.LastUser");
             f_in = new FileInputStream(file);
             //f_in = new FileInputStream(Encrypt.encrypt(userName)+".User");
         } catch (FileNotFoundException e) {
@@ -366,7 +372,7 @@ public class User implements java.io.Serializable {
         }
         String user = null;
         if (s == null) {
-            final AccountManager manager = AccountManager.get(MainActivity.activity);
+            final AccountManager manager = AccountManager.get(context);
             final Account[] accounts = manager.getAccountsByType("com.google");
             final int size = accounts.length;
             String[] names = new String[size];
@@ -384,7 +390,7 @@ public class User implements java.io.Serializable {
                 user = s.getLastUser();
             } catch (Exception e) {
                 e.printStackTrace();
-                final AccountManager manager = AccountManager.get(MainActivity.activity);
+                final AccountManager manager = AccountManager.get(context);
                 final Account[] accounts = manager.getAccountsByType("com.google");
                 final int size = accounts.length;
                 String[] names = new String[size];
@@ -412,7 +418,7 @@ public class User implements java.io.Serializable {
 
         void save(String lastUser) throws Exception {
             if(saveDir==null){
-                saveDir=MainActivity.activity.getFilesDir();
+                saveDir=context.getFilesDir();
             }
             this.lastUser = Encrypt.encrypt(lastUser);
             File file = new File(saveDir, "LastUser.LastUser");
@@ -429,7 +435,7 @@ public class User implements java.io.Serializable {
         int fileId=0;
         public void save()throws Exception {
             if(saveDir==null){
-                saveDir=MainActivity.activity.getFilesDir();
+                saveDir=context.getFilesDir();
             }
             File file = new File(saveDir, "Users.Users");
             FileOutputStream f_out = new FileOutputStream(file);
