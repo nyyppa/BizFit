@@ -103,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
         lastOpen = System.currentTimeMillis();
         activity = this;
         currentUser = User.getLastUser();
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         layout = (LinearLayout) findViewById(R.id.goal_container);
         createTrackableViews();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
