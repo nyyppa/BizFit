@@ -1,146 +1,141 @@
 package com.bizfit.bizfit.views;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.animations.Animations;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
-public class ExpandableTrackableView extends FrameLayout {
+public class ExpandableTrackableView {
 
+    private View view;
     private Tracker tracker;
+
     private TextView trackerName;
     private TextView targetAmount;
     private TextView timeLeftAmount;
     private TextView progressPercent;
+    private Button addProgress;
 
     private boolean expanded;
-    private FrameLayout totalProgressContainer;
-    private FrameLayout dailyProgressContainer;
-    private LinearLayout infoContainer;
+    private View totalProgressContainer;
+    private View dailyProgressContainer;
+    private View infoContainer;
 
-    public ExpandableTrackableView(Context context) {
-        super(context);
+    /**
+     * Is the default constructor when creating this object progmatically.
+     *
+     * @param view View on which data is displayed on.
+     * @param tracker Tracker from which data is pulled from.
+     */
+    public ExpandableTrackableView(View view, Tracker tracker) {
+        this.view = view;
+        this.tracker = tracker;
         init();
+        setTracker(tracker);
+        updateDataFromTracker();
     }
 
-    public ExpandableTrackableView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public ExpandableTrackableView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    @TargetApi(21)
-    public ExpandableTrackableView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
-
+    /**
+     * Formats components which can be formatted without data from Tracker.
+     */
     private void init() {
-        if (!isInEditMode()) {
-            inflate(getContext(), R.layout.view_trackable_expandable, this);
-            this.trackerName = (TextView) findViewById(R.id.tracker_name);
-            this.targetAmount = (TextView) findViewById(R.id.target_amount);
-            this.timeLeftAmount = (TextView) findViewById(R.id.time_left_amount);
-            this.progressPercent = (TextView) findViewById(R.id.progress_percentage);
+        this.trackerName = (TextView) view.findViewById(R.id.tracker_name);
+        this.targetAmount = (TextView) view.findViewById(R.id.target_amount);
+        this.timeLeftAmount = (TextView) view.findViewById(R.id.time_left_amount);
+        this.progressPercent = (TextView) view.findViewById(R.id.progress_percentage);
+        addProgress =  (Button) view.findViewById(R.id.button_add_progress);
 
-            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
-            targetAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            timeLeftAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            ((TextView) findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
-            ((TextView) findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+        trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+        targetAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+        timeLeftAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+        progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+        ((TextView) view.findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+        ((TextView) view.findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+        addProgress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.bold));
 
-            expanded = false;
-            totalProgressContainer = (FrameLayout)findViewById(R.id.total_progress_container);
-            dailyProgressContainer = (FrameLayout)findViewById(R.id.daily_progress_container);
-            infoContainer = (LinearLayout) findViewById(R.id.top_container);
+        expanded = false;
+        totalProgressContainer = view.findViewById(R.id.total_progress_container);
+        dailyProgressContainer = view.findViewById(R.id.daily_progress_container);
+        infoContainer = view.findViewById(R.id.top_container);
 
-            findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                @Override
-                public void onClick(View v) {
+                if (!expanded) {
+                    expand();
 
-                    if (!expanded) {
-                        expand(totalProgressContainer);
-                        expand(dailyProgressContainer);
-                        collapse(infoContainer);
-                    } else {
-                        collapse(totalProgressContainer);
-                        collapse(dailyProgressContainer);
-                        expand(infoContainer);
-                    }
-
-                    expanded = !expanded;
+                } else {
+                    collapse();
                 }
-            });
+
+                expanded = !expanded;
+            }
+        });
+    }
+
+
+    /**
+     * Dictates which Views are shown in the collapsed state.
+     */
+    private void collapse() {
+        Animations.collapse(totalProgressContainer);
+        Animations.collapse(dailyProgressContainer);
+        Animations.expand(infoContainer);
+    }
+
+    /**
+     * Dictates which Views are shown in the expanded state.
+     */
+    private void expand() {
+        Animations.expand(totalProgressContainer);
+        Animations.expand(dailyProgressContainer);
+        Animations.collapse(infoContainer);
+    }
+
+    /**
+     * Returns the Tracker from which data is pulled from.
+     *
+     * @return Tracker from which data is pulled from.
+     */
+    public Tracker getTracker() {
+        return tracker;
+    }
+
+    /**
+     * Sets the tracker from which data is pulled.
+     * <p/>
+     * When creating this view directly from .xml, it is advised that after
+     * having called this method updateDataFromTracker() is called. Otherwise
+     * template values are shown.
+     *
+     * @param tracker Object from which data is pulled from.
+     */
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
+    }
+
+    /**
+     * Pulls data from the given tracker.
+     * <p/>
+     * Does nothing if tracker is not set. When creating this view directly
+     * from .xml, it is advised that setTracker() is called followed by this
+     * method. Otherwise template values are shown.
+     */
+    public void updateDataFromTracker() {
+        if (tracker != null) {
+            Tracker.RemainingTime time = tracker.getTimeRemaining();
+            timeLeftAmount.setText((int)time.getTimeRemaining() + " " + time.getTimeType());
+            trackerName.setText(tracker.getName());
+            trackerName.setTextColor(tracker.getColor());
+            targetAmount.setText((int) tracker.getTargetProgress() + "");
+            progressPercent.setText((int)Math.floor(tracker.getProgressPercent() * 100) + "");
+            totalProgressContainer.setBackgroundColor(tracker.getColor());
+            addProgress.setTextColor(tracker.getColor());
         }
-    }
-
-    public static void expand(final View v) {
-        v.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        final int targetHeight = v.getMeasuredHeight();
-
-        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
-        v.getLayoutParams().height = 1;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().height = interpolatedTime == 1
-                        ? LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-    public static void collapse(final View v) {
-        final int initialHeight = v.getMeasuredHeight();
-
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
-                    v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
     }
 }

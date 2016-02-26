@@ -2,13 +2,15 @@
 
 <com.bizfit.bizfit.views.WorkaroundNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll_view"
+    android:id="@+id/tab_fragment_trackers_nested_scroll_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:touchscreenBlocksFocus="false"
     tools:context=".MainActivity"
     android:background="@color/material_grey_300"
-    android:clickable="false">
+    android:clickable="false"
+    android:fadeScrollbars="true"
+    android:scrollbars="vertical">
 
     <LinearLayout
         android:id="@+id/goal_container"
@@ -17,44 +19,6 @@
         android:orientation="vertical">
 
 
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view2" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view4" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view5" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view6" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view7" />
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view8" />
-
-            <com.bizfit.bizfit.views.ExpandableTrackableView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/view9" />
-        </LinearLayout>
+    </LinearLayout>
 
 </com.bizfit.bizfit.views.WorkaroundNestedScrollView>

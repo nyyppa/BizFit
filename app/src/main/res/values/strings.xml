@@ -16,4 +16,6 @@
     <string name="tab_coaches">Coaches</string>
     <string name="tab_history">History</string>
     <string name="time_left">Time left</string>
+    <string name="add_progress">add progress</string>
+    <string name="target">Target</string>
 </resources>

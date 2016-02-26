@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.OurService;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static long lastMessageTime;
     private FloatingActionButton fab;
     private Toolbar toolbar;
+    private TabTrackables trackablesTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +73,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStart() {
-        super.onStart();
         lastOpen = System.currentTimeMillis();
         activity = this;
         currentUser = User.getLastUser();
+        super.onStart();
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,11 +133,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_NEW_GOAL && resultCode == RESULT_OK) {
+            Tracker newTracker = new Tracker();
+            currentUser.addTracker(newTracker);
+            newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
+            newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
+            newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
+            newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
+                    , data.getIntExtra(FieldNames.MONTH, 1)
+                    , data.getIntExtra(FieldNames.DAY, 1)
+                    , data.getBooleanExtra(FieldNames.RECURRING, false
+            ));
+
+            trackablesTab.addTracker(newTracker, getLayoutInflater(), (ViewGroup)findViewById(R.id.goal_container));
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.tab_my_trackers));
+        trackablesTab = new TabTrackables();
+        adapter.addFragment(trackablesTab, getResources().getString(R.string.tab_my_trackers));
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
         adapter.addFragment(new TabHistory(), getResources().getString(R.string.tab_history));
         viewPager.setAdapter(adapter);
@@ -163,5 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }
