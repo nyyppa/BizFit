@@ -1,46 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.bizfit.bizfit.views.WorkaroundNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:touchscreenBlocksFocus="false"
     tools:context=".MainActivity"
-    android:background="@color/material_grey_300">
+    android:background="@color/material_grey_300"
+    android:clickable="false">
 
     <LinearLayout
+        android:id="@+id/goal_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/goal_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:baselineAligned="false"
-            android:orientation="vertical" >
 
-            <include
+            <com.bizfit.bizfit.views.ExpandableTrackableView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/view_trackable_expandable" />
+                android:id="@+id/view" />
 
-            <include
+            <com.bizfit.bizfit.views.ExpandableTrackableView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/view_trackable_expandable" />
+                android:id="@+id/view2" />
 
-            <include
+            <com.bizfit.bizfit.views.ExpandableTrackableView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/view_trackable_expandable" />
+                android:id="@+id/view4" />
 
+            <com.bizfit.bizfit.views.ExpandableTrackableView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view5" />
+
+            <com.bizfit.bizfit.views.ExpandableTrackableView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view6" />
+
+            <com.bizfit.bizfit.views.ExpandableTrackableView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view7" />
+            <com.bizfit.bizfit.views.ExpandableTrackableView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view8" />
+
+            <com.bizfit.bizfit.views.ExpandableTrackableView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view9" />
         </LinearLayout>
 
-        <Space
-            android:id="@+id/empty_space"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/empty_space_height"
-            android:visibility="gone" />
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</com.bizfit.bizfit.views.WorkaroundNestedScrollView>

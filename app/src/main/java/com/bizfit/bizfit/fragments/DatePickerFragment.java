@@ -21,7 +21,6 @@ import java.util.Locale;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private SimpleDateFormat dateFormatter;
-    private Calendar calendarHost;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
@@ -56,9 +55,5 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         Calendar newDate = Calendar.getInstance();
         newDate.set(year, month, day);
         ((TextView)getActivity().findViewById(R.id.target_date)).setText(dateFormatter.format(newDate.getTime()));
-    }
-
-    public void setCalendarHost(Calendar calendarHost) {
-        this.calendarHost = calendarHost;
     }
 }

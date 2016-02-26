@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static long lastOpen;
     public static long lastMessageTime;
     private FloatingActionButton fab;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OurService.class);
         startService(intent);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         setupViewPager(viewPager);
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         fab.show();
                         break;
+
                     default:
                         fab.hide();
                         break;
