@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
@@ -24,6 +25,7 @@ public class ExpandableTrackableView extends FrameLayout {
     private boolean expanded;
     private FrameLayout totalProgressContainer;
     private FrameLayout dailyProgressContainer;
+    private LinearLayout infoContainer;
 
     public ExpandableTrackableView(Context context) {
         super(context);
@@ -65,6 +67,7 @@ public class ExpandableTrackableView extends FrameLayout {
             expanded = false;
             totalProgressContainer = (FrameLayout)findViewById(R.id.total_progress_container);
             dailyProgressContainer = (FrameLayout)findViewById(R.id.daily_progress_container);
+            infoContainer = (LinearLayout) findViewById(R.id.top_container);
 
             findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
 
@@ -74,9 +77,11 @@ public class ExpandableTrackableView extends FrameLayout {
                     if (!expanded) {
                         expand(totalProgressContainer);
                         expand(dailyProgressContainer);
+                        collapse(infoContainer);
                     } else {
                         collapse(totalProgressContainer);
                         collapse(dailyProgressContainer);
+                        expand(infoContainer);
                     }
 
                     expanded = !expanded;
