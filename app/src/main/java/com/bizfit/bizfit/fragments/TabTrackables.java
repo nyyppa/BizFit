@@ -1,25 +1,22 @@
 package com.bizfit.bizfit.fragments;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.MainActivity;
 import com.bizfit.bizfit.views.ExpandableTrackableView;
-import com.bizfit.bizfit.views.TrackableViewBase;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class TabTrackables extends Fragment {
+
+    ArrayList<ExpandableTrackableView> views;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -43,8 +40,7 @@ public class TabTrackables extends Fragment {
 
 
     public void populate() {
-        // TODO better implementation!
-        //viewContainer = (ViewGroup) getView().findViewById(R.id.goal_container);
+        views = new ArrayList<>();
         MainActivity parentActivity = (MainActivity) getActivity();
         LayoutInflater inflater = parentActivity.getLayoutInflater();
         Tracker[] trackers = parentActivity.getCurrentUser().getTrackers();
@@ -56,8 +52,11 @@ public class TabTrackables extends Fragment {
 
             // Wrapper which contains the View and it's corresponding Tracker.
             ExpandableTrackableView trackableView = new ExpandableTrackableView(view, trackers[i]);
+            views.add(trackableView);
             viewContainer.addView(view);
         }
+
+        viewContainer.invalidate();
     }
 
     public void addTracker(Tracker tracker, LayoutInflater inflater, ViewGroup viewContainer) {
@@ -66,7 +65,17 @@ public class TabTrackables extends Fragment {
 
         // Wrapper which contains the View and it's corresponding Tracker.
         ExpandableTrackableView trackableView = new ExpandableTrackableView(view, tracker);
+        views.add(trackableView);
         viewContainer.addView(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("Over here!");
+        for (ExpandableTrackableView view : views) {
+            view.update();
+        }
     }
 }
 

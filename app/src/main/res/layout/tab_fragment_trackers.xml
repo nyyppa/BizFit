@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:touchscreenBlocksFocus="false"
     tools:context=".MainActivity"
-    android:background="@color/material_grey_300"
+    android:background="@color/material_grey_100"
     android:clickable="false"
     android:fadeScrollbars="true"
     android:scrollbars="vertical">
@@ -18,7 +18,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
     </LinearLayout>
 
 </com.bizfit.bizfit.views.WorkaroundNestedScrollView>

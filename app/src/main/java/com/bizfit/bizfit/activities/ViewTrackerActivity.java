@@ -1,14 +1,24 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -54,32 +64,28 @@ public class ViewTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tracker);
         activity = this;
-
-        int sdk = android.os.Build.VERSION.SDK_INT;
-        /**
-        // Check which sdk is in use.
-        if (sdk >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(activity.getResources().getColor(R.color.statusBarColorViewTracker));
-        }
-        */
-
         setContentView(R.layout.activity_view_tracker);
         host = (Tracker) (getIntent().getSerializableExtra(FieldNames.TRACKER));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(host.getName());
-        //toolbar.setBackgroundColor(host.getColor());
+        toolbar.setBackgroundColor(getResources().getColor(R.color.gray_50));
         setSupportActionBar(toolbar);
-        Button button = (Button) findViewById(R.id.button);
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialoque();
             }
         });
-        ((FrameLayout) findViewById(R.id.total_progress_container)).setBackgroundColor(host.getColor());
+        findViewById(R.id.total_progress_container).setBackgroundColor(host.getColor());
+        findViewById(R.id.info_text_container).setBackgroundColor(host.getColor());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.gray_600));
+        }
+
         fillTextViews();
         createGraphs();
     }
@@ -126,7 +132,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
         input.setDrawingCacheBackgroundColor(host.getColor());
         input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
         try {
-            // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
             Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
             f.setAccessible(true);
             f.set(input, R.drawable.cursor);
@@ -178,4 +183,26 @@ public class ViewTrackerActivity extends AppCompatActivity {
                         endDate.getYear()
         );
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_view_tracker, menu);
+        return true;
+    }
+    /**
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.settings_demo_1) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 }

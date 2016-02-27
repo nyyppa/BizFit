@@ -88,7 +88,10 @@ public class CustomBarChart extends BarChart {
         left.setAxisLineWidth(getResources().getInteger(R.integer.x_axis_height));
 
         dataSet.setDrawValues(false);
+
         dataSet.setColor(host.getColor());
+        //dataSet.setColor(getResources().getColor(R.color.colorAccent));
+
         //dataSet.setHighLightColor(getResources().getColor(R.color.white));
         dataSet.setBarSpacePercent(80f);
 

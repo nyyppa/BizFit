@@ -12,14 +12,15 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        <item name="android:colorEdgeEffect">@color/gray_600</item>
     </style>
 
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:datePickerDialogTheme">@style/CustomDialogueTheme</item>
+        <item name="android:colorEdgeEffect">@color/gray_600</item>
     </style>
 
     <style name="CustomDialogueTheme" parent="android:Theme.Material.Light.Dialog">
@@ -28,9 +29,5 @@
         <!--
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
         -->
-    </style>
-
-    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
-        <item name="android:headerBackground">@color/colorAccent</item>
     </style>
 </resources>

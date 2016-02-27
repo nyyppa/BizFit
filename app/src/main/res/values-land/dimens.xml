@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="total_progress_graph_height">120dp</dimen>
-    <!-- For animations to remain fluent, size should be total_progress_graph_height - 48dp -->
-    <dimen name="daily_progress_graph_height">72dp</dimen>
-    <dimen name="trackableview_height">80dp</dimen>
+    <dimen name="total_progress_graph_height">260dp</dimen>
+    <dimen name="daily_progress_graph_height">260dp</dimen>
+    <dimen name="trackableview_height">84dp</dimen>
 </resources>

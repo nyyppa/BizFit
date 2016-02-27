@@ -8,36 +8,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:longClickable="true"
     android:measureAllChildren="false"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardCornerRadius="2dp"
+    android:nestedScrollingEnabled="false">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:animateLayoutChanges="false">
-
-            <FrameLayout
-                android:id="@+id/total_progress_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:background="@color/colorAccent"
-                android:padding="8dp"
-                android:visibility="gone">
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/total_progress_graph_height"
-                    android:visibility="visible" />
-
-            </FrameLayout>
+            android:animateLayoutChanges="false"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:id="@+id/top_container"
@@ -45,8 +35,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/cardview_light_background"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp"
                 android:visibility="visible">
 
                 <!-- Text content a place holder. Actual content added progmatically-->
@@ -56,9 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tracker_name"
@@ -66,8 +52,9 @@
                         android:layout_height="wrap_content"
                         android:text="Tracker name"
                         android:textColor="@color/colorAccent"
-                        android:textSize="20sp"
-                        android:textStyle="normal" />
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        android:singleLine="true" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -79,8 +66,9 @@
                             android:id="@+id/date_info_pair"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="8dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            android:layout_marginRight="16dp">
 
                             <!-- Text content a place holder. Actual content added progmatically-->
 
@@ -90,7 +78,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/target"
                                 android:textColor="@color/abc_secondary_text_material_light"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:singleLine="true" />
 
                             <TextView
                                 android:id="@+id/time_left_label"
@@ -98,7 +87,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/time_left"
                                 android:textColor="@color/abc_secondary_text_material_light"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:singleLine="true" />
 
                             <!-- Text content a place holder. Actual content added progmatically-->
                         </LinearLayout>
@@ -121,7 +111,9 @@
                                 android:textAlignment="textStart"
                                 android:textColor="@color/abc_secondary_text_material_light"
                                 android:textSize="14sp"
-                                android:maxLines="1" />
+                                android:maxLines="1"
+                                android:visibility="visible"
+                                android:singleLine="true" />
 
                             <TextView
                                 android:id="@+id/time_left_amount"
@@ -130,7 +122,8 @@
                                 android:text="3 days left"
                                 android:textAlignment="textStart"
                                 android:textColor="@color/abc_secondary_text_material_light"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:singleLine="true" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -148,7 +141,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="right"
                         android:orientation="horizontal"
-                        android:paddingTop="16dp">
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                         <!-- Text content a place holder. Actual content added progmatically-->
                         <TextView
@@ -156,14 +150,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:includeFontPadding="false"
                             android:text="100"
                             android:textAlignment="gravity"
                             android:textColor="@color/abc_secondary_text_material_light"
                             android:textIsSelectable="false"
-                            android:textSize="56sp" />
+                            android:textSize="35sp"
+                            android:singleLine="true" />
 
                         <TextView
                             android:id="@+id/percentage_suffix"
@@ -180,33 +173,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                    android:background="@color/cardview_light_background"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:padding="8dp"
-                    android:visibility="gone"
-                    android:id="@+id/daily_progress_container"
-                    android:animateLayoutChanges="true"
-                android:orientation="vertical">
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chart2"
-                        android:layout_height="@dimen/daily_progress_graph_height"
-                        android:layout_width="match_parent"
-                        android:visibility="visible" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:text="@string/add_progress"
-                    android:id="@+id/button_add_progress"
-                    android:layout_gravity="right"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
 
 </android.support.v7.widget.CardView>
