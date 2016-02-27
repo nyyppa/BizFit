@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_tracker_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ViewTrackerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar_view_tracker">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -19,6 +22,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <include
+        layout="@layout/fragmet_view_tracker_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar_view_tracker"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_progress"
@@ -31,9 +40,5 @@
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.bizfit.bizfit.scrollCoordinators.ScrollAwareFABBehavior" />
 
-    <include
-        layout="@layout/fragmet_view_tracker_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>
