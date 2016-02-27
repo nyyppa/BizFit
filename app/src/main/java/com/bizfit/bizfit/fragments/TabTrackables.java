@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class TabTrackables extends Fragment {
 
     ArrayList<ExpandableTrackableView> views;
+    ViewGroup viewContainer;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -36,6 +37,7 @@ public class TabTrackables extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         populate();
+        System.out.println("Tab recreated!");
     }
 
 
@@ -44,7 +46,7 @@ public class TabTrackables extends Fragment {
         MainActivity parentActivity = (MainActivity) getActivity();
         LayoutInflater inflater = parentActivity.getLayoutInflater();
         Tracker[] trackers = parentActivity.getCurrentUser().getTrackers();
-        ViewGroup viewContainer = (ViewGroup) parentActivity.findViewById(R.id.goal_container);
+        viewContainer = (ViewGroup) parentActivity.findViewById(R.id.goal_container);
 
         for (int i = 0; i < trackers.length; i++) {
             // Inflates a new viewgroup from .xml resource file.
@@ -72,7 +74,7 @@ public class TabTrackables extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("Over here!");
+
         for (ExpandableTrackableView view : views) {
             view.update();
         }

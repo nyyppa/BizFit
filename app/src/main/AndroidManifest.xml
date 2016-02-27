@@ -37,6 +37,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.SettingsActivity"
+            android:label="@string/action_settings"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.AddTrackerActivity"
             android:label="@string/new_goal"

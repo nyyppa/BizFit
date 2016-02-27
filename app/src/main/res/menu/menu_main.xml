@@ -4,9 +4,9 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/settings_demo_1"
+        android:id="@+id/toolbar_settings"
         android:orderInCategory="100"
-        android:title="Settings"
+        android:title="@string/action_settings"
         android:icon="@drawable/ic_settings_black_48dp"
         app:showAsAction="ifRoom" />
 </menu>

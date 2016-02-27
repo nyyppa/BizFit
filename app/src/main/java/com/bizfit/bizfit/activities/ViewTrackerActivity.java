@@ -64,11 +64,9 @@ public class ViewTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tracker);
         activity = this;
-        setContentView(R.layout.activity_view_tracker);
         host = (Tracker) (getIntent().getSerializableExtra(FieldNames.TRACKER));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(host.getName());
-        toolbar.setBackgroundColor(getResources().getColor(R.color.gray_50));
         setSupportActionBar(toolbar);
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,14 +78,20 @@ public class ViewTrackerActivity extends AppCompatActivity {
         findViewById(R.id.total_progress_container).setBackgroundColor(host.getColor());
         findViewById(R.id.info_text_container).setBackgroundColor(host.getColor());
 
+        // If theming changes, comment this line out.
+        toolAndStatusbarStylize(toolbar);
+
+        fillTextViews();
+        createGraphs();
+    }
+
+    private void toolAndStatusbarStylize(Toolbar toolbar) {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.gray_50));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.gray_600));
         }
-
-        fillTextViews();
-        createGraphs();
     }
 
     /**

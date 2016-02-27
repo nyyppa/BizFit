@@ -19,4 +19,5 @@
     <string name="tab_coaches">Valkut</string>
     <string name="add_progress">lisää edistystä</string>
     <string name="target">Tavoite</string>
+    <string name="action_edit">Muokkaa</string>
 </resources>

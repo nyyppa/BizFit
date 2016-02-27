@@ -8,6 +8,6 @@
         android:id="@+id/edit"
         android:icon="@drawable/ic_mode_edit_black_24dp"
         android:orderInCategory="200"
-        android:title="Edit"
+        android:title="@string/action_edit"
         app:showAsAction="ifRoom" />
 </menu>

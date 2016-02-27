@@ -32,7 +32,6 @@ public class ExpandableTrackableView {
         this.view = view;
         this.tracker = tracker;
         init();
-        setTracker(tracker);
         update();
     }
 
@@ -96,19 +95,6 @@ public class ExpandableTrackableView {
      */
     public Tracker getTracker() {
         return tracker;
-    }
-
-    /**
-     * Sets the tracker from which data is pulled.
-     * <p/>
-     * When creating this view directly from .xml, it is advised that after
-     * having called this method update() is called. Otherwise
-     * template values are shown.
-     *
-     * @param tracker Object from which data is pulled from.
-     */
-    public void setTracker(Tracker tracker) {
-        this.tracker = tracker;
     }
 
     /**

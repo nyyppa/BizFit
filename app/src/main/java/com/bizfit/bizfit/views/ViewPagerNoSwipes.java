@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 
 public class ViewPagerNoSwipes extends ViewPager {
 
-    private static boolean allowSwipes = false;
+    private static boolean allowSwipes = true;
 
     public ViewPagerNoSwipes(Context context) {
         super(context);
