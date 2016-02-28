@@ -117,12 +117,15 @@ public class TabTrackables extends Fragment {
         int menuItemIndex = item.getItemId();
         switch (item.getItemId()) {
             case deleteID:
+                // TODO Confirmation dialogue
                 // Builds and shows a toast
                 (Toast.makeText(
                         getContext()
                         , getResources().getString(R.string.message_remove_successful)
                         , Toast.LENGTH_SHORT)
                 ).show();
+
+                // Removes tracker
                 ((TrackableView) item.getActionView()).deleteViewAndTracker();
                 return true;
 

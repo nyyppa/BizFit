@@ -131,7 +131,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         //input.setHighlightColor(host.getColor());
         //input.setDrawingCacheBackgroundColor(host.getColor());
         //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);

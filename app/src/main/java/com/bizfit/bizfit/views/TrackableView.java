@@ -16,12 +16,10 @@ import android.widget.TextView;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.activities.MainActivity;
-import com.bizfit.bizfit.animations.Animations;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 public class TrackableView extends FrameLayout {
 
-    public final static String NAME = "com.bizfit.bizfit.views.ExpandableTrackableView";
     private Tracker tracker;
     private View layout;
     public static final float animSpeed = 6;
