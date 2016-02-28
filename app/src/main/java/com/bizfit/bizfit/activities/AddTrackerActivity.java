@@ -13,13 +13,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bizfit.bizfit.R;
@@ -57,30 +61,12 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_add_tracker);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(
-                R.id.fab);
         name = (EditText) findViewById(R.id.target_name);
         date = (EditText) findViewById(R.id.target_date);
         target = (EditText) findViewById(R.id.target_amount);
         checkBox = (CheckBox) findViewById(R.id.recurring);
         container = findViewById(R.id.add_tracker_nested_scroll_view);
-
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearFocuses();
-            }
-        });
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        name.requestFocus();
         dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         date.setOnClickListener(this);
         date.setInputType(InputType.TYPE_NULL);
@@ -104,16 +90,9 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                date.clearFocus();
+
             }
         });
-    }
-
-    private void clearFocuses() {
-        System.out.println("CALLED!");
-        target.clearFocus();
-        date.clearFocus();
-        name.clearFocus();
     }
 
     @Override
@@ -143,6 +122,8 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if (v.equals(date)) {
             showDatePicker();
+        } else if (v instanceof Button) {
+            finish();
         }
     }
 

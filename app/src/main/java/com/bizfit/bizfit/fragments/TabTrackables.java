@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,13 +65,9 @@ public class TabTrackables extends Fragment {
 
     }
 
-    public void addTracker(Tracker tracker) {
-        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
-
-        TrackableView view = new TrackableView(getContext(), tracker, inflater);
-        viewContainer.addView(view, 1);
+    public void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
+        TrackableView view = new TrackableView(context, tracker, inflater);
+        container.addView(view, 1);
         registerForContextMenu(view);
         view.expand();
 

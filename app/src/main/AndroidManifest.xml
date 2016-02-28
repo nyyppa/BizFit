@@ -52,7 +52,7 @@
             android:label="@string/new_goal"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="user"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan|stateVisible">
 
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
