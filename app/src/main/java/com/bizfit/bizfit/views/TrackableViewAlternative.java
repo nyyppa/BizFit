@@ -61,7 +61,7 @@ class TrackableViewAlternative extends TrackableViewBase {
      * Sets information to View and does formatting which cant be done via xml.
      * <p/>
      * Formatting which can't be done via xml include, weather or not
-     * progress indicators should be displayed, Tracker name, time left,
+     * progress indicators should be displayed, Tracker NAME, time left,
      * typefaces and dynamic padding. The last one is not implemented yet.
      */
     public void formatView() {

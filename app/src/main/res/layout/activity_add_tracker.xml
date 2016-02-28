@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_tracker_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".AddTrackerActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_add_tracker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,38 +24,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <EditText
-        android:id="@+id/target_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoText="false"
-        android:capitalize="sentences"
-        android:hint="@string/target_name_hint" />
-
-    <EditText
-        android:id="@+id/target_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:capitalize="sentences"
-        android:ems="10"
-        android:hint="@string/target_amount_hint"
-        android:inputType="numberDecimal" />
-
-    <EditText
-        android:id="@+id/target_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:capitalize="sentences"
-        android:ems="10"
-        android:hint="@string/target_date_hint"
-        android:inputType="date" />
-
-    <CheckBox
-        android:id="@+id/recurring"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recurring" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -59,5 +32,10 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_done_white_48dp" />
 
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/activity_add_tracker_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

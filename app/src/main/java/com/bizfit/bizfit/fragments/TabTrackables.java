@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,14 +11,10 @@ import android.view.ViewGroup;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.activities.MainActivity;
-import com.bizfit.bizfit.views.ExpandableTrackableView;
+import com.bizfit.bizfit.views.TrackableView;
 
-import java.util.ArrayList;
 
 public class TabTrackables extends Fragment {
-
-    ArrayList<ExpandableTrackableView> views;
-    ViewGroup viewContainer;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -37,47 +34,60 @@ public class TabTrackables extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         populate();
-        System.out.println("Tab recreated!");
     }
 
 
     public void populate() {
-        views = new ArrayList<>();
         MainActivity parentActivity = (MainActivity) getActivity();
-        LayoutInflater inflater = parentActivity.getLayoutInflater();
         Tracker[] trackers = parentActivity.getCurrentUser().getTrackers();
-        viewContainer = (ViewGroup) parentActivity.findViewById(R.id.goal_container);
+        Context context = getContext();
 
-        for (int i = 0; i < trackers.length; i++) {
-            // Inflates a new viewgroup from .xml resource file.
-            View view = inflater.inflate(R.layout.view_trackable_expandable, viewContainer, false);
+        LayoutInflater inflater = (LayoutInflater)parentActivity.getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
 
-            // Wrapper which contains the View and it's corresponding Tracker.
-            ExpandableTrackableView trackableView = new ExpandableTrackableView(view, trackers[i]);
-            views.add(trackableView);
+
+        ViewGroup viewContainer = (ViewGroup) parentActivity.findViewById(R.id.goal_container);
+
+        for (int i = (trackers.length - 1); i >= 0; i--) {
+            TrackableView view = new TrackableView(context, trackers[i], inflater);
             viewContainer.addView(view);
         }
 
         viewContainer.invalidate();
+
     }
 
-    public void addTracker(Tracker tracker, LayoutInflater inflater, ViewGroup viewContainer) {
-        // Inflates a new viewgroup from .xml resource file.
-        View view = inflater.inflate(R.layout.view_trackable_expandable, viewContainer, false);
+    public void addTracker(Tracker tracker) {
+        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
+        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
 
-        // Wrapper which contains the View and it's corresponding Tracker.
-        ExpandableTrackableView trackableView = new ExpandableTrackableView(view, tracker);
-        views.add(trackableView);
-        viewContainer.addView(view);
+        TrackableView view = new TrackableView(getContext(), tracker, inflater);
+        viewContainer.addView(view, 1);
+        view.animationExpand();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        for (ExpandableTrackableView view : views) {
-            view.update();
+        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
+        View view;
+        TrackableView tmp;
+        Tracker[] trackers = ((MainActivity) getActivity()).getCurrentUser().getTrackers();
+        int index = trackers.length - 1;
+        // TODO Clean up after fetching trackers is fixed.
+        for (int i = 0; i < viewContainer.getChildCount(); i++) {
+            if ((view = viewContainer.getChildAt(i)) instanceof TrackableView) {
+                tmp = (TrackableView)view;
+                tmp.setTracker(trackers[index]);
+                tmp.update();
+                index--;
+
+            }
         }
+
     }
 }
 

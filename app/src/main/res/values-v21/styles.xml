@@ -27,7 +27,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <!--
-        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        <item NAME="android:datePickerStyle">@style/MyDatePickerStyle</item>
         -->
     </style>
 </resources>

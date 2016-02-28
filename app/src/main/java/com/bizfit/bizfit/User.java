@@ -51,7 +51,7 @@ public class User implements java.io.Serializable {
     /**
      * Do not manually construct new saveStates, rather call User.getInstance(String userName)
      *
-     * @param userName User name
+     * @param userName User NAME
      */
     User(String userName) {
         this.userName = userName;
@@ -61,8 +61,8 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Checks if userName has already Tracker with given name
-     * @param name  name to check
+     * Checks if userName has already Tracker with given NAME
+     * @param name  NAME to check
      * @return  true if tracker is found and false if tracker is not found
      */
     public boolean isTrackerNameAlreadyInUse(String name){
@@ -95,7 +95,7 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * encrypts userName name before saving it to memory
+     * encrypts userName NAME before saving it to memory
      *
      * @param out
      * @throws IOException
@@ -116,7 +116,7 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * decrypts userName name when reading it from memory
+     * decrypts userName NAME when reading it from memory
      *
      * @param in
      * @throws IOException
@@ -139,7 +139,7 @@ public class User implements java.io.Serializable {
      * is found for userName it constructs new User for that userName
      * and returns it
      *
-     * @param user User name
+     * @param user User NAME
      * @return User for the userName
      */
     public static User getInstance(String user) {

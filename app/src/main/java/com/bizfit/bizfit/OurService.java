@@ -10,7 +10,7 @@ import android.content.Intent;
 public class OurService extends IntentService {
     /**
      * A constructor is required, and must call the super IntentService(String)
-     * constructor with a name for the worker thread.
+     * constructor with a NAME for the worker thread.
      */
     public static PauseableThread thread;
 

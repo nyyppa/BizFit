@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
  */
 public class Animations {
 
+    public static final float animSpeedDef = 6;
+
     private Animations(){}
 
     /**
@@ -47,8 +49,9 @@ public class Animations {
      * Expand animation
      *
      * @param v View to animate.
+     * @param speed Rate of animation measured in dp / ms
      */
-    public static void expand(final View v) {
+    public static void expand(final View v, float speed) {
         v.measure(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();
 
@@ -72,7 +75,7 @@ public class Animations {
         };
 
         // 1dp/ms
-        a.setDuration((int) (targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) ((targetHeight / v.getContext().getResources().getDisplayMetrics().density) * speed));
         v.startAnimation(a);
     }
 }

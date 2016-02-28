@@ -79,7 +79,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         findViewById(R.id.info_text_container).setBackgroundColor(host.getColor());
 
         // If theming changes, comment this line out.
-        toolAndStatusbarStylize(toolbar);
+        //toolAndStatusbarStylize(toolbar);
 
         fillTextViews();
         createGraphs();
@@ -131,16 +131,16 @@ public class ViewTrackerActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setHighlightColor(host.getColor());
-        input.setDrawingCacheBackgroundColor(host.getColor());
-        input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
-        try {
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //input.setHighlightColor(host.getColor());
+        //input.setDrawingCacheBackgroundColor(host.getColor());
+        //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
+       /** try {
             Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
             f.setAccessible(true);
             f.set(input, R.drawable.cursor);
         } catch (Exception ignored) {
-        }
+        }*/
 
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

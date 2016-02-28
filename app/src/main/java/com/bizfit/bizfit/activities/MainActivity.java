@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     , data.getBooleanExtra(FieldNames.RECURRING, false
             ));
 
-            trackablesTab.addTracker(newTracker, getLayoutInflater(), (ViewGroup)findViewById(R.id.goal_container));
+            trackablesTab.addTracker(newTracker);
         }
     }
 
