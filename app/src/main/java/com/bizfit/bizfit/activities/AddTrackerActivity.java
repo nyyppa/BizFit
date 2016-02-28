@@ -131,6 +131,9 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
     public void onFocusChange(View v, boolean hasFocus) {
         if (v.equals(date) && hasFocus) {
             showDatePicker();
+            date.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
         }
     }
 
