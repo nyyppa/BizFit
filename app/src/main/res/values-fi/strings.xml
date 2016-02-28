@@ -20,4 +20,6 @@
     <string name="add_progress">lisää edistystä</string>
     <string name="target">Tavoite</string>
     <string name="action_edit">Muokkaa</string>
+    <string name="action_delete">Poista</string>
+    <string name="message_remove_successful">Poistettu onnistuneesti</string>
 </resources>

@@ -19,4 +19,6 @@
     <string name="add_progress">add progress</string>
     <string name="target">Target</string>
     <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="message_remove_successful">Remove successful</string>
 </resources>

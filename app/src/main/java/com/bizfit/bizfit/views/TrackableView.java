@@ -6,7 +6,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -20,7 +23,8 @@ public class TrackableView extends FrameLayout {
 
     public final static String NAME = "com.bizfit.bizfit.views.ExpandableTrackableView";
     private Tracker tracker;
-    View layout;
+    private View layout;
+    public static final float animSpeed = 6;
 
     private TextView trackerName;
     private TextView targetAmount;
@@ -98,20 +102,6 @@ public class TrackableView extends FrameLayout {
 
 
     /**
-     * Dictates which Views are shown in the collapsed state.
-     */
-    private void collapse() {
-        Animations.expand(infoContainer, Animations.animSpeedDef);
-    }
-
-    /**
-     * Dictates which Views are shown in the expanded state.
-     */
-    private void expand() {
-        Animations.collapse(infoContainer);
-    }
-
-    /**
      * Returns the Tracker from which data is pulled from.
      *
      * @return Tracker from which data is pulled from.
@@ -163,7 +153,76 @@ public class TrackableView extends FrameLayout {
         animator.start();
     }
 
-    public void animationExpand() {
-        Animations.expand(this, Animations.animSpeedDef);
+    public void deleteViewAndTracker() {
+        // TODO Animate the removal.
+        tracker.delete();
+        ((ViewGroup)getParent()).removeView(this);
+    }
+
+    public void collapse() {
+        final int initialHeight = this.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    setVisibility(View.GONE);
+                }else{
+                    getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        a.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+            }
+        });
+
+        // 1dp/ms
+        a.setDuration((int) (initialHeight / getContext().getResources().getDisplayMetrics().density));
+    }
+
+    public void expand() {
+        this.measure(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = this.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        getLayoutParams().height = 1;
+        setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                getLayoutParams().height = interpolatedTime == 1
+                        ? FrameLayout.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int) ((targetHeight / getContext().getResources().getDisplayMetrics().density) * animSpeed));
+        startAnimation(a);
     }
 }

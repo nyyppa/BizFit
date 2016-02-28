@@ -4,9 +4,15 @@ package com.bizfit.bizfit.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -15,6 +21,8 @@ import com.bizfit.bizfit.views.TrackableView;
 
 
 public class TabTrackables extends Fragment {
+
+    private final static int deleteID = 0;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -42,7 +50,7 @@ public class TabTrackables extends Fragment {
         Tracker[] trackers = parentActivity.getCurrentUser().getTrackers();
         Context context = getContext();
 
-        LayoutInflater inflater = (LayoutInflater)parentActivity.getSystemService
+        LayoutInflater inflater = (LayoutInflater) parentActivity.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
 
@@ -51,6 +59,7 @@ public class TabTrackables extends Fragment {
         for (int i = (trackers.length - 1); i >= 0; i--) {
             TrackableView view = new TrackableView(context, trackers[i], inflater);
             viewContainer.addView(view);
+            registerForContextMenu(view);
         }
 
         viewContainer.invalidate();
@@ -59,12 +68,13 @@ public class TabTrackables extends Fragment {
 
     public void addTracker(Tracker tracker) {
         ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
-        LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
         TrackableView view = new TrackableView(getContext(), tracker, inflater);
         viewContainer.addView(view, 1);
-        view.animationExpand();
+        registerForContextMenu(view);
+        view.expand();
 
     }
 
@@ -80,7 +90,7 @@ public class TabTrackables extends Fragment {
         // TODO Clean up after fetching trackers is fixed.
         for (int i = 0; i < viewContainer.getChildCount(); i++) {
             if ((view = viewContainer.getChildAt(i)) instanceof TrackableView) {
-                tmp = (TrackableView)view;
+                tmp = (TrackableView) view;
                 tmp.setTracker(trackers[index]);
                 tmp.update();
                 index--;
@@ -88,6 +98,38 @@ public class TabTrackables extends Fragment {
             }
         }
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v instanceof TrackableView) {
+            menu.setHeaderTitle(((TrackableView) v).getTracker().getName());
+            (menu.add(Menu.NONE, deleteID, Menu.NONE, getResources().getString(R.string.action_delete))).setActionView(v);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        switch (item.getItemId()) {
+            case deleteID:
+                // Builds and shows a toast
+                (Toast.makeText(
+                        getContext()
+                        , getResources().getString(R.string.message_remove_successful)
+                        , Toast.LENGTH_SHORT)
+                ).show();
+                ((TrackableView) item.getActionView()).deleteViewAndTracker();
+                return true;
+
+            default:
+                (Toast.makeText(getContext(), "Something else happened!", Toast.LENGTH_SHORT)).show();
+                return super.onContextItemSelected(item);
+        }
     }
 }
 
