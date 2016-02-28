@@ -54,12 +54,13 @@ abstract public class TrackableViewBase {
      */
     protected void prepFunctionality() {
         // Action for click
+        /**
         viewHost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)viewHost.getContext()).launchViewTrackerActivity(trackerHost);
+                ((MainActivity)viewHost.getContext()).launchViewTrackerActivity(trackerHost,  TrackableViewBase.this);
             }
-        });
+        });*/
 
         // Action for long click
         // TODO Make a menu appear.

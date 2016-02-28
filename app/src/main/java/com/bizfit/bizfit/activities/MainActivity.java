@@ -2,7 +2,6 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -90,9 +89,10 @@ public class MainActivity extends AppCompatActivity {
         //NotificationSender.sendNotification("t");
     }
 
-    public void launchViewTrackerActivity(Tracker tracker) {
+    public void launchViewTrackerActivity(Tracker tracker, int index) {
         Intent viewTracker = new Intent(this, ViewTrackerActivity.class);
-        viewTracker.putExtra(FieldNames.TRACKER, tracker);
+        viewTracker.putExtra(FieldNames.INDEX, index);
+        viewTracker.putExtra(FieldNames.TRACKERS, getCurrentUser().getTrackers());
         startActivity(viewTracker);
     }
 

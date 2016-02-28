@@ -65,7 +65,7 @@ public class TabTrackables extends Fragment {
 
     public void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
         TrackableView view = new TrackableView(context, tracker, inflater);
-        container.addView(view, 1);
+        container.addView(view, 0);
         registerForContextMenu(view);
         view.expand();
 
@@ -81,6 +81,7 @@ public class TabTrackables extends Fragment {
         TrackableView tmp;
         Tracker[] trackers = ((MainActivity) getActivity()).getCurrentUser().getTrackers();
         int index = trackers.length - 1;
+
         // TODO Clean up after fetching trackers is fixed.
         for (int i = 0; i < viewContainer.getChildCount(); i++) {
             if ((view = viewContainer.getChildAt(i)) instanceof TrackableView && index >= 0) {

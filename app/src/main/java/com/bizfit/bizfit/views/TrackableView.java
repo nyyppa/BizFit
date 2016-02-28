@@ -29,8 +29,6 @@ public class TrackableView extends FrameLayout {
     private TextView timeLeftAmount;
     private TextView progressPercent;
 
-    private View infoContainer;
-
     public TrackableView(Context context, Tracker tracker, LayoutInflater inflater) {
         super(context);
         this.tracker = tracker;
@@ -77,13 +75,11 @@ public class TrackableView extends FrameLayout {
         ((TextView) findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
         ((TextView) findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
 
-        infoContainer = findViewById(R.id.top_container);
-
         findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                ((MainActivity) (getContext())).launchViewTrackerActivity(tracker);
+                ((MainActivity) (getContext())).launchViewTrackerActivity(tracker, ((ViewGroup)(getParent())).indexOfChild(TrackableView.this));
             }
         });
 
@@ -126,7 +122,7 @@ public class TrackableView extends FrameLayout {
             trackerName.setText(tracker.getName());
             trackerName.setTextColor(tracker.getColor());
             targetAmount.setText((int) tracker.getTargetProgress() + "");
-            animatePercentage();
+            //animatePercentage();
         }
     }
     // TODO Clean this up.
@@ -157,6 +153,9 @@ public class TrackableView extends FrameLayout {
         ((ViewGroup)getParent()).removeView(this);
     }
 
+    /**
+     * Animates the view when it's corresponding tracker is deleted.
+     */
     public void collapse() {
         final int initialHeight = this.getMeasuredHeight();
 
@@ -178,6 +177,7 @@ public class TrackableView extends FrameLayout {
             }
         };
 
+        // TODO Deleting view here!
         a.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation arg0) {
@@ -196,6 +196,9 @@ public class TrackableView extends FrameLayout {
         a.setDuration((int) (initialHeight / getContext().getResources().getDisplayMetrics().density));
     }
 
+    /**
+     * Animates the view when it's corresponding tracker is first created.
+     */
     public void expand() {
         this.measure(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         final int targetHeight = this.getMeasuredHeight();
