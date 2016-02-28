@@ -75,22 +75,27 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         Calendar newCalendar = Calendar.getInstance();
 
         datePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-
+            @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear
                     , int dayOfMonth) {
                 setDate = Calendar.getInstance();
                 setDate.set(year, monthOfYear, dayOfMonth);
                 date.setText(dateFormatter.format(setDate.getTime()));
+                date.clearFocus();
             }
 
         }, newCalendar.get(Calendar.YEAR)
                 , newCalendar.get(Calendar.MONTH)
                 , newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
+        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                date.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
             }
         });
     }
@@ -129,11 +134,10 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v.equals(date) && hasFocus) {
-            showDatePicker();
-            date.clearFocus();
+        if (v.equals(date)) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
+            if(hasFocus) showDatePicker();
         }
     }
 
@@ -143,25 +147,6 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-
-            year = c.get(Calendar.YEAR);
-            month = c.get(Calendar.MONTH);
-            day = c.get(Calendar.DAY_OF_MONTH);
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            Calendar newDate = Calendar.getInstance();
-            newDate.set(year, month, day);
-            date.setText(dateFormatter.format(newDate.getTime()));
-        }
-    }
 
 
     private boolean isEmpty(EditText etText) {

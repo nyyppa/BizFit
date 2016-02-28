@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.bizfit.bizfit.R;
@@ -62,7 +61,6 @@ public class TabTrackables extends Fragment {
         }
 
         viewContainer.invalidate();
-
     }
 
     public void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
@@ -78,18 +76,18 @@ public class TabTrackables extends Fragment {
         super.onResume();
 
         ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
+        registerForContextMenu(viewContainer);
         View view;
         TrackableView tmp;
         Tracker[] trackers = ((MainActivity) getActivity()).getCurrentUser().getTrackers();
         int index = trackers.length - 1;
         // TODO Clean up after fetching trackers is fixed.
         for (int i = 0; i < viewContainer.getChildCount(); i++) {
-            if ((view = viewContainer.getChildAt(i)) instanceof TrackableView) {
+            if ((view = viewContainer.getChildAt(i)) instanceof TrackableView && index >= 0) {
                 tmp = (TrackableView) view;
                 tmp.setTracker(trackers[index]);
                 tmp.update();
                 index--;
-
             }
         }
 
@@ -98,18 +96,25 @@ public class TabTrackables extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
+        /**
+        System.out.println("View is null: " + v);
+        System.out.println("Menu is null: " + menu );
+        System.out.println("MenuInfo is null: " + menuInfo);*/
+        // TODO menuInfo is sometimes a null value. Investigate
+        // Probably due to misuse of registerForContextMenu(View). Needs better
+        // implementation with listview.
         super.onCreateContextMenu(menu, v, menuInfo);
 
         if (v instanceof TrackableView) {
             menu.setHeaderTitle(((TrackableView) v).getTracker().getName());
-            (menu.add(Menu.NONE, deleteID, Menu.NONE, getResources().getString(R.string.action_delete))).setActionView(v);
+            (menu.add(Menu.NONE, deleteID
+                    , Menu.NONE
+                    , getResources().getString(R.string.action_delete))).setActionView(v);
         }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int menuItemIndex = item.getItemId();
         switch (item.getItemId()) {
             case deleteID:
                 // TODO Confirmation dialogue

@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="false"
-            android:descendantFocusability="beforeDescendants"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
@@ -34,7 +33,7 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/target_name_hint"
                 android:textColor="@color/colorBlack26"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -51,7 +50,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoText="false"
-                    android:background="?android:attr/selectableItemBackground"
                     android:capitalize="sentences"
                     android:duplicateParentState="true"
                     android:editable="true"
@@ -75,7 +73,7 @@
                 android:layout_marginTop="18dp"
                 android:text="@string/target_amount_hint"
                 android:textColor="@color/colorBlack26"
-                android:textSize="18sp" />
+                android:textSize="12sp" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -91,7 +89,6 @@
                     android:id="@+id/target_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:capitalize="sentences"
                     android:duplicateParentState="true"
                     android:editable="true"
@@ -116,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="@string/target_date_hint"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textColor="@color/colorBlack26" />
 
             <android.support.v7.widget.CardView
@@ -133,7 +130,6 @@
                     android:id="@+id/target_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:capitalize="sentences"
                     android:duplicateParentState="true"
                     android:ems="10"
