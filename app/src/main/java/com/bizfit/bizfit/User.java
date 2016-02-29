@@ -305,7 +305,7 @@ public class User implements java.io.Serializable {
     private static Users loadUsers(){
         FileInputStream f_in = null;
         try {
-            File file = new File(MainActivity.activity.getFilesDir(), "Users.Users");
+            File file = new File(context.getFilesDir(), "Users.Users");
             f_in = new FileInputStream(file);
             //f_in = new FileInputStream(Encrypt.encrypt(userName)+".User");
         } catch (FileNotFoundException e) {
