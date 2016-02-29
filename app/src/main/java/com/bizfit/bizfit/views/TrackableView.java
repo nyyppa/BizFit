@@ -2,11 +2,14 @@ package com.bizfit.bizfit.views;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.utils.AssetManagerOur;
 
 public class TrackableView extends FrameLayout {
@@ -79,7 +83,12 @@ public class TrackableView extends FrameLayout {
 
             @Override
             public void onClick(View v) {
-                ((MainActivity) (getContext())).launchViewTrackerActivity(tracker, ((ViewGroup)(getParent())).indexOfChild(TrackableView.this));
+                MainActivity parentActivity = (MainActivity) getContext();
+                TabTrackables parentFragment = (TabTrackables) parentActivity
+                        .getSupportFragmentManager().getFragments().get(0);
+                System.out.println("Tracker index: " + tracker.getIndex());
+                parentFragment.launchViewTrackerActivity(tracker
+                        , tracker.getIndex());
             }
         });
 
@@ -125,6 +134,7 @@ public class TrackableView extends FrameLayout {
             //animatePercentage();
         }
     }
+
     // TODO Clean this up.
     private void animatePercentage() {
         float value, max, min;
@@ -150,7 +160,7 @@ public class TrackableView extends FrameLayout {
     public void deleteViewAndTracker() {
         // TODO Animate the removal.
         tracker.delete();
-        ((ViewGroup)getParent()).removeView(this);
+        ((ViewGroup) getParent()).removeView(this);
     }
 
     /**
@@ -159,14 +169,13 @@ public class TrackableView extends FrameLayout {
     public void collapse() {
         final int initialHeight = this.getMeasuredHeight();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     setVisibility(View.GONE);
-                }else{
-                    getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     requestLayout();
                 }
             }
@@ -206,13 +215,12 @@ public class TrackableView extends FrameLayout {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         getLayoutParams().height = 1;
         setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 getLayoutParams().height = interpolatedTime == 1
                         ? FrameLayout.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
+                        : (int) (targetHeight * interpolatedTime);
                 requestLayout();
             }
 

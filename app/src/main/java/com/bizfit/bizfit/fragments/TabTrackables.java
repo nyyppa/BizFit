@@ -1,7 +1,9 @@
 package com.bizfit.bizfit.fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -14,13 +16,18 @@ import android.widget.Toast;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.activities.AddTrackerActivity;
 import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.ViewTrackerActivity;
+import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.views.TrackableView;
 
-
+// TODO MAKE USE OF setAguments(Bundle)!!!
 public class TabTrackables extends Fragment {
 
     private final static int deleteID = 0;
+    private static final int GET_NEW_GOAL = 1;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -45,7 +52,7 @@ public class TabTrackables extends Fragment {
 
     public void populate() {
         MainActivity parentActivity = (MainActivity) getActivity();
-        Tracker[] trackers = parentActivity.getCurrentUser().getTrackers();
+        Tracker[] trackers = User.getLastUser().getTrackers();
         Context context = getContext();
 
         LayoutInflater inflater = (LayoutInflater) parentActivity.getSystemService
@@ -63,7 +70,7 @@ public class TabTrackables extends Fragment {
         viewContainer.invalidate();
     }
 
-    public void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
+    private void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
         TrackableView view = new TrackableView(context, tracker, inflater);
         container.addView(view, 0);
         registerForContextMenu(view);
@@ -74,23 +81,13 @@ public class TabTrackables extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        /**
         ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
         registerForContextMenu(viewContainer);
         View view;
         TrackableView tmp;
-        Tracker[] trackers = ((MainActivity) getActivity()).getCurrentUser().getTrackers();
-        int index = trackers.length - 1;
-
-        // TODO Clean up after fetching trackers is fixed.
-        for (int i = 0; i < viewContainer.getChildCount(); i++) {
-            if ((view = viewContainer.getChildAt(i)) instanceof TrackableView && index >= 0) {
-                tmp = (TrackableView) view;
-                tmp.setTracker(trackers[index]);
-                tmp.update();
-                index--;
-            }
-        }
+        Tracker[] trackers = User.getLastUser().getTrackers();
+        int index = trackers.length - 1;*/
 
     }
 
@@ -134,6 +131,41 @@ public class TabTrackables extends Fragment {
                 (Toast.makeText(getContext(), "Something else happened!", Toast.LENGTH_SHORT)).show();
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_NEW_GOAL && resultCode == Activity.RESULT_OK) {
+            Tracker newTracker = new Tracker();
+            User.getLastUser().addTracker(newTracker);
+            newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
+            newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
+            newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
+            newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
+                    , data.getIntExtra(FieldNames.MONTH, 1)
+                    , data.getIntExtra(FieldNames.DAY, 1)
+                    , data.getBooleanExtra(FieldNames.RECURRING, false
+            ));
+            Activity parent = getActivity();
+            addTracker(newTracker
+                    , (ViewGroup)parent.findViewById(R.id.goal_container)
+                    , parent.getLayoutInflater()
+                    , parent);
+        }
+    }
+
+    public void launchAddTrackerActivity() {
+
+        Intent intent = new Intent(getActivity(), AddTrackerActivity.class);
+        startActivityForResult(intent, GET_NEW_GOAL);
+    }
+
+    // TODO change stuff here
+    public void launchViewTrackerActivity(Tracker tracker, int index) {
+        Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
+        viewTracker.putExtra(FieldNames.INDEX, index);
+        //viewTracker.putExtra(FieldNames.TRACKERS, getCurrentUser().getTrackers());
+        startActivity(viewTracker);
     }
 }
 

@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.ViewTrackerFragment;
 import com.bizfit.bizfit.utils.FieldNames;
@@ -35,7 +36,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tracker);
         activity = this;
-        Tracker[] trackers = (Tracker[]) (getIntent().getSerializableExtra(FieldNames.TRACKERS));
         int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,12 +47,13 @@ public class ViewTrackerActivity extends AppCompatActivity {
             }
         });
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
-        setupViewPager(viewPager, trackers);
+        setupViewPager(viewPager);
         viewPager.setCurrentItem(index);
     }
 
-    private void setupViewPager(ViewPager viewPager, Tracker[] trackers) {
+    private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+        Tracker[] trackers = User.getLastUser().getTrackers();
 
         for(int i = 0; i < trackers.length; i++) {
             adapter.addFragment(new ViewTrackerFragment(), trackers[i].getName());
