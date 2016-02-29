@@ -88,7 +88,7 @@ public class TrackableView extends FrameLayout {
                         .getSupportFragmentManager().getFragments().get(0);
                 System.out.println("Tracker index: " + tracker.getIndex());
                 parentFragment.launchViewTrackerActivity(tracker
-                        , tracker.getIndex());
+                       , ((ViewGroup)getParent()).indexOfChild(TrackableView.this));
             }
         });
 
@@ -131,6 +131,7 @@ public class TrackableView extends FrameLayout {
             trackerName.setText(tracker.getName());
             trackerName.setTextColor(tracker.getColor());
             targetAmount.setText((int) tracker.getTargetProgress() + "");
+            progressPercent.setText(((int) (Math.floor(tracker.getProgressPercent() * 100))) + "");
             //animatePercentage();
         }
     }
