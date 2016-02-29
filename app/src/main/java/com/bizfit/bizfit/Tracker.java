@@ -42,10 +42,14 @@ public class Tracker implements java.io.Serializable {
     public float tolerance=10;
     List<Change> changes=new ArrayList<Change>(0);
     int color;
-
+    int index;
     long lastTestUpdate;
 
     transient ChangeListener listener;
+
+    public int getIndex(){
+        return index;
+    }
 
     public int daysFromStart(){
         return (int)(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-startDate));

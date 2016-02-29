@@ -33,7 +33,9 @@ public class User implements java.io.Serializable {
     private transient static File saveDir;
     private transient static Context context;
 
-
+    public Tracker getTrackerByIndex(int index){
+        return trackers.get(index);
+    }
 
 
     public static void update(Context c){
@@ -250,7 +252,11 @@ public class User implements java.io.Serializable {
         }
         return trackers;
     }
-
+    private void updateIndexes(){
+        for(int i=0;i<trackers.size();i++){
+            trackers.get(i).index=i;
+        }
+    }
     /**
      * @return Returns all the users trackers
      */
