@@ -262,6 +262,11 @@ public class User implements java.io.Serializable {
         return trackers.toArray(t);
     }
 
+
+    public int getAmoutOfTrackes(){
+        return trackers.size();
+    }
+
     /**
      * Removes Tracker from users infromation and then saves everything
      *
