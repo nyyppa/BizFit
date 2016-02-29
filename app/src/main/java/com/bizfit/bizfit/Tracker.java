@@ -379,7 +379,9 @@ public class Tracker implements java.io.Serializable {
         currentProgress+=progress;
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
-        listener.changeAmount(progress);
+        if (listener != null) {
+            listener.changeAmount(progress);
+        }
         fieldUpdated();
     }
 

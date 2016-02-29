@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -21,6 +25,9 @@ import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.ViewTrackerFragment;
 import com.bizfit.bizfit.utils.FieldNames;
+import com.bizfit.bizfit.views.TrackableView;
+
+import java.lang.reflect.Field;
 
 /**
  * Displays information about the Tracker.
@@ -40,23 +47,28 @@ public class ViewTrackerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_add_progress);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
+        setupViewPager(viewPager);
+        viewPager.setCurrentItem(index);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialoque();
+                openDialoque(viewPager);
             }
         });
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
-        setupViewPager(viewPager);
-        viewPager.setCurrentItem(index);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         Tracker[] trackers = User.getLastUser().getTrackers();
-
-        for(int i = 0; i < trackers.length; i++) {
-            adapter.addFragment(new ViewTrackerFragment(), trackers[i].getName());
+        ViewTrackerFragment fragment;
+        Bundle bundle;
+        for (int i = (trackers.length - 1); i >= 0; i--) {
+            fragment = new ViewTrackerFragment();
+            bundle = new Bundle();
+            bundle.putInt("Index", trackers[i].getIndex());
+            fragment.setArguments(bundle);
+            adapter.addFragment(fragment, trackers[i].getName());
         }
 
         viewPager.setAdapter(adapter);
@@ -77,29 +89,36 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.
      */
-    private void openDialoque() {
+    private void openDialoque(final ViewPager pager) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
+        PagerAdapter adapter = (PagerAdapter)pager.getAdapter();
+        final ViewTrackerFragment fragment = (ViewTrackerFragment)adapter.getItem(pager.getCurrentItem());
+        final Tracker tracker = fragment.getTracker();
         //input.setHighlightColor(host.getColor());
         //input.setDrawingCacheBackgroundColor(host.getColor());
         //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
-       /** try {
+        /**
+        try {
             Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
             f.setAccessible(true);
             f.set(input, R.drawable.cursor);
         } catch (Exception ignored) {
         }*/
-        /**
+
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
-                host.addProgress(progress);
-                totalProgressChart.update();
-                dailyProgressChart.update();
+                System.out.print("Name: " + tracker.getName() +  "    Progress before: " + tracker.getCurrentProgress() );
+                tracker.addProgress(progress);
+                System.out.println("  Progress added: " + progress + "    Progress now: " + tracker.getCurrentProgress());
+                fragment.update();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -110,18 +129,18 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
         });
 
-        // TODO Styling OUT of Java.
+
         AlertDialog dialog = builder.create();
         dialog.show();
 
         Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         if (b1 != null)
-            b1.setTextColor(host.getColor());
+            b1.setTextColor(tracker.getColor());
 
         Button b2 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (b2 != null)
-            b2.setTextColor(host.getColor());
-         */
+            b2.setTextColor(tracker.getColor());
+
     }
 
     @Override
@@ -130,7 +149,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_view_tracker, menu);
         return true;
     }
-    /**
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -139,10 +159,10 @@ public class ViewTrackerActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_demo_1) {
+        if (id == 0) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

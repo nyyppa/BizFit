@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.views.CustomBarChart;
 import com.bizfit.bizfit.views.CustomLineChart;
@@ -49,6 +50,8 @@ public class ViewTrackerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        host = User.getLastUser().getTrackers()[bundle.getInt("Index")];
         return inflater.inflate(R.layout.fragmet_view_tracker_content, container, false);
     }
 
@@ -71,8 +74,8 @@ public class ViewTrackerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ViewTrackerActivity parent = (ViewTrackerActivity) getActivity();
-        Context context = parent.getBaseContext();
+        //ViewTrackerActivity parent = (ViewTrackerActivity) getActivity();
+        //Context context = parent.getBaseContext();
         //parent.getSupportActionBar().setTitle(host.getName());
         //parent.findViewById(R.id.total_progress_container).setBackgroundColor(host.getColor());
         //parent.findViewById(R.id.info_text_container).setBackgroundColor(host.getColor());
@@ -102,5 +105,14 @@ public class ViewTrackerFragment extends Fragment {
 
         // Called to ensure proper drawing.
         totalProgressChart.invalidate();
+    }
+
+    public Tracker getTracker() {
+        return host;
+    }
+
+    public void update() {
+        //totalProgressChart.update();
+        //dailyProgressChart.update();
     }
 }
