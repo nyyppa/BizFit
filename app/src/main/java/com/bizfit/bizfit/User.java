@@ -32,6 +32,7 @@ public class User implements java.io.Serializable {
     LastUser lastUser;
     private transient static File saveDir;
     private transient static Context context;
+    private transient static User currentUser;
 
     public Tracker getTrackerByIndex(int index){
         return trackers.get(index);
@@ -41,11 +42,7 @@ public class User implements java.io.Serializable {
     public static void update(Context c){
         User u;
         context=c;
-        if(MainActivity.currentUser==null){
-            u=getLastUser();
-        }else{
-            u=MainActivity.currentUser;
-        }
+        u=getLastUser();
         for(int i=0;i<u.trackers.size();i++){
             u.trackers.get(i).update();
         }
@@ -344,6 +341,9 @@ public class User implements java.io.Serializable {
         return s;
     }
     public static User getLastUser() {
+        if(currentUser!=null){
+            return currentUser;
+        }
         FileInputStream f_in = null;
         if(MainActivity.activity!=null){
             context=MainActivity.activity;
@@ -412,7 +412,8 @@ public class User implements java.io.Serializable {
 
             }
         }
-        return getInstance(user);
+        User currentUser=getInstance(user);
+        return currentUser;
     }
 
     public class LastUser implements java.io.Serializable {
