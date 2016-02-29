@@ -45,6 +45,8 @@ public class Tracker implements java.io.Serializable {
 
     long lastTestUpdate;
 
+    transient ChangeListener listener;
+
     public int daysFromStart(){
         return (int)(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()-startDate));
     }
@@ -58,6 +60,14 @@ public class Tracker implements java.io.Serializable {
         changes.add(0, new Change(this.color+"",lastModification.color));
         this.color=color;
         return color;
+    }
+
+    /**
+     * Give changeListener to be notified when progress is added
+     * @param listener
+     */
+    public void setChangeListener(ChangeListener listener){
+        this.listener=listener;
     }
 
     /**
@@ -365,6 +375,7 @@ public class Tracker implements java.io.Serializable {
         currentProgress+=progress;
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
+        listener.changeAmount(progress);
         fieldUpdated();
     }
 
@@ -604,5 +615,9 @@ public class Tracker implements java.io.Serializable {
 
     public DailyProgress getDaily() {
         return daily;
+    }
+
+    public interface ChangeListener {
+        public void changeAmount(float amount);
     }
 }
