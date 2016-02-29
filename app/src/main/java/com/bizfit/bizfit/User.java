@@ -242,6 +242,7 @@ public class User implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentUser = this;
+        updateIndexes();
         try {
             save();
         } catch (Exception e) {
@@ -283,7 +284,7 @@ public class User implements java.io.Serializable {
                 break;
             }
         }
-
+        updateIndexes();
         try {
             save();
         } catch (Exception e) {
