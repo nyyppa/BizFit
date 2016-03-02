@@ -2,6 +2,11 @@ package com.bizfit.bizfit;
 
 import com.bizfit.bizfit.activities.MainActivity;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -35,7 +40,7 @@ public class Tracker implements java.io.Serializable {
     String targetType;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
     DailyProgress daily=new DailyProgress();
-    User parentUser;
+    transient User parentUser;
     boolean weekly;
     boolean repeat;
     boolean completed=false;
@@ -504,6 +509,31 @@ public class Tracker implements java.io.Serializable {
     public OldProgress[] getOldProgress(){
         OldProgress[]o=new OldProgress[oldProgress.size()];
         return oldProgress.toArray(o);
+    }
+
+    public static Tracker copy(Tracker orig) {
+        Tracker obj = null;
+        try {
+            // Write the object out to a byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(orig);
+            out.flush();
+            out.close();
+
+            // Make an input stream from the byte array and read
+            // a copy of the object back in.
+            ObjectInputStream in = new ObjectInputStream(
+                    new ByteArrayInputStream(bos.toByteArray()));
+            obj = (Tracker) in.readObject();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
+        return obj;
     }
 
     /**

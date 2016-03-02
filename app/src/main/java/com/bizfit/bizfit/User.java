@@ -129,6 +129,9 @@ public class User implements java.io.Serializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        for(int i=0;i<trackers.size();i++){
+            trackers.get(i).parentUser=this;
+        }
 
 
     }
