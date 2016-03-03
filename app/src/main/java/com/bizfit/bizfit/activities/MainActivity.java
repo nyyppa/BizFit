@@ -36,11 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*thread = new PauseableThread(1000);
-        thread.start();
-        */
-        Intent intent = new Intent(this, OurService.class);
-        startService(intent);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
