@@ -27,6 +27,7 @@ import com.bizfit.bizfit.views.TrackableView;
 public class TabTrackables extends Fragment {
 
     private final static int deleteID = 0;
+    private static Tracker[] trackers;
     private static final int GET_NEW_GOAL = 1;
 
     public TabTrackables() {
@@ -46,13 +47,13 @@ public class TabTrackables extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        trackers = User.getLastUser().getTrackers();
         populate();
     }
 
 
     public void populate() {
         MainActivity parentActivity = (MainActivity) getActivity();
-        Tracker[] trackers = User.getLastUser().getTrackers();
         Context context = getContext();
 
         LayoutInflater inflater = (LayoutInflater) parentActivity.getSystemService
@@ -81,13 +82,12 @@ public class TabTrackables extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /**
-        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
-        registerForContextMenu(viewContainer);
-        View view;
-        TrackableView tmp;
-        Tracker[] trackers = User.getLastUser().getTrackers();
-        int index = trackers.length - 1;*/
+         ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
+         registerForContextMenu(viewContainer);
+
+        for (int i = 0; i < viewContainer.getChildCount(); i++) {
+            //((TrackableView)viewContainer.getChildAt(i)).update();
+        }
 
     }
 
@@ -95,9 +95,9 @@ public class TabTrackables extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         /**
-        System.out.println("View is null: " + v);
-        System.out.println("Menu is null: " + menu );
-        System.out.println("MenuInfo is null: " + menuInfo);*/
+         System.out.println("View is null: " + v);
+         System.out.println("Menu is null: " + menu );
+         System.out.println("MenuInfo is null: " + menuInfo);*/
         // TODO menuInfo is sometimes a null value. Investigate
         // Probably due to misuse of registerForContextMenu(View). Needs better
         // implementation with listview.
@@ -148,7 +148,7 @@ public class TabTrackables extends Fragment {
             ));
             Activity parent = getActivity();
             addTracker(newTracker
-                    , (ViewGroup)parent.findViewById(R.id.goal_container)
+                    , (ViewGroup) parent.findViewById(R.id.goal_container)
                     , parent.getLayoutInflater()
                     , parent);
         }
@@ -166,6 +166,10 @@ public class TabTrackables extends Fragment {
         viewTracker.putExtra(FieldNames.INDEX, index);
         //viewTracker.putExtra(FieldNames.TRACKERS, getCurrentUser().getTrackers());
         startActivity(viewTracker);
+    }
+
+    public static Tracker[] getTrackers() {
+        return trackers;
     }
 }
 

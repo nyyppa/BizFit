@@ -3,6 +3,7 @@ package com.bizfit.bizfit.fragments;
 /**
  * Created by Käyttäjä on 7.2.2016.
  */
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

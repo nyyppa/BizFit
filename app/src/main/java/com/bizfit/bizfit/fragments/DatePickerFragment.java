@@ -23,7 +23,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     private SimpleDateFormat dateFormatter;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         //Use the current date as the default date in the date picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -54,6 +54,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         Calendar newDate = Calendar.getInstance();
         newDate.set(year, month, day);
-        ((TextView)getActivity().findViewById(R.id.target_date)).setText(dateFormatter.format(newDate.getTime()));
+        ((TextView) getActivity().findViewById(R.id.target_date)).setText(dateFormatter.format(newDate.getTime()));
     }
 }

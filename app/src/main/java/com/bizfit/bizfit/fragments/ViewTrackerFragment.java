@@ -27,17 +27,17 @@ public class ViewTrackerFragment extends Fragment {
     /**
      * Tracker, from which relevant data is pulled from.
      */
-    Tracker host;
+    private Tracker host;
 
     /**
      * Accumulative line chart which displays total progress.
      */
-    CustomLineChart totalProgressChart;
+    private CustomLineChart totalProgressChart;
 
     /**
      * Shows values added per day.
      */
-    CustomBarChart dailyProgressChart;
+    private CustomBarChart dailyProgressChart;
 
     public ViewTrackerFragment() {
         // Required empty public constructor
@@ -50,30 +50,17 @@ public class ViewTrackerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        host = User.getLastUser().getTrackers()[bundle.getInt("Index")];
         return inflater.inflate(R.layout.fragmet_view_tracker_content, container, false);
     }
 
-    /**
-     * Populates info text's with data from Tracker.
-     */
-    private void fillTextViews(Activity parent) {
-        DateTime endDate = new DateTime(host.getEndDateMillis());
-
-        ((TextView) parent.findViewById(R.id.target_amount)).setText(
-                (int) host.getTargetProgress() + "");
-
-        ((TextView) parent.findViewById(R.id.time_left_amount)).setText(
-                endDate.getDayOfMonth() + "." +
-                        endDate.getMonthOfYear() + "." +
-                        endDate.getYear()
-        );
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        update();
         //ViewTrackerActivity parent = (ViewTrackerActivity) getActivity();
         //Context context = parent.getBaseContext();
         //parent.getSupportActionBar().setTitle(host.getName());
@@ -109,6 +96,10 @@ public class ViewTrackerFragment extends Fragment {
 
     public Tracker getTracker() {
         return host;
+    }
+
+    public void setTracker(Tracker host) {
+        this.host = host;
     }
 
     public void update() {

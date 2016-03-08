@@ -24,9 +24,9 @@ import com.bizfit.bizfit.utils.AssetManagerOur;
 
 public class TrackableView extends FrameLayout {
 
-    private Tracker tracker;
     private View layout;
     public static final float animSpeed = 6;
+    private static Tracker tracker;
 
     private TextView trackerName;
     private TextView targetAmount;
@@ -41,9 +41,8 @@ public class TrackableView extends FrameLayout {
         init();
     }
 
-    public TrackableView(Context context, AttributeSet attrs, Tracker tracker) {
+    public TrackableView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.tracker = tracker;
     }
 
     public TrackableView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -78,7 +77,6 @@ public class TrackableView extends FrameLayout {
         progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
         ((TextView) findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
         ((TextView) findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-
         findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -114,7 +112,7 @@ public class TrackableView extends FrameLayout {
     }
 
     public void setTracker(Tracker tracker) {
-        this.tracker = tracker;
+        this.tracker= tracker;
     }
 
     /**
@@ -125,7 +123,6 @@ public class TrackableView extends FrameLayout {
      * method. Otherwise template values are shown.
      */
     public void update() {
-        if (tracker != null) {
             Tracker.RemainingTime time = tracker.getTimeRemaining();
             timeLeftAmount.setText((int) time.getTimeRemaining() + " " + time.getTimeType());
             trackerName.setText(tracker.getName());
@@ -133,12 +130,13 @@ public class TrackableView extends FrameLayout {
             targetAmount.setText((int) tracker.getTargetProgress() + "");
             progressPercent.setText(((int) (Math.floor(tracker.getProgressPercent() * 100))) + "");
             //animatePercentage();
-        }
+
     }
 
     // TODO Clean this up.
     private void animatePercentage() {
         float value, max, min;
+
         // Prevents the animation from targeting above the maximum
         // allowed value.
         max = (((value = tracker.getProgressPercent()) * 100) < 999)

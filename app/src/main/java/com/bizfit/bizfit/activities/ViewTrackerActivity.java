@@ -65,9 +65,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         Bundle bundle;
         for (int i = (trackers.length - 1); i >= 0; i--) {
             fragment = new ViewTrackerFragment();
-            bundle = new Bundle();
-            bundle.putInt("Index", trackers[i].getIndex());
-            fragment.setArguments(bundle);
+            fragment.setTracker(trackers[i]);
             adapter.addFragment(fragment, trackers[i].getName());
         }
 
@@ -96,29 +94,27 @@ public class ViewTrackerActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
-        PagerAdapter adapter = (PagerAdapter)pager.getAdapter();
-        final ViewTrackerFragment fragment = (ViewTrackerFragment)adapter.getItem(pager.getCurrentItem());
+        PagerAdapter adapter = (PagerAdapter) pager.getAdapter();
+        final ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(pager.getCurrentItem());
         final Tracker tracker = fragment.getTracker();
         //input.setHighlightColor(host.getColor());
         //input.setDrawingCacheBackgroundColor(host.getColor());
         //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
         /**
-        try {
-            Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
-            f.setAccessible(true);
-            f.set(input, R.drawable.cursor);
-        } catch (Exception ignored) {
-        }*/
+         try {
+         Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
+         f.setAccessible(true);
+         f.set(input, R.drawable.cursor);
+         } catch (Exception ignored) {
+         }*/
 
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
-                System.out.print("Name: " + tracker.getName() +  "    Progress before: " + tracker.getCurrentProgress() );
                 tracker.addProgress(progress);
-                System.out.println("  Progress added: " + progress + "    Progress now: " + tracker.getCurrentProgress());
-                fragment.update();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -134,12 +130,12 @@ public class ViewTrackerActivity extends AppCompatActivity {
         dialog.show();
 
         Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        if (b1 != null)
-            b1.setTextColor(tracker.getColor());
+        //if (b1 != null)
+        //b1.setTextColor(tracker.getColor());
 
-        Button b2 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        if (b2 != null)
-            b2.setTextColor(tracker.getColor());
+        //Button b2 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        //if (b2 != null)
+        //b2.setTextColor(tracker.getColor());
 
     }
 
