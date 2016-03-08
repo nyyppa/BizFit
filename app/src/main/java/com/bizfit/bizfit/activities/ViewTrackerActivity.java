@@ -46,6 +46,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         setupViewPager(viewPager);
@@ -66,8 +67,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                getSupportActionBar().setTitle(
-                        ((ViewTrackerFragment) getSupportFragmentManager().getFragments().get(position)).getTracker().getName());
+
             }
 
             @Override
@@ -112,9 +112,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
-        PagerAdapter adapter = (PagerAdapter) pager.getAdapter();
-        final ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(pager.getCurrentItem());
-        final Tracker tracker = fragment.getTracker();
+        final PagerAdapter adapter = (PagerAdapter) pager.getAdapter();
         //input.setHighlightColor(host.getColor());
         //input.setDrawingCacheBackgroundColor(host.getColor());
         //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
@@ -131,10 +129,9 @@ public class ViewTrackerActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
-                tracker.addProgress(progress);
-                ((ViewTrackerFragment)((PagerAdapter) pager.getAdapter()).getItem(pager.getCurrentItem())).update();
-
-
+                ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(pager.getCurrentItem());
+                fragment.getTracker().addProgress(progress);
+                fragment.update();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

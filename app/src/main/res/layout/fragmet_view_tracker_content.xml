@@ -16,8 +16,16 @@
             android:background="@color/colorAccent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="32dp"
+            android:paddingTop="16dp"
             android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Preview only"
+                android:id="@+id/tracker_name"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/target"
@@ -25,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="@string/view_tracker_target"
+                android:layout_below="@+id/tracker_name"
                 android:textColor="@color/abc_primary_text_material_dark" />
 
             <TextView
@@ -45,6 +54,7 @@
                 android:layout_alignLeft="@+id/time_left_amount"
                 android:layout_alignStart="@+id/time_left_amount"
                 android:layout_gravity="center_horizontal|top"
+                android:layout_below="@+id/tracker_name"
                 android:editable="false"
                 android:text="only for preview"
                 android:textColor="@color/abc_primary_text_material_dark" />
@@ -75,7 +85,14 @@
             android:paddingBottom="@dimen/total_progress_graph_horizontal_padding"
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
-            android:paddingTop="@dimen/total_progress_graph_horizontal_padding"></FrameLayout>
+            android:paddingTop="@dimen/total_progress_graph_horizontal_padding">
+            <!--
+            <com.github.mikephil.charting.charts.LineChart
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/total_progress_graph" />
+                -->
+        </FrameLayout>
 
         <!-- Content added progmatically -->
         <FrameLayout
@@ -87,7 +104,15 @@
             android:paddingBottom="@dimen/total_progress_graph_horizontal_padding"
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
-            android:paddingTop="@dimen/total_progress_graph_horizontal_padding"></FrameLayout>
+            android:paddingTop="@dimen/total_progress_graph_horizontal_padding">
+            <!--
+            <com.github.mikephil.charting.charts.BarChart
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/view"
+                android:transitionGroup="false" />
+                -->
+        </FrameLayout>
 
         <Space
             android:layout_width="match_parent"
