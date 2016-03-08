@@ -24,6 +24,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/GraphView-4.0.1.jar')
@@ -33,7 +34,5 @@ dependencies {
     compile files('build/Testi/joda-time-2.9.1.jar')
     compile files('build/Testi/mpandroidchartlibrary-2-1-6.jar')
     compile files('build/meh/mpandroidchartlibrary-2-1-6.jar')
-    compile files('D:/Bizfit/BizFit/libs/mpandroidchartlibrary-2-1-6.jar')
     compile files('D:/Bizfit/BizFit/libs/joda-time-2.9.1.jar')
-    compile files('D:/Bizfit/BizFit/libs/GraphView-4.0.1.jar')
 }

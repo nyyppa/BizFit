@@ -26,7 +26,7 @@ public class TrackableView extends FrameLayout {
 
     private View layout;
     public static final float animSpeed = 6;
-    private static Tracker tracker;
+    private Tracker tracker;
 
     private TextView trackerName;
     private TextView targetAmount;
@@ -86,7 +86,7 @@ public class TrackableView extends FrameLayout {
                         .getSupportFragmentManager().getFragments().get(0);
                 System.out.println("Tracker index: " + tracker.getIndex());
                 parentFragment.launchViewTrackerActivity(tracker
-                       , ((ViewGroup)getParent()).indexOfChild(TrackableView.this));
+                        , ((ViewGroup) getParent()).indexOfChild(TrackableView.this));
             }
         });
 
@@ -111,18 +111,15 @@ public class TrackableView extends FrameLayout {
         return tracker;
     }
 
-    public void setTracker(Tracker tracker) {
-        this.tracker= tracker;
-    }
-
     /**
      * Pulls data from the given tracker.
-     * <p/>
+     *
      * Does nothing if tracker is not set. When creating this view directly
      * from .xml, it is advised that setTracker() is called followed by this
      * method. Otherwise template values are shown.
      */
     public void update() {
+            //System.out.println("Tracker: " + tracker);
             Tracker.RemainingTime time = tracker.getTimeRemaining();
             timeLeftAmount.setText((int) time.getTimeRemaining() + " " + time.getTimeType());
             trackerName.setText(tracker.getName());
@@ -232,5 +229,10 @@ public class TrackableView extends FrameLayout {
         // 1dp/ms
         a.setDuration((int) ((targetHeight / getContext().getResources().getDisplayMetrics().density) * animSpeed));
         startAnimation(a);
+    }
+
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
+        update();
     }
 }

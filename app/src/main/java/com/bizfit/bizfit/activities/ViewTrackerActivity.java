@@ -50,10 +50,29 @@ public class ViewTrackerActivity extends AppCompatActivity {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         setupViewPager(viewPager);
         viewPager.setCurrentItem(index);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialoque(viewPager);
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                getSupportActionBar().setTitle(
+                        ((ViewTrackerFragment) getSupportFragmentManager().getFragments().get(position)).getTracker().getName());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -62,10 +81,9 @@ public class ViewTrackerActivity extends AppCompatActivity {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         Tracker[] trackers = User.getLastUser().getTrackers();
         ViewTrackerFragment fragment;
-        Bundle bundle;
+
         for (int i = (trackers.length - 1); i >= 0; i--) {
-            fragment = new ViewTrackerFragment();
-            fragment.setTracker(trackers[i]);
+            fragment = ViewTrackerFragment.newInstance(trackers[i]);
             adapter.addFragment(fragment, trackers[i].getName());
         }
 
@@ -114,6 +132,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
                 tracker.addProgress(progress);
+                ((ViewTrackerFragment)((PagerAdapter) pager.getAdapter()).getItem(pager.getCurrentItem())).update();
+
 
             }
         });

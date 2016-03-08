@@ -82,11 +82,15 @@ public class TabTrackables extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-         ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
-         registerForContextMenu(viewContainer);
+        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
+        registerForContextMenu(viewContainer);
 
-        for (int i = 0; i < viewContainer.getChildCount(); i++) {
-            //((TrackableView)viewContainer.getChildAt(i)).update();
+        // TODO better implementation.
+        trackers = User.getLastUser().getTrackers();
+        int index = 0;
+        for (int i = (trackers.length - 1); i >= 0; i--) {
+            ((TrackableView) viewContainer.getChildAt(i)).setTracker(trackers[index]);
+            index++;
         }
 
     }
@@ -166,10 +170,6 @@ public class TabTrackables extends Fragment {
         viewTracker.putExtra(FieldNames.INDEX, index);
         //viewTracker.putExtra(FieldNames.TRACKERS, getCurrentUser().getTrackers());
         startActivity(viewTracker);
-    }
-
-    public static Tracker[] getTrackers() {
-        return trackers;
     }
 }
 
