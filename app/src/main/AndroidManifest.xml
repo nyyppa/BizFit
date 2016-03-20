@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bizfit.bizfit" >
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     AccountManager.getAccountsByType: android.permission.GET_ACCOUNTS
     <application
         android:allowBackup="true"
@@ -11,7 +12,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <service android:enabled="true" android:name=".OurService" />
+        <service
+            android:name=".OurService"
+            android:enabled="true" />
         <service android:name=".MyAlarmService" />
 
         <!-- Splash screen -->
@@ -22,7 +25,10 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <!--
+                Uncomment for splash screen
                 <category android:name="android.intent.category.LAUNCHER" />
+                -->
             </intent-filter>
         </activity>
 
@@ -30,45 +36,33 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="user">
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Settings -->
-        <activity android:name=".activities.SettingsActivity"
+        <activity
+            android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-
         <activity
             android:name=".activities.AddTrackerActivity"
             android:label="@string/new_goal"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="user"
-            android:windowSoftInputMode="adjustPan|stateVisible">
-
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateVisible" >
         </activity>
-
         <activity
             android:name=".activities.ViewTrackerActivity"
-            android:theme="@style/AppThemeLight"
-            android:screenOrientation="user">
-
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:label=""
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 

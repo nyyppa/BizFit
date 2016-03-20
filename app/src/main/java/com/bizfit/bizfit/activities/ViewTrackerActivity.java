@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +39,8 @@ public class ViewTrackerActivity extends AppCompatActivity {
      */
     Activity activity;
 
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,35 +49,18 @@ public class ViewTrackerActivity extends AppCompatActivity {
         int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_add_progress);
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
+        getSupportActionBar().setElevation(0);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_progress);
+        viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         setupViewPager(viewPager);
         viewPager.setCurrentItem(index);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialoque(viewPager);
+                openDialoque();
             }
         });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        toolAndStatusbarStylize(toolbar);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -105,35 +91,23 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.
      */
-    private void openDialoque(final ViewPager pager) {
+    private void openDialoque() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-
-        final PagerAdapter adapter = (PagerAdapter) pager.getAdapter();
-        //input.setHighlightColor(host.getColor());
-        //input.setDrawingCacheBackgroundColor(host.getColor());
-        //input.getBackground().mutate().setColorFilter(host.getColor(), PorterDuff.Mode.SRC_ATOP);
-        /**
-         try {
-         Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
-         f.setAccessible(true);
-         f.set(input, R.drawable.cursor);
-         } catch (Exception ignored) {
-         }*/
+        final PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
 
         builder.setView(input);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
-                ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(pager.getCurrentItem());
+                ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(viewPager.getCurrentItem());
                 fragment.getTracker().addProgress(progress);
-                fragment.update();
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -146,7 +120,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        //Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         //if (b1 != null)
         //b1.setTextColor(tracker.getColor());
 

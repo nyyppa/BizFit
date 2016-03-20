@@ -22,4 +22,6 @@
     <string name="action_edit">Muokkaa</string>
     <string name="action_delete">Poista</string>
     <string name="message_remove_successful">Poistettu onnistuneesti</string>
+    <string name="error_empty_field">Tyhjä kenttä</string>
+    <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
 </resources>

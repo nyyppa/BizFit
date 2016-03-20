@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
 
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
@@ -53,10 +54,16 @@ public class CustomLineChart extends LineChart {
      */
     private DateTime endDate;
 
-    public CustomLineChart(Context context, Tracker host) {
+    public CustomLineChart(Context context) {
         super(context);
-        setTracker(host);
-        update();
+    }
+
+    public CustomLineChart(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomLineChart(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     /**
@@ -203,6 +210,7 @@ public class CustomLineChart extends LineChart {
      */
     public void setTracker(Tracker host) {
         this.host = host;
+        update();
     }
 
     /**

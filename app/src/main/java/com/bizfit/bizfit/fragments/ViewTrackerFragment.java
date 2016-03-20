@@ -1,50 +1,38 @@
 package com.bizfit.bizfit.fragments;
 
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.views.CustomBarChart;
 import com.bizfit.bizfit.views.CustomLineChart;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
 /**
  * Created by Käyttäjä on 29.2.2016.
  */
-public class ViewTrackerFragment extends Fragment {
+public class ViewTrackerFragment extends Fragment implements Tracker.DataChangedListener {
+
+    private String TAG = this.getClass().getName();
 
     /**
      * Tracker, from which relevant data is pulled from.
      */
     private Tracker tracker;
 
-    /**
-     * Accumulative line chart which displays total progress.
-     */
-    private CustomLineChart totalProgressChart;
-
-    /**
-     * Shows values added per day.
-     */
-    private CustomBarChart dailyProgressChart;
-
     public static ViewTrackerFragment newInstance(Serializable describable) {
         ViewTrackerFragment fragment = new ViewTrackerFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("TRACKER", describable);
         fragment.setArguments(bundle);
-
+        Log.d("ViewTrackerFragment", "newInstance()");
         return fragment;
     }
 
@@ -55,7 +43,9 @@ public class ViewTrackerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ViewTrackerFragment", "onCreate()");
         tracker = (Tracker) getArguments().getSerializable("TRACKER");
+        tracker.setDataChangedListener(this);
     }
 
     @Override
@@ -65,12 +55,13 @@ public class ViewTrackerFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        createTotalProgressChart(getContext());
-        createDailyProgressChart(getContext());
         View root = getView();
         root.findViewById(R.id.info_text_container).setBackgroundColor(tracker.getColor());
-        ((TextView)root.findViewById(R.id.time_left_amount)).setText(tracker.getEndDateMillis() + "");
-        ((TextView) root.findViewById(R.id.target_amount)).setText(((int)tracker.getTargetProgress()) + "");
+        root.findViewById(R.id.total_progress_container).setBackgroundColor(tracker.getColor());
+        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).setTracker(tracker);
+        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).setTracker(tracker);
+        ((TextView) root.findViewById(R.id.time_left_amount)).setText(tracker.getEndDateMillis() + "");
+        ((TextView) root.findViewById(R.id.target_amount)).setText(((int) tracker.getTargetProgress()) + "");
         ((TextView) root.findViewById(R.id.tracker_name)).setText(tracker.getName());
 
     }
@@ -78,33 +69,8 @@ public class ViewTrackerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        update();
-        ViewTrackerActivity parent = (ViewTrackerActivity) getActivity();
-        Context context = parent.getBaseContext();
-
         // If theming changes, comment this line out.
         //toolAndStatusbarStylize(toolbar);
-    }
-
-    private void createDailyProgressChart( Context context) {
-        dailyProgressChart = new CustomBarChart(context, tracker);
-        ((FrameLayout) getView().findViewById(R.id.daily_progress_container)).addView(dailyProgressChart);
-
-        // Called to ensure proper drawing.
-        dailyProgressChart.invalidate();
-    }
-
-    /**
-     * Initializes, populates graph with data and adds it to container.
-     */
-    private void createTotalProgressChart(Context context) {
-        totalProgressChart = new CustomLineChart(context, tracker);
-        FrameLayout container = ((FrameLayout) getView().findViewById(R.id.total_progress_container));
-        container.addView(totalProgressChart);
-        container.setBackgroundColor(tracker.getColor());
-
-        // Called to ensure proper drawing.
-        totalProgressChart.invalidate();
     }
 
     public Tracker getTracker() {
@@ -119,14 +85,15 @@ public class ViewTrackerFragment extends Fragment {
         this.tracker = host;
     }
 
-    public void update() {
-        if(totalProgressChart != null) {
-            totalProgressChart.setTracker(tracker);
-            totalProgressChart.update();
-        }
-        if(dailyProgressChart!= null) {
-            dailyProgressChart.setTracker(tracker);
-            dailyProgressChart.update();
-        }
+    private void update() {
+        Log.d(TAG, "update()");
+        View root = getView();
+        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).update();
+        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).update();
+    }
+
+    @Override
+    public void dataChanged(float amount) {
+        update();
     }
 }

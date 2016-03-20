@@ -28,12 +28,20 @@
     <color name="colorAlternativeOption5">#a7af61</color>
 
     <!-- Collection of possible colors generated for the alternative trackable view-->
-    <integer-array name="trackable_view_alt_colors">
+    <integer-array name="trackable_view_alt_colors_integer_array">
         <item>@color/colorAlternativeOption1</item>
         <item>@color/colorAlternativeOption2</item>
         <item>@color/colorAlternativeOption3</item>
         <item>@color/colorAlternativeOption4</item>
         <item>@color/colorAlternativeOption5</item>
     </integer-array>
+
+    <array name="trackable_view_alt_colors_array">
+        <item>@color/colorAlternativeOption1</item>
+        <item>@color/colorAlternativeOption2</item>
+        <item>@color/colorAlternativeOption3</item>
+        <item>@color/colorAlternativeOption4</item>
+        <item>@color/colorAlternativeOption5</item>
+    </array>
 
 </resources>

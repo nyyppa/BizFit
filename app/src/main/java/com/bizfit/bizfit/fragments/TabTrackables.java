@@ -139,22 +139,31 @@ public class TabTrackables extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GET_NEW_GOAL && resultCode == Activity.RESULT_OK) {
-            Tracker newTracker = new Tracker();
-            User.getLastUser().addTracker(newTracker);
-            newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
-            newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
-            newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
-            newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
-                    , data.getIntExtra(FieldNames.MONTH, 1)
-                    , data.getIntExtra(FieldNames.DAY, 1)
-                    , data.getBooleanExtra(FieldNames.RECURRING, false
-            ));
-            Activity parent = getActivity();
-            addTracker(newTracker
-                    , (ViewGroup) parent.findViewById(R.id.goal_container)
-                    , parent.getLayoutInflater()
-                    , parent);
+        switch (requestCode) {
+            case GET_NEW_GOAL:
+                if (resultCode == Activity.RESULT_OK) {
+                    Tracker newTracker = new Tracker();
+                    User.getLastUser().addTracker(newTracker);
+                    newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
+                    newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
+                    newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
+                    newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
+                            , data.getIntExtra(FieldNames.MONTH, 1)
+                            , data.getIntExtra(FieldNames.DAY, 1)
+                            , data.getBooleanExtra(FieldNames.RECURRING, false
+                    ));
+                    Activity parent = getActivity();
+                    addTracker(newTracker
+                            , (ViewGroup) parent.findViewById(R.id.goal_container)
+                            , parent.getLayoutInflater()
+                            , parent);
+                } else {
+                    (Toast.makeText(
+                            getContext()
+                            , getResources().getString(R.string.message_tracker_not_saved)
+                            , Toast.LENGTH_SHORT)
+                    ).show();
+                }
         }
     }
 

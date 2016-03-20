@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
 
 import com.bizfit.bizfit.DailyProgress;
 import com.bizfit.bizfit.R;
@@ -49,10 +50,16 @@ public class CustomBarChart extends BarChart {
      */
     private DateTime today;
 
-    public CustomBarChart(Context context, Tracker host) {
+    public CustomBarChart(Context context) {
         super(context);
-        setTracker(host);
-        update();
+    }
+
+    public CustomBarChart(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public CustomBarChart(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     public void stylize() {
@@ -182,6 +189,7 @@ public class CustomBarChart extends BarChart {
      */
     public void setTracker(Tracker host) {
         this.host = host;
+        update();
     }
 
     /**
@@ -203,6 +211,7 @@ public class CustomBarChart extends BarChart {
         pullDataFromTracker();
         stylize();
         addDataToSuperClass();
+        notifyDataSetChanged();
         invalidate();
     }
 

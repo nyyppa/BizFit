@@ -50,7 +50,7 @@ public class Tracker implements java.io.Serializable {
     int index;
     long lastTestUpdate;
 
-    transient ChangeListener listener;
+    transient DataChangedListener listener;
 
     public int getIndex(){
         return index;
@@ -75,7 +75,7 @@ public class Tracker implements java.io.Serializable {
      * Give changeListener to be notified when progress is added
      * @param listener
      */
-    public void setChangeListener(ChangeListener listener){
+    public void setDataChangedListener(DataChangedListener listener){
         this.listener=listener;
     }
 
@@ -385,7 +385,7 @@ public class Tracker implements java.io.Serializable {
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
         if (listener != null) {
-            listener.changeAmount(progress);
+            listener.dataChanged(progress);
         }
         fieldUpdated();
     }
@@ -653,7 +653,7 @@ public class Tracker implements java.io.Serializable {
         return daily;
     }
 
-    public interface ChangeListener {
-        public void changeAmount(float amount);
+    public interface DataChangedListener {
+        public void dataChanged(float amount);
     }
 }
