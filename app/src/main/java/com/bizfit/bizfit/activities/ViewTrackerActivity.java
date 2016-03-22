@@ -104,6 +104,11 @@ public class ViewTrackerActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
                 ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(viewPager.getCurrentItem());
+
+                //my addition t:atte
+                fragment.getTracker().setDataChangedListener(fragment);
+
+
                 fragment.getTracker().addProgress(progress);
             }
         });

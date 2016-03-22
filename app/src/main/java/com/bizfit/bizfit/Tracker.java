@@ -63,7 +63,7 @@ public class Tracker implements java.io.Serializable {
         notNumberProgresses.add(n);
     }
 
-    transient ChangeListener listener;
+    transient DataChangedListener listener;
     public Tracker (Helper h){
         startDate=h.startDate;
         lastReset=h.lastReset;
@@ -114,7 +114,7 @@ public class Tracker implements java.io.Serializable {
      * Give changeListener to be notified when progress is added
      * @param listener
      */
-    public void setChangeListener(ChangeListener listener){
+    public void setDataChangedListener(DataChangedListener listener){
         this.listener=listener;
     }
 
@@ -424,8 +424,9 @@ public class Tracker implements java.io.Serializable {
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
         if (listener != null) {
-            listener.changeAmount(progress);
+            listener.dataChanged(progress);
         }
+        System.out.println("terveisiä: "+listener);
         fieldUpdated();
     }
 
@@ -701,8 +702,8 @@ public class Tracker implements java.io.Serializable {
         return daily;
     }
 
-    public interface ChangeListener {
-        public void changeAmount(float amount);
+    public interface DataChangedListener {
+        public void dataChanged(float amount);
     }
     public class Helper{
         long startDate;
