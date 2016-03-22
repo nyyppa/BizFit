@@ -2,6 +2,8 @@ package com.bizfit.bizfit;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ListIterator;
@@ -9,9 +11,41 @@ import java.util.ListIterator;
 
 public class DailyProgress implements java.io.Serializable{
 	private List<DayPool>dayPool=new ArrayList<DayPool>(0);
-	public DailyProgress(){
 
+	public DailyProgress(List<DaySingle> list){
+        Comparator<DaySingle> comparator=new Comparator<DaySingle>() {
+            @Override
+            public int compare(DaySingle lhs, DaySingle rhs) {
+                return (int) (lhs.getTime()-rhs.getTime());
+            }
+        };
+        Collections.sort(list,comparator);
+        for(int i=0;i<list.size();i++){
+            addDailyProgress(list.get(i).getAmount(),list.get(i).getTime());
+        }
 	}
+    public DailyProgress(){
+
+
+    }
+
+    public List<DaySingle> prepForDataBase(){
+        List<DaySingle>list=new ArrayList<DaySingle>();
+        for(int i=0;i<dayPool.size();i++){
+            List<DaySingle> daySingleList=dayPool.get(i).daySingle;
+            for(int j=0;j<daySingleList.size();j++){
+                list.add(daySingleList.get(j));
+            }
+        }
+        Comparator<DaySingle> comparator=new Comparator<DaySingle>() {
+            @Override
+            public int compare(DaySingle lhs, DaySingle rhs) {
+                return (int) (lhs.getTime()-rhs.getTime());
+            }
+        };
+        Collections.sort(list,comparator);
+        return list;
+    }
 
 	public List<DayPool> getDayPoolList(){
 		return dayPool;

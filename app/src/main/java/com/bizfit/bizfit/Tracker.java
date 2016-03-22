@@ -27,7 +27,6 @@ public class Tracker implements java.io.Serializable {
     private static final long serialVersionUID = -9151429274382287394L;
     long startDate;
     long lastReset;
-
     int dayInterval;
     int monthInterval;
     int yearInterval;
@@ -49,8 +48,48 @@ public class Tracker implements java.io.Serializable {
     int color;
     int index;
     long lastTestUpdate;
+    boolean numberTracked=true;
+    List<NotNumberProgress> notNumberProgresses=new ArrayList<NotNumberProgress>(0);
 
-    transient DataChangedListener listener;
+    public void setNotNumberProgresses(List<NotNumberProgress> list){
+        notNumberProgresses=list;
+        for(int i=0;i<notNumberProgresses.size();i++){
+            notNumberProgresses.get(i).setParentTracker(this);
+        }
+        numberTracked=false;
+    }
+
+    public void addNotNumberProgress(NotNumberProgress n){
+        notNumberProgresses.add(n);
+    }
+
+    transient ChangeListener listener;
+    public Tracker (Helper h){
+        startDate=h.startDate;
+        lastReset=h.lastReset;
+        dayInterval=h.dayInterval;
+        monthInterval=h.monthInterval;
+        yearInterval=h.yearInterval;
+        targetProgress=h.targetProgress;
+        currentProgress=h.currentProgress;
+        defaultIncrement=h.defaultIncrement;
+        timeProgress=h.timeProgress;
+        timeProgressNeed=h.timeProgressNeed;
+        name=h.name;
+        targetType=targetType;
+        oldProgress=h.oldProgress;
+        daily=h.daily;
+        parentUser=h.parentUser;
+        weekly=h.weekly;
+        repeat=h.repeat;
+        completed=h.completed;
+        tolerance=h.tolerance;
+        changes=h.changes;
+        color=h.color;
+        index=h.index;
+        lastTestUpdate=h.lastTestUpdate;
+        numberTracked=h.numberTracker;
+    }
 
     public int getIndex(){
         return index;
@@ -75,7 +114,7 @@ public class Tracker implements java.io.Serializable {
      * Give changeListener to be notified when progress is added
      * @param listener
      */
-    public void setDataChangedListener(DataChangedListener listener){
+    public void setChangeListener(ChangeListener listener){
         this.listener=listener;
     }
 
@@ -385,7 +424,7 @@ public class Tracker implements java.io.Serializable {
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
         if (listener != null) {
-            listener.dataChanged(progress);
+            listener.changeAmount(progress);
         }
         fieldUpdated();
     }
@@ -395,6 +434,15 @@ public class Tracker implements java.io.Serializable {
      * @return  achieved progress in percents 1=100%
      */
     public float getProgressPercent(){
+        if(!numberTracked){
+            int doneAmount=0;
+            for(int i=0;i<notNumberProgresses.size();i++){
+                if(notNumberProgresses.get(i).done){
+                    doneAmount++;
+                }
+            }
+            return doneAmount/notNumberProgresses.size();
+        }
         return currentProgress/targetProgress;
     }
 
@@ -653,7 +701,61 @@ public class Tracker implements java.io.Serializable {
         return daily;
     }
 
-    public interface DataChangedListener {
-        public void dataChanged(float amount);
+    public interface ChangeListener {
+        public void changeAmount(float amount);
+    }
+    public class Helper{
+        long startDate;
+        long lastReset;
+        int dayInterval;
+        int monthInterval;
+        int yearInterval;
+        float targetProgress;
+        float currentProgress;
+        float defaultIncrement=1;
+        long timeProgress;
+        long timeProgressNeed;
+        String name;
+        String targetType;
+        List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
+        DailyProgress daily=new DailyProgress();
+        transient User parentUser;
+        boolean weekly;
+        boolean repeat;
+        boolean completed=false;
+        public float tolerance=10;
+        List<Change> changes=new ArrayList<Change>(0);
+        int color;
+        int index;
+        long lastTestUpdate;
+        public boolean numberTracker;
+    }
+    public class NotNumberProgress implements java.io.Serializable{
+        String name;
+        Tracker parentTracker;
+        boolean done=false;
+        public NotNumberProgress(String name){
+            setName(name);
+        }
+        public void setDone(boolean done){
+            this.done=done;
+            parentTracker.fieldUpdated();
+        }
+        private void setParentTracker(Tracker t){
+            parentTracker=t;
+        }
+        public void setName(String name){
+            this.name=name;
+            if(parentTracker!=null){
+                parentTracker.fieldUpdated();
+            }
+        }
+        public String getName(){
+            return name;
+        }
+        public boolean getDone(){
+            return done;
+        }
+
     }
 }
