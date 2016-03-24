@@ -25,7 +25,7 @@ import com.bizfit.bizfit.utils.RecyclerViewAdapter;
 public class TabTrackables extends Fragment {
 
     public final static int deleteID = 0;
-    public static final int GET_NEW_GOAL = 1;
+    public static final int SET_NEW_GOAL = 1;
     public static final int VIEW_GOALS = 2;
     public static Tracker[] trackers;
     private RecyclerViewAdapter adapter;
@@ -114,7 +114,7 @@ public class TabTrackables extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case GET_NEW_GOAL:
+            case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
                     Tracker newTracker = new Tracker();
                     User.getLastUser().addTracker(newTracker);
@@ -148,7 +148,7 @@ public class TabTrackables extends Fragment {
 
     public void launchAddTrackerActivity() {
         Intent intent = new Intent(getActivity(), AddTrackerActivity.class);
-        startActivityForResult(intent, GET_NEW_GOAL);
+        startActivityForResult(intent, SET_NEW_GOAL);
     }
 
     private boolean contentScrollable() {
@@ -162,6 +162,11 @@ public class TabTrackables extends Fragment {
         Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
         viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
         viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
+
+        // No results are actually wanted from the activity. Rather, this is a
+        // way to distinguish the manner in which this Fragment is reached.
+        // As the view's contained in this Fragment should be updated after
+        // ViewTrackerActivity is closed.
         startActivityForResult(viewTracker, VIEW_GOALS);
     }
 }

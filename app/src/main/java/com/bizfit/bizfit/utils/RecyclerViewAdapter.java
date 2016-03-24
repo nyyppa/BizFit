@@ -2,6 +2,7 @@ package com.bizfit.bizfit.utils;
 
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_trackable_expandable, parent, false);
+                .inflate(R.layout.view_trackable_main, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -65,24 +66,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
         // TODO Make this async task!
         public ViewHolder fillInfo(Tracker data) {
+
             TextView trackerName = (TextView) v.findViewById(R.id.tracker_name);
-            TextView targetAmount = (TextView) v.findViewById(R.id.target_amount);
-            TextView timeLeftAmount = (TextView) v.findViewById(R.id.time_left_amount);
-            TextView progressPercent = (TextView) v.findViewById(R.id.progress_percentage);
+            TextView targetAmount = (TextView) v.findViewById(R.id.tracker_target);
+            ((CardView) v.findViewById(R.id.card_view)).setCardBackgroundColor(data.getColor());
+            //TextView timeLeftAmount = (TextView) v.findViewById(R.id.time_left_amount);
+            //TextView progressPercent = (TextView) v.findViewById(R.id.progress_percentage);
 
             trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
             targetAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            timeLeftAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            ((TextView) v.findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            ((TextView) v.findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            //timeLeftAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            //progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            //((TextView) v.findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            //((TextView) v.findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
 
-            Tracker.RemainingTime time = data.getTimeRemaining();
-            timeLeftAmount.setText((int) time.getTimeRemaining() + " " + time.getTimeType());
+
+            //Tracker.RemainingTime time = data.getTimeRemaining();
+            //timeLeftAmount.setText((int) time.getTimeRemaining() + " " + time.getTimeType());
             trackerName.setText(data.getName());
-            trackerName.setTextColor(data.getColor());
+            //trackerName.setTextColor(data.getColor());
             targetAmount.setText((int) data.getTargetProgress() + "");
-            progressPercent.setText(((int) (Math.floor(data.getProgressPercent() * 100))) + "");
+            //progressPercent.setText(((int) (Math.floor(data.getProgressPercent() * 100))) + "");
+
             return this;
         }
 

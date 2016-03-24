@@ -10,7 +10,9 @@
     android:background="@color/material_grey_100"
     android:clickable="false"
     android:fadeScrollbars="true"
-    android:scrollbars="vertical" />
+    android:scrollbars="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"/>
 
 
 
