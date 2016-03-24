@@ -2,12 +2,12 @@ package com.bizfit.bizfit.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
-import android.os.Bundle;
-import android.app.Fragment;
-import android.widget.TextView;
-import android.widget.DatePicker;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 

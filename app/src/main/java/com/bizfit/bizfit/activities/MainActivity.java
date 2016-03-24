@@ -145,12 +145,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder vh) {
-
         if (vh instanceof RecyclerViewAdapter.ViewHolder) {
-            Intent viewTracker = new Intent(this, ViewTrackerActivity.class);
-            viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
-            viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
-            startActivity(viewTracker);
+            // TODO More sound implementation!
+            ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchViewTrackerActivity(vh);
         }
     }
 }

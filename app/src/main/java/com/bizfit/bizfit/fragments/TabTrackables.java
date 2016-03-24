@@ -18,16 +18,18 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.AddTrackerActivity;
+import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.RecyclerViewAdapter;
 
 public class TabTrackables extends Fragment {
 
     public final static int deleteID = 0;
+    public static final int GET_NEW_GOAL = 1;
+    public static final int VIEW_GOALS = 2;
     public static Tracker[] trackers;
     private RecyclerViewAdapter adapter;
     private RecyclerView mRecyclerView;
-    public static final int GET_NEW_GOAL = 1;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -67,8 +69,12 @@ public class TabTrackables extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         // Defines animations for changes made to the data set.
+        // TODO Try out different Wasabeef animations.
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.getItemAnimator().setAddDuration(800);
+        mRecyclerView.getItemAnimator().setAddDuration(650);
+        mRecyclerView.getItemAnimator().setRemoveDuration(10);
+        mRecyclerView.getItemAnimator().setMoveDuration(100);
+        mRecyclerView.getItemAnimator().setChangeDuration(100);
 
         // Enable context menu
         registerForContextMenu(mRecyclerView);
@@ -131,6 +137,12 @@ public class TabTrackables extends Fragment {
                             , Toast.LENGTH_SHORT)
                     ).show();
                 }
+                break;
+
+            case VIEW_GOALS:
+                trackers = User.getLastUser().getTrackers();
+                adapter.notifyDataSetChanged();
+                break;
         }
     }
 
@@ -143,8 +155,14 @@ public class TabTrackables extends Fragment {
         LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
         if (layoutManager == null || adapter == null) return false;
-
         return layoutManager.findLastCompletelyVisibleItemPosition() < adapter.getItemCount() - 1;
+    }
+
+    public void launchViewTrackerActivity(RecyclerView.ViewHolder vh) {
+        Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
+        viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
+        viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
+        startActivityForResult(viewTracker, VIEW_GOALS);
     }
 }
 

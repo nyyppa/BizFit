@@ -17,7 +17,7 @@
     android:longClickable="true"
     android:measureAllChildren="false"
     card_view:cardCornerRadius="2dp"
-    android:nestedScrollingEnabled="false">
+    card_view:cardBackgroundColor="@color/colorAccent">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,8 +26,7 @@
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="@drawable/card_view_background">
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:id="@+id/top_container"

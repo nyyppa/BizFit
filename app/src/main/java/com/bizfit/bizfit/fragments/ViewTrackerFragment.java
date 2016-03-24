@@ -1,7 +1,8 @@
 package com.bizfit.bizfit.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,30 +22,29 @@ import java.io.Serializable;
 public class ViewTrackerFragment extends Fragment implements Tracker.DataChangedListener {
 
     private String TAG = this.getClass().getName();
+    public static final String TRACKER = "TRACKER";
 
     /**
      * Tracker, from which relevant data is pulled from.
      */
     private Tracker tracker;
 
+    public ViewTrackerFragment() {
+        // Required empty public constructor
+    }
+
     public static ViewTrackerFragment newInstance(Serializable describable) {
         ViewTrackerFragment fragment = new ViewTrackerFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("TRACKER", describable);
+        bundle.putSerializable(TRACKER, describable);
         fragment.setArguments(bundle);
-        Log.d("ViewTrackerFragment", "newInstance()");
         return fragment;
-    }
-
-    public ViewTrackerFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("ViewTrackerFragment", "onCreate()");
-        tracker = (Tracker) getArguments().getSerializable("TRACKER");
+        tracker = (Tracker) getArguments().getSerializable(TRACKER);
         tracker.setDataChangedListener(this);
     }
 
@@ -75,7 +75,7 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
 
     public Tracker getTracker() {
         if (tracker == null) {
-            tracker = (Tracker) getArguments().getSerializable("TRACKER");
+            tracker = (Tracker) getArguments().getSerializable(TRACKER);
         }
 
         return tracker;
@@ -85,16 +85,11 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         this.tracker = host;
     }
 
-    private void update() {
-        Log.d(TAG, "update()");
-        View root = getView();
-        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).update();
-        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).update();
-    }
-
 
     @Override
     public void dataChanged(Tracker tracker) {
-        update();
+        View root = getView();
+        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).update();
+        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).update();
     }
 }
