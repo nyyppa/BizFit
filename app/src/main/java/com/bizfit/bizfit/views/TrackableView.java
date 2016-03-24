@@ -85,18 +85,11 @@ public class TrackableView extends FrameLayout {
                 TabTrackables parentFragment = (TabTrackables) parentActivity
                         .getSupportFragmentManager().getFragments().get(0);
                 System.out.println("Tracker index: " + tracker.getIndex());
-                parentFragment.launchViewTrackerActivity(tracker
-                        , ((ViewGroup) getParent()).indexOfChild(TrackableView.this));
+                //parentFragment.launchViewTrackerActivity(tracker
+                //        , ((ViewGroup) getParent()).indexOfChild(TrackableView.this));
             }
         });
 
-        layout.findViewById(R.id.card_view).setOnLongClickListener(new View.OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
 
         update();
     }

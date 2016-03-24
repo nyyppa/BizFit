@@ -2,13 +2,13 @@ package com.bizfit.bizfit.fragments;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +18,16 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.AddTrackerActivity;
-import com.bizfit.bizfit.activities.MainActivity;
-import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.utils.FieldNames;
-import com.bizfit.bizfit.views.TrackableView;
+import com.bizfit.bizfit.utils.RecyclerViewAdapter;
 
-// TODO MAKE USE OF setAguments(Bundle)!!!
 public class TabTrackables extends Fragment {
 
-    private final static int deleteID = 0;
-    private static Tracker[] trackers;
-    private static final int GET_NEW_GOAL = 1;
+    public final static int deleteID = 0;
+    public static Tracker[] trackers;
+    private RecyclerViewAdapter adapter;
+    private RecyclerView mRecyclerView;
+    public static final int GET_NEW_GOAL = 1;
 
     public TabTrackables() {
         // Required empty public constructor
@@ -47,88 +46,57 @@ public class TabTrackables extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Get latest trackers
         trackers = User.getLastUser().getTrackers();
-        populate();
-    }
 
+        // Context
+        Activity parentActivity = getActivity();
 
-    public void populate() {
-        MainActivity parentActivity = (MainActivity) getActivity();
-        Context context = getContext();
+        // Fetch RecyclerView..
+        mRecyclerView = (RecyclerView) parentActivity.findViewById(R.id.tab_fragment_recycler_view);
 
-        LayoutInflater inflater = (LayoutInflater) parentActivity.getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
+        // Defines layout for RecyclerView.
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
+        // Custom adapter which holds data.
+        adapter = new RecyclerViewAdapter();
 
-        ViewGroup viewContainer = (ViewGroup) parentActivity.findViewById(R.id.goal_container);
+        // Link RecyclerView with adapter.
+        mRecyclerView.setAdapter(adapter);
 
-        for (int i = (trackers.length - 1); i >= 0; i--) {
-            TrackableView view = new TrackableView(context, trackers[i], inflater);
-            viewContainer.addView(view);
-            registerForContextMenu(view);
-        }
+        // Defines animations for changes made to the data set.
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.getItemAnimator().setAddDuration(800);
 
-        viewContainer.invalidate();
-    }
+        // Enable context menu
+        registerForContextMenu(mRecyclerView);
 
-    private void addTracker(Tracker tracker, ViewGroup container, LayoutInflater inflater, Context context) {
-        TrackableView view = new TrackableView(context, tracker, inflater);
-        container.addView(view, 0);
-        registerForContextMenu(view);
-        view.expand();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ViewGroup viewContainer = (ViewGroup) getActivity().findViewById(R.id.goal_container);
-        registerForContextMenu(viewContainer);
-
-        // TODO better implementation.
-        trackers = User.getLastUser().getTrackers();
-        int index = 0;
-        for (int i = (trackers.length - 1); i >= 0; i--) {
-            ((TrackableView) viewContainer.getChildAt(i)).setTracker(trackers[index]);
-            index++;
-        }
-
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        /**
-         System.out.println("View is null: " + v);
-         System.out.println("Menu is null: " + menu );
-         System.out.println("MenuInfo is null: " + menuInfo);*/
-        // TODO menuInfo is sometimes a null value. Investigate
-        // Probably due to misuse of registerForContextMenu(View). Needs better
-        // implementation with listview.
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        if (v instanceof TrackableView) {
-            menu.setHeaderTitle(((TrackableView) v).getTracker().getName());
-            (menu.add(Menu.NONE, deleteID
-                    , Menu.NONE
-                    , getResources().getString(R.string.action_delete))).setActionView(v);
-        }
+        // Debug purposes.
+        //Toast.makeText(getContext(), "Dataset size: " + trackers.length, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case deleteID:
                 // TODO Confirmation dialogue
-                // Builds and shows a toast
+                trackers = User.getLastUser().getTrackers();
+                trackers[adapter.getPosition()].delete();
+                trackers = User.getLastUser().getTrackers();
+                adapter.notifyItemRemoved(adapter.getPosition());
+
+
+                // Confirm successful deletion
                 (Toast.makeText(
                         getContext()
                         , getResources().getString(R.string.message_remove_successful)
                         , Toast.LENGTH_SHORT)
                 ).show();
 
-                // Removes tracker
-                ((TrackableView) item.getActionView()).deleteViewAndTracker();
+                // Consumed here
                 return true;
 
             default:
@@ -152,11 +120,10 @@ public class TabTrackables extends Fragment {
                             , data.getIntExtra(FieldNames.DAY, 1)
                             , data.getBooleanExtra(FieldNames.RECURRING, false
                     ));
-                    Activity parent = getActivity();
-                    addTracker(newTracker
-                            , (ViewGroup) parent.findViewById(R.id.goal_container)
-                            , parent.getLayoutInflater()
-                            , parent);
+
+                    trackers = User.getLastUser().getTrackers();
+                    adapter.notifyItemInserted(newTracker.getIndex());
+
                 } else {
                     (Toast.makeText(
                             getContext()
@@ -168,17 +135,16 @@ public class TabTrackables extends Fragment {
     }
 
     public void launchAddTrackerActivity() {
-
         Intent intent = new Intent(getActivity(), AddTrackerActivity.class);
         startActivityForResult(intent, GET_NEW_GOAL);
     }
 
-    // TODO change stuff here
-    public void launchViewTrackerActivity(Tracker tracker, int index) {
-        Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
-        viewTracker.putExtra(FieldNames.INDEX, index);
-        //viewTracker.putExtra(FieldNames.TRACKERS, getCurrentUser().getTrackers());
-        startActivity(viewTracker);
+    private boolean contentScrollable() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
+        if (layoutManager == null || adapter == null) return false;
+
+        return layoutManager.findLastCompletelyVisibleItemPosition() < adapter.getItemCount() - 1;
     }
 }
 

@@ -92,8 +92,9 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).update();
     }
 
+
     @Override
-    public void dataChanged(float amount) {
+    public void dataChanged(Tracker tracker) {
         update();
     }
 }

@@ -424,7 +424,7 @@ public class Tracker implements java.io.Serializable {
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
         if (listener != null) {
-            listener.dataChanged(progress);
+            listener.dataChanged(this);
         }
         System.out.println("terveisiä: "+listener);
         fieldUpdated();
@@ -703,7 +703,7 @@ public class Tracker implements java.io.Serializable {
     }
 
     public interface DataChangedListener {
-        public void dataChanged(float amount);
+        public void dataChanged(Tracker tracker);
     }
     public class Helper{
         long startDate;

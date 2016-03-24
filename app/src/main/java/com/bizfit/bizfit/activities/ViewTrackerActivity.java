@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,9 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -26,9 +23,6 @@ import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.ViewTrackerFragment;
 import com.bizfit.bizfit.utils.FieldNames;
-import com.bizfit.bizfit.views.TrackableView;
-
-import java.lang.reflect.Field;
 
 /**
  * Displays information about the Tracker.
@@ -57,7 +51,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialoque();
+                openDialoq();
             }
         });
         toolAndStatusbarStylize(toolbar);
@@ -68,7 +62,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         Tracker[] trackers = User.getLastUser().getTrackers();
         ViewTrackerFragment fragment;
 
-        for (int i = (trackers.length - 1); i >= 0; i--) {
+        for (int i = 0; i < trackers.length; i++) {
             fragment = ViewTrackerFragment.newInstance(trackers[i]);
             adapter.addFragment(fragment, trackers[i].getName());
         }
@@ -91,7 +85,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * The inputted data is added to the Tracker's total progress.
      * TODO error handling and overall better fragment. Option to use slider.
      */
-    private void openDialoque() {
+    private void openDialoq() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);

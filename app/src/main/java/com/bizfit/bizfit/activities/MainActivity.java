@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -16,18 +17,22 @@ import android.view.MenuItem;
 
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.OurService;
+import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabHistory;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.FieldNames;
+import com.bizfit.bizfit.utils.RecyclerViewAdapter;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Displays the content of home screen.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.RecyclerViewItemClicked {
     public static Activity activity = null;
     public static long lastOpen;
     public static long lastMessageTime;
@@ -49,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // TODO More sound implementation!
                 ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchAddTrackerActivity();
             }
@@ -137,5 +141,16 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
         adapter.addFragment(new TabHistory(), getResources().getString(R.string.tab_history));
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder vh) {
+
+        if (vh instanceof RecyclerViewAdapter.ViewHolder) {
+            Intent viewTracker = new Intent(this, ViewTrackerActivity.class);
+            viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
+            viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
+            startActivity(viewTracker);
+        }
     }
 }
