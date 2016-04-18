@@ -19,9 +19,42 @@
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="ViewTrackablePercentage" parent="AppTheme">
+        <item name="android:textColor">@color/white100</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ViewTrackableNotes" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="AppThemeLight" parent="AppTheme">
         <item name="colorPrimary">@color/material_grey_50</item>
         <item name="colorPrimaryDark">@color/material_grey_600</item>
     </style>
+
+    <style name="AppTheme.CalendarDates" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="AppTheme.CalendarHeader" parent="AppTheme">
+        <item name="android:textColor">@color/black87</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.CalendarWeekHeader" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    
 
 </resources>

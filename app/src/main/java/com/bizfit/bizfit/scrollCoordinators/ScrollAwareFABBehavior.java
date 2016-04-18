@@ -15,6 +15,12 @@ import android.view.animation.Interpolator;
 
 import com.bizfit.bizfit.R;
 
+/**
+ * Defines behaviour of Floating Action Button when page content is scrolled.
+ *
+ * Can be applied through .XML. Cannot take credit for this class, since it was
+ * made using a tutorial.
+ */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
     private boolean mIsAnimatingOut = false;

@@ -3,5 +3,7 @@
 
     <dimen name="total_progress_graph_height">260dp</dimen>
     <dimen name="daily_progress_graph_height">260dp</dimen>
+
+    <dimen name="card_view_graph_height">160dp</dimen>
     <dimen name="trackableview_height">84dp</dimen>
 </resources>

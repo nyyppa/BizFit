@@ -1,7 +1,7 @@
 package com.bizfit.bizfit.fragments;
 
 /**
- * Created by Käyttäjä on 7.2.2016.
+ *
  */
 
 import android.os.Bundle;
@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 
-public class TabHistory extends Fragment {
+public class TabMessages extends Fragment implements PagerAdapter.TaggedFragment {
 
-    public TabHistory() {
+    public static final String TAG = "tab_messages";
+
+    public TabMessages() {
         // Required empty public constructor
     }
 
@@ -26,5 +28,10 @@ public class TabHistory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_fragment_3, container, false);
+    }
+
+    @Override
+    public String fragmentTag() {
+        return TAG;
     }
 }

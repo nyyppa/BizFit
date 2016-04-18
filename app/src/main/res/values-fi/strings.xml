@@ -15,13 +15,26 @@
     <string name="timeType_months_one">kuukausi</string>
     <string name="tab_my_trackers">Seuranta</string>
     <string name="time_left">Aikaa jäljellä</string>
-    <string name="tab_history">Historia</string>
+    <string name="tab_messages">Viestit</string>
     <string name="tab_coaches">Valkut</string>
     <string name="add_progress">lisää edistystä</string>
     <string name="target">Tavoite</string>
     <string name="action_edit">Muokkaa</string>
     <string name="action_delete">Poista</string>
-    <string name="message_remove_successful">Poistettu onnistuneesti</string>
+    <string name="message_remove_successful">Poistettu</string>
     <string name="error_empty_field">Tyhjä kenttä</string>
     <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
+
+    <string name="april">Huhtikuu</string>
+    <string name="november">Marraskuu</string>
+    <string name="september">Syyskuu</string>
+    <string name="october">Lokakuu</string>
+    <string name="may">Toukokuu</string>
+    <string name="january">Tammikuu</string>
+    <string name="february">Helmikuu</string>
+    <string name="march">Maaliskuu</string>
+    <string name="june">Kesäkuu</string>
+    <string name="july">Heinäkuu</string>
+    <string name="december">Joulukuu</string>
+    <string name="august">Elokuu</string>
 </resources>

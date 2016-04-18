@@ -1,7 +1,7 @@
 package com.bizfit.bizfit.utils;
 
 /**
- * Stores NAME space used in cross activity data exchange.
+ * Stores name space used in cross activity data exchange.
  * <p/>
  * When Intent is returned from one activity to another, these String values
  * represent the keywords used to store data within that Intent.
@@ -21,6 +21,9 @@ public class FieldNames {
     public static final String COLOR = "color";
     public static final String INDEX = "index";
 
+    /**
+     * Prevents initialisation.
+     */
     private FieldNames() {
     }
 }

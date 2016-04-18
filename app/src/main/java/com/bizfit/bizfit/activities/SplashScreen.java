@@ -1,7 +1,9 @@
 package com.bizfit.bizfit.activities;
 
 /**
- * Created by Käyttäjä on 7.2.2016.
+ * Displayed on activity start up.
+ *
+ * Disabled for more convenient debugging and testing.
  */
 import android.app.Activity;
 import android.content.Intent;

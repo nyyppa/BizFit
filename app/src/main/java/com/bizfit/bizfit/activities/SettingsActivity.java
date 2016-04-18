@@ -11,7 +11,7 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.utils.FieldNames;
 
 /**
- * Created by Käyttäjä on 27.2.2016.
+ * Activity stub
  */
 public class SettingsActivity extends AppCompatActivity {
 

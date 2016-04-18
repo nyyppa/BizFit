@@ -54,7 +54,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
                 openDialoq();
             }
         });
-        toolAndStatusbarStylize(toolbar);
+        //toolAndStatusbarStylize(toolbar);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -71,11 +71,11 @@ public class ViewTrackerActivity extends AppCompatActivity {
     }
 
     private void toolAndStatusbarStylize(Toolbar toolbar) {
-        toolbar.setBackgroundColor(getResources().getColor(R.color.gray_50));
+        toolbar.setBackgroundColor(getResources().getColor(R.color.grey_50));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.gray_600));
+            window.setStatusBarColor(getResources().getColor(R.color.grey_600));
         }
     }
 
@@ -101,8 +101,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
                 //my addition t:atte
                 fragment.getTracker().setDataChangedListener(fragment);
-
-
                 fragment.getTracker().addProgress(progress);
             }
         });

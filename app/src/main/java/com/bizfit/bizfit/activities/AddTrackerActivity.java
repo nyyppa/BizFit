@@ -46,29 +46,48 @@ import java.util.Random;
 import uz.shift.colorpicker.LineColorPicker;
 
 /**
- * Created by Käyttäjä on 19.12.2015.
+ * Takes user input for creation of a new goal.
  */
 public class AddTrackerActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
-    public static Activity activity = null;
+
+    /**
+     * Field for goals name.
+     */
     private static AutoCompleteTextView name;
+
+    /**
+     * Field for goal's target date.
+     */
     private static EditText date;
+
+    /**
+     * Field for target amount.
+     */
     private static EditText target;
-    private static CheckBox checkBox;
-    private TextInputLayout nameContainer;
-    private TextInputLayout targetContainer;
-    private TextInputLayout dateContainer;
 
-
+    /**
+     * Is the user attempting to exit using the back button.
+     */
     private boolean exitedViaBackButton = false;
 
+    /***
+     * Pop up for selecting a date.
+     */
     private static DatePickerDialog datePicker;
+
+    /**
+     * Formats the selected date for String display.
+     */
     private static SimpleDateFormat dateFormatter;
+
+    /**
+     * Selected date from the popup.
+     */
     private static Calendar setDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this;
         setContentView(R.layout.activity_add_tracker);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,11 +95,6 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         name = (AutoCompleteTextView) findViewById(R.id.target_name);
         date = (EditText) findViewById(R.id.target_date);
         target = (EditText) findViewById(R.id.target_amount);
-        checkBox = (CheckBox) findViewById(R.id.recurring);
-        nameContainer = (TextInputLayout) findViewById(R.id.target_name_container);
-        targetContainer = (TextInputLayout) findViewById(R.id.target_amount_container);
-        dateContainer = (TextInputLayout) findViewById(R.id.target_date_container);
-
 
         dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         date.setOnClickListener(this);
@@ -155,6 +169,7 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
 
         Intent returnIntent = new Intent();
 
+        // Pack user input if it's valid for creating a new Tracker.
         if (!exitedViaBackButton) {
             returnIntent.putExtra(FieldNames.TRACKERNAME
                     , name.getText().toString());
@@ -163,7 +178,6 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
             returnIntent.putExtra(FieldNames.DAY, setDate.get(Calendar.DAY_OF_MONTH));
             returnIntent.putExtra(FieldNames.MONTH, setDate.get(Calendar.MONTH));
             returnIntent.putExtra(FieldNames.YEAR, setDate.get(Calendar.YEAR));
-            returnIntent.putExtra(FieldNames.RECURRING, checkBox.isChecked());
             int color = ((LineColorPicker) findViewById(R.id.color_picker)).getColor();
             returnIntent.putExtra(FieldNames.COLOR, color);
             setResult(RESULT_OK, returnIntent);
@@ -203,20 +217,23 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Checks if fields contain valid input.
+     */
     private void attemptToFinish() {
         //Check input validity
         boolean nameEmpty = isEmpty(name);
         boolean targetEmpty = isEmpty(target);
         boolean dateEmpty = isEmpty(date);
 
-        if (nameEmpty) name.setError(getString(R.string.error_empty_field));
-        if (targetEmpty) target.setError(getString(R.string.error_empty_field));
-        if (dateEmpty) date.setError(getString(R.string.error_empty_field));
-
+        // Proceed to create a new tracker if all in order. Displays error
+        // messages otherwise.
         if (!nameEmpty && !targetEmpty && !dateEmpty) {
             finish();
         } else {
-            // Do stuff
+            if (nameEmpty) name.setError(getString(R.string.error_empty_field));
+            if (targetEmpty) target.setError(getString(R.string.error_empty_field));
+            if (dateEmpty) date.setError(getString(R.string.error_empty_field));
         }
     }
 
@@ -238,6 +255,9 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Displays a date picker.
+     */
     private void showDatePicker() {
         datePicker.show();
         date.setError(null);
@@ -245,7 +265,12 @@ public class AddTrackerActivity extends AppCompatActivity implements View.OnClic
         imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
     }
 
-
+    /**
+     * Determines if text field is empty or contains only whitespace.
+     *
+     * @param et Text field to check.
+     * @return Is the field empty.
+     */
     private boolean isEmpty(EditText et) {
         return !(et.getText().toString().trim().length() > 0);
     }

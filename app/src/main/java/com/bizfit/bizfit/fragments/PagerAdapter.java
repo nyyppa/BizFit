@@ -35,4 +35,18 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+
+
+    public String getTagAt(int index) {
+        Fragment f = mFragmentList.get(index);
+        if (f instanceof  TaggedFragment) {
+            return ((TaggedFragment) f).fragmentTag();
+        } else {
+            return null;
+        }
+    }
+
+    interface TaggedFragment {
+        String fragmentTag();
+    }
 }

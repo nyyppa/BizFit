@@ -2,21 +2,28 @@ package com.bizfit.bizfit.utils;
 
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.fragments.TabTrackables;
 
+/**
+ * Manages binding of View's and data associated with RecyclerView.
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
+    /**
+     * Position of the last long clicked item within the RecyclerView.
+     */
     private int position;
 
     @Override
@@ -35,21 +42,75 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return TabTrackables.trackers.length;
+        return (TabTrackables.trackers != null) ? TabTrackables.trackers.length : 0;
     }
 
+    /**
+     * Gets the position of last clicked element.
+     *
+     * @return
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Sets the position of last clicked element.
+     *
+     * @param position Element's position.
+     */
     protected void setPosition(int position) {
         this.position = position;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
 
+    /**
+     * Holds View's of a ViewGroup that need changing when a View is recycled.
+     *
+     * Used to store references to View's components for easier recycling.
+     * This way costly findViewById() calls can be avoided when the view
+     * is relocated within it's containing RecyclerView.
+     */
+    public class ViewHolder extends RecyclerView.ViewHolder implements
+            View.OnCreateContextMenuListener, View.OnClickListener {
+
+        /**
+         * View whose look ViewHolder manages.
+         */
         private View v;
 
+        /**
+         * Component which displays Tracker name.
+         */
+        private TextView trackerName;
+
+        /**
+         * Component which displays notes associated with Tracker.
+         */
+        private TextView notes;
+
+        /**
+         * Component which displays daily target.
+         */
+        private TextView progress;
+
+        /**
+         * Component which is shown when daily target is met.
+         */
+        private ImageView done;
+
+        /**
+         * Background for progress.
+         */
+        private ImageView bg;
+
+        /**
+         * Constructs a new ViewHolder with references to alterable Views.
+         *
+         * Also performs one time styling events. Namely, fonts.
+         *
+         * @param itemView View that is styled on recycle.
+         */
         public ViewHolder(View itemView) {
             super(itemView);
             this.v = itemView;
@@ -62,39 +123,58 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
                     return false;
                 }
             });
+
+            trackerName = (TextView) v.findViewById(R.id.view_trackable_tracker_name);
+            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+
+            notes = (TextView) v.findViewById(R.id.view_trackable_notes);
+            notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            notes.setVisibility(View.GONE);
+
+            progress = (TextView) v.findViewById(R.id.view_trackable_progress_needed);
+            progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+
+            done = (ImageView) v.findViewById(R.id.view_trackable_done);
+
+            bg = (ImageView) v.findViewById(R.id.view_trackable_progress_needed_bg);
         }
 
-        // TODO Make this async task!
-        public ViewHolder fillInfo(Tracker data) {
-
-            TextView trackerName = (TextView) v.findViewById(R.id.tracker_name);
-            TextView targetAmount = (TextView) v.findViewById(R.id.tracker_target);
-            ((CardView) v.findViewById(R.id.card_view)).setCardBackgroundColor(data.getColor());
-            //TextView timeLeftAmount = (TextView) v.findViewById(R.id.time_left_amount);
-            //TextView progressPercent = (TextView) v.findViewById(R.id.progress_percentage);
-
-            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
-            targetAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            //timeLeftAmount.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            //progressPercent.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            //((TextView) v.findViewById(R.id.target_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            //((TextView) v.findViewById(R.id.time_left_label)).setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-
-
-            //Tracker.RemainingTime time = data.getTimeRemaining();
-            //timeLeftAmount.setText((int) time.getTimeRemaining() + " " + time.getTimeType());
+        /**
+         * Adjusts the View's look when it's relocated within RecyclerVew.
+         *
+         * @param data Tracker from which information is pulled from.
+         */
+        public void fillInfo(Tracker data) {
             trackerName.setText(data.getName());
-            //trackerName.setTextColor(data.getColor());
-            targetAmount.setText((int) data.getTargetProgress() + "");
-            //progressPercent.setText(((int) (Math.floor(data.getProgressPercent() * 100))) + "");
+            bg.getDrawable().mutate().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_OVER);
 
-            return this;
+            /**
+             * Tracker is not able to provide info if daily goal has been met.
+             * Pseudo code for two distinct outlooks for completed and uncompleted states.
+             *
+             * Notes functionality not yet implemented.
+             * notes.setVisibility(((data.hasNotes) ? View.VISIBLE : View.GONE));
+             *
+             * if (dailyGoalMet) {
+             *      bg.getDrawable().mutate.setColorFilter(*completed color*, PorterDuff.Mode.SRC_OVER);
+             *      trackerName.setColor(*completed color*);
+             *      notes.setColor(*completed color*);
+             *      progress.setVisibility(View.GONE);
+             *      done.setVisibility(View.VISIBLE);
+             * } else {
+             *      bg.getDrawable().mutate().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_OVER);
+             *      trackerName.setColor(black87);
+             *      notes.setColor(black54);
+             *      progress.setVisibility(View.VISIBLE);
+             *      done.setVisibility(View.GONE);
+             * }
+             */
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.setHeaderTitle(((TextView) (v.findViewById(R.id.tracker_name))).getText());
-            (menu.add(Menu.NONE, TabTrackables.deleteID
+            menu.setHeaderTitle(((TextView) (v.findViewById(R.id.view_trackable_tracker_name))).getText());
+            (menu.add(Menu.NONE, TabTrackables.DELETE_ID
                     , Menu.NONE
                     , v.getResources().getString(R.string.action_delete))).setActionView(v);
         }
@@ -102,16 +182,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
             Context c;
+
+            // Initiate callback if interface is implemented.
             if ((c = v.getContext()) instanceof RecyclerViewItemClicked)
                 ((RecyclerViewItemClicked) c).onItemClick(this);
         }
 
+        /**
+         * Gets the View associated with this ViewHolder.
+         *
+         * @return ViewHolder's View.
+         */
         public View getV() {
             return v;
         }
     }
 
+    /**
+     * Callback interface for when RecyclerView item is interacted with.
+     */
     public interface RecyclerViewItemClicked {
+
+        /**
+         * Notifies which item was clicked.
+         *
+         * @param vh ViewHolder associated with the click event.
+         */
         void onItemClick(RecyclerView.ViewHolder vh);
     }
 }

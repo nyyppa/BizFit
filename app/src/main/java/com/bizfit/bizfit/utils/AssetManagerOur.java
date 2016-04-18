@@ -1,16 +1,11 @@
 package com.bizfit.bizfit.utils;
 
-import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 
-
-import com.bizfit.bizfit.utils.FontHolder;
+import com.bizfit.bizfit.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.bizfit.bizfit.activities.MainActivity;
 
 /**
  * Loads and hold true type fonts from the assets folder.
@@ -21,6 +16,9 @@ import com.bizfit.bizfit.activities.MainActivity;
 public class AssetManagerOur {
 
 
+    /**
+     * Collection paths to different .ttf files.
+     */
     public static final String boldCondense = "fonts/RobotoCondensed-Bold.ttf";
     public static final String regular = "fonts/Roboto-Regular.ttf";
     public static final String light = "fonts/Roboto-Light.ttf";
@@ -28,9 +26,13 @@ public class AssetManagerOur {
     public static final String medium = "fonts/Roboto-Medium.ttf";
     public static final String thin = "fonts/Roboto-Thin.ttf";
 
-    private static List<FontHolder> fonts = new ArrayList<FontHolder>(0);
+    /**
+     * List of currently loaded fonts.
+     */
+    private static List<FontHolder> fonts = new ArrayList<>(0);
 
     /**
+     * Loads font from assets folder.
      *
      * @param file File path. One of the AssetManagerOur's public attributes
      *             should be given as an attribute.

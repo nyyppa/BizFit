@@ -35,7 +35,7 @@ public class ViewPagerNoSwipes extends ViewPager {
         }
     }
 
-    public static boolean isAllowSwipes() {
+    public static boolean isSwipeable() {
         return allowSwipes;
     }
 

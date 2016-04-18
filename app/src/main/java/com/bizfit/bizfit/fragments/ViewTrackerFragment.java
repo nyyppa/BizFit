@@ -1,9 +1,9 @@
 package com.bizfit.bizfit.fragments;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +11,18 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.views.CustomBarChart;
-import com.bizfit.bizfit.views.CustomLineChart;
+import com.bizfit.bizfit.decorators.FontDecorator;
+import com.bizfit.bizfit.decorators.TodayDayViewDecorator;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
- * Created by Käyttäjä on 29.2.2016.
+ * Displays all the information associated with a tracker.
  */
 public class ViewTrackerFragment extends Fragment implements Tracker.DataChangedListener {
 
-    private String TAG = this.getClass().getName();
     public static final String TRACKER = "TRACKER";
 
     /**
@@ -29,10 +30,17 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
      */
     private Tracker tracker;
 
-    public ViewTrackerFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Is the required public empty constructor.
+     */
+    public ViewTrackerFragment() {}
 
+    /**
+     * Is the recommended way of creating a new instance of this Fragment.
+     *
+     * @param describable Arguments used to recreate this Fragment.
+     * @return New instance of ViewTrackerFragment.
+     */
     public static ViewTrackerFragment newInstance(Serializable describable) {
         ViewTrackerFragment fragment = new ViewTrackerFragment();
         Bundle bundle = new Bundle();
@@ -53,17 +61,36 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         return inflater.inflate(R.layout.fragmet_view_tracker_content, container, false);
     }
 
+    /**
+     * Populates the layout with data pulled from Tracker.
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle).
+     * @param savedInstanceState  If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         View root = getView();
-        root.findViewById(R.id.info_text_container).setBackgroundColor(tracker.getColor());
-        root.findViewById(R.id.total_progress_container).setBackgroundColor(tracker.getColor());
-        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).setTracker(tracker);
-        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).setTracker(tracker);
-        ((TextView) root.findViewById(R.id.time_left_amount)).setText(tracker.getEndDateMillis() + "");
-        ((TextView) root.findViewById(R.id.target_amount)).setText(((int) tracker.getTargetProgress()) + "");
-        ((TextView) root.findViewById(R.id.tracker_name)).setText(tracker.getName());
 
+        MaterialCalendarView mCalendar = (MaterialCalendarView) root.findViewById(R.id.calendarView);
+        mCalendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
+        //mCalendar.setCalendarDisplayMode(CalendarMode.WEEKS);
+        //mCalendar.setTopbarVisible(false);
+
+        // Comment or uncomment depending on if week day labels should be visible.
+        //mCalendar.setWeekDayLabels(new CharSequence[]{"", "", "", "", "", "", ""});
+
+        mCalendar.setSelectionColor(getResources().getColor(R.color.grey_400));
+        mCalendar.setCurrentDate(Calendar.getInstance());
+        mCalendar.addDecorator(new TodayDayViewDecorator(getContext()));
+        mCalendar.addDecorator(new FontDecorator());
+        mCalendar.setSelectedDate(Calendar.getInstance());
+        mCalendar.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
+
+        root.findViewById(R.id.space).setMinimumHeight(mCalendar.getHeight());
+
+
+        // TODO pull colors from tracker
+        mCalendar.setArrowColor(tracker.getColor());
     }
 
     @Override
@@ -73,6 +100,11 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         //toolAndStatusbarStylize(toolbar);
     }
 
+    /**
+     * Gets the Tracker associated with this Fragment.
+     *
+     * @return Tracker whose data is currently on display.
+     */
     public Tracker getTracker() {
         if (tracker == null) {
             tracker = (Tracker) getArguments().getSerializable(TRACKER);
@@ -81,6 +113,11 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         return tracker;
     }
 
+    /**
+     * Sets the Tracker associated with this fragment.
+     *
+     * @param host Tracker whose data is to be displayed.
+     */
     public void setTracker(Tracker host) {
         this.tracker = host;
     }
@@ -88,8 +125,6 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
 
     @Override
     public void dataChanged(Tracker tracker) {
-        View root = getView();
-        ((CustomBarChart) root.findViewById(R.id.daily_progress_chart)).update();
-        ((CustomLineChart) root.findViewById(R.id.total_progress_chart)).update();
+        // TODO stuff.
     }
 }

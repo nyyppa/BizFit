@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 
-public class TabCoaches extends Fragment {
+public class TabCoaches extends Fragment implements PagerAdapter.TaggedFragment{
+
+    public static final String TAG = "tab_coaches";
 
     public TabCoaches() {
         // Required empty public constructor
@@ -23,5 +25,10 @@ public class TabCoaches extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_fragment_2, container, false);
+    }
+
+    @Override
+    public String fragmentTag() {
+        return TAG;
     }
 }

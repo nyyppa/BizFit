@@ -6,11 +6,18 @@ import android.graphics.Typeface;
  * Contains a true type font.
  */
 public class FontHolder {
-        Typeface font;
-        String file;
+    /**
+     * True type font.
+     */
+    Typeface font;
 
-    FontHolder(Typeface font, String file){
-            this.font=font;
-            this.file=file;
+    /**
+     * Font path.
+     */
+    String file;
+
+    FontHolder(Typeface font, String file) {
+        this.font = font;
+        this.file = file;
     }
 }

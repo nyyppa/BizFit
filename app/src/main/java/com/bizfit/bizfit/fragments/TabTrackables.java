@@ -21,19 +21,56 @@ import com.bizfit.bizfit.activities.AddTrackerActivity;
 import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.RecyclerViewAdapter;
+import com.bizfit.bizfit.utils.TrackerLoader;
 
-public class TabTrackables extends Fragment {
+/**
+ * Displays visual representation of users progress.
+ */
+public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragment, TrackerLoader.OnFinishListener {
+    /**
+     * ID used to determine if delete option in contextual menu was clicked.
+     */
+    public final static int DELETE_ID = 0;
 
-    public final static int deleteID = 0;
+    /**
+     * Used to determine if onActivityResult() callback was received
+     * from AddTrackerActivity.
+     */
     public static final int SET_NEW_GOAL = 1;
+
+    /**
+     * Used to determine if onActivityResult() callback was received
+     * from ViewTrackerActivity.
+     */
     public static final int VIEW_GOALS = 2;
+
+    /**
+     * Tag used to distinguish this fragment when accessing this fragment
+     * via FragmentManager. Not yet in use.
+     */
+    public static final String TAG = "tab_trackables";
+
+    /**
+     * List of Tracker's loaded from SQLite database.
+     */
     public static Tracker[] trackers;
+
+    /**
+     * Custom implementation of RecyclerViewAdapter.
+     */
     private RecyclerViewAdapter adapter;
+
+    /**
+     * RecyclerView which holds all the Fragment's content.
+     */
     private RecyclerView mRecyclerView;
 
-    public TabTrackables() {
-        // Required empty public constructor
-    }
+    /**
+     * Constructs a new TabTrackables object.
+     *
+     * Required empty public constructor.
+     */
+    public TabTrackables() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,20 +86,13 @@ public class TabTrackables extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
         trackers = User.getLastUser().getTrackers();
-
-        // Context
         Activity parentActivity = getActivity();
-
-        // Fetch RecyclerView..
         mRecyclerView = (RecyclerView) parentActivity.findViewById(R.id.tab_fragment_recycler_view);
-
-        // Defines layout for RecyclerView.
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // Custom adapter which holds data.
         adapter = new RecyclerViewAdapter();
 
         // Link RecyclerView with adapter.
@@ -78,16 +108,13 @@ public class TabTrackables extends Fragment {
 
         // Enable context menu
         registerForContextMenu(mRecyclerView);
-
-        // Debug purposes.
-        //Toast.makeText(getContext(), "Dataset size: " + trackers.length, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case deleteID:
+            case DELETE_ID:
                 // TODO Confirmation dialogue
                 trackers = User.getLastUser().getTrackers();
                 trackers[adapter.getPosition()].delete();
@@ -102,11 +129,10 @@ public class TabTrackables extends Fragment {
                         , Toast.LENGTH_SHORT)
                 ).show();
 
-                // Consumed here
+                // Call consumed here
                 return true;
 
             default:
-                (Toast.makeText(getContext(), "Something else happened!", Toast.LENGTH_SHORT)).show();
                 return super.onContextItemSelected(item);
         }
     }
@@ -140,17 +166,28 @@ public class TabTrackables extends Fragment {
                 break;
 
             case VIEW_GOALS:
+                // TODO Update each tracker wich had progress added instead of calling
+                // notifyDataSetChanged() blanket notification. No animations are
+                // are triggered when this method is called.
                 trackers = User.getLastUser().getTrackers();
                 adapter.notifyDataSetChanged();
                 break;
         }
     }
 
+    /**
+     * Starts a new activity for setting a new goal.
+     */
     public void launchAddTrackerActivity() {
         Intent intent = new Intent(getActivity(), AddTrackerActivity.class);
         startActivityForResult(intent, SET_NEW_GOAL);
     }
 
+    /**
+     * Is the current content scrollable.
+     *
+     * @return Is the content scrollable.
+     */
     private boolean contentScrollable() {
         LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
@@ -158,6 +195,9 @@ public class TabTrackables extends Fragment {
         return layoutManager.findLastCompletelyVisibleItemPosition() < adapter.getItemCount() - 1;
     }
 
+    /**
+     * Starts a new activity for viewing set goals.
+     */
     public void launchViewTrackerActivity(RecyclerView.ViewHolder vh) {
         Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
         viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
@@ -168,6 +208,17 @@ public class TabTrackables extends Fragment {
         // As the view's contained in this Fragment should be updated after
         // ViewTrackerActivity is closed.
         startActivityForResult(viewTracker, VIEW_GOALS);
+    }
+
+    @Override
+    public String fragmentTag() {
+        return TAG;
+    }
+
+    @Override
+    public void onFinish(Tracker[] trackers) {
+        this.trackers = trackers;
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }
 

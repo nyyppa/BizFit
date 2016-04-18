@@ -3,28 +3,28 @@ package com.bizfit.bizfit.activities;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bizfit.bizfit.MyAlarmService;
-import com.bizfit.bizfit.OurService;
-import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.User;
-import com.bizfit.bizfit.fragments.PagerAdapter;
-import com.bizfit.bizfit.fragments.TabTrackables;
-import com.bizfit.bizfit.fragments.TabCoaches;
-import com.bizfit.bizfit.fragments.TabHistory;
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.utils.FieldNames;
+import com.bizfit.bizfit.fragments.PagerAdapter;
+import com.bizfit.bizfit.fragments.TabCoaches;
+import com.bizfit.bizfit.fragments.TabMessages;
+import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.utils.RecyclerViewAdapter;
 
 import java.util.concurrent.TimeUnit;
@@ -36,13 +36,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public static Activity activity = null;
     public static long lastOpen;
     public static long lastMessageTime;
+    private static final int PAGE_LIMIT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO More sound implementation!
                 ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchAddTrackerActivity();
             }
         });
@@ -71,9 +69,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                 switch (position) {
                     case 0:
                         fab.show();
+                        ((AppBarLayout) (findViewById(R.id.app_bar))).setExpanded(true);
                         break;
 
                     default:
+                        ((AppBarLayout) (findViewById(R.id.app_bar))).setExpanded(true);
                         fab.hide();
                         break;
                 }
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     }
 
+    @Override
     protected void onStart() {
         lastOpen = System.currentTimeMillis();
         activity = this;
@@ -109,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -120,33 +124,31 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.toolbar_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+        switch (item.getItemId()) {
+            case R.id.toolbar_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * Populates the ViewPager with tabs.
+     *
+     * @param viewPager ViewPager to populate.
+     */
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        TabTrackables trackablesTab = new TabTrackables();
-        adapter.addFragment(trackablesTab, getResources().getString(R.string.tab_my_trackers));
+        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.tab_my_trackers));
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
-        adapter.addFragment(new TabHistory(), getResources().getString(R.string.tab_history));
+        adapter.addFragment(new TabMessages(), getResources().getString(R.string.tab_messages));
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(PAGE_LIMIT);
     }
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder vh) {
         if (vh instanceof RecyclerViewAdapter.ViewHolder) {
-            // TODO More sound implementation!
             ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchViewTrackerActivity(vh);
         }
     }
