@@ -63,7 +63,8 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:textSize="18sp"
             android:singleLine="false"
-            android:phoneNumber="false" />
+            android:phoneNumber="false"
+            android:text="Tracker name" />
 
         <TextView
             android:layout_width="wrap_content"

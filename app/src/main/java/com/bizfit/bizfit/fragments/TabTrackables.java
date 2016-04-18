@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -202,7 +203,6 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
         Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
         viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
         viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
-
         // No results are actually wanted from the activity. Rather, this is a
         // way to distinguish the manner in which this Fragment is reached.
         // As the view's contained in this Fragment should be updated after

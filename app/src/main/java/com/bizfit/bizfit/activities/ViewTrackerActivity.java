@@ -43,7 +43,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
         int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(0);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         setupViewPager(viewPager);
@@ -83,7 +82,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
      * Opens a dialogue fragment used to inquire progress from userName.
      * <p/>
      * The inputted data is added to the Tracker's total progress.
-     * TODO error handling and overall better fragment. Option to use slider.
+     * TODO error handling and overall better fragment. Option to use slider maybe?
      */
     private void openDialoq() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -116,15 +115,6 @@ public class ViewTrackerActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
-        //Button b1 = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        //if (b1 != null)
-        //b1.setTextColor(tracker.getColor());
-
-        //Button b2 = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        //if (b2 != null)
-        //b2.setTextColor(tracker.getColor());
-
     }
 
     @Override
