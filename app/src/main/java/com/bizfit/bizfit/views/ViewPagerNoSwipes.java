@@ -5,9 +5,15 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+/**
+ * Is a standard ViewPager but with an added possibility to disable paging.
+ */
 public class ViewPagerNoSwipes extends ViewPager {
 
-    private static boolean allowSwipes = true;
+    /**
+     * Is paging enabled.
+     */
+    private boolean pagingEnabled = true;
 
     public ViewPagerNoSwipes(Context context) {
         super(context);
@@ -19,7 +25,7 @@ public class ViewPagerNoSwipes extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (allowSwipes) {
+        if (pagingEnabled) {
             return super.onInterceptTouchEvent(event);
         } else {
             return false;
@@ -28,19 +34,29 @@ public class ViewPagerNoSwipes extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (allowSwipes) {
+        if (pagingEnabled) {
             return super.onTouchEvent(event);
         } else {
             return false;
         }
     }
 
-    public static boolean isSwipeable() {
-        return allowSwipes;
+    /**
+     * Returns whether or not paging is enabled.
+     *
+     * @return Can pages be changed by swiping.
+     */
+    public boolean isPagingEnabled() {
+        return pagingEnabled;
     }
 
-    public static void setAllowSwipes(boolean allowSwipes) {
-        ViewPagerNoSwipes.allowSwipes = allowSwipes;
+    /**
+     * Sets paging.
+     *
+     * @param pagingEnabled Should pages be changed on swipe gesture.
+     */
+    public void setPagingEnabled(boolean pagingEnabled) {
+        this.pagingEnabled = pagingEnabled;
     }
 }
 

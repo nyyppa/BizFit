@@ -6,6 +6,6 @@
         android:width="@dimen/view_trackable_percentage_size"
         android:height="@dimen/view_trackable_percentage_size" />
 
-    <solid android:color="@color/black30" />
+    <solid android:color="@color/colorPrimary" />
 
 </shape>

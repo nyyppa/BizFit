@@ -10,36 +10,38 @@ import com.prolificinteractive.materialcalendarview.CalendarUtils;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
+import java.util.List;
+
 /**
- * Applies Spans to specified CalendarDays
+ * Created by Käyttäjä on 18.4.2016.
  */
-public class TodayDayViewDecorator implements DayViewDecorator {
+public class GoalMetDayViewDecorator implements DayViewDecorator {
 
     /**
-     * Day which SHOULD be decorated.
+     * Day which should NOT be decorated.
      */
     private CalendarDay today;
 
-    /**
-     * Context in which action takes place.
-     */
     private Context context;
 
-    public TodayDayViewDecorator(Context context) {
+    private List<CalendarDay> days;
+
+    public GoalMetDayViewDecorator(Context context, List days) {
         this.context = context;
         this.today = CalendarDay.from(CalendarUtils.getInstance());
+        this.days = days;
     }
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
-        return today.getDate().getTime() == day.getDate().getTime();
+        // TODO Placeholder. Proper check needed.
+        return !(today.getDate().getTime() > day.getDate().getTime() &&
+                days.contains(day));
     }
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new CustomTypefaceSpan(
-                AssetManagerOur.getFont(AssetManagerOur.medium)
-                , context.getResources().getColor(R.color.black87)));
-        view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_today_marker));
+        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular)));
+        view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_daily_target_met));
     }
 }

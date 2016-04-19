@@ -37,4 +37,5 @@
     <string name="july">Heinäkuu</string>
     <string name="december">Joulukuu</string>
     <string name="august">Elokuu</string>
+    <string name="action_calendar_today">Tänään</string>
 </resources>

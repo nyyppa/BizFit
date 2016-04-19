@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".activities.ViewTrackerActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:elevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/grey_50"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                app:mcv_dateTextAppearance="@style/AppTheme.CalendarDates"
+                app:mcv_headerTextAppearance="@style/AppTheme.CalendarHeader"
+                app:mcv_monthLabels="@array/months"
+                app:mcv_selectionColor="@color/grey_400"
+                app:mcv_showOtherDates="all"
+                app:mcv_weekDayTextAppearance="@style/AppTheme.CalendarWeekHeader" />
+
+            <Button
+                android:id="@+id/button_today"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/calendarView"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/action_calendar_today"
+                android:theme="@style/BorderlessButton" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

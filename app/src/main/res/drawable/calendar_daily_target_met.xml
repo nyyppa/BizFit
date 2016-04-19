@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetBottom="@dimen/calendar_view_inset"
+    android:insetLeft="@dimen/calendar_view_inset"
+    android:insetRight="@dimen/calendar_view_inset"
+    android:insetTop="@dimen/calendar_view_inset">
+
+    <shape android:shape="oval">
+        <solid
+            android:color="@color/colorPrimary" />
+
+        <size android:height="1dp"
+            android:width="1dp" />
+    </shape>
+</inset>

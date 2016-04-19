@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.spans;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
 

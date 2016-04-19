@@ -41,4 +41,6 @@
 
     <dimen name="card_view_graph_height">120dp</dimen>
     <dimen name="color_picker_height">48dp</dimen>
+
+    <dimen name="calendar_view_inset">6dp</dimen>
 </resources>
