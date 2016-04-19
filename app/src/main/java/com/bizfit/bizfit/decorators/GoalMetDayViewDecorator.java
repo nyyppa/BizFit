@@ -1,6 +1,8 @@
 package com.bizfit.bizfit.decorators;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.spans.CustomTypefaceSpan;
@@ -18,7 +20,8 @@ import java.util.List;
 public class GoalMetDayViewDecorator implements DayViewDecorator {
 
     /**
-     * Day which should NOT be decorated.
+     * Day which should NOT be decorated. Only a placeholder for testing purposes.
+     * Will be deleted in a future release.
      */
     private CalendarDay today;
 
@@ -26,10 +29,13 @@ public class GoalMetDayViewDecorator implements DayViewDecorator {
 
     private List<CalendarDay> days;
 
-    public GoalMetDayViewDecorator(Context context, List days) {
+    private int color;
+
+    public GoalMetDayViewDecorator(Context context, List days, int color) {
         this.context = context;
         this.today = CalendarDay.from(CalendarUtils.getInstance());
         this.days = days;
+        this.color = color;
     }
 
     @Override
@@ -42,6 +48,8 @@ public class GoalMetDayViewDecorator implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
         view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular)));
-        view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_daily_target_met));
+        Drawable bg = context.getResources().getDrawable(R.drawable.calendar_daily_target_met);
+        bg.setColorFilter(color, PorterDuff.Mode.SRC_OVER);
+        view.setBackgroundDrawable(bg);
     }
 }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetBottom="@dimen/calendar_view_inset"
-    android:insetLeft="@dimen/calendar_view_inset"
-    android:insetRight="@dimen/calendar_view_inset"
-    android:insetTop="@dimen/calendar_view_inset">
+    android:insetBottom="@dimen/calendar_view_inset_day_missed"
+    android:insetLeft="@dimen/calendar_view_inset_day_missed"
+    android:insetRight="@dimen/calendar_view_inset_day_missed"
+    android:insetTop="@dimen/calendar_view_inset_day_missed">
 
     <shape android:shape="oval">
-        <solid
-            android:color="@color/colorPrimary" />
-
+        <solid  android:color="@color/colorPrimary" />
         <size android:height="1dp"
             android:width="1dp" />
     </shape>

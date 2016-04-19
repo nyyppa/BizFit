@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetBottom="@dimen/calendar_view_inset"
-    android:insetLeft="@dimen/calendar_view_inset"
-    android:insetRight="@dimen/calendar_view_inset"
-    android:insetTop="@dimen/calendar_view_inset">
+    android:insetBottom="@dimen/calendar_view_inset_today"
+    android:insetLeft="@dimen/calendar_view_inset_today"
+    android:insetRight="@dimen/calendar_view_inset_today"
+    android:insetTop="@dimen/calendar_view_inset_today">
 
     <shape android:shape="oval">
         <solid android:color="@color/black10" />

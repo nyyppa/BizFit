@@ -4,15 +4,15 @@
     android:fromDegrees="-47">
 
     <inset
-        android:insetBottom="@dimen/calendar_view_inset"
-        android:insetLeft="@dimen/calendar_view_inset"
-        android:insetRight="@dimen/calendar_view_inset"
-        android:insetTop="@dimen/calendar_view_inset">
+        android:insetBottom="@dimen/calendar_view_inset_day_missed"
+        android:insetLeft="@dimen/calendar_view_inset_day_missed"
+        android:insetRight="@dimen/calendar_view_inset_day_missed"
+        android:insetTop="@dimen/calendar_view_inset_day_missed">
 
         <shape android:shape="line">
             <stroke
                 android:width="1.5dp"
-                android:color="@color/black30" />
+                android:color="@color/black54" />
         </shape>
     </inset>
 </rotate>
