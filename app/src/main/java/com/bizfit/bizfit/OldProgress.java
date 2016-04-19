@@ -14,6 +14,7 @@ public class OldProgress implements java.io.Serializable{
     private float targetProgress;
     private DailyProgress daily;
 
+
     /**
      *
      * @param startDate Start date of tracked time period in milliseconds

@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,8 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bizfit.bizfit.DBHelper;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         activity = this;
         super.onStart();
         startBackGroundService();
+        DBHelper db=new DBHelper(this,"database1",null,4);
+        SQLiteDatabase d=db.getWritableDatabase();
+        db.saveUser(d, User.getLastUser());
+
         //NotificationSender.sendNotification("t");
     }
 

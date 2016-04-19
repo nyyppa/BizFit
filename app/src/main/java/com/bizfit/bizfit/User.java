@@ -33,12 +33,17 @@ public class User implements java.io.Serializable {
     private transient static File saveDir;
     private transient static Context context;
     private transient static User currentUser;
+    int lastTrackerID;
+    int nextFreeDailyProgressID;
 
     public Tracker getTrackerByIndex(int index){
         return trackers.get(index);
     }
 
-
+    public int getNextFreeDailyProgressID(){
+        nextFreeDailyProgressID++;
+        return nextFreeDailyProgressID;
+    }
     public static void update(Context c){
         User u;
         context=c;
@@ -245,6 +250,8 @@ public class User implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentUser = this;
+        t.id=lastTrackerID;
+        lastTrackerID++;
         updateIndexes();
         try {
             save();

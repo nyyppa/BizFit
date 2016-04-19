@@ -11,8 +11,9 @@ import java.util.ListIterator;
 
 public class DailyProgress implements java.io.Serializable{
 	private List<DayPool>dayPool=new ArrayList<DayPool>(0);
+	int id;
 
-	public DailyProgress(List<DaySingle> list){
+	public DailyProgress(List<DaySingle> list,int id){
         Comparator<DaySingle> comparator=new Comparator<DaySingle>() {
             @Override
             public int compare(DaySingle lhs, DaySingle rhs) {
@@ -23,9 +24,10 @@ public class DailyProgress implements java.io.Serializable{
         for(int i=0;i<list.size();i++){
             addDailyProgress(list.get(i).getAmount(),list.get(i).getTime());
         }
+		this.id=id;
 	}
     public DailyProgress(){
-
+		id=User.getLastUser().getNextFreeDailyProgressID();
 
     }
 
@@ -129,7 +131,7 @@ public class DailyProgress implements java.io.Serializable{
 	}
 
 
-	private class DaySingle implements java.io.Serializable{
+	public class DaySingle implements java.io.Serializable{
 		private long time;
 		private float amount;
 		DaySingle(long Time,float amount) {

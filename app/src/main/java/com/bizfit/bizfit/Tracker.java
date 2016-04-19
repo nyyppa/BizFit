@@ -50,6 +50,7 @@ public class Tracker implements java.io.Serializable {
     long lastTestUpdate;
     boolean numberTracked=true;
     List<NotNumberProgress> notNumberProgresses=new ArrayList<NotNumberProgress>(0);
+    int id;
 
     public void setNotNumberProgresses(List<NotNumberProgress> list){
         notNumberProgresses=list;
