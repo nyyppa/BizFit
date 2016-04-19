@@ -41,7 +41,7 @@ public class ViewTrackerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_tracker);
         activity = this;
         int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);

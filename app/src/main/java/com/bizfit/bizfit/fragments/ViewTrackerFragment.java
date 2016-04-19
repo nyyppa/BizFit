@@ -1,17 +1,16 @@
 package com.bizfit.bizfit.fragments;
 
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
-import com.bizfit.bizfit.decorators.FontDecorator;
 import com.bizfit.bizfit.decorators.TodayDayViewDecorator;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -21,8 +20,11 @@ import java.util.Calendar;
 /**
  * Displays all the information associated with a tracker.
  */
-public class ViewTrackerFragment extends Fragment implements Tracker.DataChangedListener {
+public class ViewTrackerFragment extends Fragment implements Tracker.DataChangedListener, View.OnClickListener {
 
+    /**
+     * Key used to identify Tracker stored in a bundle.
+     */
     public static final String TRACKER = "TRACKER";
 
     /**
@@ -31,9 +33,15 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
     private Tracker tracker;
 
     /**
+     * Calendar which displays target success on daily basis.
+     */
+    private MaterialCalendarView mCalendar;
+
+    /**
      * Is the required public empty constructor.
      */
-    public ViewTrackerFragment() {}
+    public ViewTrackerFragment() {
+    }
 
     /**
      * Is the recommended way of creating a new instance of this Fragment.
@@ -61,43 +69,31 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         return inflater.inflate(R.layout.fragmet_view_tracker_content, container, false);
     }
 
-    /**
-     * Populates the layout with data pulled from Tracker.
-     *
-     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle).
-     * @param savedInstanceState  If non-null, this fragment is being re-constructed from a previous saved state as given here.
-     */
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         View root = getView();
+        Resources resources = getResources();
 
-        MaterialCalendarView mCalendar = (MaterialCalendarView) root.findViewById(R.id.calendarView);
+        mCalendar = (MaterialCalendarView) root.findViewById(R.id.calendarView);
         mCalendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        //mCalendar.setCalendarDisplayMode(CalendarMode.WEEKS);
-        //mCalendar.setTopbarVisible(false);
-
-        // Comment or uncomment depending on if week day labels should be visible.
-        //mCalendar.setWeekDayLabels(new CharSequence[]{"", "", "", "", "", "", ""});
-
-        mCalendar.setSelectionColor(getResources().getColor(R.color.grey_400));
         mCalendar.setCurrentDate(Calendar.getInstance());
         mCalendar.addDecorator(new TodayDayViewDecorator(getContext()));
-        mCalendar.addDecorator(new FontDecorator());
-        mCalendar.setSelectedDate(Calendar.getInstance());
+        // Tracker does not yet provide functionality to check if a goal  was met on
+        // a specific date. Hence the pseudo code.
+        //mCalendar.addDecorator(new GoalMissedDayViewDecorator(getContext()));
+        //mCalendar.addDecorator(new GoalMetDayViewDecorator(*LIST OF DATES*, this, tracker.getColor()));
+        //mCalendar.addDecorator(new DayInactiveDayViewDecorator(*LIST OF DATES*, this));
         mCalendar.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
 
-        root.findViewById(R.id.space).setMinimumHeight(mCalendar.getHeight());
-
-
-        // TODO pull colors from tracker
-        mCalendar.setArrowColor(tracker.getColor());
+        mCalendar.setLeftArrowMask(resources.getDrawable(R.drawable.ic_chevron_right_black_24dp));
+        mCalendar.setRightArrowMask(resources.getDrawable(R.drawable.ic_chevron_left_black_24dp));
+        root.findViewById(R.id.button_today).setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // If theming changes, comment this line out.
-        //toolAndStatusbarStylize(toolbar);
     }
 
     /**
@@ -126,5 +122,18 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
     @Override
     public void dataChanged(Tracker tracker) {
         // TODO stuff.
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // Sets calendars currently displayed month to current month.
+            case R.id.button_today:
+                mCalendar.setCurrentDate(Calendar.getInstance());
+                // Flashes current
+                mCalendar.setSelectedDate(Calendar.getInstance());
+                mCalendar.clearSelection();
+                break;
+        }
     }
 }

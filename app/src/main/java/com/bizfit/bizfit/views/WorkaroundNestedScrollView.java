@@ -21,7 +21,6 @@ public class WorkaroundNestedScrollView extends NestedScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            // Explicitly call computeScroll() to make the Scroller compute itself
             computeScroll();
         }
         return super.onInterceptTouchEvent(ev);

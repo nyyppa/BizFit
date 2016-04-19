@@ -129,7 +129,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
 
             notes = (TextView) v.findViewById(R.id.view_trackable_notes);
             notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
-            notes.setVisibility(View.GONE);
 
             progress = (TextView) v.findViewById(R.id.view_trackable_progress_needed);
             progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));

@@ -29,6 +29,7 @@ import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
 import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.utils.RecyclerViewAdapter;
+import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         setSupportActionBar(toolbar);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
@@ -72,14 +73,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
             @Override
             public void onPageSelected(int position) {
+
+                fab.clearAnimation();
+
                 switch (position) {
                     case 0:
                         fab.show();
-                        ((AppBarLayout) (findViewById(R.id.app_bar))).setExpanded(true);
+                        ((AppBarLayout) (findViewById(R.id.app_bar_main))).setExpanded(true);
                         break;
 
                     default:
-                        ((AppBarLayout) (findViewById(R.id.app_bar))).setExpanded(true);
+                        ((AppBarLayout) (findViewById(R.id.app_bar_main))).setExpanded(true);
                         fab.hide();
                         break;
                 }
@@ -154,6 +158,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         adapter.addFragment(new TabMessages(), getResources().getString(R.string.tab_messages));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(PAGE_LIMIT);
+
+        if (viewPager instanceof ViewPagerNoSwipes)
+            ((ViewPagerNoSwipes) viewPager).setPagingEnabled(false);
     }
 
     @Override

@@ -1,7 +1,4 @@
 <resources>
-    <!-- Note that a the line width for a graph in ViewTrackerActivity is given in integers.xml,
-    as the method for setting the value accepts dp values only. -->
-
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -9,19 +6,6 @@
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
-
-    <dimen name="empty_space_height">70dp</dimen>
-
-    <dimen name="trackableview_time_left_margin">2dp</dimen>
-    <dimen name="trackableview_height">78dp</dimen>
-    <dimen name="travkableview_alt_bar_height">3dp</dimen>
-
-    <dimen name="separator_height">60dp</dimen>
-    <dimen name="separator_padding_top">16dp</dimen>
-    <dimen name="separator_padding_bottom">0dp</dimen>
-    <dimen name="separator_line_height">1dp</dimen>
-    <dimen name="separator_label_padding_left">4dp</dimen>
-    <dimen name="separator_label_padding_bottom">4dp</dimen>
 
     <dimen name="text_button">14sp</dimen>
     <dimen name="text_caption">12sp</dimen>
@@ -31,14 +15,9 @@
     <dimen name="text_headline">24sp</dimen>
     <dimen name="text_display1">34sp</dimen>
 
-    <dimen name="total_progress_graph_horizontal_padding">24dp</dimen>
-    <dimen name="total_progress_graph_height">260dp</dimen>
-
     <dimen name="view_trackable_percentage_size">48dp</dimen>
-
-    <!-- For animations to remain fluent, size should be total_progress_graph_height - 44dp -->
-    <dimen name="daily_progress_graph_height">260dp</dimen>
-
-    <dimen name="card_view_graph_height">120dp</dimen>
     <dimen name="color_picker_height">48dp</dimen>
+
+    <dimen name="calendar_view_inset_day_missed">6dp</dimen>
+    <dimen name="calendar_view_inset_today">3dp</dimen>
 </resources>
