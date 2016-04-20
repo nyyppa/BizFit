@@ -111,7 +111,7 @@ public class DBHelper extends SQLiteOpenHelper  {
                     if(l.get(n).id!=-1){
                         values.put("id",l.get(n).id);
                     }
-                    db.insertWithOnConflict(user.userName + "_DailyProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+                    db.insertWithOnConflict("user_"+user.userNumber +  "_DailyProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
                 }
                 values=new ContentValues();
                 values.put("trackerID",t.id);
@@ -123,16 +123,19 @@ public class DBHelper extends SQLiteOpenHelper  {
                 if(list.get(j).id!=-1){
                     values.put("id",list.get(j).id);
                 }
-                db.insert(user.userName+"_oldProgressTable",null,values);
+                db.insertWithOnConflict("user_"+user.userNumber +  "_oldProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
             }
             DailyProgress dailyProgress=t.daily;
             List<DailyProgress.DaySingle> l=dailyProgress.prepForDataBase();
             for(int j=0;j<l.size();j++){
                 values=new ContentValues();
                 values.put("DailyProgressID", t.daily.id);
-                values.put("time",l.get(i).getTime());
-                values.put("amount",l.get(i).getAmount());
-                db.insert(user.userName + "_DailyProgressTable",null,values);
+                values.put("time",l.get(j).getTime());
+                values.put("amount",l.get(j).getAmount());
+                if(l.get(j).id!=-1){
+                    values.put("id",l.get(j).id);
+                }
+                db.insertWithOnConflict("user_" + user.userNumber + "_DailyProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
             }
         }
     }
