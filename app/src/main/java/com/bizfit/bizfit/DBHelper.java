@@ -106,9 +106,12 @@ public class DBHelper extends SQLiteOpenHelper  {
                 for(int n=0;n<l.size();n++){
                     values=new ContentValues();
                     values.put("DailyProgressID", dailyProgress.id);
-                    values.put("time",l.get(i).getTime());
-                    values.put("amount",l.get(i).getAmount());
-                    db.insert(user.userName + "_DailyProgressTable",null,values);
+                    values.put("time",l.get(n).getTime());
+                    values.put("amount",l.get(n).getAmount());
+                    if(l.get(n).id!=-1){
+                        values.put("id",l.get(n).id);
+                    }
+                    db.insertWithOnConflict(user.userName + "_DailyProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
                 }
                 values=new ContentValues();
                 values.put("trackerID",t.id);
@@ -117,6 +120,9 @@ public class DBHelper extends SQLiteOpenHelper  {
                 values.put("endProgress",list.get(j).getProgress());
                 values.put("targetProgress",list.get(j).getTargetProgress());
                 values.put("dailyProgressID",list.get(j).getDailyProgress().id);
+                if(list.get(j).id!=-1){
+                    values.put("id",list.get(j).id);
+                }
                 db.insert(user.userName+"_oldProgressTable",null,values);
             }
             DailyProgress dailyProgress=t.daily;
@@ -210,11 +216,15 @@ public class DBHelper extends SQLiteOpenHelper  {
                     while (!cursor2.isAfterLast()){
                         long time=cursor2.getLong(cursor2.getColumnIndex("time"));
                         float amount=cursor2.getFloat(cursor2.getColumnIndex("amount"));
-                        list.add(d.createDaySingle(time,amount));
+                        DailyProgress.DaySingle single=d.createDaySingle(time, amount);
+                        single.id= cursor2.getInt(cursor2.getColumnIndex("id"));
+                        list.add(single);
                         cursor2.moveToNext();
                     }
                     d=new DailyProgress(list,dailyProgressID);
-                    h.oldProgress.add(new OldProgress(startDate,endDate,endProgress,targetProgress,d));
+                    OldProgress o=new OldProgress(startDate,endDate,endProgress,targetProgress,d);
+                    o.id=cursor1.getInt(cursor1.getColumnIndex("id"));
+                    h.oldProgress.add(o);
                     cursor1.moveToNext();
                 }
                 cursor1.close();
@@ -224,7 +234,9 @@ public class DBHelper extends SQLiteOpenHelper  {
                 while (!cursor2.isAfterLast()){
                     long time=cursor2.getLong(cursor2.getColumnIndex("time"));
                     float amount=cursor2.getFloat(cursor2.getColumnIndex("amount"));
-                    list.add(d.createDaySingle(time,amount));
+                    DailyProgress.DaySingle single=d.createDaySingle(time, amount);
+                    single.id= cursor2.getInt(cursor2.getColumnIndex("id"));
+                    list.add(single);
                     cursor2.moveToNext();
                 }
                 cursor2.close();

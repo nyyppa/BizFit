@@ -140,6 +140,7 @@ public class DailyProgress implements java.io.Serializable{
 	public class DaySingle implements java.io.Serializable{
 		private long time;
 		private float amount;
+		public int id=-1;
 		DaySingle(long Time,float amount) {
 		// TODO Auto-generated constructor stub
 			this.time=Time;

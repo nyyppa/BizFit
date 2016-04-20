@@ -13,6 +13,7 @@ public class OldProgress implements java.io.Serializable{
     private float endProgress;
     private float targetProgress;
     private DailyProgress daily;
+    public int id=-1;
 
 
     /**
