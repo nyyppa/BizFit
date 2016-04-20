@@ -36,7 +36,7 @@ public class User implements java.io.Serializable {
     private transient static User currentUser;
     int lastTrackerID;
     int nextFreeDailyProgressID;
-    private static final int dbVersion=22;
+    private static final int dbVersion=23;
     int userNumber;
 
     public Tracker getTrackerByIndex(int index){
@@ -254,10 +254,10 @@ public class User implements java.io.Serializable {
     public ArrayList<Tracker> addTracker(Tracker t) {
         trackers.add(t);
         t.parentUser = this;
+        System.out.println(t.parentUser);
         t.id=lastTrackerID;
         lastTrackerID++;
         updateIndexes();
-        System.out.println("heihoimoi");
         try {
             save();
         } catch (Exception e) {
@@ -265,7 +265,7 @@ public class User implements java.io.Serializable {
         }
         return trackers;
     }
-    private void updateIndexes(){
+    public void updateIndexes(){
         for(int i=0;i<trackers.size();i++){
             trackers.get(i).index=i;
         }
@@ -295,16 +295,16 @@ public class User implements java.io.Serializable {
             Tracker current = iterator.next();
             if (current == t) {
                 iterator.remove();
-                t.parentUser = null;
+                DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
+                SQLiteDatabase d=db.getWritableDatabase();
+                db.deleteTracker(d,t);
+                d.close();
+                db.close();
                 break;
             }
         }
+
         updateIndexes();
-        try {
-            save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return trackers;
     }
 

@@ -163,6 +163,19 @@ public class DBHelper extends SQLiteOpenHelper  {
         return false;
     }
 
+    public void deleteTracker(SQLiteDatabase db,Tracker tracker){
+        String args[]={tracker.id+""};
+        System.out.println(tracker.parentUser);
+        db.delete("user_"+tracker.parentUser.userNumber+"_trackerTable","trackerId=?",args);
+        db.delete("user_"+tracker.parentUser.userNumber+"_oldProgressTable","trackerId=?",args);
+        for(int i=0;i<tracker.oldProgress.size();i++){
+            args=new String[]{tracker.oldProgress.get(i).getDailyProgress().id+""};
+            db.delete("user_"+tracker.parentUser.userNumber+"_DailyProgressTable","dailyProgressID=?",args);
+        }
+        args=new String[]{tracker.getDailyProgress().id+""};
+        db.delete("user_"+tracker.parentUser.userNumber+"_DailyProgressTable","dailyProgressID=?",args);
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -268,6 +281,7 @@ public class DBHelper extends SQLiteOpenHelper  {
             return new User(name);
         }
         user.trackers=trackerList;
+        user.updateIndexes();
         return user;
     }
 
