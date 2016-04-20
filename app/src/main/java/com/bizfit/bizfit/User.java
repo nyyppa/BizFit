@@ -5,6 +5,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
 import com.bizfit.bizfit.activities.MainActivity;
@@ -35,6 +36,8 @@ public class User implements java.io.Serializable {
     private transient static User currentUser;
     int lastTrackerID;
     int nextFreeDailyProgressID;
+    private static final int dbVersion=22;
+    int userNumber;
 
     public Tracker getTrackerByIndex(int index){
         return trackers.get(index);
@@ -58,7 +61,8 @@ public class User implements java.io.Serializable {
      * @param userName User NAME
      */
     User(String userName) {
-        this.userName = userName;
+        this.userName =userName;
+
         if (trackers == null) {
             trackers = new ArrayList<Tracker>(0);
         }
@@ -253,6 +257,7 @@ public class User implements java.io.Serializable {
         t.id=lastTrackerID;
         lastTrackerID++;
         updateIndexes();
+        System.out.println("heihoimoi");
         try {
             save();
         } catch (Exception e) {
@@ -309,6 +314,12 @@ public class User implements java.io.Serializable {
      * @throws Exception Everything that can go wrong
      */
     public void save() throws Exception {
+        DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
+        SQLiteDatabase d=db.getWritableDatabase();
+        db.saveUser(d, this);
+        d.close();
+        db.close();
+        /*
         //File file = new File(MainActivity.activity.getFilesDir(), Encrypt.encrypt(userName) + ".User");
         if(saveDir==null){
             saveDir=context.getFilesDir();
@@ -320,6 +331,7 @@ public class User implements java.io.Serializable {
         obj_out.writeObject(this);
         obj_out.close();
         //lastUser.save(userName);
+        */
     }
     private static Users loadUsers(){
         FileInputStream f_in = null;
@@ -357,9 +369,19 @@ public class User implements java.io.Serializable {
         return s;
     }
     public static User getLastUser() {
+
+
         if(currentUser!=null){
             return currentUser;
         }
+        DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
+        SQLiteDatabase d=db.getWritableDatabase();
+        currentUser=db.readUser(d);
+        d.close();
+        db.close();
+
+        return currentUser;
+        /*
         FileInputStream f_in = null;
         if(MainActivity.activity!=null){
             context=MainActivity.activity;
@@ -430,6 +452,7 @@ public class User implements java.io.Serializable {
         }
         User currentUser=getInstance(user);
         return currentUser;
+        */
     }
 
     public class LastUser implements java.io.Serializable {

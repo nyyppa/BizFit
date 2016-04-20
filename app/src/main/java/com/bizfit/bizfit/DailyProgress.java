@@ -30,6 +30,12 @@ public class DailyProgress implements java.io.Serializable{
 		id=User.getLastUser().getNextFreeDailyProgressID();
 
     }
+	public DailyProgress(boolean vitunSama){
+
+	}
+	public DaySingle createDaySingle(long time, float amount){
+		return new DaySingle(time,amount);
+	}
 
     public List<DaySingle> prepForDataBase(){
         List<DaySingle>list=new ArrayList<DaySingle>();

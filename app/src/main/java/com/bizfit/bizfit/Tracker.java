@@ -38,7 +38,7 @@ public class Tracker implements java.io.Serializable {
     String name;
     String targetType;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
-    DailyProgress daily=new DailyProgress();
+    DailyProgress daily;
     transient User parentUser;
     boolean weekly;
     boolean repeat;
@@ -65,6 +65,7 @@ public class Tracker implements java.io.Serializable {
     }
 
     transient DataChangedListener listener;
+
     public Tracker (Helper h){
         startDate=h.startDate;
         lastReset=h.lastReset;
@@ -77,7 +78,7 @@ public class Tracker implements java.io.Serializable {
         timeProgress=h.timeProgress;
         timeProgressNeed=h.timeProgressNeed;
         name=h.name;
-        targetType=targetType;
+        targetType=h.targetType;
         oldProgress=h.oldProgress;
         daily=h.daily;
         parentUser=h.parentUser;
@@ -90,6 +91,7 @@ public class Tracker implements java.io.Serializable {
         index=h.index;
         lastTestUpdate=h.lastTestUpdate;
         numberTracked=h.numberTracker;
+        id=h.trackerID;
     }
 
     public int getIndex(){
@@ -274,6 +276,7 @@ public class Tracker implements java.io.Serializable {
     }
 
     public Tracker(){
+        daily=new DailyProgress();
         weeklyStart();
     }
 
@@ -706,7 +709,7 @@ public class Tracker implements java.io.Serializable {
     public interface DataChangedListener {
         public void dataChanged(Tracker tracker);
     }
-    public class Helper{
+    public static class Helper{
         long startDate;
         long lastReset;
         int dayInterval;
@@ -720,7 +723,7 @@ public class Tracker implements java.io.Serializable {
         String name;
         String targetType;
         List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
-        DailyProgress daily=new DailyProgress();
+        DailyProgress daily;
         transient User parentUser;
         boolean weekly;
         boolean repeat;
@@ -731,6 +734,7 @@ public class Tracker implements java.io.Serializable {
         int index;
         long lastTestUpdate;
         public boolean numberTracker;
+        int trackerID;
     }
     public class NotNumberProgress implements java.io.Serializable{
         String name;

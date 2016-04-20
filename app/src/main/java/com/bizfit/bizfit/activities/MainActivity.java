@@ -113,10 +113,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
         activity = this;
         super.onStart();
         startBackGroundService();
-        DBHelper db=new DBHelper(this,"database1",null,4);
+        /* DBHelper db=new DBHelper(this,"database1",null,5);
         SQLiteDatabase d=db.getWritableDatabase();
         db.saveUser(d, User.getLastUser());
-
+        db.readUser(d);
+*/
         //NotificationSender.sendNotification("t");
     }
 

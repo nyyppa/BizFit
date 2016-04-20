@@ -81,7 +81,7 @@ public class MyAlarmService extends Service {
 
         NotificationSender.sendNotification(this, "hei", "hei");
 
-        User.update(this);
+        //User.update(this);
 
 
 
