@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.utils;
 
 import java.util.GregorianCalendar;
 
@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
  * Created by Atte Ylivrronen on 29.1.2016.
  */
 public class OurDateTime extends GregorianCalendar {
-    OurDateTime(long time){
+    public OurDateTime(long time){
         super();
         this.setTimeInMillis(time);
     }

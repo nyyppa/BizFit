@@ -21,8 +21,6 @@ import java.util.List;
  * Created by Atte Ylivrronen on 28.3.2016.
  */
 public class DBHelper extends SQLiteOpenHelper  {
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String COMMA_SEP = ",";
 
 
 
@@ -30,21 +28,15 @@ public class DBHelper extends SQLiteOpenHelper  {
 
 
 
-  //  private static final String SQL_DELETE_ENTRIES =
-//            "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
-
-    /**
-     *
-     * @param context
-     * @param name
-     * @param factory
-     * @param version
-     */
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-
+    /**
+     * Saves user and all of it's dependands to give database
+     * @param db    database to save to
+     * @param user  user to save
+     */
     public void saveUser(SQLiteDatabase db,User user) {
         if(!isTableExists(db,"user")){
             db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT, trackerTable TEXT,lastTrackerID INTEGER,nextFreeDailyProgressID INTEGER)");
@@ -176,12 +168,17 @@ public class DBHelper extends SQLiteOpenHelper  {
         db.delete("user_"+tracker.parentUser.userNumber+"_DailyProgressTable","dailyProgressID=?",args);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
 
 
     }
+
+    /**
+     * reads user from given database or if it's not possible creates new one from google account
+     * @param db    SQLiteDatabase to try to create user
+     * @return      Created user
+     */
     public User readUser(SQLiteDatabase db){
         User user= null;
         ArrayList<Tracker> trackerList= null;
