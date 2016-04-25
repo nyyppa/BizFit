@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,15 +30,15 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
 
     ViewPager viewPager;
     PagerAdapter adapter;
+    int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tracker);
-        int index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
+        this.index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
-        viewPager.setCurrentItem(index);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +46,7 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
             }
         });
         adapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
         User.getLastUser(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -61,6 +63,8 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
      */
     private void openDialoq() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // TODO reference res.
         builder.setTitle("Amount to add");
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -105,15 +109,19 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
     }
 
     @Override
-    public void UserLoaded(User user) {
-        ViewTrackerFragment fragment;
-        Tracker[] trackers = user.getTrackers();
-
-        for (int i = 0; i < trackers.length; i++) {
-            fragment = ViewTrackerFragment.newInstance(trackers[i]);
-            adapter.addFragment(fragment, trackers[i].getName());
-        }
-
-        viewPager.setAdapter(adapter);
+    public void UserLoaded(final User user) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ViewTrackerFragment fragment;
+                Tracker[] trackers = user.getTrackers();
+                Log.d("ViewTrackerActivity", "User load callback");
+                for (int i = 0; i < trackers.length; i++) {
+                    fragment = ViewTrackerFragment.newInstance(trackers[i]);
+                    adapter.addFragment(fragment, trackers[i].getName());
+                }
+                viewPager.setCurrentItem(index);
+            }
+        });
     }
 }

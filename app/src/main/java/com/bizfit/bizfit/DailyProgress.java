@@ -30,6 +30,7 @@ public class DailyProgress implements java.io.Serializable {
     }
 
     public DailyProgress() {
+        // TODO Atte, what does this do? :D
         //id = User.getLastUser().getNextFreeDailyProgressID();
 
     }

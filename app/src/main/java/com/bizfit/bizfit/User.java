@@ -3,7 +3,6 @@ package com.bizfit.bizfit;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 
 import com.bizfit.bizfit.activities.MainActivity;
 
@@ -13,7 +12,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class User implements java.io.Serializable {
     /**
@@ -197,14 +195,13 @@ public class User implements java.io.Serializable {
             thread = new DataBaseThread();
             thread.start();
         }
-        synchronized(thread){
+        synchronized (thread) {
             thread.notify();
             thread.sleepThread = false;
         }
 
 
     }
-
 
 
     private static class DataBaseThread extends Thread {
@@ -235,13 +232,8 @@ public class User implements java.io.Serializable {
             }
             Iterator<UserLoadedListener> iterator1 = listeners.iterator();
             while (iterator1.hasNext()) {
-                final UserLoadedListener userLoadedListener=iterator1.next();
-                MainActivity.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        userLoadedListener.UserLoaded(currentUser);
-                    }
-                });
+                final UserLoadedListener userLoadedListener = iterator1.next();
+                userLoadedListener.UserLoaded(currentUser);
                 iterator1.remove();
             }
             sleepThread = true;

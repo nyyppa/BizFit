@@ -225,9 +225,14 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
     }
 
     @Override
-    public void UserLoaded(User user) {
-        this.user = user;
-        trackers = user.getTrackers();
+    public void UserLoaded(final User user) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TabTrackables.this.user = user;
+                trackers = user.getTrackers();
+            }
+        });
     }
 }
 
