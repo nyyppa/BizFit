@@ -28,9 +28,9 @@ public class User implements java.io.Serializable {
     int nextFreeDailyProgressID;
     private static final int dbVersion = 23;
     int userNumber;
-    static List<UserLoadedListener> listeners = new CopyOnWriteArrayList<>();
+    static List<UserLoadedListener> listeners = new ArrayList<>(0);
     public boolean saveUser = false;
-    static List<Tracker> trackersToDelete = new CopyOnWriteArrayList<>();
+    static List<Tracker> trackersToDelete = new ArrayList<>(0);
     static DataBaseThread thread;
 
     public Tracker getTrackerByIndex(int index) {
@@ -55,16 +55,12 @@ public class User implements java.io.Serializable {
 
     }
 
-    /**
-     * Do not manually construct new saveStates, rather call User.getInstance(String userName)
-     *
-     * @param userName User NAME
-     */
+
     User(String userName) {
         this.userName = userName;
 
         if (trackers == null) {
-            trackers = new CopyOnWriteArrayList<Tracker>();
+            trackers = new ArrayList<>(0);
         }
     }
 
@@ -200,8 +196,12 @@ public class User implements java.io.Serializable {
             thread = new DataBaseThread();
             thread.start();
         }
-        thread.notify();
-        thread.sleepThread = false;
+        synchronized(thread){
+            thread.notify();
+            thread.sleepThread = false;
+        }
+
+
     }
 
 
@@ -238,10 +238,12 @@ public class User implements java.io.Serializable {
             }
             sleepThread = true;
             while (sleepThread) {
-                try {
-                    wait(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                synchronized (thread) {
+                    try {
+                        thread.wait(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
