@@ -3,6 +3,7 @@ package com.bizfit.bizfit;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 
 import com.bizfit.bizfit.activities.MainActivity;
 
@@ -205,6 +206,7 @@ public class User implements java.io.Serializable {
     }
 
 
+
     private static class DataBaseThread extends Thread {
         DBHelper db;
         SQLiteDatabase d;
@@ -233,7 +235,13 @@ public class User implements java.io.Serializable {
             }
             Iterator<UserLoadedListener> iterator1 = listeners.iterator();
             while (iterator1.hasNext()) {
-                iterator1.next().UserLoaded(currentUser);
+                final UserLoadedListener userLoadedListener=iterator1.next();
+                MainActivity.activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        userLoadedListener.UserLoaded(currentUser);
+                    }
+                });
                 iterator1.remove();
             }
             sleepThread = true;
