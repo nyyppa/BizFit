@@ -211,38 +211,40 @@ public class User implements java.io.Serializable {
 
         @Override
         public void run() {
-            super.run();
-            if (db == null) {
-                db = new DBHelper(MainActivity.activity, "database1", null, dbVersion);
-            }
-            if (d == null) {
-                d = db.getWritableDatabase();
-            }
-            if (currentUser == null) {
-                currentUser = db.readUser(d);
-            }
-            if (currentUser.saveUser) {
-                db.saveUser(d, currentUser);
-                currentUser.saveUser = false;
-            }
-            Iterator<Tracker> iterator = trackersToDelete.iterator();
-            while (iterator.hasNext()) {
-                iterator.next();
-                iterator.remove();
-            }
-            Iterator<UserLoadedListener> iterator1 = listeners.iterator();
-            while (iterator1.hasNext()) {
-                final UserLoadedListener userLoadedListener = iterator1.next();
-                userLoadedListener.UserLoaded(currentUser);
-                iterator1.remove();
-            }
-            sleepThread = true;
-            while (sleepThread) {
-                synchronized (thread) {
-                    try {
-                        thread.wait(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            while (true) {
+                super.run();
+                if (db == null) {
+                    db = new DBHelper(MainActivity.activity, "database1", null, dbVersion);
+                }
+                if (d == null) {
+                    d = db.getWritableDatabase();
+                }
+                if (currentUser == null) {
+                    currentUser = db.readUser(d);
+                }
+                if (currentUser.saveUser) {
+                    db.saveUser(d, currentUser);
+                    currentUser.saveUser = false;
+                }
+                Iterator<Tracker> iterator = trackersToDelete.iterator();
+                while (iterator.hasNext()) {
+                    iterator.next();
+                    iterator.remove();
+                }
+                Iterator<UserLoadedListener> iterator1 = listeners.iterator();
+                while (iterator1.hasNext()) {
+                    final UserLoadedListener userLoadedListener = iterator1.next();
+                    userLoadedListener.UserLoaded(currentUser);
+                    iterator1.remove();
+                }
+                sleepThread = true;
+                while (sleepThread) {
+                    synchronized (thread) {
+                        try {
+                            thread.wait(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
