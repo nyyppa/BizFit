@@ -29,7 +29,7 @@ public class DailyProgress implements java.io.Serializable{
 		this.id=id;
 	}
     public DailyProgress(){
-		id=User.getLastUser().getNextFreeDailyProgressID();
+		id=User.getNextFreeDailyProgressID();
 
     }
 	public DailyProgress(boolean vitunSama){

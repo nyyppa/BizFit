@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import java.util.concurrent.CopyOnWriteArrayList;
 import android.provider.ContactsContract;
 
 import com.bizfit.bizfit.activities.MainActivity;
@@ -28,7 +29,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    ArrayList<Tracker> trackers;
+    List<Tracker> trackers;
     public String userName;
     private transient static File saveDir;
     private transient static Context context;
@@ -37,22 +38,30 @@ public class User implements java.io.Serializable {
     int nextFreeDailyProgressID;
     private static final int dbVersion=23;
     int userNumber;
+    static List<UserLoadedListener>listeners=new CopyOnWriteArrayList<>();
+    public boolean saveUser=false;
+    static List<Tracker>trackersToDelete=new CopyOnWriteArrayList<>();
+    static DataBaseThread thread;
 
     public Tracker getTrackerByIndex(int index){
         return trackers.get(index);
     }
 
-    public int getNextFreeDailyProgressID(){
-        nextFreeDailyProgressID++;
-        return nextFreeDailyProgressID;
+    static public int getNextFreeDailyProgressID(){
+        currentUser.nextFreeDailyProgressID++;
+        return currentUser.nextFreeDailyProgressID;
     }
     public static void update(Context c){
-        User u;
         context=c;
-        u=getLastUser();
-        for(int i=0;i<u.trackers.size();i++){
-            u.trackers.get(i).update();
-        }
+        getLastUser(new UserLoadedListener() {
+            @Override
+            public void UserLoaded(User user) {
+                for(int i=0;i<user.trackers.size();i++){
+                    user.trackers.get(i).update();
+                }
+            }
+        });
+
     }
     /**
      * Do not manually construct new saveStates, rather call User.getInstance(String userName)
@@ -63,7 +72,7 @@ public class User implements java.io.Serializable {
         this.userName =userName;
 
         if (trackers == null) {
-            trackers = new ArrayList<Tracker>(0);
+            trackers = new CopyOnWriteArrayList<Tracker>();
         }
     }
 
@@ -131,22 +140,15 @@ public class User implements java.io.Serializable {
     /**
      * Adds tracker to users information and then saves everything to the memory
      *
-     * @param t Tracker to add for userName
-     * @return ArrayList containing all of the users Trackers
+     * @param t Tracker to add for user
      */
-    public ArrayList<Tracker> addTracker(Tracker t) {
+    public void addTracker(Tracker t) {
         trackers.add(t);
         t.parentUser = this;
-        System.out.println(t.parentUser);
         t.id=lastTrackerID;
         lastTrackerID++;
         updateIndexes();
-        try {
-            save();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return trackers;
+        save();
     }
     public void updateIndexes(){
         for(int i=0;i<trackers.size();i++){
@@ -172,23 +174,19 @@ public class User implements java.io.Serializable {
      * @param t Tracker to remove
      * @return ArrayList containing all of the users Trackers
      */
-    public ArrayList<Tracker> removeTracker(Tracker t) {
+    public void removeTracker(Tracker t) {
         Iterator<Tracker> iterator = trackers.iterator();
         while (iterator.hasNext()) {
             Tracker current = iterator.next();
             if (current == t) {
                 iterator.remove();
-                DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
-                SQLiteDatabase d=db.getWritableDatabase();
-                db.deleteTracker(d,t);
-                d.close();
-                db.close();
+                trackersToDelete.add(t);
+                WakeThread();
                 break;
             }
         }
 
         updateIndexes();
-        return trackers;
     }
 
     /**
@@ -196,30 +194,72 @@ public class User implements java.io.Serializable {
      *
      * @throws Exception Everything that can go wrong
      */
-    public void save() throws Exception {
-        DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
-        SQLiteDatabase d=db.getWritableDatabase();
-        db.saveUser(d, this);
-        d.close();
-        db.close();
+    public void save() {
+        saveUser=true;
+        WakeThread();
     }
 
-    public static User getLastUser() {
+    public static void getLastUser(UserLoadedListener listener) {
 
+        listeners.add(listener);
+        WakeThread();
 
-        if(currentUser!=null){
-            return currentUser;
+    }
+    private static void WakeThread(){
+        if(thread==null){
+            thread=new DataBaseThread();
+            thread.start();
         }
-        DBHelper db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
-        SQLiteDatabase d=db.getWritableDatabase();
-        currentUser=db.readUser(d);
-        d.close();
-        db.close();
-
-        return currentUser;
-
+        thread.notify();
+        thread.sleepThread=false;
     }
 
+
+
+    private static class DataBaseThread extends Thread{
+        DBHelper db;
+        SQLiteDatabase d;
+        boolean sleepThread;
+
+        @Override
+        public void run() {
+            super.run();
+            if(db==null){
+                db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
+            }
+            if(d==null){
+                d=db.getWritableDatabase();
+            }
+            if(currentUser==null){
+                currentUser=db.readUser(d);
+            }
+            if(currentUser.saveUser){
+                db.saveUser(d, currentUser);
+                currentUser.saveUser=false;
+            }
+            Iterator<Tracker>iterator=trackersToDelete.iterator();
+            while (iterator.hasNext()){
+                iterator.next();
+                iterator.remove();
+            }
+            Iterator<UserLoadedListener> iterator1=listeners.iterator();
+            while (iterator1.hasNext()){
+                iterator1.next().UserLoaded(currentUser);
+                iterator1.remove();
+            }
+            sleepThread=true;
+            while(sleepThread){
+                try {
+                    wait(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+    }
 
 
 
@@ -236,5 +276,8 @@ public class User implements java.io.Serializable {
                 }
             }
         }
+    }
+    public interface UserLoadedListener{
+        void UserLoaded(User user);
     }
 }
