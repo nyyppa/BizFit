@@ -27,7 +27,7 @@ import com.bizfit.bizfit.utils.TrackerLoader;
 /**
  * Displays visual representation of users progress.
  */
-public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragment, TrackerLoader.OnFinishListener {
+public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragment, TrackerLoader.OnFinishListener, User.UserLoadedListener {
     /**
      * ID used to determine if delete option in contextual menu was clicked.
      */
@@ -66,6 +66,9 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
      */
     private RecyclerView mRecyclerView;
 
+
+    private User user;
+
     /**
      * Constructs a new TabTrackables object.
      *
@@ -89,7 +92,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
 
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
-        trackers = User.getLastUser().getTrackers();
+        User.getLastUser(this);
         Activity parentActivity = getActivity();
         mRecyclerView = (RecyclerView) parentActivity.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -117,9 +120,9 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
         switch (item.getItemId()) {
             case DELETE_ID:
                 // TODO Confirmation dialogue
-                trackers = User.getLastUser().getTrackers();
+                trackers = user.getTrackers();
                 trackers[adapter.getPosition()].delete();
-                trackers = User.getLastUser().getTrackers();
+                trackers = user.getTrackers();
                 adapter.notifyItemRemoved(adapter.getPosition());
 
 
@@ -144,7 +147,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
             case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
                     Tracker newTracker = new Tracker();
-                    User.getLastUser().addTracker(newTracker);
+                    user.addTracker(newTracker);
                     newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
                     newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
                     newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
@@ -154,7 +157,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
                             , data.getBooleanExtra(FieldNames.RECURRING, false
                     ));
 
-                    trackers = User.getLastUser().getTrackers();
+                    trackers = user.getTrackers();
                     adapter.notifyItemInserted(newTracker.getIndex());
 
                 } else {
@@ -170,7 +173,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
                 // TODO Update each tracker wich had progress added instead of calling
                 // notifyDataSetChanged() blanket notification. No animations are
                 // are triggered when this method is called.
-                trackers = User.getLastUser().getTrackers();
+                trackers = user.getTrackers();
                 adapter.notifyDataSetChanged();
                 break;
         }
@@ -202,7 +205,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
     public void launchViewTrackerActivity(RecyclerView.ViewHolder vh) {
         Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
         viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
-        viewTracker.putExtra(FieldNames.TRACKERS, User.getLastUser().getTrackers());
+        viewTracker.putExtra(FieldNames.TRACKERS, trackers);
         // No results are actually wanted from the activity. Rather, this is a
         // way to distinguish the manner in which this Fragment is reached.
         // As the view's contained in this Fragment should be updated after
@@ -219,6 +222,12 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
     public void onFinish(Tracker[] trackers) {
         this.trackers = trackers;
         mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void UserLoaded(User user) {
+        this.user = user;
+        trackers = user.getTrackers();
     }
 }
 

@@ -94,13 +94,6 @@
                     android:selectAllOnFocus="true"/>
             </android.support.design.widget.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/recurring"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recurring"
-                android:visibility="gone" />
-
             <uz.shift.colorpicker.LineColorPicker
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/color_picker"

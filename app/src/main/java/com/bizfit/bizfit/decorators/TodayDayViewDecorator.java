@@ -11,12 +11,12 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 /**
- * Applies Spans to specified CalendarDays
+ * Decorates current calendar day.
  */
 public class TodayDayViewDecorator implements DayViewDecorator {
 
     /**
-     * Day which SHOULD be decorated.
+     * Day to decorate.
      */
     private CalendarDay today;
 

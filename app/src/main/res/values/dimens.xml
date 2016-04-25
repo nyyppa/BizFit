@@ -20,4 +20,7 @@
 
     <dimen name="calendar_view_inset_day_missed">6dp</dimen>
     <dimen name="calendar_view_inset_today">3dp</dimen>
+
+    <dimen name="ring_progress_thickness">8dp</dimen>
+    <dimen name="calendar_tile_size">40dp</dimen>
 </resources>

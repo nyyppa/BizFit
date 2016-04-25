@@ -5,7 +5,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.bizfit.bizfit.DBHelper;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
@@ -37,10 +34,10 @@ import java.util.concurrent.TimeUnit;
  * Displays the content of home screen.
  */
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.RecyclerViewItemClicked {
+    private static final int PAGE_LIMIT = 3;
     public static Activity activity = null;
     public static long lastOpen;
     public static long lastMessageTime;
-    private static final int PAGE_LIMIT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -60,7 +60,7 @@
             android:name=".activities.ViewTrackerActivity"
             android:label=""
             android:screenOrientation="user"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

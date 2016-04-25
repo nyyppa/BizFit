@@ -15,7 +15,7 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import java.util.List;
 
 /**
- * Created by Käyttäjä on 18.4.2016.
+ * Decorates calendar days on which daily target was met.
  */
 public class GoalMetDayViewDecorator implements DayViewDecorator {
 

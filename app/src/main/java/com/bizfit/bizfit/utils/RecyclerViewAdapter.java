@@ -29,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_trackable_main, parent, false);
+                .inflate(R.layout.list_item_trackable, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }

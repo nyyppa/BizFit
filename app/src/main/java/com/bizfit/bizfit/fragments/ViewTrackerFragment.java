@@ -86,8 +86,8 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         //mCalendar.addDecorator(new DayInactiveDayViewDecorator(*LIST OF DATES*, this));
         mCalendar.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
 
-        mCalendar.setLeftArrowMask(resources.getDrawable(R.drawable.ic_chevron_right_black_24dp));
-        mCalendar.setRightArrowMask(resources.getDrawable(R.drawable.ic_chevron_left_black_24dp));
+        mCalendar.setLeftArrowMask(resources.getDrawable(R.drawable.ic_chevron_left_black_24dp));
+        mCalendar.setRightArrowMask(resources.getDrawable(R.drawable.ic_chevron_right_black_24dp));
         root.findViewById(R.id.button_today).setOnClickListener(this);
     }
 

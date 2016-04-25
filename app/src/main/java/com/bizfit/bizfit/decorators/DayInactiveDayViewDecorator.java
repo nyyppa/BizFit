@@ -12,7 +12,11 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import java.util.List;
 
 /**
- * Created by Käyttäjä on 19.4.2016.
+ * Decorates calendar days which are inactive.
+ *
+ * Inactive days are days which the user chose not to track a certain
+ * goal, as well as days which are beyond the deadline or before the
+ * start date.
  */
 public class DayInactiveDayViewDecorator implements DayViewDecorator {
 

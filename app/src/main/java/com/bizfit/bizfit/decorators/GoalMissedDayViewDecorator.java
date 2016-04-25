@@ -11,10 +11,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 /**
- * Applies Spans to specified CalendarDays
- *
- * Currently applies decorations to all dates bu today. Tracker does not
- * yet provide functionality to check on which dates goal was met.
+ *  Decorates calendar days on which the daily target was missed.
  */
 public class GoalMissedDayViewDecorator implements DayViewDecorator {
 

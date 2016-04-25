@@ -1,28 +1,18 @@
 package com.bizfit.bizfit;
 
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import java.util.concurrent.CopyOnWriteArrayList;
-import android.provider.ContactsContract;
 
 import com.bizfit.bizfit.activities.MainActivity;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class User implements java.io.Serializable {
     /**
@@ -36,40 +26,42 @@ public class User implements java.io.Serializable {
     private transient static User currentUser;
     int lastTrackerID;
     int nextFreeDailyProgressID;
-    private static final int dbVersion=23;
+    private static final int dbVersion = 23;
     int userNumber;
-    static List<UserLoadedListener>listeners=new CopyOnWriteArrayList<>();
-    public boolean saveUser=false;
-    static List<Tracker>trackersToDelete=new CopyOnWriteArrayList<>();
+    static List<UserLoadedListener> listeners = new CopyOnWriteArrayList<>();
+    public boolean saveUser = false;
+    static List<Tracker> trackersToDelete = new CopyOnWriteArrayList<>();
     static DataBaseThread thread;
 
-    public Tracker getTrackerByIndex(int index){
+    public Tracker getTrackerByIndex(int index) {
         return trackers.get(index);
     }
 
-    static public int getNextFreeDailyProgressID(){
+    static public int getNextFreeDailyProgressID() {
         currentUser.nextFreeDailyProgressID++;
         return currentUser.nextFreeDailyProgressID;
     }
-    public static void update(Context c){
-        context=c;
+
+    public static void update(Context c) {
+        context = c;
         getLastUser(new UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
-                for(int i=0;i<user.trackers.size();i++){
+                for (int i = 0; i < user.trackers.size(); i++) {
                     user.trackers.get(i).update();
                 }
             }
         });
 
     }
+
     /**
      * Do not manually construct new saveStates, rather call User.getInstance(String userName)
      *
      * @param userName User NAME
      */
     User(String userName) {
-        this.userName =userName;
+        this.userName = userName;
 
         if (trackers == null) {
             trackers = new CopyOnWriteArrayList<Tracker>();
@@ -78,12 +70,13 @@ public class User implements java.io.Serializable {
 
     /**
      * Checks if userName has already Tracker with given NAME
-     * @param name  NAME to check
-     * @return  true if tracker is found and false if tracker is not found
+     *
+     * @param name NAME to check
+     * @return true if tracker is found and false if tracker is not found
      */
-    public boolean isTrackerNameAlreadyInUse(String name){
-        for(int i=0;i<trackers.size();i++){
-            if(name.equals(trackers.get(i).getName())){
+    public boolean isTrackerNameAlreadyInUse(String name) {
+        for (int i = 0; i < trackers.size(); i++) {
+            if (name.equals(trackers.get(i).getName())) {
                 return true;
             }
         }
@@ -91,17 +84,13 @@ public class User implements java.io.Serializable {
     }
 
 
-
-
-
-
-    public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending){
-        final int asc=ascending?1:-1;
-        SortedTrackers sorted=new SortedTrackers();
-        Comparator<Tracker> t=new Comparator<Tracker>() {
+    public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending) {
+        final int asc = ascending ? 1 : -1;
+        SortedTrackers sorted = new SortedTrackers();
+        Comparator<Tracker> t = new Comparator<Tracker>() {
             @Override
             public int compare(Tracker lhs, Tracker rhs) {
-                return asc*(lhs.getRemainingTimeMillis()-rhs.getRemainingTimeMillis());
+                return asc * (lhs.getRemainingTimeMillis() - rhs.getRemainingTimeMillis());
             }
         };
         Collections.sort(sorted.currentTrackers, t);
@@ -109,13 +98,13 @@ public class User implements java.io.Serializable {
         return sorted;
     }
 
-    public SortedTrackers getProgressComparedToTimeSortedTrackers(boolean ascending){
-        final int asc=ascending?1:-1;
-        SortedTrackers sorted=new SortedTrackers();
-        Comparator<Tracker> t=new Comparator<Tracker>() {
+    public SortedTrackers getProgressComparedToTimeSortedTrackers(boolean ascending) {
+        final int asc = ascending ? 1 : -1;
+        SortedTrackers sorted = new SortedTrackers();
+        Comparator<Tracker> t = new Comparator<Tracker>() {
             @Override
             public int compare(Tracker lhs, Tracker rhs) {
-                return asc*((int)(lhs.getProgressComperedToTime()*100)-(int)(rhs.getProgressComperedToTime()*100));
+                return asc * ((int) (lhs.getProgressComperedToTime() * 100) - (int) (rhs.getProgressComperedToTime() * 100));
             }
         };
         Collections.sort(sorted.currentTrackers, t);
@@ -123,13 +112,13 @@ public class User implements java.io.Serializable {
         return sorted;
     }
 
-    public SortedTrackers getAlpapheticalSortedTrackers(boolean ascending){
-        final int asc=ascending?1:-1;
-        SortedTrackers sorted=new SortedTrackers();
-        Comparator<Tracker> t=new Comparator<Tracker>() {
+    public SortedTrackers getAlpapheticalSortedTrackers(boolean ascending) {
+        final int asc = ascending ? 1 : -1;
+        SortedTrackers sorted = new SortedTrackers();
+        Comparator<Tracker> t = new Comparator<Tracker>() {
             @Override
             public int compare(Tracker lhs, Tracker rhs) {
-                return asc*(lhs.getName().compareToIgnoreCase(rhs.getName()));
+                return asc * (lhs.getName().compareToIgnoreCase(rhs.getName()));
             }
         };
         Collections.sort(sorted.currentTrackers, t);
@@ -145,26 +134,28 @@ public class User implements java.io.Serializable {
     public void addTracker(Tracker t) {
         trackers.add(t);
         t.parentUser = this;
-        t.id=lastTrackerID;
+        t.id = lastTrackerID;
         lastTrackerID++;
         updateIndexes();
         save();
     }
-    public void updateIndexes(){
-        for(int i=0;i<trackers.size();i++){
-            trackers.get(i).index=i;
+
+    public void updateIndexes() {
+        for (int i = 0; i < trackers.size(); i++) {
+            trackers.get(i).index = i;
         }
     }
+
     /**
      * @return Returns all the users trackers
      */
     public Tracker[] getTrackers() {
-        Tracker[] t=new Tracker[trackers.size()];
+        Tracker[] t = new Tracker[trackers.size()];
         return trackers.toArray(t);
     }
 
 
-    public int getAmoutOfTrackes(){
+    public int getAmoutOfTrackes() {
         return trackers.size();
     }
 
@@ -195,28 +186,26 @@ public class User implements java.io.Serializable {
      * @throws Exception Everything that can go wrong
      */
     public void save() {
-        saveUser=true;
+        saveUser = true;
         WakeThread();
     }
 
     public static void getLastUser(UserLoadedListener listener) {
-
         listeners.add(listener);
         WakeThread();
-
     }
-    private static void WakeThread(){
-        if(thread==null){
-            thread=new DataBaseThread();
+
+    private static void WakeThread() {
+        if (thread == null) {
+            thread = new DataBaseThread();
             thread.start();
         }
         thread.notify();
-        thread.sleepThread=false;
+        thread.sleepThread = false;
     }
 
 
-
-    private static class DataBaseThread extends Thread{
+    private static class DataBaseThread extends Thread {
         DBHelper db;
         SQLiteDatabase d;
         boolean sleepThread;
@@ -224,31 +213,31 @@ public class User implements java.io.Serializable {
         @Override
         public void run() {
             super.run();
-            if(db==null){
-                db=new DBHelper(MainActivity.activity,"database1",null,dbVersion);
+            if (db == null) {
+                db = new DBHelper(MainActivity.activity, "database1", null, dbVersion);
             }
-            if(d==null){
-                d=db.getWritableDatabase();
+            if (d == null) {
+                d = db.getWritableDatabase();
             }
-            if(currentUser==null){
-                currentUser=db.readUser(d);
+            if (currentUser == null) {
+                currentUser = db.readUser(d);
             }
-            if(currentUser.saveUser){
+            if (currentUser.saveUser) {
                 db.saveUser(d, currentUser);
-                currentUser.saveUser=false;
+                currentUser.saveUser = false;
             }
-            Iterator<Tracker>iterator=trackersToDelete.iterator();
-            while (iterator.hasNext()){
+            Iterator<Tracker> iterator = trackersToDelete.iterator();
+            while (iterator.hasNext()) {
                 iterator.next();
                 iterator.remove();
             }
-            Iterator<UserLoadedListener> iterator1=listeners.iterator();
-            while (iterator1.hasNext()){
+            Iterator<UserLoadedListener> iterator1 = listeners.iterator();
+            while (iterator1.hasNext()) {
                 iterator1.next().UserLoaded(currentUser);
                 iterator1.remove();
             }
-            sleepThread=true;
-            while(sleepThread){
+            sleepThread = true;
+            while (sleepThread) {
                 try {
                     wait(1000);
                 } catch (InterruptedException e) {
@@ -256,28 +245,25 @@ public class User implements java.io.Serializable {
                 }
             }
         }
-
-
-
     }
 
 
+    public class SortedTrackers {
+        public List<Tracker> currentTrackers = new ArrayList<Tracker>(0);
+        public List<Tracker> expiredTrackers = new ArrayList<Tracker>(0);
 
-
-    public class SortedTrackers{
-        public List<Tracker>currentTrackers=new ArrayList<Tracker>(0);
-        public List<Tracker>expiredTrackers=new ArrayList<Tracker>(0);
-        SortedTrackers(){
-            for(int i=0;i<trackers.size();i++){
-                if(trackers.get(i).completed){
+        SortedTrackers() {
+            for (int i = 0; i < trackers.size(); i++) {
+                if (trackers.get(i).completed) {
                     expiredTrackers.add(trackers.get(i));
-                }else {
+                } else {
                     currentTrackers.add(trackers.get(i));
                 }
             }
         }
     }
-    public interface UserLoadedListener{
+
+    public interface UserLoadedListener {
         void UserLoaded(User user);
     }
 }
