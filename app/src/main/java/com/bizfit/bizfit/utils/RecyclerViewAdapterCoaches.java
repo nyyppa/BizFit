@@ -52,6 +52,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
             container = (RecyclerView) itemView.findViewById(R.id.view3);
             container.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             container.setAdapter(new RecyclerViewAdapterStoreRow());
+            container.setNestedScrollingEnabled(false);
             title = (TextView)itemView.findViewById(R.id.textView8);
         }
 

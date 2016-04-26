@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -164,7 +167,19 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     @Override
     public void onItemClick(RecyclerView.ViewHolder vh) {
         if (vh instanceof RecyclerViewAdapterTrackers.ViewHolderTracker) {
-            ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchViewTrackerActivity(vh);
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+            // TODO DELETE THIS ABOMINATION!
+            boolean success = false;
+            for (int i = 0; i < fragments.size() && !success; i++) {
+                try {
+                    ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchViewTrackerActivity(vh);
+                    success = true;
+                    Log.d(MainActivity.class.getName(), "index: " + i);
+                } catch (ClassCastException e) {
+
+                }
+            }
         }
     }
 }
