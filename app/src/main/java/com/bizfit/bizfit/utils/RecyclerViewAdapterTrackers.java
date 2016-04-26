@@ -75,7 +75,7 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
             View.OnCreateContextMenuListener, View.OnClickListener {
 
         /**
-         * View whose look ViewHolderStoreRow manages.
+         * View whose look ViewHolderTracker manages.
          */
         private View v;
 
@@ -105,7 +105,7 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
         private ImageView bg;
 
         /**
-         * Constructs a new ViewHolderStoreRow with references to alterable Views.
+         * Constructs a new ViewHolderTracker with references to alterable Views.
          *
          * Also performs one time styling events. Namely, fonts.
          *
@@ -188,7 +188,7 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
         }
 
         /**
-         * Gets the View associated with this ViewHolderStoreRow.
+         * Gets the View associated with this ViewHolderTracker.
          *
          * @return ViewHolderTracker's View.
          */

@@ -16,7 +16,11 @@ import java.util.List;
 
 public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
+    public static final int REGULAR_SCROLLABLE = 0;
+    public static final int BIG_PROMOTION = 1;
+
     private List<StoreRow> data;
+
 
     public RecyclerViewAdapterCoaches() {
         this.data = new LinkedList<>();
@@ -28,15 +32,35 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_store_row, parent, false);
-        ViewHolderStoreRow vh = new ViewHolderStoreRow(v);
+        RecyclerView.ViewHolder vh = null;
+
+        switch (viewType) {
+            case BIG_PROMOTION:
+                View v1 = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_item_store_big_promotion, parent, false);
+                vh = new BigPromotion(v1);
+                break;
+
+            case REGULAR_SCROLLABLE:
+                View v2 = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_item_store_row_regular, parent, false);
+                vh = new RegularScrollable(v2);
+                break;
+        }
+
         return vh;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolderStoreRow)holder).prepareForDisplay(data.get(position));
+        switch (holder.getItemViewType()) {
+            case BIG_PROMOTION:
+                break;
+
+            case REGULAR_SCROLLABLE:
+                ((RegularScrollable) holder).prepareForDisplay(data.get(position - 1));
+                break;
+        }
     }
 
     public void addData(StoreRow row) {
@@ -44,16 +68,21 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
     }
 
     @Override
-    public int getItemCount() {
-        return (data != null) ? data.size() : 0;
+    public int getItemViewType(int position) {
+        return (position == 0) ? BIG_PROMOTION : REGULAR_SCROLLABLE;
     }
 
-    private class ViewHolderStoreRow extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return (data != null) ? data.size() + 1 : 1;
+    }
+
+    public static class RegularScrollable extends RecyclerView.ViewHolder {
         private TextView title;
         private RecyclerView container;
         private RecyclerViewAdapterStoreRow adapter;
 
-        public ViewHolderStoreRow(View itemView) {
+        public RegularScrollable(View itemView) {
             super(itemView);
             adapter = new RecyclerViewAdapterStoreRow();
             LinearLayoutManager mLayout = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -71,13 +100,20 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
                     adapter.notifyDataSetChanged();
                 }
             });
-            title = (TextView)itemView.findViewById(R.id.textView8);
+            title = (TextView) itemView.findViewById(R.id.textView8);
         }
 
         public void prepareForDisplay(StoreRow row) {
-            ((RecyclerViewAdapterStoreRow)container.getAdapter()).setData(row.items);
+            ((RecyclerViewAdapterStoreRow) container.getAdapter()).setData(row.items);
             title.setText(row.title);
             container.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    public static class BigPromotion extends RecyclerView.ViewHolder {
+
+        public BigPromotion(View itemView) {
+            super(itemView);
         }
     }
 }

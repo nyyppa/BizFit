@@ -45,7 +45,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         this.data = data;
     }
 
-    public class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView title;
 
         public ViewHolderStoreItem(View itemView) {
