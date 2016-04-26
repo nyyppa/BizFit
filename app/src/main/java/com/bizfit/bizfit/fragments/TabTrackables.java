@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.AddTrackerActivity;
 import com.bizfit.bizfit.activities.ViewTrackerActivity;
 import com.bizfit.bizfit.utils.FieldNames;
-import com.bizfit.bizfit.utils.RecyclerViewAdapter;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.utils.TrackerLoader;
 
 /**
@@ -57,9 +56,9 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
     public static Tracker[] trackers;
 
     /**
-     * Custom implementation of RecyclerViewAdapter.
+     * Custom implementation of RecyclerViewAdapterTrackers.
      */
-    private RecyclerViewAdapter adapter;
+    private RecyclerViewAdapterTrackers adapter;
 
     /**
      * RecyclerView which holds all the Fragment's content.
@@ -93,11 +92,10 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
         User.getLastUser(this);
-        Activity parentActivity = getActivity();
-        mRecyclerView = (RecyclerView) parentActivity.findViewById(R.id.tab_fragment_recycler_view);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        adapter = new RecyclerViewAdapter();
+        adapter = new RecyclerViewAdapterTrackers();
 
         // Link RecyclerView with adapter.
         mRecyclerView.setAdapter(adapter);

@@ -17,9 +17,9 @@ import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.fragments.TabTrackables;
 
 /**
- * Manages binding of View's and data associated with RecyclerView.
+ * Manages binding of View's of RecyclerView within Trackers tab.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter {
+public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
 
     /**
      * Position of the last long clicked item within the RecyclerView.
@@ -30,14 +30,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_trackable, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolderTracker vh = new ViewHolderTracker(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((RecyclerViewAdapter.ViewHolder) holder)
-                .fillInfo(TabTrackables.trackers[position]);
+        ((ViewHolderTracker) holder)
+                .prepareForDisplay(TabTrackables.trackers[position]);
     }
 
     @Override
@@ -71,11 +71,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
      * This way costly findViewById() calls can be avoided when the view
      * is relocated within it's containing RecyclerView.
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements
+    public class ViewHolderTracker extends RecyclerView.ViewHolder implements
             View.OnCreateContextMenuListener, View.OnClickListener {
 
         /**
-         * View whose look ViewHolder manages.
+         * View whose look ViewHolderStoreRow manages.
          */
         private View v;
 
@@ -105,13 +105,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         private ImageView bg;
 
         /**
-         * Constructs a new ViewHolder with references to alterable Views.
+         * Constructs a new ViewHolderStoreRow with references to alterable Views.
          *
          * Also performs one time styling events. Namely, fonts.
          *
          * @param itemView View that is styled on recycle.
          */
-        public ViewHolder(View itemView) {
+        public ViewHolderTracker(View itemView) {
             super(itemView);
             this.v = itemView;
             v.setOnCreateContextMenuListener(this);
@@ -143,7 +143,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
          *
          * @param data Tracker from which information is pulled from.
          */
-        public void fillInfo(Tracker data) {
+        public void prepareForDisplay(Tracker data) {
             trackerName.setText(data.getName());
             bg.getDrawable().mutate().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_OVER);
 
@@ -188,9 +188,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         }
 
         /**
-         * Gets the View associated with this ViewHolder.
+         * Gets the View associated with this ViewHolderStoreRow.
          *
-         * @return ViewHolder's View.
+         * @return ViewHolderTracker's View.
          */
         public View getV() {
             return v;
@@ -205,7 +205,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
         /**
          * Notifies which item was clicked.
          *
-         * @param vh ViewHolder associated with the click event.
+         * @param vh ViewHolderTracker associated with the click event.
          */
         void onItemClick(RecyclerView.ViewHolder vh);
     }

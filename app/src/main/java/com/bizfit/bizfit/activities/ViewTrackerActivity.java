@@ -49,6 +49,7 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
         viewPager.setAdapter(adapter);
         User.getLastUser(this);
 
+        // Recolors system bar.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -110,6 +111,7 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
 
     @Override
     public void UserLoaded(final User user) {
+        Log.d(ViewTrackerActivity.class.getName(), "user loaded callback");
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -120,6 +122,8 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
                     fragment = ViewTrackerFragment.newInstance(trackers[i]);
                     adapter.addFragment(fragment, trackers[i].getName());
                 }
+
+                adapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(index);
             }
         });

@@ -25,7 +25,7 @@ import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
 import com.bizfit.bizfit.fragments.TabTrackables;
-import com.bizfit.bizfit.utils.RecyclerViewAdapter;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
 import java.util.concurrent.TimeUnit;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Displays the content of home screen.
  */
-public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.RecyclerViewItemClicked {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapterTrackers.RecyclerViewItemClicked {
     private static final int PAGE_LIMIT = 3;
     public static Activity activity = null;
     public static long lastOpen;
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder vh) {
-        if (vh instanceof RecyclerViewAdapter.ViewHolder) {
+        if (vh instanceof RecyclerViewAdapterTrackers.ViewHolderTracker) {
             ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchViewTrackerActivity(vh);
         }
     }
