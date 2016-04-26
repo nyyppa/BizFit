@@ -7,7 +7,7 @@
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     tools:context=".activities.ViewTrackerActivity">
-
+    <!-- TODO Calendar is slow to inflate, find ways to speed it up -->
     <android.support.v7.widget.CardView
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 app:mcv_monthLabels="@array/months"
                 app:mcv_selectionColor="@color/grey_400"
                 app:mcv_showOtherDates="all"
-                app:mcv_weekDayTextAppearance="@style/AppTheme.CalendarWeekHeader"/>
+                app:mcv_weekDayTextAppearance="@style/AppTheme.CalendarWeekHeader" />
 
             <Button
                 android:id="@+id/button_today"

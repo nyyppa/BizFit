@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.utils;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,16 +45,29 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         this.data = data;
     }
 
-    public class ViewHolderStoreItem extends RecyclerView.ViewHolder {
+    public class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView title;
 
         public ViewHolderStoreItem(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView9);
+            itemView.setOnClickListener(this);
         }
 
         public void prepForDisplay(StoreRow.StoreItem item) {
             title.setText(item.name);
         }
+
+        @Override
+        public void onClick(View v) {
+            Context mContext = v.getContext();
+
+            if (mContext instanceof StoreItemClicked)
+                ((StoreItemClicked) mContext).itemClicked(this);
+        }
+    }
+
+    public interface StoreItemClicked {
+        void itemClicked(ViewHolderStoreItem viewHolderStoreItem);
     }
 }

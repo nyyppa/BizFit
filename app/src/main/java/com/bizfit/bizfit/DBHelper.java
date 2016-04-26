@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.MainPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -256,7 +256,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
         } else {
             String name;
-            final AccountManager manager = AccountManager.get(MainActivity.activity);
+            final AccountManager manager = AccountManager.get(MainPage.activity);
             final Account[] accounts = manager.getAccountsByType("com.google");
             final int size = accounts.length;
             String[] names = new String[size];

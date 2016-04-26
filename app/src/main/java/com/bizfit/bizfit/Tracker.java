@@ -1,6 +1,6 @@
 package com.bizfit.bizfit;
 
-import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.MainPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -673,14 +673,14 @@ public class Tracker implements java.io.Serializable {
             switch (timeType){
                 case days:
                     if(time==1){
-                        return MainActivity.activity.getResources().getString(R.string.timeType_days_one);
+                        return MainPage.activity.getResources().getString(R.string.timeType_days_one);
                     }
-                    return MainActivity.activity.getResources().getString(R.string.timeType_days);
+                    return MainPage.activity.getResources().getString(R.string.timeType_days);
                 case months:
                     if(time==1){
-                        return MainActivity.activity.getResources().getString(R.string.timeType_months_one);
+                        return MainPage.activity.getResources().getString(R.string.timeType_months_one);
                     }
-                    return MainActivity.activity.getResources().getString(R.string.timeType_months);
+                    return MainPage.activity.getResources().getString(R.string.timeType_months);
             }
             return null;
 

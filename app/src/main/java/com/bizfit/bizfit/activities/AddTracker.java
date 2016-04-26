@@ -31,7 +31,7 @@ import uz.shift.colorpicker.LineColorPicker;
 /**
  * Takes user input for creation of a new goal.
  */
-public class AddTrackerActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class AddTracker extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     /**
      * Field for goals name.

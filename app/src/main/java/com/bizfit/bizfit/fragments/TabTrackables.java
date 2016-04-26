@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
 import com.bizfit.bizfit.User;
-import com.bizfit.bizfit.activities.AddTrackerActivity;
-import com.bizfit.bizfit.activities.ViewTrackerActivity;
+import com.bizfit.bizfit.activities.AddTracker;
+import com.bizfit.bizfit.activities.ViewTracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.utils.TrackerLoader;
@@ -34,13 +34,13 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
 
     /**
      * Used to determine if onActivityResult() callback was received
-     * from AddTrackerActivity.
+     * from AddTracker.
      */
     public static final int SET_NEW_GOAL = 1;
 
     /**
      * Used to determine if onActivityResult() callback was received
-     * from ViewTrackerActivity.
+     * from ViewTracker.
      */
     public static final int VIEW_GOALS = 2;
 
@@ -181,7 +181,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
      * Starts a new activity for setting a new goal.
      */
     public void launchAddTrackerActivity() {
-        Intent intent = new Intent(getActivity(), AddTrackerActivity.class);
+        Intent intent = new Intent(getActivity(), AddTracker.class);
         startActivityForResult(intent, SET_NEW_GOAL);
     }
 
@@ -201,13 +201,13 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
      * Starts a new activity for viewing set goals.
      */
     public void launchViewTrackerActivity(RecyclerView.ViewHolder vh) {
-        Intent viewTracker = new Intent(getActivity(), ViewTrackerActivity.class);
+        Intent viewTracker = new Intent(getActivity(), ViewTracker.class);
         viewTracker.putExtra(FieldNames.INDEX, vh.getAdapterPosition());
         viewTracker.putExtra(FieldNames.TRACKERS, trackers);
         // No results are actually wanted from the activity. Rather, this is a
         // way to distinguish the manner in which this Fragment is reached.
         // As the view's contained in this Fragment should be updated after
-        // ViewTrackerActivity is closed.
+        // ViewTracker is closed.
         startActivityForResult(viewTracker, VIEW_GOALS);
     }
 

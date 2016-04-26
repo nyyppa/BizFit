@@ -2,7 +2,7 @@ package com.bizfit.bizfit.utils;
 
 import android.graphics.Typeface;
 
-import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.MainPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class AssetManagerOur {
             }
         }
 
-        Typeface font = Typeface.createFromAsset(MainActivity.activity.getAssets(), file);
+        Typeface font = Typeface.createFromAsset(MainPage.activity.getAssets(), file);
 
         FontHolder holder = new FontHolder(font, file);
         fonts.add(holder);

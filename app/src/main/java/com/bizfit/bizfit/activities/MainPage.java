@@ -27,6 +27,7 @@ import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
 import com.bizfit.bizfit.fragments.TabTrackables;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
@@ -36,7 +37,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Displays the content of home screen.
  */
-public class MainActivity extends AppCompatActivity implements RecyclerViewAdapterTrackers.RecyclerViewItemClicked {
+public class MainPage extends AppCompatActivity implements
+        RecyclerViewAdapterTrackers.RecyclerViewItemClicked,
+        RecyclerViewAdapterStoreRow.StoreItemClicked {
     private static final int PAGE_LIMIT = 3;
     public static Activity activity = null;
     public static long lastOpen;
@@ -97,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     }
 
     private void startBackGroundService() {
-        Intent myIntent = new Intent(MainActivity.this, MyAlarmService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+        Intent myIntent = new Intent(MainPage.this, MyAlarmService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(MainPage.this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long time = TimeUnit.SECONDS.toMillis(60);
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,time, time, pendingIntent);
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(this, Settings.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -175,11 +178,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
                 try {
                     ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchViewTrackerActivity(vh);
                     success = true;
-                    Log.d(MainActivity.class.getName(), "index: " + i);
+                    Log.d(MainPage.class.getName(), "index: " + i);
                 } catch (ClassCastException e) {
 
                 }
             }
         }
+    }
+
+    @Override
+    public void itemClicked(RecyclerViewAdapterStoreRow.ViewHolderStoreItem viewHolderStoreItem) {
+        startActivity(new Intent(this, CoachPage.class));
     }
 }

@@ -26,11 +26,11 @@ import com.bizfit.bizfit.utils.FieldNames;
 /**
  * Displays information about the Tracker.
  */
-public class ViewTrackerActivity extends AppCompatActivity implements User.UserLoadedListener {
+public class ViewTracker extends AppCompatActivity implements User.UserLoadedListener {
 
-    ViewPager viewPager;
-    PagerAdapter adapter;
-    int index;
+    private ViewPager viewPager;
+    private PagerAdapter adapter;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +111,13 @@ public class ViewTrackerActivity extends AppCompatActivity implements User.UserL
 
     @Override
     public void UserLoaded(final User user) {
-        Log.d(ViewTrackerActivity.class.getName(), "user loaded callback");
+        Log.d(ViewTracker.class.getName(), "user loaded callback");
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ViewTrackerFragment fragment;
                 Tracker[] trackers = user.getTrackers();
-                Log.d("ViewTrackerActivity", "User load callback");
+                Log.d("ViewTracker", "User load callback");
                 for (int i = 0; i < trackers.length; i++) {
                     fragment = ViewTrackerFragment.newInstance(trackers[i]);
                     adapter.addFragment(fragment, trackers[i].getName());

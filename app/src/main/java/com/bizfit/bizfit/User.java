@@ -4,7 +4,7 @@ package com.bizfit.bizfit;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.MainPage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -214,7 +214,7 @@ public class User implements java.io.Serializable {
             while (true) {
                 super.run();
                 if (db == null) {
-                    db = new DBHelper(MainActivity.activity, "database1", null, dbVersion);
+                    db = new DBHelper(MainPage.activity, "database1", null, dbVersion);
                 }
                 if (d == null) {
                     d = db.getWritableDatabase();

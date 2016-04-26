@@ -1,7 +1,5 @@
 package com.bizfit.bizfit;
 
-import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,7 +9,7 @@ import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.NotificationCompat.Builder;
 
 
-import com.bizfit.bizfit.activities.MainActivity;
+import com.bizfit.bizfit.activities.MainPage;
 
 
 /**
@@ -27,20 +25,20 @@ public class NotificationSender {
      */
     public static void sendNotification(String title,String message){
         NotificationCompat.Builder mBuilder =
-                (Builder) new Builder(MainActivity.activity)
+                (Builder) new Builder(MainPage.activity)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(title)
                         .setContentText(message);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(MainActivity.activity, MainActivity.class);
+        Intent resultIntent = new Intent(MainPage.activity, MainPage.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
         // This ensures that navigating backward from the Activity leads out of
         // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.activity);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainPage.activity);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(MainPage.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -52,7 +50,7 @@ public class NotificationSender {
 
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
-                (NotificationManager) MainActivity.activity.getSystemService(MainActivity.activity.NOTIFICATION_SERVICE);
+                (NotificationManager) MainPage.activity.getSystemService(MainPage.activity.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         int mId=1;
         mNotificationManager.notify(mId, mBuilder.build());
@@ -67,7 +65,7 @@ public class NotificationSender {
                         .setContentTitle(title)
                         .setContentText(message);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(a, MainActivity.class);
+        Intent resultIntent = new Intent(a, MainPage.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -75,7 +73,7 @@ public class NotificationSender {
         // your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(a);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(MainPage.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
        PendingIntent resultPendingIntent =
