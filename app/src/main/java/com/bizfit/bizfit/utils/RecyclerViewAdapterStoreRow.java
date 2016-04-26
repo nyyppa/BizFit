@@ -12,7 +12,7 @@ import com.bizfit.bizfit.R;
 import java.util.List;
 
 /**
- * Created by Käyttäjä on 26.4.2016.
+ *
  */
 public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
 

@@ -13,19 +13,40 @@ import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Manages the content in TabCoaches.
+ */
 public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
+    /**
+     * Is the default layout for a row.
+     */
     public static final int REGULAR_SCROLLABLE = 0;
+
+    /**
+     * Is a single big item.
+     */
     public static final int BIG_PROMOTION = 1;
 
+    /**
+     * Is a list of default layouts.
+     *
+     * TODO  more flexiblw data structure
+     */
     private List<StoreRow> data;
 
-
+    /**
+     * Creates a new adapter with an empty data set.
+     */
     public RecyclerViewAdapterCoaches() {
         this.data = new LinkedList<>();
     }
 
+    /**
+     * Creates a new adapter with the provided data set.
+     *
+     * @param data Tab content.
+     */
     public RecyclerViewAdapterCoaches(List<StoreRow> data) {
         this.data = data;
     }
@@ -63,6 +84,11 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * Adds a new row to the end of the data set.
+     *
+     * @param row Row to be added.
+     */
     public void addData(StoreRow row) {
         data.add(row);
     }
@@ -77,7 +103,11 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
         return (data != null) ? data.size() + 1 : 1;
     }
 
+    /**
+     * Describes a single scrollable row within the RecyclerView.
+     */
     public static class RegularScrollable extends RecyclerView.ViewHolder {
+
         private TextView title;
         private RecyclerView container;
         private RecyclerViewAdapterStoreRow adapter;
@@ -103,6 +133,11 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
             title = (TextView) itemView.findViewById(R.id.textView8);
         }
 
+        /**
+         * Changes the look of the view for displaying.
+         *
+         * @param row Row to display.
+         */
         public void prepareForDisplay(StoreRow row) {
             ((RecyclerViewAdapterStoreRow) container.getAdapter()).setData(row.items);
             title.setText(row.title);

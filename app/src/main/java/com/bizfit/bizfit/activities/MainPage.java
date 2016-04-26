@@ -40,7 +40,11 @@ import java.util.concurrent.TimeUnit;
 public class MainPage extends AppCompatActivity implements
         RecyclerViewAdapterTrackers.RecyclerViewItemClicked,
         RecyclerViewAdapterStoreRow.StoreItemClicked {
-    private static final int PAGE_LIMIT = 3;
+
+    /**
+     * Maximum number of cached pages.
+     */
+    private static final int CACHED_PAGE_LIMIT = 3;
     public static Activity activity = null;
     public static long lastOpen;
     public static long lastMessageTime;
@@ -161,7 +165,7 @@ public class MainPage extends AppCompatActivity implements
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
         adapter.addFragment(new TabMessages(), getResources().getString(R.string.tab_messages));
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(PAGE_LIMIT);
+        viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 
         if (viewPager instanceof ViewPagerNoSwipes)
             ((ViewPagerNoSwipes) viewPager).setPagingEnabled(false);

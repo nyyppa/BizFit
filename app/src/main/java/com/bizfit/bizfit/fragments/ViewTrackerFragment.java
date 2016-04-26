@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -74,7 +75,6 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         super.onViewCreated(view, savedInstanceState);
         View root = getView();
         Resources resources = getResources();
-
         mCalendar = (MaterialCalendarView) root.findViewById(R.id.calendarView);
         mCalendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
         mCalendar.setCurrentDate(Calendar.getInstance());
@@ -89,6 +89,7 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mCalendar.setLeftArrowMask(resources.getDrawable(R.drawable.ic_chevron_left_black_24dp));
         mCalendar.setRightArrowMask(resources.getDrawable(R.drawable.ic_chevron_right_black_24dp));
         root.findViewById(R.id.button_today).setOnClickListener(this);
+        root.findViewById(R.id.imageView).setOnClickListener(this);
     }
 
     @Override
@@ -133,6 +134,13 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
                 // Flashes current
                 mCalendar.setSelectedDate(Calendar.getInstance());
                 mCalendar.clearSelection();
+                break;
+
+            case R.id.imageView:
+                PopupMenu popup = new PopupMenu(getContext(), v);
+                popup.getMenuInflater().inflate(R.menu.menu_view_tracker,
+                        popup.getMenu());
+                popup.show();
                 break;
         }
     }

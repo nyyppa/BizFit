@@ -4,7 +4,11 @@ import android.media.Image;
 
 import java.util.List;
 
-
+/**
+ * Stores all the necessary information for a single store row.
+ *
+ * TODO Better and more flexible data structure. As of now, only a placeholder.
+ */
 public class StoreRow {
     protected String title;
     protected String subTitle;
