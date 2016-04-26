@@ -1,6 +1,5 @@
 package com.bizfit.bizfit.utils;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,7 +36,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         return (data != null) ? data.size() : 0;
     }
 
-    public void appendData(StoreRow.StoreItem item) {
+    public void addData(StoreRow.StoreItem item) {
         data.add(item);
     }
 
@@ -52,7 +49,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
 
         public ViewHolderStoreItem(View itemView) {
             super(itemView);
-            title = (TextView)itemView.findViewById(R.id.textView9);
+            title = (TextView) itemView.findViewById(R.id.textView9);
         }
 
         public void prepForDisplay(StoreRow.StoreItem item) {
