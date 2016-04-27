@@ -3,6 +3,12 @@ package com.bizfit.bizfit;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import java.util.Map;
+
+import android.util.Log;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 import com.bizfit.bizfit.activities.MainPage;
 
@@ -10,7 +16,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -247,11 +262,14 @@ public class User implements java.io.Serializable {
                 }
                 if (currentUser == null) {
                     currentUser = db.readUser(d);
-                    try {
+                    NetWorkThread t=new NetWorkThread();
+                    t.start();
+
+                    /*try {
                         System.out.println(currentUser.toJSON().toString(4));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
                 }
                 if (currentUser.saveUser) {
@@ -306,5 +324,65 @@ public class User implements java.io.Serializable {
 
     public interface UserLoadedListener {
         void UserLoaded(User user);
+    }
+    private static class NetWorkThread extends Thread{
+
+
+        public void run(){
+            InputStream is = null;
+            // Only display the first 500 characters of the retrieved
+            // web page content.
+            int len = 500;
+
+            try {
+                URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(currentUser.toJSON().toString());
+                // Starts the query
+                conn.connect();
+                int response = conn.getResponseCode();
+                Log.d("meh", "The response is: " + response);
+                is = conn.getInputStream();
+
+                // Convert the InputStream into a string
+                BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                StringBuilder total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    total.append(line).append('\n');
+                }
+                //System.out.println(total);
+                Map map=conn.getHeaderFields();
+                for(Object key: map.keySet()){
+                    System.out.println(key + " - " + map.get(key));
+
+                }
+
+                // Makes sure that the InputStream is closed after the app is
+                // finished using it.
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }
