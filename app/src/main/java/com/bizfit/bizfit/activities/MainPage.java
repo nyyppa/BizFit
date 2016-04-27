@@ -67,7 +67,15 @@ public class MainPage extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TabTrackables) getSupportFragmentManager().getFragments().get(0)).launchAddTrackerActivity();
+                boolean success = false;
+                for (int i = 0; i < getSupportFragmentManager().getFragments().size() && !success; i++) {
+                    try {
+                        ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchAddTrackerActivity();
+                        success = true;
+                    } catch (ClassCastException e) {
+
+                    }
+                }
             }
         });
 

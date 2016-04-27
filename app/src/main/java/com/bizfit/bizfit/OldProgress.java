@@ -1,5 +1,8 @@
 package com.bizfit.bizfit;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Atte on 22.11.2015.
  */
@@ -30,6 +33,21 @@ public class OldProgress implements java.io.Serializable{
         this.targetProgress=targetProgress;
         this.daily=dailyProgress;
 
+    }
+
+    public JSONObject toJson(){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("startDate",startDate);
+            jsonObject.put("endDate",endDate);
+            jsonObject.put("endProgress",endProgress);
+            jsonObject.put("targetProgress",targetProgress);
+            jsonObject.put("id",id);
+            jsonObject.put("DailyProgress",daily.toJSon());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     /**

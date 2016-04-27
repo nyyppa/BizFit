@@ -2,6 +2,10 @@ package com.bizfit.bizfit;
 
 import com.bizfit.bizfit.utils.OurDateTime;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -14,7 +18,6 @@ import java.util.ListIterator;
 public class DailyProgress implements java.io.Serializable {
     private List<DayPool> dayPool = new ArrayList<DayPool>(0);
     int id;
-
     public DailyProgress(List<DaySingle> list, int id) {
         Comparator<DaySingle> comparator = new Comparator<DaySingle>() {
             @Override
@@ -24,14 +27,19 @@ public class DailyProgress implements java.io.Serializable {
         };
         Collections.sort(list, comparator);
         for (int i = 0; i < list.size(); i++) {
-            addDailyProgress(list.get(i).getAmount(), list.get(i).getTime());
+            DaySingle single=addDailyProgress(list.get(i).getAmount(), list.get(i).getTime());
+            single.id=list.get(i).id;
         }
         this.id = id;
     }
 
     public DailyProgress() {
-        // TODO Atte, what does this do? :D
-        //id = User.getLastUser().getNextFreeDailyProgressID();
+        User.getLastUser(new User.UserLoadedListener() {
+            @Override
+            public void UserLoaded(User user) {
+                id=user.nextFreeDailyProgressID;
+            }
+        });
 
     }
 
@@ -42,6 +50,27 @@ public class DailyProgress implements java.io.Serializable {
     public DaySingle createDaySingle(long time, float amount) {
         return new DaySingle(time, amount);
     }
+
+    public JSONObject toJSon(){
+        JSONObject jsonObject=new JSONObject();
+        JSONArray jsonArray=new JSONArray();
+        for (int i = 0; i < dayPool.size(); i++) {
+            List<DaySingle> daySingleList = dayPool.get(i).daySingle;
+            for (int j = 0; j < daySingleList.size(); j++) {
+                jsonArray.put(daySingleList.get(j).ToJson());
+            }
+        }
+
+        try {
+            jsonObject.put("id",id);
+            jsonObject.put("DaySingle",jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
+    }
+
 
     public List<DaySingle> prepForDataBase() {
         List<DaySingle> list = new ArrayList<DaySingle>();
@@ -65,7 +94,7 @@ public class DailyProgress implements java.io.Serializable {
         return dayPool;
     }
 
-    public void addDailyProgress(float amount, long time) {
+    public DaySingle addDailyProgress(float amount, long time) {
         if (dayPool.size() == 0) {
             dayPool.add(new DayPool(amount, time));
         } else if (dayPool.get(dayPool.size() - 1).sameDate(time)) {
@@ -73,6 +102,7 @@ public class DailyProgress implements java.io.Serializable {
         } else {
             dayPool.add(new DayPool(amount, time));
         }
+        return dayPool.get(dayPool.size() - 1).getLast();
     }
 
     public void undoLast() {
@@ -101,6 +131,11 @@ public class DailyProgress implements java.io.Serializable {
         DayPool(float amount, long time) {
             this.time = time;
             TotalAmount += amount;
+            daySingle.add(new DaySingle(time,amount));
+        }
+
+        private DaySingle getLast(){
+            return daySingle.get(daySingle.size()-1);
         }
 
         public void addDaySingle(float amount, long time) {
@@ -158,6 +193,7 @@ public class DailyProgress implements java.io.Serializable {
             // TODO Auto-generated constructor stub
             this.time = Time;
             this.amount = amount;
+            //id=
         }
 
         public long getTime() {
@@ -166,6 +202,18 @@ public class DailyProgress implements java.io.Serializable {
 
         public float getAmount() {
             return amount;
+        }
+
+        private JSONObject ToJson(){
+            JSONObject jsonObject=new JSONObject();
+            try {
+                jsonObject.put("time",time);
+                jsonObject.put("amount",amount);
+                jsonObject.put("id",id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsonObject;
         }
 
     }

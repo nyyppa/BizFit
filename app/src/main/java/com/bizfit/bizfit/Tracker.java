@@ -2,6 +2,10 @@ package com.bizfit.bizfit;
 
 import com.bizfit.bizfit.activities.MainPage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,6 +55,7 @@ public class Tracker implements java.io.Serializable {
     boolean numberTracked=true;
     List<NotNumberProgress> notNumberProgresses=new ArrayList<NotNumberProgress>(0);
     int id;
+    transient DataChangedListener listener;
 
     public void setNotNumberProgresses(List<NotNumberProgress> list){
         notNumberProgresses=list;
@@ -64,7 +69,7 @@ public class Tracker implements java.io.Serializable {
         notNumberProgresses.add(n);
     }
 
-    transient DataChangedListener listener;
+
 
     public Tracker (Helper h){
         startDate=h.startDate;
@@ -92,6 +97,39 @@ public class Tracker implements java.io.Serializable {
         lastTestUpdate=h.lastTestUpdate;
         numberTracked=h.numberTracker;
         id=h.trackerID;
+    }
+    public JSONObject toJSON(){
+        JSONObject jsonObject=new JSONObject();
+        JSONArray jsonArray=new JSONArray();
+        try {
+            jsonObject.put("startDate",startDate);
+            jsonObject.put("lastReset",lastReset);
+            jsonObject.put("dayInterval",dayInterval);
+            jsonObject.put("monthInterval",monthInterval);
+            jsonObject.put("yearInterval",yearInterval);
+            jsonObject.put("targetProgress",targetProgress);
+            jsonObject.put("currentProgress",currentProgress);
+            jsonObject.put("defaultIncrement",defaultIncrement);
+            jsonObject.put("timeProgress",timeProgress);
+            jsonObject.put("timeProgressNeed",timeProgressNeed);
+            jsonObject.put("name",name);
+            jsonObject.put("targetType",targetType);
+            for(int i=0;i<oldProgress.size();i++){
+                jsonArray.put(oldProgress.get(i).toJson());
+            }
+            jsonObject.put("oldProgress",jsonArray);
+            jsonObject.put("daily",daily.toJSon());
+            jsonObject.put("weekly",weekly);
+            jsonObject.put("repeat",repeat);
+            jsonObject.put("completed",completed);
+            jsonObject.put("tolerance",tolerance);
+            jsonObject.put("color",color);
+            jsonObject.put("numberTracked",numberTracked);
+            jsonObject.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     public int getIndex(){

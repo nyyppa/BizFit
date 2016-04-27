@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (!isTableExists(db, "user_" + user.userNumber + "_oldProgressTable")) {
             db.execSQL("CREATE TABLE " + "user_" + user.userNumber + "_oldProgressTable (id INTEGER PRIMARY KEY AUTOINCREMENT,trackerID INTEGER, " +
-                    "startDate INTEGER, endDate INTEGER,endProgress REAL,targetProgress REAL, dailyProgressID INTEGER)");
+                    "startDate INTEGER, endDate INTEGER,endProgress REAL,targetProgress REAL, DailyProgressID INTEGER)");
 
         }
         ContentValues values = new ContentValues();
@@ -104,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 values.put("endDate", list.get(j).getEndDate());
                 values.put("endProgress", list.get(j).getProgress());
                 values.put("targetProgress", list.get(j).getTargetProgress());
-                values.put("dailyProgressID", list.get(j).getDailyProgress().id);
+                values.put("DailyProgressID", list.get(j).getDailyProgress().id);
                 if (list.get(j).id != -1) {
                     values.put("id", list.get(j).id);
                 }
@@ -131,6 +131,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Checks if table exists in given SQLiteDataBase
+     * @param db    SQLiteDatabase from where to check
+     * @param tableName Table Name to check for
+     * @return
+     */
     @SuppressLint("NewApi")
     public boolean isTableExists(SQLiteDatabase db, String tableName) {
         String colums[] = {"tbl_name"};
@@ -155,10 +161,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete("user_" + tracker.parentUser.userNumber + "_oldProgressTable", "trackerId=?", args);
         for (int i = 0; i < tracker.oldProgress.size(); i++) {
             args = new String[]{tracker.oldProgress.get(i).getDailyProgress().id + ""};
-            db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "dailyProgressID=?", args);
+            db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "DailyProgressID=?", args);
         }
         args = new String[]{tracker.getDailyProgress().id + ""};
-        db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "dailyProgressID=?", args);
+        db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "DailyProgressID=?", args);
     }
 
     @Override
@@ -208,15 +214,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 h.completed = cursor.getInt(cursor.getColumnIndex("completed")) == 1 ? true : false;
                 h.tolerance = cursor.getFloat(cursor.getColumnIndex("tolerance"));
                 h.oldProgress = new ArrayList<OldProgress>(0);
-                Cursor cursor1 = db.rawQuery("SELECT " + h.trackerID + " FROM " + "user_" + user.userNumber + "_oldProgressTable", null);
+                Cursor cursor1 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_oldProgressTable WHERE trackerID="+h.trackerID, null);
                 cursor1.moveToFirst();
                 while (!cursor1.isAfterLast()) {
                     long startDate = cursor1.getLong(cursor1.getColumnIndex("startDate"));
                     long endDate = cursor1.getLong(cursor1.getColumnIndex("endDate"));
                     float endProgress = cursor1.getFloat(cursor1.getColumnIndex("endProgress"));
                     float targetProgress = cursor1.getFloat(cursor1.getColumnIndex("targetProgress"));
-                    int dailyProgressID = cursor1.getInt(cursor1.getColumnIndex("dailyProgressID"));
-                    Cursor cursor2 = db.rawQuery("SELECT " + dailyProgressID + " FROM " + "user_" + user.userNumber + "_DailyProgressTable", null);
+                    int dailyProgressID = cursor1.getInt(cursor1.getColumnIndex("DailyProgressID"));
+                    Cursor cursor2 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+dailyProgressID, null);
                     cursor2.moveToFirst();
                     List<DailyProgress.DaySingle> list = new ArrayList<>(0);
                     DailyProgress d = new DailyProgress(true);
@@ -234,12 +240,14 @@ public class DBHelper extends SQLiteOpenHelper {
                     h.oldProgress.add(o);
                     cursor1.moveToNext();
                 }
+
+                Cursor cursor2 = db.rawQuery("SELECT * FROM user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+cursor.getInt(cursor.getColumnIndex("dailyProgress")), null);
                 cursor1.close();
-                Cursor cursor2 = db.rawQuery("SELECT " + cursor.getInt(cursor.getColumnIndex("dailyProgress")) + " FROM user_" + user.userNumber + "_DailyProgressTable", null);
                 List<DailyProgress.DaySingle> list = new ArrayList<>(0);
                 DailyProgress d = new DailyProgress(true);
+                cursor2.moveToFirst();
                 while (!cursor2.isAfterLast()) {
-                    long time = cursor2.getLong(cursor2.getColumnIndex("time"));
+                    long time = cursor2.getLong(cursor2.getColumnIndexOrThrow("time"));
                     float amount = cursor2.getFloat(cursor2.getColumnIndex("amount"));
                     DailyProgress.DaySingle single = d.createDaySingle(time, amount);
                     single.id = cursor2.getInt(cursor2.getColumnIndex("id"));

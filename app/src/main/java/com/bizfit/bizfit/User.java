@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.bizfit.bizfit.activities.MainPage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +29,7 @@ public class User implements java.io.Serializable {
     private transient static User currentUser;
     int lastTrackerID;
     int nextFreeDailyProgressID;
-    private static final int dbVersion = 23;
+    private static final int dbVersion = 26;
     int userNumber;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     public boolean saveUser = false;
@@ -36,6 +40,23 @@ public class User implements java.io.Serializable {
         return trackers.get(index);
     }
 
+    public JSONObject toJSON(){
+        JSONObject jsonObject=new JSONObject();
+        JSONArray jsonArray=new JSONArray();
+        try {
+            jsonObject.put("userName",userName);
+            jsonObject.put("lastTrackerID",lastTrackerID);
+            jsonObject.put("nextFreeDailyProgressID",nextFreeDailyProgressID);
+            jsonObject.put("userNumber",userNumber);
+            for(int i=0;i<trackers.size();i++){
+                jsonArray.put(trackers.get(i).toJSON());
+            }
+            jsonObject.put("trackers",jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
     static public int getNextFreeDailyProgressID() {
         currentUser.nextFreeDailyProgressID++;
         return currentUser.nextFreeDailyProgressID;
@@ -195,6 +216,10 @@ public class User implements java.io.Serializable {
             thread = new DataBaseThread();
             thread.start();
         }
+        if(!thread.isAlive()){
+            thread = new DataBaseThread();
+            thread.start();
+        }
         synchronized (thread) {
             thread.notify();
             thread.sleepThread = false;
@@ -208,6 +233,7 @@ public class User implements java.io.Serializable {
         DBHelper db;
         SQLiteDatabase d;
         boolean sleepThread;
+        boolean exit=false;
 
         @Override
         public void run() {
@@ -221,6 +247,12 @@ public class User implements java.io.Serializable {
                 }
                 if (currentUser == null) {
                     currentUser = db.readUser(d);
+                    try {
+                        System.out.println(currentUser.toJSON().toString(4));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 if (currentUser.saveUser) {
                     db.saveUser(d, currentUser);
@@ -228,7 +260,7 @@ public class User implements java.io.Serializable {
                 }
                 Iterator<Tracker> iterator = trackersToDelete.iterator();
                 while (iterator.hasNext()) {
-                    iterator.next();
+                    db.deleteTracker(d,iterator.next());
                     iterator.remove();
                 }
                 Iterator<UserLoadedListener> iterator1 = listeners.iterator();
@@ -246,6 +278,11 @@ public class User implements java.io.Serializable {
                             e.printStackTrace();
                         }
                     }
+                }
+                if(exit){
+                    db.close();
+                    d.close();
+                    return;
                 }
             }
         }
