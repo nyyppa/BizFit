@@ -45,7 +45,6 @@ public class MainPage extends AppCompatActivity implements
      * Maximum number of cached pages.
      */
     private static final int CACHED_PAGE_LIMIT = 3;
-    public static Activity activity = null;
     public static long lastOpen;
     public static long lastMessageTime;
 
@@ -125,7 +124,6 @@ public class MainPage extends AppCompatActivity implements
     @Override
     protected void onStart() {
         lastOpen = System.currentTimeMillis();
-        activity = this;
         super.onStart();
         startBackGroundService();
         /* DBHelper db=new DBHelper(this,"database1",null,5);
@@ -149,7 +147,6 @@ public class MainPage extends AppCompatActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        activity = null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.utils;
 
+import android.content.Context;
 import android.graphics.Typeface;
 
 import com.bizfit.bizfit.activities.MainPage;
@@ -36,9 +37,10 @@ public class AssetManagerOur {
      *
      * @param file File path. One of the AssetManagerOur's public attributes
      *             should be given as an attribute.
+     * @param context Context from where to load TypeFace
      * @return True type font.
      */
-    public static Typeface getFont(String file) {
+    public static Typeface getFont(String file,Context context) {
 
         // Checks if the font is already loaded.
         for (int i = 0; i < fonts.size(); i++) {
@@ -47,7 +49,7 @@ public class AssetManagerOur {
             }
         }
 
-        Typeface font = Typeface.createFromAsset(MainPage.activity.getAssets(), file);
+        Typeface font = Typeface.createFromAsset(context.getAssets(), file);
 
         FontHolder holder = new FontHolder(font, file);
         fonts.add(holder);

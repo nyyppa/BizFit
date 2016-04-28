@@ -47,7 +47,7 @@ public class GoalMetDayViewDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular)));
+        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular,context)));
         Drawable bg = context.getResources().getDrawable(R.drawable.calendar_daily_target_met);
         bg.setColorFilter(color, PorterDuff.Mode.SRC_OVER);
         view.setBackgroundDrawable(bg);

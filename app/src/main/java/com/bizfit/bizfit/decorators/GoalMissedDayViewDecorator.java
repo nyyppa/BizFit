@@ -34,7 +34,7 @@ public class GoalMissedDayViewDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular)));
+        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular,context)));
         view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_daily_target_missed));
     }
 }

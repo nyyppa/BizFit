@@ -264,7 +264,7 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
         } else {
             String name;
-            final AccountManager manager = AccountManager.get(MainPage.activity);
+            final AccountManager manager = AccountManager.get(User.getContext());
             final Account[] accounts = manager.getAccountsByType("com.google");
             final int size = accounts.length;
             String[] names = new String[size];

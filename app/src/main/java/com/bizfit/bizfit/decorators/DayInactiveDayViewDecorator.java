@@ -44,7 +44,7 @@ public class DayInactiveDayViewDecorator implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
         view.addSpan(new CustomTypefaceSpan(
-                AssetManagerOur.getFont(AssetManagerOur.regular)
+                AssetManagerOur.getFont(AssetManagerOur.regular,context)
                 , context.getResources().getColor(R.color.black37)
         ));
     }

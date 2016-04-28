@@ -184,6 +184,14 @@ public class User implements java.io.Serializable {
     }
 
     /**
+     * Returs Users current Context
+     * @return
+     */
+    public static Context getContext(){
+        return context;
+    }
+
+    /**
      * @return Returns all the users trackers
      */
     public Tracker[] getTrackers() {

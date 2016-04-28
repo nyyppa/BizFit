@@ -23,6 +23,7 @@ public class NotificationSender {
      * @param title tittle of the message
      * @param message   actual message content
      */
+    /*
     public static void sendNotification(String title,String message){
         NotificationCompat.Builder mBuilder =
                 (Builder) new Builder(MainPage.activity)
@@ -55,7 +56,7 @@ public class NotificationSender {
         int mId=1;
         mNotificationManager.notify(mId, mBuilder.build());
     }
-
+    */
 
 
     public static void sendNotification(Context a,String title,String message){

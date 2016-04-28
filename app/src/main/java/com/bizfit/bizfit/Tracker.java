@@ -725,14 +725,14 @@ public class Tracker implements java.io.Serializable {
             switch (timeType){
                 case days:
                     if(time==1){
-                        return MainPage.activity.getResources().getString(R.string.timeType_days_one);
+                        return User.getContext().getResources().getString(R.string.timeType_days_one);
                     }
-                    return MainPage.activity.getResources().getString(R.string.timeType_days);
+                    return User.getContext().getResources().getString(R.string.timeType_days);
                 case months:
                     if(time==1){
-                        return MainPage.activity.getResources().getString(R.string.timeType_months_one);
+                        return User.getContext().getResources().getString(R.string.timeType_months_one);
                     }
-                    return MainPage.activity.getResources().getString(R.string.timeType_months);
+                    return User.getContext().getResources().getString(R.string.timeType_months);
             }
             return null;
 

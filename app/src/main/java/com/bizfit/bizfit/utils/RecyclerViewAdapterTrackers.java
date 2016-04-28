@@ -125,13 +125,13 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
             });
 
             trackerName = (TextView) v.findViewById(R.id.view_trackable_tracker_name);
-            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium,itemView.getContext()));
 
             notes = (TextView) v.findViewById(R.id.view_trackable_notes);
-            notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular));
+            notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular,itemView.getContext()));
 
             progress = (TextView) v.findViewById(R.id.view_trackable_progress_needed);
-            progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium));
+            progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium,itemView.getContext()));
 
             done = (ImageView) v.findViewById(R.id.view_trackable_done);
 
