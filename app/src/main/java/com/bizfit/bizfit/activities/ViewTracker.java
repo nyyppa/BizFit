@@ -47,7 +47,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         });
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        User.getLastUser(this);
+        User.getLastUser(this,this);
 
         // Recolors system bar.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

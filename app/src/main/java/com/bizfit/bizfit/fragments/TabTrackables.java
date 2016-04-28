@@ -91,7 +91,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
 
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
-        User.getLastUser(this);
+        User.getLastUser(this,getContext());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);

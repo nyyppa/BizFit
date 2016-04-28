@@ -33,17 +33,12 @@ public class DailyProgress implements java.io.Serializable {
         this.id = id;
     }
 
-    public DailyProgress() {
-        User.getLastUser(new User.UserLoadedListener() {
-            @Override
-            public void UserLoaded(User user) {
-                id=user.nextFreeDailyProgressID;
-            }
-        });
+    public DailyProgress(User user) {
+        id=user.getNextFreeDailyProgressID();
 
     }
 
-    public DailyProgress(boolean vitunSama) {
+    public DailyProgress() {
 
     }
 

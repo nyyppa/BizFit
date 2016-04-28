@@ -32,6 +32,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class User implements java.io.Serializable {
     /**
      *
@@ -51,10 +53,15 @@ public class User implements java.io.Serializable {
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     static DataBaseThread thread;
 
+
     public Tracker getTrackerByIndex(int index) {
         return trackers.get(index);
     }
 
+    /**
+     * converts user and all of it's dependensies to JSON
+     * @return  JSON containing user and it's dependensies
+     */
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         JSONArray jsonArray=new JSONArray();
@@ -78,7 +85,6 @@ public class User implements java.io.Serializable {
     }
 
     public static void update(Context c) {
-        context = c;
         getLastUser(new UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
@@ -86,7 +92,7 @@ public class User implements java.io.Serializable {
                     user.trackers.get(i).update();
                 }
             }
-        });
+        },c);
 
     }
 
@@ -164,7 +170,7 @@ public class User implements java.io.Serializable {
      */
     public void addTracker(Tracker t) {
         trackers.add(t);
-        t.parentUser = this;
+        t.addParentUser(this);
         t.id = lastTrackerID;
         lastTrackerID++;
         updateIndexes();
@@ -221,18 +227,26 @@ public class User implements java.io.Serializable {
         WakeThread();
     }
 
-    public static void getLastUser(UserLoadedListener listener) {
+    /**
+     * loads last user from database
+     * @param listener  notifies this listener when user is loaded
+     */
+    public static void getLastUser(UserLoadedListener listener,Context c) {
+        context=c;
         listeners.add(listener);
         WakeThread();
     }
 
+    /**
+     * wakes or creates new thread for local database
+     */
     private static void WakeThread() {
         if (thread == null) {
-            thread = new DataBaseThread();
+            thread = new DataBaseThread(context);
             thread.start();
         }
         if(!thread.isAlive()){
-            thread = new DataBaseThread();
+            thread = new DataBaseThread(context);
             thread.start();
         }
         synchronized (thread) {
@@ -249,13 +263,19 @@ public class User implements java.io.Serializable {
         SQLiteDatabase d;
         boolean sleepThread;
         boolean exit=false;
+        Context context;
+        DataBaseThread(Context c){
+            super();
+            context=c;
+        }
 
         @Override
         public void run() {
             while (true) {
                 super.run();
                 if (db == null) {
-                    db = new DBHelper(MainPage.activity, "database1", null, dbVersion);
+
+                    db = new DBHelper(context, "database1", null, dbVersion);
                 }
                 if (d == null) {
                     d = db.getWritableDatabase();
@@ -336,7 +356,8 @@ public class User implements java.io.Serializable {
 
             try {
                 URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                System.out.println(conn.getURL());
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
@@ -346,7 +367,9 @@ public class User implements java.io.Serializable {
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
                 writer.write(currentUser.toJSON().toString());
+                System.out.println(currentUser.toJSON().toString());
                 // Starts the query
+                writer.flush();
                 conn.connect();
                 int response = conn.getResponseCode();
                 Log.d("meh", "The response is: " + response);
@@ -359,7 +382,7 @@ public class User implements java.io.Serializable {
                 while ((line = r.readLine()) != null) {
                     total.append(line).append('\n');
                 }
-                //System.out.println(total);
+                System.out.println(total);
                 Map map=conn.getHeaderFields();
                 for(Object key: map.keySet()){
                     System.out.println(key + " - " + map.get(key));

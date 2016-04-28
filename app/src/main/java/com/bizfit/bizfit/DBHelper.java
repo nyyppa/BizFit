@@ -225,7 +225,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     Cursor cursor2 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+dailyProgressID, null);
                     cursor2.moveToFirst();
                     List<DailyProgress.DaySingle> list = new ArrayList<>(0);
-                    DailyProgress d = new DailyProgress(true);
+                    DailyProgress d = new DailyProgress();
                     while (!cursor2.isAfterLast()) {
                         long time = cursor2.getLong(cursor2.getColumnIndex("time"));
                         float amount = cursor2.getFloat(cursor2.getColumnIndex("amount"));
@@ -244,7 +244,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Cursor cursor2 = db.rawQuery("SELECT * FROM user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+cursor.getInt(cursor.getColumnIndex("dailyProgress")), null);
                 cursor1.close();
                 List<DailyProgress.DaySingle> list = new ArrayList<>(0);
-                DailyProgress d = new DailyProgress(true);
+                DailyProgress d = new DailyProgress();
                 cursor2.moveToFirst();
                 while (!cursor2.isAfterLast()) {
                     long time = cursor2.getLong(cursor2.getColumnIndexOrThrow("time"));

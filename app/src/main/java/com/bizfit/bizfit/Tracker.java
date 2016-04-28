@@ -314,9 +314,20 @@ public class Tracker implements java.io.Serializable {
     }
 
     public Tracker(){
-        daily=new DailyProgress();
         weeklyStart();
     }
+
+    /**
+     * adds Parent user for this Tracker
+     * @param user  user that is trackers parent
+     */
+    public void addParentUser(User user){
+        parentUser=user;
+        if(daily==null){
+            daily=new DailyProgress(parentUser);
+        }
+    }
+
 
     //tarvii undon
     public void setTargetDate(int year, int month, int day, boolean repeat){
@@ -411,7 +422,7 @@ public class Tracker implements java.io.Serializable {
                 addOldProgress(new OldProgress(lastReset,
                         resetCalender.getTimeInMillis(), currentProgress,
                         targetProgress, daily));
-                daily = new DailyProgress();
+                daily = new DailyProgress(parentUser);
                 lastReset = resetCalender.getTimeInMillis();
                 currentProgress = 0;
                 if(!repeat){
@@ -442,7 +453,7 @@ public class Tracker implements java.io.Serializable {
                 addOldProgress(new OldProgress(lastReset,
                         resetCalender.getTimeInMillis(), currentProgress,
                         targetProgress, daily));
-                daily = new DailyProgress();
+                daily = new DailyProgress(parentUser);
                 lastReset = resetCalender.getTimeInMillis();
                 currentProgress = 0;
                 if(!repeat){
@@ -463,6 +474,9 @@ public class Tracker implements java.io.Serializable {
      */
     public void addProgress(float progress){
         currentProgress+=progress;
+        if(daily==null){
+            daily=new DailyProgress(parentUser);
+        }
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));
         if (listener != null) {
