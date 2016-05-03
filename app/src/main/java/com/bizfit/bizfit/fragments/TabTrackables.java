@@ -144,19 +144,27 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
         switch (requestCode) {
             case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
-                    Tracker newTracker = new Tracker();
-                    user.addTracker(newTracker);
-                    newTracker.setName(data.getStringExtra(FieldNames.TRACKERNAME));
-                    newTracker.setTargetAmount(data.getFloatExtra(FieldNames.TARGET, 0));
-                    newTracker.setColor(data.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
-                    newTracker.setTargetDate(data.getIntExtra(FieldNames.YEAR, 2015)
-                            , data.getIntExtra(FieldNames.MONTH, 1)
-                            , data.getIntExtra(FieldNames.DAY, 1)
-                            , data.getBooleanExtra(FieldNames.RECURRING, false
-                    ));
+                    final Intent data2=data;
+                    User.getLastUser(new User.UserLoadedListener() {
+                        @Override
+                        public void UserLoaded(User user) {
+                            Tracker newTracker = new Tracker();
+                            user.addTracker(newTracker);
+                            newTracker.setName(data2.getStringExtra(FieldNames.TRACKERNAME));
+                            newTracker.setTargetAmount(data2.getFloatExtra(FieldNames.TARGET, 0));
+                            newTracker.setColor(data2.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
+                            newTracker.setTargetDate(data2.getIntExtra(FieldNames.YEAR, 2015)
+                                    , data2.getIntExtra(FieldNames.MONTH, 1)
+                                    , data2.getIntExtra(FieldNames.DAY, 1)
+                                    , data2.getBooleanExtra(FieldNames.RECURRING, false
+                            ));
+                            trackers = user.getTrackers();
+                            adapter.notifyItemInserted(newTracker.getIndex());
+                        }
+                    }, getContext());
 
-                    trackers = user.getTrackers();
-                    adapter.notifyItemInserted(newTracker.getIndex());
+
+
 
                 } else {
                     (Toast.makeText(
