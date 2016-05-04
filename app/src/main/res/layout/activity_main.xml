@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@android:color/white"
+                    app:tabIndicatorColor="@color/colorAccent"
                     app:tabMaxWidth="264dp"
                     app:tabMode="fixed" />
             </LinearLayout>

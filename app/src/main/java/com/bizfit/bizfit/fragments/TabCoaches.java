@@ -16,9 +16,9 @@ import com.bizfit.bizfit.utils.StoreRow;
 
 import java.util.LinkedList;
 
-public class TabCoaches extends Fragment implements PagerAdapter.TaggedFragment {
+public class TabCoaches extends Fragment {
 
-    public static final String TAG = "tab_coaches";
+    public static String tag;
     private LinkedList<StoreRow> storeRows;
     private RecyclerViewAdapterCoaches adapter;
 
@@ -75,10 +75,5 @@ public class TabCoaches extends Fragment implements PagerAdapter.TaggedFragment 
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-    @Override
-    public String fragmentTag() {
-        return TAG;
     }
 }

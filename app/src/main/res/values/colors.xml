@@ -3,8 +3,8 @@
     <!-- In notation nameXXX the 3 numbers indicate the opacity of the color.
     In notation name_XXX the 3 numbers indicate the brightness of the color.-->
 
-    <color name="colorPrimaryDark">#c94438</color>
-    <color name="colorPrimary">#e64e40</color>
+    <color name="colorPrimaryDark">@color/grey_600</color>
+    <color name="colorPrimary">@color/grey_300</color>
     <color name="colorAccent">#2c323a</color>
 
     <color name="grey_600">#757575</color>
@@ -27,27 +27,46 @@
 
     <!-- TODO Rename these colors -->
     <color name="statusBarColorViewTracker">#606060</color>
-    <color name="colorAlternativeOption1">#d86c6c</color>
-    <color name="colorAlternativeOption2">#ff8964</color>
-    <color name="colorAlternativeOption3">#cc79a9</color>
-    <color name="colorAlternativeOption4">#f4a742</color>
-    <color name="colorAlternativeOption5">#a7af61</color>
+
+    <color name="purple500">#9c27b0</color>
+    <color name="indigo500">#3f51b5</color>
+    <color name="lightBlue500">#03a9f4</color>
+    <color name="cyan500">#00bcd4</color>
+    <color name="teal500">#009688</color>
+    <color name="green500">#4caf50</color>
+    <color name="lime500">#cddc39</color>
+    <color name="orange500">#ff9800</color>
+    <color name="deepOrange500">#ff5722</color>
+    <color name="red500">#f44336</color>
+    <color name="pink600">#d81b60</color>
 
     <!-- Collection of possible colors generated for the alternative trackable view-->
     <integer-array name="trackable_view_alt_colors_integer_array">
-        <item>@color/colorAlternativeOption1</item>
-        <item>@color/colorAlternativeOption2</item>
-        <item>@color/colorAlternativeOption3</item>
-        <item>@color/colorAlternativeOption4</item>
-        <item>@color/colorAlternativeOption5</item>
+        <item>@color/purple500</item>
+        <item>@color/indigo500</item>
+        <item>@color/lightBlue500</item>
+        <item>@color/cyan500</item>
+        <item>@color/teal500</item>
+        <item>@color/green500</item>
+        <item>@color/lime500</item>
+        <item>@color/orange500</item>
+        <item>@color/deepOrange500</item>
+        <item>@color/red500</item>
+        <item>@color/pink600</item>
     </integer-array>
 
     <array name="trackable_view_alt_colors_array">
-        <item>@color/colorAlternativeOption1</item>
-        <item>@color/colorAlternativeOption2</item>
-        <item>@color/colorAlternativeOption3</item>
-        <item>@color/colorAlternativeOption4</item>
-        <item>@color/colorAlternativeOption5</item>
+        <item>@color/purple500</item>
+        <item>@color/indigo500</item>
+        <item>@color/lightBlue500</item>
+        <item>@color/cyan500</item>
+        <item>@color/teal500</item>
+        <item>@color/green500</item>
+        <item>@color/lime500</item>
+        <item>@color/orange500</item>
+        <item>@color/deepOrange500</item>
+        <item>@color/red500</item>
+        <item>@color/pink600</item>
     </array>
 
 </resources>

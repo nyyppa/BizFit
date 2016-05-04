@@ -1,14 +1,19 @@
 package com.bizfit.bizfit.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -90,6 +95,19 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mCalendar.setRightArrowMask(resources.getDrawable(R.drawable.ic_chevron_right_black_24dp));
         root.findViewById(R.id.button_today).setOnClickListener(this);
         root.findViewById(R.id.imageView).setOnClickListener(this);
+
+        View mAddProgressBtn = root.findViewById(R.id.button_done);
+        mAddProgressBtn.getBackground().setColorFilter(tracker.getColor(), PorterDuff.Mode.SRC_IN);
+        mAddProgressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialoq();
+            }
+        });
+
+        ProgressBar mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar);
+        mProgressBar.getProgressDrawable().setColorFilter(tracker.getColor(), PorterDuff.Mode.SRC_IN);
+        mProgressBar.setProgress((int)tracker.getCurrentProgress());
     }
 
     @Override
@@ -143,5 +161,34 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
                 popup.show();
                 break;
         }
+    }
+
+    private void openDialoq() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        // TODO reference res.
+        builder.setTitle("Amount to add");
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        builder.setView(input);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                float progress = Float.parseFloat(input.getText().toString());
+                tracker.addProgress(progress);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+
+        });
+
+        builder.create().show();
     }
 }

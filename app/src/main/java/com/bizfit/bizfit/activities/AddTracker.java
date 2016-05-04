@@ -22,11 +22,13 @@ import android.widget.EditText;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.FieldNames;
 
+import org.xdty.preference.colorpicker.ColorPickerDialog;
+import org.xdty.preference.colorpicker.ColorPickerSwatch;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import uz.shift.colorpicker.LineColorPicker;
 
 /**
  * Takes user input for creation of a new goal.
@@ -67,6 +69,12 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
      * Selected date from the popup.
      */
     private static Calendar setDate;
+
+    private int mSelectedColor;
+
+    private Button mView;
+
+    private View mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +153,39 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
                 return false;
             }
         });
+
+        mSelectedColor = getResources().getIntArray(R.array.trackable_view_alt_colors_integer_array)[0];
+
+        mView = (Button) findViewById(R.id.button_select_color);
+        mView.setTextColor(mSelectedColor);
+
+        mContainer = findViewById(R.id.text_view_container);
+        mContainer.setBackgroundColor(mSelectedColor);
+
+
+        mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] mColors = getResources().getIntArray(R.array.trackable_view_alt_colors_integer_array);
+
+                ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.action_select_a_color,
+                        mColors,
+                        mSelectedColor,
+                        5,
+                        ColorPickerDialog.SIZE_SMALL);
+
+                dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        mSelectedColor = color;
+                        mView.setTextColor(mSelectedColor);
+                        mContainer.setBackgroundColor(mSelectedColor);
+                    }
+                });
+
+                dialog.show(getFragmentManager(), "color_selection");
+            }
+        });
     }
 
     @Override
@@ -161,8 +202,7 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
             returnIntent.putExtra(FieldNames.DAY, setDate.get(Calendar.DAY_OF_MONTH));
             returnIntent.putExtra(FieldNames.MONTH, setDate.get(Calendar.MONTH));
             returnIntent.putExtra(FieldNames.YEAR, setDate.get(Calendar.YEAR));
-            int color = ((LineColorPicker) findViewById(R.id.color_picker)).getColor();
-            returnIntent.putExtra(FieldNames.COLOR, color);
+            returnIntent.putExtra(FieldNames.COLOR, mSelectedColor);
             setResult(RESULT_OK, returnIntent);
         } else {
             setResult(RESULT_CANCELED);

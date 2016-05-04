@@ -13,7 +13,15 @@ import android.util.Log;
  */
 public class CustomRecyclerView extends RecyclerView {
 
+    /**
+     * Rate at which speed diminishes after a fling.
+     */
     private static final float FLING_FRICTION = 0.7f;
+
+    /**
+     * Maximum velocity of scroll. May need revising for better  consistency
+     * across different devices.
+     */
     private static final int MAX_VELOCITY = 10000;
 
     public CustomRecyclerView(Context context) {

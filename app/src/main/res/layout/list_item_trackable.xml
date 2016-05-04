@@ -72,7 +72,7 @@
             android:text="Preview of notes if any are present. Can extend multiple lines and still look good. Maximum of 3 lines."
             android:id="@+id/view_trackable_notes"
             style="@style/ViewTrackableNotes"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </LinearLayout>
 </RelativeLayout>

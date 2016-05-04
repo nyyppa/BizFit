@@ -1,8 +1,12 @@
 package com.bizfit.bizfit.fragments;
 
+import android.nfc.Tag;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +39,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
-
-
-    public String getTagAt(int index) {
-        Fragment f = mFragmentList.get(index);
-        if (f instanceof  TaggedFragment) {
-            return ((TaggedFragment) f).fragmentTag();
-        } else {
-            return null;
-        }
-    }
-
-    interface TaggedFragment {
-        String fragmentTag();
-    }
 }
+
+

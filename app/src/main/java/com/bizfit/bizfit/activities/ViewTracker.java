@@ -37,63 +37,12 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_tracker);
         this.index = (int) getIntent().getSerializableExtra(FieldNames.INDEX);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_progress);
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialoq();
-            }
-        });
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         User.getLastUser(this,this);
-
-        // Recolors system bar.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.grey_600));
-        }
     }
 
-    /**
-     * Opens a dialogue fragment used to inquire progress from userName.
-     * <p/>
-     * The inputted data is added to the Tracker's total progress.
-     */
-    private void openDialoq() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // TODO reference res.
-        builder.setTitle("Amount to add");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        final PagerAdapter adapter = (PagerAdapter) viewPager.getAdapter();
-
-        builder.setView(input);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                float progress = Float.parseFloat(input.getText().toString());
-                ViewTrackerFragment fragment = (ViewTrackerFragment) adapter.getItem(viewPager.getCurrentItem());
-                fragment.getTracker().setDataChangedListener(fragment);
-                fragment.getTracker().addProgress(progress);
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-
-        });
-
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

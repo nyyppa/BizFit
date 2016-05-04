@@ -26,7 +26,10 @@ import com.bizfit.bizfit.utils.TrackerLoader;
 /**
  * Displays visual representation of users progress.
  */
-public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragment, TrackerLoader.OnFinishListener, User.UserLoadedListener {
+public class TabTrackables extends Fragment implements TrackerLoader.OnFinishListener, User.UserLoadedListener {
+
+    public static String tag;
+
     /**
      * ID used to determine if delete option in contextual menu was clicked.
      */
@@ -179,8 +182,12 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
                 // TODO Update each tracker wich had progress added instead of calling
                 // notifyDataSetChanged() blanket notification. No animations are
                 // are triggered when this method is called.
-                trackers = user.getTrackers();
-                adapter.notifyDataSetChanged();
+                if (user != null) {
+                    trackers = user.getTrackers();
+                    adapter.notifyDataSetChanged();
+                } else {
+                    User.getLastUser(this, getContext());
+                }
                 break;
         }
     }
@@ -220,11 +227,6 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
     }
 
     @Override
-    public String fragmentTag() {
-        return TAG;
-    }
-
-    @Override
     public void onFinish(Tracker[] trackers) {
         this.trackers = trackers;
         mRecyclerView.getAdapter().notifyDataSetChanged();
@@ -237,6 +239,7 @@ public class TabTrackables extends Fragment implements PagerAdapter.TaggedFragme
             public void run() {
                 TabTrackables.this.user = user;
                 trackers = user.getTrackers();
+                adapter.notifyDataSetChanged();
             }
         });
     }

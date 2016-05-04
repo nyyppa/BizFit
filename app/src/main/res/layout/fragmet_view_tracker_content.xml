@@ -43,4 +43,5 @@
             android:tintMode="src_in" />
 
     </RelativeLayout>
+
 </com.bizfit.bizfit.views.WorkaroundNestedScrollView>

@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 
-public class TabMessages extends Fragment implements PagerAdapter.TaggedFragment {
+public class TabMessages extends Fragment {
 
-    public static final String TAG = "tab_messages";
+    public static String tag;
 
     public TabMessages() {
         // Required empty public constructor
@@ -28,10 +28,5 @@ public class TabMessages extends Fragment implements PagerAdapter.TaggedFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_fragment_3, container, false);
-    }
-
-    @Override
-    public String fragmentTag() {
-        return TAG;
     }
 }

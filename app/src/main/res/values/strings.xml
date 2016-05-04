@@ -296,4 +296,5 @@
     </string-array>
     <string name="message_tracker_not_saved">Goal was not saved</string>
     <string name="action_calendar_today">Today</string>
+    <string name="action_select_a_color">Select a color</string>
 </resources>
