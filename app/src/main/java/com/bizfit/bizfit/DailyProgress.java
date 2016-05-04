@@ -38,12 +38,27 @@ public class DailyProgress implements java.io.Serializable {
 
     }
 
+
     public DailyProgress() {
 
     }
 
     public DaySingle createDaySingle(long time, float amount) {
         return new DaySingle(time, amount);
+    }
+
+    public DailyProgress(JSONObject jsonObject) {
+        try {
+            JSONArray jsonArray=jsonObject.getJSONArray("DaySingle");
+            id=jsonObject.getInt("id");
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject object=jsonArray.getJSONObject(i);
+                DaySingle d=addDailyProgress((float)(object.getDouble("amount")),object.getLong("time"));
+                d.id=object.getInt("id");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public JSONObject toJSon(){

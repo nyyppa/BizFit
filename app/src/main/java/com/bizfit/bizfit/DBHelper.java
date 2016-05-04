@@ -82,7 +82,9 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put("tolerance", t.tolerance);
             values.put("color", t.color);
             System.out.println(t.getName() + t.id);
-            values.put("dailyProgress", t.daily.id);
+            if(t.daily!=null){
+                values.put("dailyProgress", t.daily.id);
+            }
             db.insertWithOnConflict("user_" + user.userNumber + "_trackerTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
             List<OldProgress> list = t.oldProgress;
             for (int j = 0; j < list.size(); j++) {

@@ -151,7 +151,7 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
                     User.getLastUser(new User.UserLoadedListener() {
                         @Override
                         public void UserLoaded(User user) {
-                            Tracker newTracker = new Tracker();
+                            final Tracker newTracker = new Tracker();
                             user.addTracker(newTracker);
                             newTracker.setName(data2.getStringExtra(FieldNames.TRACKERNAME));
                             newTracker.setTargetAmount(data2.getFloatExtra(FieldNames.TARGET, 0));
@@ -162,7 +162,14 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
                                     , data2.getBooleanExtra(FieldNames.RECURRING, false
                             ));
                             trackers = user.getTrackers();
-                            adapter.notifyItemInserted(newTracker.getIndex());
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.notifyItemInserted(newTracker.getIndex());
+                                    //Your code to run in GUI thread here
+                                }//public void run() {
+                            });
+
                         }
                     }, getContext());
 
