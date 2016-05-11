@@ -56,10 +56,19 @@ public class User implements java.io.Serializable {
     static DataBaseThread thread;
 
 
+    /**
+     * returs tracker with given index
+     * @param index
+     * @return
+     */
     public Tracker getTrackerByIndex(int index) {
         return trackers.get(index);
     }
 
+    /**
+     * Constructs user and it's dependencies from given JSONObject
+     * @param jsonObject    JSONObject containing all the nessessary information
+     */
     public User(JSONObject jsonObject){
 
         try {
@@ -108,6 +117,10 @@ public class User implements java.io.Serializable {
         return currentUser.nextFreeDailyProgressID;
     }
 
+    /**
+     * Runs update for every tracker to keep their internal time moving
+     * @param c Context for sending notifications and loading user from internal database
+     */
     public static void update(Context c) {
         getLastUser(new UserLoadedListener() {
             @Override
@@ -120,7 +133,10 @@ public class User implements java.io.Serializable {
 
     }
 
-
+    /**
+     * Constructs user with given username
+     * @param userName  Username for user
+     */
     User(String userName) {
         this.userName = userName;
 
@@ -144,7 +160,11 @@ public class User implements java.io.Serializable {
         return false;
     }
 
-
+    /**
+     *
+     * @param ascending
+     * @return
+     */
     public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending) {
         final int asc = ascending ? 1 : -1;
         SortedTrackers sorted = new SortedTrackers();
@@ -254,8 +274,6 @@ public class User implements java.io.Serializable {
 
     /**
      * Saves users current information
-     *
-     * @throws Exception Everything that can go wrong
      */
     public void save() {
         saveUser = true;
@@ -291,7 +309,13 @@ public class User implements java.io.Serializable {
 
 
     }
-    public static void loadUserFromNet(String userName){
+
+    /**
+     * Loads user with given username from server database and notifies given listener when it's loaded
+     * @param userLoadedListener    Listener to notify when ready, if null wont notify anything
+     * @param userName  Username to find, if null will try to find users google account and use it
+     */
+    public static void loadUserFromNet(final UserLoadedListener userLoadedListener,String userName){
         if(userName==null){
             String name;
             final AccountManager manager = AccountManager.get(User.getContext());
@@ -313,7 +337,6 @@ public class User implements java.io.Serializable {
         Thread t=new Thread(new Runnable() {
             @Override
             public void run() {
-                JSONObject jsonObject=new JSONObject();
                 InputStream is = null;
                 // Only display the first 500 characters of the retrieved
                 // web page content.
@@ -350,8 +373,12 @@ public class User implements java.io.Serializable {
                     while ((line = r.readLine()) != null) {
                         total.append(line).append('\n');
                     }
-                    System.out.println(total);
-
+                    try {
+                        JSONObject jsonObject2=new JSONObject(total.toString());
+                        currentUser=new User(jsonObject2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     Map map=conn.getHeaderFields();
                     for(Object key: map.keySet()){
                         //System.out.println(key + " - " + map.get(key));
@@ -375,6 +402,10 @@ public class User implements java.io.Serializable {
                         }
                     }
                 }
+                if(userLoadedListener!=null){
+                    userLoadedListener.UserLoaded(currentUser);
+                }
+
             }
         });
         t.start();
@@ -404,9 +435,7 @@ public class User implements java.io.Serializable {
                 }
                 if (currentUser == null) {
                     currentUser = db.readUser(d);
-                    NetWorkThread t=new NetWorkThread();
                     //t.start();
-                    loadUserFromNet(null);
                     /*try {
                         System.out.println(currentUser.toJSON().toString(4));
                     } catch (JSONException e) {
@@ -509,7 +538,6 @@ public class User implements java.io.Serializable {
                     //System.out.println(key + " - " + map.get(key));
 
                 }
-                loadUserFromNet(null);
 
                 // Makes sure that the InputStream is closed after the app is
                 // finished using it.
