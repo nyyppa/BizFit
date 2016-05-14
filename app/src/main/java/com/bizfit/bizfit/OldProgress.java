@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 /**
  * Created by Atte on 22.11.2015.
+ * Class containing information on expired tracking period
  */
 public class OldProgress implements java.io.Serializable{
     /**
@@ -34,6 +35,11 @@ public class OldProgress implements java.io.Serializable{
         this.daily=dailyProgress;
 
     }
+
+    /**
+     * Constructs OldProgress from given JSON
+     * @param jsonObject    JSON containing nessessary information for constructing OldProgress
+     */
     OldProgress(JSONObject jsonObject){
         try {
             startDate=jsonObject.getLong("startDate");
@@ -47,6 +53,10 @@ public class OldProgress implements java.io.Serializable{
         }
     }
 
+    /**
+     * Converts OLdProgress and it's dependensies to JSON
+     * @return  JSON containing OldProgress and it's dependensies
+     */
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
         try {
@@ -102,6 +112,10 @@ public class OldProgress implements java.io.Serializable{
         return targetProgress;
     }
 
+    /**
+     *
+     * @return DailyProgress of this oldProgress
+     */
     public DailyProgress getDailyProgress(){
     	return daily;
     }

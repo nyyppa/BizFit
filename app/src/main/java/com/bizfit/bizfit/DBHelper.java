@@ -156,6 +156,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    /**
+     * Deletes Tracker from given SQLiteDatabase
+     * @param db    database where the tracker is to be deleted from
+     * @param tracker   tracker to delete from database
+     */
     public void deleteTracker(SQLiteDatabase db, Tracker tracker) {
         String args[] = {tracker.id + ""};
         System.out.println(tracker.parentUser);
