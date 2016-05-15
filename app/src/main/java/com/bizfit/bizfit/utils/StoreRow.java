@@ -1,25 +1,131 @@
 package com.bizfit.bizfit.utils;
 
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Stores all the necessary information for a single store row.
- *
- * TODO Better and more flexible data structure. As of now, only a placeholder.
+ * <p/>
+ * TODO Better and more flexible data structure.
  */
-public class StoreRow {
-    protected String title;
-    protected String subTitle;
-    protected List<StoreItem> items;
+public class StoreRow<T> {
 
-    public StoreRow(String title, String subTitle, List<StoreItem> items) {
-        this.title = title;
-        this.subTitle = subTitle;
+    /**
+     * Key value used for HashMap.
+     */
+    public static final String TITLE = "title";
+
+    /**
+     * Contains String format data associated with this row.
+     */
+    protected HashMap<String, String> stringData;
+
+    /**
+     * Store row may have a background, but is not necessary.
+     */
+    protected Drawable background;
+
+    /**
+     * Store row may contain object type data.
+     */
+    protected List<T> items;
+
+    public StoreRow() {
+    }
+
+    /**
+     * @param stringData A set of String format data.
+     * @param background Background used for this row.
+     * @param items      A set of object type data.
+     */
+    public StoreRow(HashMap<String, String> stringData, Drawable background, List<T> items) {
+        this.stringData = stringData;
+        this.background = background;
         this.items = items;
     }
 
+    /**
+     * @param stringData A set of String format data.
+     * @param items      A set of object type data.
+     */
+    public StoreRow(HashMap<String, String> stringData, List<T> items) {
+        this.stringData = stringData;
+        this.items = items;
+    }
+
+    /**
+     * Gets an entry from a HashMap used to store String data.
+     *
+     * Regular .get(string); call on HashMap. This method exists
+     * to reduce chaining of methods.
+     *
+     * @param key
+     * @return A mapped String value if entry found. Null otherwise.
+     */
+    public String getString(String key) {
+        return stringData.get(key);
+    }
+
+    /**
+     * Gets the background drawable.
+     *
+     * @return Background drawable.
+     */
+    public Drawable getBackground() {
+        return background;
+    }
+
+    /**
+     * Sets the background drawable used for this row.
+     *
+     * @param background Background image.
+     */
+    public void setBackground(Drawable background) {
+        this.background = background;
+    }
+
+    /**
+     * Gets the set of object type data.
+     *
+     * @return Set of object type data.
+     */
+    public List<T> getItems() {
+        return items;
+    }
+
+    /**
+     * Sets the list of object type data.
+     *
+     * @param items New set of object type data.
+     */
+    public void setItems(List<T> items) {
+        this.items = items;
+    }
+
+    /**
+     * Gets the mapped String data.
+     *
+     * @return HashMap used to store String type data.
+     */
+    public HashMap<String, String> getStringData() {
+        return stringData;
+    }
+
+    /**
+     * Sets String type data.
+     *
+     * @param stringData New set of String type data.
+     */
+    public void setStringData(HashMap<String, String> stringData) {
+        this.stringData = stringData;
+    }
+
+    /**
+     * Represents a single coach in the store.
+     */
     public static class StoreItem {
         protected String name;
         protected Image image;

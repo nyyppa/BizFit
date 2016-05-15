@@ -68,7 +68,9 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
      */
     private RecyclerView mRecyclerView;
 
-
+    /**
+     * Currently active user.
+     */
     private User user;
 
     /**

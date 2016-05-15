@@ -6,8 +6,7 @@
     android:layout_margin="8dp"
     android:clipChildren="true"
     android:orientation="vertical"
-    app:cardCornerRadius="2dp"
-    >
+    app:cardCornerRadius="2dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"

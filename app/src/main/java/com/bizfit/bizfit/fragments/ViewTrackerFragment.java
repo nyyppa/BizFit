@@ -1,10 +1,10 @@
 package com.bizfit.bizfit.fragments;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -42,6 +43,36 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
      * Calendar which displays target success on daily basis.
      */
     private MaterialCalendarView mCalendar;
+
+    /**
+     * Circular progress bar that displays daily progress.
+     */
+    private ProgressBar mProgressBar;
+
+    /**
+     * Displays total accumulated progress.
+     */
+    private TextView mTotalProgress;
+
+    /**
+     * Today's progress.
+     */
+    private TextView mDailyProgress;
+
+    /**
+     * Today's target.
+     */
+    private TextView mTarget;
+
+    /**
+     * Time left until the goal expires.
+     */
+    private TextView mTimeLeft;
+
+    /**
+     * Name of the tracked goal.
+     */
+    private TextView mName;
 
     /**
      * Is the required public empty constructor.
@@ -101,13 +132,29 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mAddProgressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialoq();
+                openDialog();
             }
         });
 
-        ProgressBar mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar_circle);
         mProgressBar.getProgressDrawable().setColorFilter(tracker.getColor(), PorterDuff.Mode.SRC_IN);
-        mProgressBar.setProgress((int)tracker.getCurrentProgress());
+        mProgressBar.setProgress((int) (tracker.getCurrentProgress() / tracker.getTargetProgress() * mProgressBar.getMax()));
+
+        mDailyProgress = (TextView) root.findViewById(R.id.textView_daily_progress);
+        // TODO get todays progress
+        mDailyProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
+
+        mTotalProgress = (TextView) root.findViewById(R.id.textView_total_progress);
+        mTotalProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
+
+        mTimeLeft = (TextView) root.findViewById(R.id.textView_time_left);
+        mTimeLeft.setText(tracker.getTimeRemaining().getTimeRemaining() + tracker.getTimeRemaining().getTimeType());
+
+        mName = (TextView) root.findViewById(R.id.textView_name);
+        mName.setText(tracker.getName());
+
+        mTarget = (TextView) root.findViewById(R.id.textView_total_target);
+        mTarget.setText(String.valueOf((int) tracker.getTargetProgress()));
     }
 
     @Override
@@ -163,25 +210,40 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         }
     }
 
-    private void openDialoq() {
-
+    /**
+     * Opens a dialogue for inputting progress.
+     */
+    private void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        // TODO reference res.
-        builder.setTitle("Amount to add");
+        builder.setTitle(getString(R.string.title_amount_to_add));
         final EditText input = new EditText(getContext());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         builder.setView(input);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.action_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 float progress = Float.parseFloat(input.getText().toString());
+                float start = tracker.getCurrentProgress() / tracker.getTargetProgress();
                 tracker.addProgress(progress);
+                float end = tracker.getCurrentProgress() / tracker.getTargetProgress();
+
+                mTotalProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
+                mDailyProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
+
+                ValueAnimator mAnimator = ValueAnimator.ofFloat(start, end);
+                mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        mProgressBar.setProgress((int) (mProgressBar.getMax() * ((Float) animation.getAnimatedValue()).floatValue()));
+                    }
+                });
+
+                mAnimator.start();
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.action_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -21,7 +21,7 @@ public class TodayDayViewDecorator implements DayViewDecorator {
     private CalendarDay today;
 
     /**
-     * Context in which action takes place.
+     * Context in which the Decorator operates in.
      */
     private Context context;
 

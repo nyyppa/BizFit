@@ -1,7 +1,7 @@
 package com.bizfit.bizfit.activities;
 
 /**
- * Displayed on activity start up.
+ * Displays the Bizfit banner.
  *
  * Disabled for more convenient debugging and testing.
  */
@@ -14,7 +14,7 @@ import com.bizfit.bizfit.R;
 
 public class SplashScreen extends Activity {
 
-    // Splash screen timer
+    // Splash screen timer in ms.
     private static int SPLASH_TIME_OUT = 3000;
 
     @Override
@@ -31,12 +31,8 @@ public class SplashScreen extends Activity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
                 Intent i = new Intent(SplashScreen.this, MainPage.class);
                 startActivity(i);
-
-                // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);

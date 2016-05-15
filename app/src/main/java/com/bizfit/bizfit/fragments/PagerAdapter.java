@@ -1,18 +1,27 @@
 package com.bizfit.bizfit.fragments;
 
-import android.nfc.Tag;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds a set of Fragments which the user can page trough.
+ *
+ * Used with tab layout.
+ */
 public class PagerAdapter extends FragmentStatePagerAdapter {
+
+    /**
+     * List of fragments that the user can page trough.
+     */
     private final List<Fragment> mFragmentList = new ArrayList<>();
+
+    /**
+     * List of tab headers for each fragment.
+     */
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
     public PagerAdapter(FragmentManager manager) {
@@ -32,7 +41,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
-
     }
 
     @Override

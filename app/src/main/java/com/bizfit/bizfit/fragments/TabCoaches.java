@@ -14,12 +14,22 @@ import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
 import com.bizfit.bizfit.utils.StoreRow;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Displays a google play store like marketplace for coaches.
+ */
 public class TabCoaches extends Fragment {
 
-    public static String tag;
+    /**
+     * List of currently loaded rows.
+     */
     private LinkedList<StoreRow> storeRows;
+
+    /**
+     * RecyclerViewAdapter which contains all the store rows.
+     */
     private RecyclerViewAdapterCoaches adapter;
 
     public TabCoaches() {
@@ -47,8 +57,9 @@ public class TabCoaches extends Fragment {
             for (int j = 0; j < 10; j++) {
                 items.add(new StoreRow.StoreItem("name"));
             }
-
-            storeRows.add(new StoreRow("Title " + i, "", items));
+            HashMap<String, String> stringData = new HashMap<>();
+            stringData.put(StoreRow.TITLE, "Title");
+            storeRows.add(new StoreRow(stringData, items));
         }
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_coaches_recycler_view);
@@ -68,10 +79,12 @@ public class TabCoaches extends Fragment {
                     for (int j = 0; j < 10; j++) {
                         items.add(new StoreRow.StoreItem("name"));
                     }
-
-                    adapter.addData(new StoreRow("Title " + i, "", items));
+                    HashMap<String, String> stringData = new HashMap<>();
+                    stringData.put(StoreRow.TITLE, "Title");
+                    storeRows.add(new StoreRow(stringData, items));
                 }
 
+                // TODO notifyDataSetChanged() is too intensive once data set grows.
                 adapter.notifyDataSetChanged();
             }
         });

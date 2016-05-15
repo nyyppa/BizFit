@@ -20,6 +20,9 @@ public class GoalMissedDayViewDecorator implements DayViewDecorator {
      */
     private CalendarDay today;
 
+    /**
+     * Context in which the Decorator operates in.
+     */
     private Context context;
 
     public GoalMissedDayViewDecorator(Context context) {

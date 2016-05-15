@@ -30,8 +30,6 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
     /**
      * Is a list of default layouts.
-     *
-     * TODO  more flexiblw data structure
      */
     private List<StoreRow> data;
 
@@ -100,11 +98,22 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+        // TODO placeholder. +1 because there is one single large item that is not included in data variable.
         return (data != null) ? data.size() + 1 : 1;
     }
 
     /**
-     * Describes a single scrollable row within the RecyclerView.
+     * Holds View's of a ViewGroup that need changing when a View is recycled.
+     *
+     * Upon recycling a view, ViewHolder is tasked to change the necessary
+     * information within a view so it can be repurposed to show data at a
+     * different index.
+     *
+     * ViewHolder contains references to all View's which need changing. This
+     * is so to reduce overhead created by repeated findViewById() calls.
+     *
+     * This specific ViewHolder represents a horizontally single scrollable
+     * row in the store. Contains multiple items.
      */
     public static class RegularScrollable extends RecyclerView.ViewHolder {
 
@@ -140,11 +149,23 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
          */
         public void prepareForDisplay(StoreRow row) {
             ((RecyclerViewAdapterStoreRow) container.getAdapter()).setData(row.items);
-            title.setText(row.title);
+            title.setText(row.getString(StoreRow.TITLE));
             container.getAdapter().notifyDataSetChanged();
         }
     }
 
+    /**
+     * Holds View's of a ViewGroup that need changing when a View is recycled.
+     *
+     * Upon recycling a view, ViewHolder is tasked to change the necessary
+     * information within a view so it can be repurposed to show data at a
+     * different index.
+     *
+     * ViewHolder contains references to all View's which need changing. This
+     * is so to reduce overhead created by repeated findViewById() calls.
+     *
+     * This specific ViewHolder represents a single big item.
+     */
     public static class BigPromotion extends RecyclerView.ViewHolder {
 
         public BigPromotion(View itemView) {

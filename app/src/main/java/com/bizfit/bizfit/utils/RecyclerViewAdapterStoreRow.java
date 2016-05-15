@@ -12,10 +12,17 @@ import com.bizfit.bizfit.R;
 import java.util.List;
 
 /**
+ * Represents a single horizontally scrollable store row.
  *
+ * The row displays a series of items which the use can click to access more
+ * in depth information about. A single item is a "card" of a coach from whom
+ * the user can buy services.
  */
 public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
 
+    /**
+     * Set of items to show.
+     */
     private List<StoreRow.StoreItem> data;
 
     @Override
@@ -37,15 +44,39 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         return (data != null) ? data.size() : 0;
     }
 
+    /**
+     * Appends a new StoreItem.
+     *
+     * @param item A StoreItem to display.
+     */
     public void addData(StoreRow.StoreItem item) {
         data.add(item);
     }
 
+    /**
+     * Sets a whole new data set to be displayed.
+     *
+     * @param data A new set of StoreItems to display.
+     */
     public void setData(List<StoreRow.StoreItem> data) {
         this.data = data;
     }
 
+    /**
+     * Holds View's of a ViewGroup that need changing when a View is recycled.
+     *
+     * Upon recycling a view, ViewHolder is tasked to change the necessary
+     * information within a view so it can be repurposed to show data at a
+     * different index.
+     *
+     * ViewHolder contains references to all View's which need changing. This
+     * is so to reduce overhead created by repeated findViewById() calls.
+     */
     public static class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        /**
+         * Is a placeholder TextView to test functionality.
+         */
         private TextView title;
 
         public ViewHolderStoreItem(View itemView) {
@@ -54,6 +85,11 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Prepares the Views for displaying.
+         *
+         * @param item Item to display.
+         */
         public void prepForDisplay(StoreRow.StoreItem item) {
             title.setText(item.name);
         }
@@ -67,7 +103,17 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * Callback interface for when RecyclerView item is interacted with.
+     */
     public interface StoreItemClicked {
+
+        /**
+         * Notifies which item was clicked.
+         *
+         * @param viewHolderStoreItem ViewHolderTracker associated with the
+         *                            click event.
+         */
         void itemClicked(ViewHolderStoreItem viewHolderStoreItem);
     }
 }

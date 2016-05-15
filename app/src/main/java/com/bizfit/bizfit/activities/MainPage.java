@@ -1,9 +1,9 @@
 package com.bizfit.bizfit.activities;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +65,8 @@ public class MainPage extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // TODO DELETE THIS ABOMINATION!
                 boolean success = false;
                 for (int i = 0; i < getSupportFragmentManager().getFragments().size() && !success; i++) {
                     try {
@@ -87,9 +88,7 @@ public class MainPage extends AppCompatActivity implements
 
             @Override
             public void onPageSelected(int position) {
-
                 fab.clearAnimation();
-
                 switch (position) {
                     case 0:
                         fab.show();
@@ -117,8 +116,6 @@ public class MainPage extends AppCompatActivity implements
         long time = TimeUnit.SECONDS.toMillis(60);
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,time, time, pendingIntent);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, time, time, pendingIntent);
-
-
     }
 
     @Override
@@ -136,12 +133,20 @@ public class MainPage extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu. Adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        return true;
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        //SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -166,9 +171,9 @@ public class MainPage extends AppCompatActivity implements
      */
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.tab_my_trackers));
-        adapter.addFragment(new TabCoaches(), getResources().getString(R.string.tab_coaches));
-        adapter.addFragment(new TabMessages(), getResources().getString(R.string.tab_messages));
+        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.title_tab_my_trackers));
+        adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
+        adapter.addFragment(new TabMessages(), getResources().getString(R.string.title_tab_messages));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 
@@ -187,7 +192,6 @@ public class MainPage extends AppCompatActivity implements
                 try {
                     ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchViewTrackerActivity(vh);
                     success = true;
-                    Log.d(MainPage.class.getName(), "index: " + i);
                 } catch (ClassCastException e) {
 
                 }

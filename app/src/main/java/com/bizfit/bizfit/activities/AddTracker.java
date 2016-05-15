@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -20,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.CardViewAnimator;
 import com.bizfit.bizfit.utils.FieldNames;
 
 import org.xdty.preference.colorpicker.ColorPickerDialog;
@@ -70,19 +74,25 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
      */
     private static Calendar setDate;
 
+    /**
+     * Color that the user has chosen for his/hers goal.
+     */
     private int mSelectedColor;
 
+    /**
+     * Brings up the dialog for selecting a color.
+     */
     private Button mView;
 
+    /**
+     * Holds all EditText fields within the activity.
+     */
     private View mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tracker);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
-        setSupportActionBar(toolbar);
-
         name = (AutoCompleteTextView) findViewById(R.id.target_name);
         date = (EditText) findViewById(R.id.target_date);
         target = (EditText) findViewById(R.id.target_amount);
@@ -128,31 +138,20 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         name.setThreshold(1);
 
         // Set's up custom elevated button to have on click behaviour
-        final CardView cardView = (CardView) findViewById(R.id.button_done_container);
-        final Button button = (Button) findViewById(R.id.button_done);
-        button.setOnTouchListener(new View.OnTouchListener() {
-            ObjectAnimator o1 = ObjectAnimator.ofFloat(cardView, "cardElevation", 2, 8)
-                    .setDuration
-                            (80);
-            ObjectAnimator o2 = ObjectAnimator.ofFloat(cardView, "cardElevation", 8, 2)
-                    .setDuration
-                            (80);
+        Button button = (Button) findViewById(R.id.button_done);
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        // Applies touch animation to background CardViews.
+        CardView mCardView1 = (CardView) findViewById(R.id.button_done_container);
+        CardView mCardView2 = (CardView) findViewById(R.id.container_target_amount);
+        CardView mCardView3 = (CardView) findViewById(R.id.container_target_date);
+        CardView mCardView4 = (CardView) findViewById(R.id.container_target_name);
 
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        o1.start();
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        o2.start();
-                        break;
-                }
-                return false;
-            }
-        });
+        button.setOnTouchListener(new CardViewAnimator(mCardView1));
+        target.setOnTouchListener(new CardViewAnimator(mCardView2));
+        date.setOnTouchListener(new CardViewAnimator(mCardView3));
+        name.setOnTouchListener(new CardViewAnimator(mCardView4));
+
+
 
         mSelectedColor = getResources().getIntArray(R.array.trackable_view_alt_colors_integer_array)[0];
 
@@ -162,7 +161,6 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         mContainer = findViewById(R.id.text_view_container);
         mContainer.setBackgroundColor(mSelectedColor);
 
-
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +169,7 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
                 ColorPickerDialog dialog = ColorPickerDialog.newInstance(R.string.action_select_a_color,
                         mColors,
                         mSelectedColor,
-                        5,
+                        5, // No of columns
                         ColorPickerDialog.SIZE_SMALL);
 
                 dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
@@ -186,11 +184,16 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
                 dialog.show(getFragmentManager(), "color_selection");
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.grey_600));
+        }
     }
 
     @Override
     public void finish() {
-
         Intent returnIntent = new Intent();
 
         // Pack user input if it's valid for creating a new Tracker.

@@ -13,4 +13,5 @@
     <!-- Represents animation duration in milli seconds.-->
     <integer name="progress_added_anim_duration">500</integer>
     <integer name="from_zero_anim_duration">2000</integer>
+    <integer name="button_animation_duration">80</integer>
 </resources>

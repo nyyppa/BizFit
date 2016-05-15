@@ -23,4 +23,7 @@
 
     <dimen name="ring_progress_thickness">8dp</dimen>
     <dimen name="calendar_tile_size">40dp</dimen>
+
+    <dimen name="button_resting_elevation">2dp</dimen>
+    <dimen name="button_elevated_elevation">8dp</dimen>
 </resources>

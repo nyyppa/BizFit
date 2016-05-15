@@ -1,54 +1,57 @@
 <resources>
     <string name="app_name">Bizfit</string>
     <string name="action_settings">Settings</string>
-    <string name="new_goal">New goal</string>
-    <string name="target_date_hint">Date</string>
-    <string name="target_name_hint">Name</string>
-    <string name="target_amount_hint">Amount</string>
-    <string name="view_tracker_target">Target</string>
-    <string name="view_tracker_target_date">By date</string>
-    <string name="insufficent_data">You haven\'t added any progress yet</string>
-    <string name="timeType_days">days</string>
-    <string name="timeType_days_one">day</string>
-    <string name="timeType_months">months</string>
-    <string name="timeType_months_one">month</string>
-    <string name="tab_my_trackers">My Trackers</string>
-    <string name="tab_coaches">Coaches</string>
-    <string name="tab_messages">Messages</string>
-    <string name="time_left">Time left</string>
-    <string name="add_progress">add progress</string>
-    <string name="target">Target</string>
+    <string name="title_new_goal">New goal</string>
+    <string name="hint_target_date">Date</string>
+    <string name="hint_target_name">Name</string>
+    <string name="hint_target_amount">Amount</string>
+    <string name="title_view_tracker_target">Target</string>
+    <string name="title_view_tracker_target_date">By date</string>
+    <string name="error_insufficent_data">You haven\'t added any progress yet</string>
+    <string name="unit_time_days">days</string>
+    <string name="unit_time_days_one">day</string>
+    <string name="unit_time_months">months</string>
+    <string name="unit_time_months_one">month</string>
+    <string name="title_tab_my_trackers">My Trackers</string>
+    <string name="title_tab_coaches">Coaches</string>
+    <string name="title_tab_messages">Messages</string>
+    <string name="title_time_left">Time left</string>
+    <string name="action_add_progress">add progress</string>
+    <string name="title_target">Target</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="message_remove_successful">Removed</string>
     <string name="error_empty_field">Empty field</string>
+    <string name="message_tracker_not_saved">Goal was not saved</string>
+    <string name="action_calendar_today">Today</string>
+    <string name="action_select_a_color">Select a color</string>
 
-    <string name="january">January</string>
-    <string name="february">February</string>
-    <string name="march">March</string>
-    <string name="april">April</string>
-    <string name="may">May</string>
-    <string name="june">June</string>
-    <string name="july">July</string>
-    <string name="august">August</string>
-    <string name="september">September</string>
-    <string name="october">October</string>
-    <string name="november">November</string>
-    <string name="december">December</string>
+    <string name="month_january">January</string>
+    <string name="month_february">February</string>
+    <string name="month_march">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_august">August</string>
+    <string name="month_september">September</string>
+    <string name="month_october">October</string>
+    <string name="month_november">November</string>
+    <string name="month_december">December</string>
 
     <array name="months">
-        <item>@string/january</item>
-        <item>@string/february</item>
-        <item>@string/march</item>
-        <item>@string/april</item>
-        <item>@string/may</item>
-        <item>@string/june</item>
-        <item>@string/july</item>
-        <item>@string/august</item>
-        <item>@string/september</item>
-        <item>@string/october</item>
-        <item>@string/november</item>
-        <item>@string/december</item>
+        <item>@string/month_january</item>
+        <item>@string/month_february</item>
+        <item>@string/month_march</item>
+        <item>@string/month_april</item>
+        <item>@string/month_may</item>
+        <item>@string/month_june</item>
+        <item>@string/month_july</item>
+        <item>@string/month_august</item>
+        <item>@string/month_september</item>
+        <item>@string/month_october</item>
+        <item>@string/month_november</item>
+        <item>@string/month_december</item>
     </array>
 
     <string-array name="tracker_name_suggestions">
@@ -294,7 +297,10 @@
         <item>Yemen</item>
         <item>Zambia</item>
     </string-array>
-    <string name="message_tracker_not_saved">Goal was not saved</string>
-    <string name="action_calendar_today">Today</string>
-    <string name="action_select_a_color">Select a color</string>
+    <string name="title_amount_to_add">Amount to add</string>
+    <string name="action_confirm">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="title_days_target">Todays target</string>
+    <string name="title_progress">Progress</string>
+    <string name="hint_search_hint">Search for something</string>
 </resources>

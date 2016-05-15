@@ -40,7 +40,7 @@ public class Tracker implements java.io.Serializable {
     long timeProgress;
     long timeProgressNeed;
     String name;
-    String targetType="e";
+    String targetType;
     List<OldProgress>oldProgress=new ArrayList<OldProgress>(0);
     DailyProgress daily;
     transient User parentUser;
@@ -130,37 +130,6 @@ public class Tracker implements java.io.Serializable {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-    public Tracker(JSONObject jsonObject){
-
-        try {
-            JSONArray jsonArray=jsonObject.getJSONArray("oldProgress");
-            startDate=jsonObject.getLong("startDate");
-            lastReset=jsonObject.getLong("lastReset");
-            dayInterval=jsonObject.getInt("dayInterval");
-            monthInterval=jsonObject.getInt("monthInterval");
-            yearInterval=jsonObject.getInt("yearInterval");
-            targetProgress=(float)jsonObject.getDouble("targetProgress");
-            currentProgress=(float)jsonObject.getDouble("currentProgress");
-            defaultIncrement=(float)jsonObject.getDouble("defaultIncrement");
-            timeProgress=jsonObject.getLong("timeProgress");
-            timeProgressNeed=jsonObject.getLong("timeProgressNeed");
-            name=jsonObject.getString("name");
-            targetType=jsonObject.getString("targetType");
-            for(int i=0;i<jsonArray.length();i++){
-                oldProgress.add(new OldProgress(jsonArray.getJSONObject(i)));
-            }
-            daily=new DailyProgress(jsonObject.getJSONObject("daily"));
-            weekly=jsonObject.getBoolean("weekly");
-            repeat=jsonObject.getBoolean("repeat");
-            completed=jsonObject.getBoolean("completed");
-            tolerance=(float)jsonObject.getDouble("tolerance");
-            color=jsonObject.getInt("color");
-            numberTracked=jsonObject.getBoolean("numberTracked");
-            id=jsonObject.getInt("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public int getIndex(){
@@ -756,14 +725,14 @@ public class Tracker implements java.io.Serializable {
             switch (timeType){
                 case days:
                     if(time==1){
-                        return User.getContext().getResources().getString(R.string.timeType_days_one);
+                        return User.getContext().getResources().getString(R.string.unit_time_days_one);
                     }
-                    return User.getContext().getResources().getString(R.string.timeType_days);
+                    return User.getContext().getResources().getString(R.string.unit_time_days);
                 case months:
                     if(time==1){
-                        return User.getContext().getResources().getString(R.string.timeType_months_one);
+                        return User.getContext().getResources().getString(R.string.unit_time_months_one);
                     }
-                    return User.getContext().getResources().getString(R.string.timeType_months);
+                    return User.getContext().getResources().getString(R.string.unit_time_months);
             }
             return null;
 

@@ -25,10 +25,19 @@ public class GoalMetDayViewDecorator implements DayViewDecorator {
      */
     private CalendarDay today;
 
+    /**
+     * Context in which the Decorator operates in.
+     */
     private Context context;
 
+    /**
+     * List of dates that need to be decorated.
+     */
     private List<CalendarDay> days;
 
+    /**
+     * Decorated text color.
+     */
     private int color;
 
     public GoalMetDayViewDecorator(Context context, List days, int color) {

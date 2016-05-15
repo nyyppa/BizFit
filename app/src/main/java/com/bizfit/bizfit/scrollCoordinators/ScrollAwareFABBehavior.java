@@ -22,7 +22,15 @@ import com.bizfit.bizfit.R;
  * made using a tutorial.
  */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
+
+    /**
+     * Defines the rate of change during the animation.
+     */
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
+
+    /**
+     * Is the FAB currently being animated out of screen.
+     */
     private boolean mIsAnimatingOut = false;
 
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {

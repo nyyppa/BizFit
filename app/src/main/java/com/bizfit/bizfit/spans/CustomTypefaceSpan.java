@@ -7,16 +7,34 @@ import android.text.style.TypefaceSpan;
 
 /**
  * Is a test span for imported Calendar module.
- * <p/>
+ *
  * Alters the look of text components within the Calendar module.
  */
 public class CustomTypefaceSpan extends TypefaceSpan {
 
+    /**
+     * The font family for this typeface.
+     */
     private static final String FAMILY = "";
+
+    /**
+     * True type font used for this span.
+     */
     private Typeface font;
+
+    /**
+     * Color used for this span.
+     */
     private int color;
 
+    /**
+     * Has the Span been given a custom font.
+     */
     private boolean fontSet = false;
+
+    /**
+     * Has the Span been given a custom color.
+     */
     private boolean colorSet = false;
 
     /**

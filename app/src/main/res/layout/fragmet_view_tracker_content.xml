@@ -18,7 +18,7 @@
             layout="@layout/fragment_view_tracker_content_daily_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp" />
+            android:layout_marginTop="16dp" />
 
         <include
             layout="@layout/fragment_view_tracker_content_calendar"

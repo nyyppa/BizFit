@@ -41,6 +41,12 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         User.getLastUser(this,this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(getResources().getColor(R.color.grey_600));
+        }
     }
 
 
@@ -60,13 +66,11 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
 
     @Override
     public void UserLoaded(final User user) {
-        Log.d(ViewTracker.class.getName(), "user loaded callback");
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ViewTrackerFragment fragment;
                 Tracker[] trackers = user.getTrackers();
-                Log.d("ViewTracker", "User load callback");
                 for (int i = 0; i < trackers.length; i++) {
                     fragment = ViewTrackerFragment.newInstance(trackers[i]);
                     adapter.addFragment(fragment, trackers[i].getName());

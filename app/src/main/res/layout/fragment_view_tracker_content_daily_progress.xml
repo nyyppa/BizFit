@@ -5,83 +5,104 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/top_content"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true">
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circle_progress_background"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="65"
-            android:progressDrawable="@drawable/circle_progress_foreground" />
+    <LinearLayout
+        android:id="@+id/top_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="700"
-                android:textColor="@color/black87"
-                android:textSize="34sp" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView4"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:text="Marketing"
-                android:textColor="@color/black87"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView5"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:text="todays target"
-                android:textAllCaps="true"
-                android:textColor="@color/black54"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView6"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="-4dp"
-                android:text="1700"
-                android:textAllCaps="true"
-                android:textColor="@color/black54"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.15">
         </RelativeLayout>
-    </FrameLayout>
+
+        <com.bizfit.bizfit.views.SquareFrameLayout
+            android:id="@+id/top_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.9">
+
+            <ProgressBar
+                android:id="@+id/progressBar_circle"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_progress_background"
+                android:indeterminate="false"
+                android:max="5000"
+                android:progress="65"
+                android:progressDrawable="@drawable/circle_progress_foreground" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/textView_daily_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="700"
+                    android:textColor="@color/black87"
+                    android:textSize="34sp" />
+
+                <TextView
+                    android:id="@+id/textView_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView_daily_progress"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="Marketing"
+                    android:textColor="@color/black87"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/textView_daily_target_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="@string/title_days_target"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black54"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textView_daily_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView_daily_target_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="-4dp"
+                    android:text="1700"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black54"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </com.bizfit.bizfit.views.SquareFrameLayout>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.15">
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top_content"
+        android:layout_below="@id/top_content_container"
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="8dp"
@@ -103,19 +124,18 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/ViewTrackerFragmentInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Progress"
-                    android:textAlignment="center"
-                    android:textAllCaps="true" />
+                    android:singleLine="false"
+                    android:text="@string/title_progress" />
 
                 <TextView
+                    android:id="@+id/textView_total_progress"
+                    style="@style/ViewTrackerFragmentInfoContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="700"
-                    android:textAlignment="center"
-                    android:textColor="@color/black87"
-                    android:textSize="20sp" />
+                    android:text="700" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,18 +145,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/ViewTrackerFragmentInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TARGET"
-                    android:textAlignment="center" />
+                    android:text="@string/title_target" />
 
                 <TextView
+                    android:id="@+id/textView_total_target"
+                    style="@style/ViewTrackerFragmentInfoContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1700"
-                    android:textAlignment="center"
-                    android:textColor="@color/black87"
-                    android:textSize="20sp" />
+                    android:text="1700" />
             </LinearLayout>
 
             <LinearLayout
@@ -146,19 +165,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/ViewTrackerFragmentInfoTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TIME LEFT"
-                    android:textAlignment="center"
-                    android:textAllCaps="true" />
+                    android:text="@string/title_time_left" />
 
                 <TextView
+                    android:id="@+id/textView_time_left"
+                    style="@style/ViewTrackerFragmentInfoContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="3 days"
-                    android:textAlignment="center"
-                    android:textColor="@color/black87"
-                    android:textSize="20sp" />
+                    android:text="3 days" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -183,7 +200,7 @@
             android:layout_height="match_parent"
             android:layout_margin="0dp"
             android:background="@drawable/btn_bg"
-            android:text="@string/abc_action_mode_done"
+            android:text="@string/action_add_progress"
             android:textColor="@color/white100" />
 
     </android.support.v7.widget.CardView>
