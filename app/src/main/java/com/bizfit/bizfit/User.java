@@ -1,28 +1,23 @@
 package com.bizfit.bizfit;
 
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import java.util.Map;
-
 import android.util.Log;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-
-import com.bizfit.bizfit.activities.MainPage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -31,59 +26,83 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+
+/**
+ * Class that contains user information, calls local database when needed and holds user's trackers
+ */
 
 public class User implements java.io.Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    List<Tracker> trackers;
-    public String userName;
-    private transient static File saveDir;
-    private transient static Context context;
-    private transient static User currentUser;
-    int lastTrackerID;
-    int nextFreeDailyProgressID;
-    private static final int dbVersion = 26;
-    int userNumber;
+    private static final int dbVersion = 28;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
-    public boolean saveUser = false;
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     static DataBaseThread thread;
+    private transient static Context context;
+    private transient static User currentUser;
+    public String userName;
+    public boolean saveUser = false;
+    List<Tracker> trackers;
+    int lastTrackerID;
+    int nextFreeDailyProgressID;
+    int userNumber;
 
-
-    public Tracker getTrackerByIndex(int index) {
-        return trackers.get(index);
-    }
 
     /**
-     * converts user and all of it's dependensies to JSON
-     * @return  JSON containing user and it's dependensies
+     * Constructs user and it's dependencies from given JSONObject
+     *
+     * @param jsonObject JSONObject containing all the nessessary information
      */
-    public JSONObject toJSON(){
-        JSONObject jsonObject=new JSONObject();
-        JSONArray jsonArray=new JSONArray();
+    public User(JSONObject jsonObject) {
+
         try {
-            jsonObject.put("_id",userName);
-            jsonObject.put("lastTrackerID",lastTrackerID);
-            jsonObject.put("nextFreeDailyProgressID",nextFreeDailyProgressID);
-            jsonObject.put("userNumber",userNumber);
-            for(int i=0;i<trackers.size();i++){
-                jsonArray.put(trackers.get(i).toJSON());
+            JSONArray jsonArray = jsonObject.getJSONArray("trackers");
+            userName = jsonObject.getString("_id");
+            lastTrackerID = jsonObject.getInt("lastTrackerID");
+            nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
+            userNumber = jsonObject.getInt("userNumber");
+            trackers = new ArrayList<>(0);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Tracker t = new Tracker(jsonArray.getJSONObject(i));
+                trackers.add(t);
+                t.addParentUser(this);
             }
-            jsonObject.put("trackers",jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
     }
+
+    /**
+     * Constructs user with given username
+     *
+     * @param userName Username for user
+     */
+    User(String userName) {
+        this.userName = userName;
+
+        if (trackers == null) {
+            trackers = new ArrayList<>(0);
+        }
+    }
+
     static public int getNextFreeDailyProgressID() {
+        if (currentUser == null) {
+            return -1;
+        }
         currentUser.nextFreeDailyProgressID++;
         return currentUser.nextFreeDailyProgressID;
     }
 
+    /**
+     * Runs update for every tracker to keep their internal time moving
+     *
+     * @param c Context for sending notifications and loading user from internal database
+     */
     public static void update(Context c) {
         getLastUser(new UserLoadedListener() {
             @Override
@@ -92,17 +111,183 @@ public class User implements java.io.Serializable {
                     user.trackers.get(i).update();
                 }
             }
-        },c);
+        }, c);
 
     }
 
+    /**
+     * Returs Users current Context
+     *
+     * @return
+     */
+    public static Context getContext() {
+        return context;
+    }
 
-    User(String userName) {
-        this.userName = userName;
+    /**
+     * loads last user from database
+     *
+     * @param listener notifies this listener when user is loaded
+     */
+    public static void getLastUser(UserLoadedListener listener, Context c) {
+        context = c;
+        listeners.add(listener);
+        WakeThread();
+    }
 
-        if (trackers == null) {
-            trackers = new ArrayList<>(0);
+    /**
+     * wakes or creates new thread for local database
+     */
+    private static void WakeThread() {
+        if (thread == null) {
+            thread = new DataBaseThread(context);
+            thread.start();
         }
+        if (!thread.isAlive()) {
+            thread = new DataBaseThread(context);
+            thread.start();
+        }
+        synchronized (thread) {
+            thread.notify();
+            thread.sleepThread = false;
+        }
+
+
+    }
+
+    /**
+     * Loads user with given username from server database and notifies given listener when it's loaded
+     *
+     * @param userLoadedListener Listener to notify when ready, if null wont notify anything
+     * @param userName           Username to find, if null will try to find users google account and use it
+     */
+    public static void loadUserFromNet(final UserLoadedListener userLoadedListener, String userName) {
+        if (userName == null) {
+            String name;
+            final AccountManager manager = AccountManager.get(User.getContext());
+            final Account[] accounts = manager.getAccountsByType("com.google");
+            final int size = accounts.length;
+            String[] names = new String[size];
+            for (int i = 0; i < size; i++) {
+                names[i] = accounts[i].name;
+
+            }
+            if (names.length > 0) {
+                name = names[0];
+            } else {
+                name = "default";
+            }
+            userName = name;
+        }
+        final String name = userName;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream is = null;
+                // Only display the first 500 characters of the retrieved
+                // web page content.
+                int len = 500;
+
+                try {
+                    URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
+                    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                    conn.setReadTimeout(10000 /* milliseconds */);
+                    conn.setConnectTimeout(15000 /* milliseconds */);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+                    OutputStream os = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(os, "UTF-8"));
+                    JSONObject jsonObject1 = new JSONObject();
+                    try {
+                        jsonObject1.put("_id", name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    writer.write("load " + jsonObject1.toString());
+                    writer.flush();
+                    conn.connect();
+                    int response = conn.getResponseCode();
+                    Log.d("meh", "The response is: " + response);
+                    is = conn.getInputStream();
+
+                    // Convert the InputStream into a string
+                    BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder total = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }
+                    try {
+                        JSONObject jsonObject2 = new JSONObject(total.toString());
+                        currentUser = new User(jsonObject2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Map map = conn.getHeaderFields();
+                    for (Object key : map.keySet()) {
+                        //System.out.println(key + " - " + map.get(key));
+
+                    }
+
+                    // Makes sure that the InputStream is closed after the app is
+                    // finished using it.
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if (userLoadedListener != null) {
+                    userLoadedListener.UserLoaded(currentUser);
+                }
+
+            }
+        });
+        t.start();
+    }
+
+    /**
+     * returs tracker with given index
+     *
+     * @param index
+     * @return
+     */
+    public Tracker getTrackerByIndex(int index) {
+        return trackers.get(index);
+    }
+
+    /**
+     * converts user and all of it's dependensies to JSON
+     *
+     * @return JSON containing user and it's dependensies
+     */
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            jsonObject.put("_id", userName);
+            jsonObject.put("lastTrackerID", lastTrackerID);
+            jsonObject.put("nextFreeDailyProgressID", nextFreeDailyProgressID);
+            jsonObject.put("userNumber", userNumber);
+            for (int i = 0; i < trackers.size(); i++) {
+                jsonArray.put(trackers.get(i).toJSON());
+            }
+            jsonObject.put("trackers", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     /**
@@ -120,7 +305,12 @@ public class User implements java.io.Serializable {
         return false;
     }
 
-
+    /**
+     * Sorts Tracker's according to remaining time and splits them to expired and ongoing groups
+     *
+     * @param ascending
+     * @return
+     */
     public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending) {
         final int asc = ascending ? 1 : -1;
         SortedTrackers sorted = new SortedTrackers();
@@ -169,6 +359,9 @@ public class User implements java.io.Serializable {
      * @param t Tracker to add for user
      */
     public void addTracker(Tracker t) {
+        if (trackers == null) {
+            trackers = new ArrayList<>(0);
+        }
         trackers.add(t);
         t.addParentUser(this);
         t.id = lastTrackerID;
@@ -184,21 +377,12 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * Returs Users current Context
-     * @return
-     */
-    public static Context getContext(){
-        return context;
-    }
-
-    /**
      * @return Returns all the users trackers
      */
     public Tracker[] getTrackers() {
         Tracker[] t = new Tracker[trackers.size()];
         return trackers.toArray(t);
     }
-
 
     public int getAmoutOfTrackes() {
         return trackers.size();
@@ -227,54 +411,26 @@ public class User implements java.io.Serializable {
 
     /**
      * Saves users current information
-     *
-     * @throws Exception Everything that can go wrong
      */
     public void save() {
         saveUser = true;
         WakeThread();
     }
 
-    /**
-     * loads last user from database
-     * @param listener  notifies this listener when user is loaded
-     */
-    public static void getLastUser(UserLoadedListener listener,Context c) {
-        context=c;
-        listeners.add(listener);
-        WakeThread();
+    public interface UserLoadedListener {
+        void UserLoaded(User user);
     }
-
-    /**
-     * wakes or creates new thread for local database
-     */
-    private static void WakeThread() {
-        if (thread == null) {
-            thread = new DataBaseThread(context);
-            thread.start();
-        }
-        if(!thread.isAlive()){
-            thread = new DataBaseThread(context);
-            thread.start();
-        }
-        synchronized (thread) {
-            thread.notify();
-            thread.sleepThread = false;
-        }
-
-
-    }
-
 
     private static class DataBaseThread extends Thread {
         DBHelper db;
         SQLiteDatabase d;
         boolean sleepThread;
-        boolean exit=false;
+        boolean exit = false;
         Context context;
-        DataBaseThread(Context c){
+
+        DataBaseThread(Context c) {
             super();
-            context=c;
+            context = c;
         }
 
         @Override
@@ -304,7 +460,7 @@ public class User implements java.io.Serializable {
                 }
                 Iterator<Tracker> iterator = trackersToDelete.iterator();
                 while (iterator.hasNext()) {
-                    db.deleteTracker(d,iterator.next());
+                    db.deleteTracker(d, iterator.next());
                     iterator.remove();
                 }
                 Iterator<UserLoadedListener> iterator1 = listeners.iterator();
@@ -323,7 +479,7 @@ public class User implements java.io.Serializable {
                         }
                     }
                 }
-                if(exit){
+                if (exit) {
                     db.close();
                     d.close();
                     return;
@@ -332,29 +488,10 @@ public class User implements java.io.Serializable {
         }
     }
 
-
-    public class SortedTrackers {
-        public List<Tracker> currentTrackers = new ArrayList<Tracker>(0);
-        public List<Tracker> expiredTrackers = new ArrayList<Tracker>(0);
-
-        SortedTrackers() {
-            for (int i = 0; i < trackers.size(); i++) {
-                if (trackers.get(i).completed) {
-                    expiredTrackers.add(trackers.get(i));
-                } else {
-                    currentTrackers.add(trackers.get(i));
-                }
-            }
-        }
-    }
-
-    public interface UserLoadedListener {
-        void UserLoaded(User user);
-    }
-    private static class NetWorkThread extends Thread{
+    private static class NetWorkThread extends Thread {
 
 
-        public void run(){
+        public void run() {
             InputStream is = null;
             // Only display the first 500 characters of the retrieved
             // web page content.
@@ -363,7 +500,6 @@ public class User implements java.io.Serializable {
             try {
                 URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                System.out.println(conn.getURL());
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
@@ -372,8 +508,8 @@ public class User implements java.io.Serializable {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(currentUser.toJSON().toString());
-                System.out.println(currentUser.toJSON().toString());
+                writer.write("save" + currentUser.toJSON());
+                //System.out.println(currentUser.toJSON().toString());
                 // Starts the query
                 writer.flush();
                 conn.connect();
@@ -389,8 +525,8 @@ public class User implements java.io.Serializable {
                     total.append(line).append('\n');
                 }
                 System.out.println(total);
-                Map map=conn.getHeaderFields();
-                for(Object key: map.keySet()){
+                Map map = conn.getHeaderFields();
+                for (Object key : map.keySet()) {
                     //System.out.println(key + " - " + map.get(key));
 
                 }
@@ -410,6 +546,21 @@ public class User implements java.io.Serializable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        }
+    }
+
+    public class SortedTrackers {
+        public List<Tracker> currentTrackers = new ArrayList<Tracker>(0);
+        public List<Tracker> expiredTrackers = new ArrayList<Tracker>(0);
+
+        SortedTrackers() {
+            for (int i = 0; i < trackers.size(); i++) {
+                if (trackers.get(i).completed) {
+                    expiredTrackers.add(trackers.get(i));
+                } else {
+                    currentTrackers.add(trackers.get(i));
                 }
             }
         }

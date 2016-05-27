@@ -1,6 +1,5 @@
 package com.bizfit.bizfit.activities;
 
-import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,9 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,27 +50,22 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
      * Field for target amount.
      */
     private static EditText target;
-
-    /**
-     * Is the user attempting to exit using the back button.
-     */
-    private boolean exitedViaBackButton = false;
-
     /***
      * Pop up for selecting a date.
      */
     private static DatePickerDialog datePicker;
-
     /**
      * Formats the selected date for String display.
      */
     private static SimpleDateFormat dateFormatter;
-
     /**
      * Selected date from the popup.
      */
     private static Calendar setDate;
-
+    /**
+     * Is the user attempting to exit using the back button.
+     */
+    private boolean exitedViaBackButton = false;
     /**
      * Color that the user has chosen for his/hers goal.
      */
@@ -150,7 +142,6 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         target.setOnTouchListener(new CardViewAnimator(mCardView2));
         date.setOnTouchListener(new CardViewAnimator(mCardView3));
         name.setOnTouchListener(new CardViewAnimator(mCardView4));
-
 
 
         mSelectedColor = getResources().getIntArray(R.array.trackable_view_alt_colors_integer_array)[0];
@@ -257,9 +248,12 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         if (!nameEmpty && !targetEmpty && !dateEmpty) {
             finish();
         } else {
-            if (nameEmpty) name.setError(getString(R.string.error_empty_field));
-            if (targetEmpty) target.setError(getString(R.string.error_empty_field));
-            if (dateEmpty) date.setError(getString(R.string.error_empty_field));
+            if (nameEmpty)
+                name.setError(getString(R.string.error_empty_field));
+            if (targetEmpty)
+                target.setError(getString(R.string.error_empty_field));
+            if (dateEmpty)
+                date.setError(getString(R.string.error_empty_field));
         }
     }
 
@@ -270,7 +264,8 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
             case R.id.target_date:
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(date.getWindowToken(), 0);
-                if (hasFocus) showDatePicker();
+                if (hasFocus)
+                    showDatePicker();
                 break;
 
             case R.id.target_name:

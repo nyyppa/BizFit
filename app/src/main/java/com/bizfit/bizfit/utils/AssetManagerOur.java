@@ -3,14 +3,12 @@ package com.bizfit.bizfit.utils;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.bizfit.bizfit.activities.MainPage;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Loads and hold true type fonts from the assets folder.
- *
+ * <p/>
  * If the font you are looking for isn't listed here, add a new attribute
  * which contains the font path.
  */
@@ -35,12 +33,12 @@ public class AssetManagerOur {
     /**
      * Loads font from assets folder.
      *
-     * @param file File path. One of the AssetManagerOur's public attributes
-     *             should be given as an attribute.
+     * @param file    File path. One of the AssetManagerOur's public attributes
+     *                should be given as an attribute.
      * @param context Context from where to load TypeFace
      * @return True type font.
      */
-    public static Typeface getFont(String file,Context context) {
+    public static Typeface getFont(String file, Context context) {
 
         // Checks if the font is already loaded.
         for (int i = 0; i < fonts.size(); i++) {

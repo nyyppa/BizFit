@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Represents a single horizontally scrollable store row.
- *
+ * <p/>
  * The row displays a series of items which the use can click to access more
  * in depth information about. A single item is a "card" of a coach from whom
  * the user can buy services.
@@ -63,12 +63,26 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
     }
 
     /**
+     * Callback interface for when RecyclerView item is interacted with.
+     */
+    public interface StoreItemClicked {
+
+        /**
+         * Notifies which item was clicked.
+         *
+         * @param viewHolderStoreItem ViewHolderTracker associated with the
+         *                            click event.
+         */
+        void itemClicked(ViewHolderStoreItem viewHolderStoreItem);
+    }
+
+    /**
      * Holds View's of a ViewGroup that need changing when a View is recycled.
-     *
+     * <p/>
      * Upon recycling a view, ViewHolder is tasked to change the necessary
      * information within a view so it can be repurposed to show data at a
      * different index.
-     *
+     * <p/>
      * ViewHolder contains references to all View's which need changing. This
      * is so to reduce overhead created by repeated findViewById() calls.
      */
@@ -101,19 +115,5 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
             if (mContext instanceof StoreItemClicked)
                 ((StoreItemClicked) mContext).itemClicked(this);
         }
-    }
-
-    /**
-     * Callback interface for when RecyclerView item is interacted with.
-     */
-    public interface StoreItemClicked {
-
-        /**
-         * Notifies which item was clicked.
-         *
-         * @param viewHolderStoreItem ViewHolderTracker associated with the
-         *                            click event.
-         */
-        void itemClicked(ViewHolderStoreItem viewHolderStoreItem);
     }
 }

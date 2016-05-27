@@ -38,7 +38,7 @@ public class TodayDayViewDecorator implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
         view.addSpan(new CustomTypefaceSpan(
-                AssetManagerOur.getFont(AssetManagerOur.medium,context)
+                AssetManagerOur.getFont(AssetManagerOur.medium, context)
                 , context.getResources().getColor(R.color.black87)));
         view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_today_marker));
     }

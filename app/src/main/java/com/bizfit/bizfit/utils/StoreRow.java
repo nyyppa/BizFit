@@ -58,7 +58,7 @@ public class StoreRow<T> {
 
     /**
      * Gets an entry from a HashMap used to store String data.
-     *
+     * <p/>
      * Regular .get(string); call on HashMap. This method exists
      * to reduce chaining of methods.
      *

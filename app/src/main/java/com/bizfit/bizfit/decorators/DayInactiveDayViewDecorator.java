@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Decorates calendar days which are inactive.
- *
+ * <p/>
  * Inactive days are days which the user chose not to track a certain
  * goal, as well as days which are beyond the deadline or before the
  * start date.
@@ -44,7 +44,7 @@ public class DayInactiveDayViewDecorator implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
         view.addSpan(new CustomTypefaceSpan(
-                AssetManagerOur.getFont(AssetManagerOur.regular,context)
+                AssetManagerOur.getFont(AssetManagerOur.regular, context)
                 , context.getResources().getColor(R.color.black37)
         ));
     }

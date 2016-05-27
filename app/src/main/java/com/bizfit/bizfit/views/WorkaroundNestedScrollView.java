@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 
 /**
  * Attempts to fix a bug int the NestedScrollView.
- *
+ * <p/>
  * Bug occurs when the NestedScrollView is flung and the scroll reaches
  * the end / start. The next touch is then intercepted even when the view
  * is not scrolling.

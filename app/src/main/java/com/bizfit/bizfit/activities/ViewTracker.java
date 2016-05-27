@@ -1,20 +1,13 @@
 package com.bizfit.bizfit.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
@@ -40,7 +33,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        User.getLastUser(this,this);
+        User.getLastUser(this, this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

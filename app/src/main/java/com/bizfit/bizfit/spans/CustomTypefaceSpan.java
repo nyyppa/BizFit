@@ -1,13 +1,12 @@
 package com.bizfit.bizfit.spans;
 
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.text.style.TypefaceSpan;
 
 /**
  * Is a test span for imported Calendar module.
- *
+ * <p/>
  * Alters the look of text components within the Calendar module.
  */
 public class CustomTypefaceSpan extends TypefaceSpan {
@@ -66,13 +65,17 @@ public class CustomTypefaceSpan extends TypefaceSpan {
 
     @Override
     public void updateMeasureState(TextPaint paint) {
-        if (fontSet) paint.setTypeface(font);
-        if (colorSet) paint.setColor(color);
+        if (fontSet)
+            paint.setTypeface(font);
+        if (colorSet)
+            paint.setColor(color);
     }
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        if (fontSet) ds.setTypeface(font);
-        if (colorSet) ds.setColor(color);
+        if (fontSet)
+            ds.setTypeface(font);
+        if (colorSet)
+            ds.setColor(color);
     }
 }

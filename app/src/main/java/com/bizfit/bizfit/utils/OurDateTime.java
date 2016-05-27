@@ -9,45 +9,42 @@ import java.util.GregorianCalendar;
 public class OurDateTime extends GregorianCalendar {
 
     /**
-     *
      * @param time Time you want to convert to Calender
      */
-    public OurDateTime(long time){
+    public OurDateTime(long time) {
         super();
         this.setTimeInMillis(time);
     }
 
     /**
-     *
-     * @return  year
+     * @return year
      */
-    public int getYear(){
+    public int getYear() {
         return this.get(YEAR);
     }
 
     /**
-     *
-     * @return  month
+     * @return month
      */
-    public int getMonth(){
+    public int getMonth() {
         return this.get(MONTH);
     }
 
     /**
-     *
-     * @return  Day Of month
+     * @return Day Of month
      */
-    public int getDay(){
+    public int getDay() {
         return this.get(DAY_OF_MONTH);
     }
 
     /**
      * checks if two OurDateTime's hold same date
+     *
      * @param date
-     * @return  true if they have same dates
+     * @return true if they have same dates
      */
-    public boolean isSameDate(OurDateTime date){
-        return date.getDay()==this.getDay()&&date.getMonth()==this.getMonth()&&date.getYear()==this.getYear();
+    public boolean isSameDate(OurDateTime date) {
+        return date.getDay() == this.getDay() && date.getMonth() == this.getMonth() && date.getYear() == this.getYear();
     }
 
 }

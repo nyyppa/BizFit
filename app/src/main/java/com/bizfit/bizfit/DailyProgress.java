@@ -18,13 +18,14 @@ import java.util.ListIterator;
  * Contains users progress in single tracking period
  */
 public class DailyProgress implements java.io.Serializable {
-    private List<DayPool> dayPool = new ArrayList<DayPool>(0);
     int id;
+    private List<DayPool> dayPool = new ArrayList<DayPool>(0);
 
     /**
      * Constructs new DailyProgress from given list of daySingles and DailyProgress ID
+     *
      * @param list List containing DaySingles that DailyProgress will hold
-     * @param id    ID of DailyProgress
+     * @param id   ID of DailyProgress
      */
     public DailyProgress(List<DaySingle> list, int id) {
         Comparator<DaySingle> comparator = new Comparator<DaySingle>() {
@@ -35,14 +36,14 @@ public class DailyProgress implements java.io.Serializable {
         };
         Collections.sort(list, comparator);
         for (int i = 0; i < list.size(); i++) {
-            DaySingle single=addDailyProgress(list.get(i).getAmount(), list.get(i).getTime());
-            single.id=list.get(i).id;
+            DaySingle single = addDailyProgress(list.get(i).getAmount(), list.get(i).getTime());
+            single.id = list.get(i).id;
         }
         this.id = id;
     }
 
     public DailyProgress(User user) {
-        id=user.getNextFreeDailyProgressID();
+        id = User.getNextFreeDailyProgressID();
 
     }
 
@@ -54,7 +55,27 @@ public class DailyProgress implements java.io.Serializable {
     }
 
     /**
+     * Creates DailyProgress from given JSON
+     *
+     * @param jsonObject JSON containing nessessary information
+     */
+    public DailyProgress(JSONObject jsonObject) {
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("DaySingle");
+            id = jsonObject.getInt("id");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                DaySingle d = addDailyProgress((float) (object.getDouble("amount")), object.getLong("time"));
+                d.id = object.getInt("id");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Creates DaySingle from given information and returns it without saving it to anywhere
+     *
      * @param time
      * @param amount
      * @return
@@ -64,30 +85,13 @@ public class DailyProgress implements java.io.Serializable {
     }
 
     /**
-     * Creates DailyProgress from given JSON
-     * @param jsonObject JSON containing nessessary information
-     */
-    public DailyProgress(JSONObject jsonObject) {
-        try {
-            JSONArray jsonArray=jsonObject.getJSONArray("DaySingle");
-            id=jsonObject.getInt("id");
-            for(int i=0;i<jsonArray.length();i++){
-                JSONObject object=jsonArray.getJSONObject(i);
-                DaySingle d=addDailyProgress((float)(object.getDouble("amount")),object.getLong("time"));
-                d.id=object.getInt("id");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Converts DailyProgress to JSON
-     * @return  JSON containing all information from DailyProgress
+     *
+     * @return JSON containing all information from DailyProgress
      */
-    public JSONObject toJSon(){
-        JSONObject jsonObject=new JSONObject();
-        JSONArray jsonArray=new JSONArray();
+    public JSONObject toJSon() {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < dayPool.size(); i++) {
             List<DaySingle> daySingleList = dayPool.get(i).daySingle;
             for (int j = 0; j < daySingleList.size(); j++) {
@@ -96,8 +100,8 @@ public class DailyProgress implements java.io.Serializable {
         }
 
         try {
-            jsonObject.put("id",id);
-            jsonObject.put("DaySingle",jsonArray);
+            jsonObject.put("id", id);
+            jsonObject.put("DaySingle", jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -108,6 +112,7 @@ public class DailyProgress implements java.io.Serializable {
 
     /**
      * Converts DailyProgress to easier saving to SQL based database
+     *
      * @return List containing all DaySingles in this DailyProgress sorted for creation time
      */
     public List<DaySingle> prepForDataBase() {
@@ -129,7 +134,6 @@ public class DailyProgress implements java.io.Serializable {
     }
 
     /**
-     *
      * @return DayPool list containing users added progress
      */
     public List<DayPool> getDayPoolList() {
@@ -138,9 +142,10 @@ public class DailyProgress implements java.io.Serializable {
 
     /**
      * Adds progress for user and returns daySingle that was created as the result
-     * @param amount    How much user addded progress
-     * @param time  When user added progress
-     * @return  DaySingle created from given information
+     *
+     * @param amount How much user addded progress
+     * @param time   When user added progress
+     * @return DaySingle created from given information
      */
     public DaySingle addDailyProgress(float amount, long time) {
         if (dayPool.size() == 0) {
@@ -180,7 +185,7 @@ public class DailyProgress implements java.io.Serializable {
 
     /**
      * Container class for daySingle's
-     *
+     * <p/>
      * Holds single days user added progress
      */
     public class DayPool implements java.io.Serializable {
@@ -190,34 +195,37 @@ public class DailyProgress implements java.io.Serializable {
 
         /**
          * Creates new DayPool and adds first daySingle with given information
-         * @param amount    amount user added progress
-         * @param time  time user added progress
+         *
+         * @param amount amount user added progress
+         * @param time   time user added progress
          */
         DayPool(float amount, long time) {
             this.time = time;
-            daySingle.add(new DaySingle(time,amount));
+            daySingle.add(new DaySingle(time, amount));
         }
 
         /**
          * returns last created DaySingle
+         *
          * @return
          */
-        private DaySingle getLast(){
-            return daySingle.get(daySingle.size()-1);
+        private DaySingle getLast() {
+            return daySingle.get(daySingle.size() - 1);
         }
 
         /**
          * adds new DaySingle from given information to DayPool
-         * @param amount    amount user added progress
-         * @param time  time when user added progress
+         *
+         * @param amount amount user added progress
+         * @param time   time when user added progress
          */
         public void addDaySingle(float amount, long time) {
             daySingle.add(new DaySingle(time, amount));
-  ;
         }
 
         /**
          * Converts DayPools creation time to OurDateTime
+         *
          * @return OurDateTime made from DayPools creationTime
          */
         public OurDateTime getDayTime() {
@@ -225,19 +233,17 @@ public class DailyProgress implements java.io.Serializable {
         }
 
         /**
-         *
-         * @return  Total amount of users added progress during single day for single tracker
+         * @return Total amount of users added progress during single day for single tracker
          */
         public float getTotalAmount() {
-            float TotalAmount=0;
-            for(int i=0;i<daySingle.size();i++){
-                TotalAmount+=daySingle.get(i).getAmount();
+            float TotalAmount = 0;
+            for (int i = 0; i < daySingle.size(); i++) {
+                TotalAmount += daySingle.get(i).getAmount();
             }
             return TotalAmount;
         }
 
         /**
-         *
          * @return Time when DayPool was created
          */
         public long getTime() {
@@ -246,24 +252,22 @@ public class DailyProgress implements java.io.Serializable {
 
         /**
          * Checks if given time's day of month is same as time's held in DayPool
-         * @param timeTime  Time to Compare
-         * @return  if day of month is same returns true, else false
+         *
+         * @param timeTime Time to Compare
+         * @return if day of month is same returns true, else false
          */
         private boolean sameDate(long timeTime) {
             GregorianCalendar ca = new GregorianCalendar();
             ca.setTimeInMillis(time);
             GregorianCalendar ba = new GregorianCalendar();
             ba.setTimeInMillis(timeTime);
-            if (ca.get(Calendar.DAY_OF_MONTH) == ba.get(Calendar.DAY_OF_MONTH)) {
-                return true;
-            } else {
-                return false;
-            }
+            return ca.get(Calendar.DAY_OF_MONTH) == ba.get(Calendar.DAY_OF_MONTH);
         }
 
         /**
          * Removes last instance of user added progress
-         * @return  if it was last instance in this DayPool
+         *
+         * @return if it was last instance in this DayPool
          */
         public boolean removeLast() {
             ListIterator<DaySingle> iterator = daySingle.listIterator();
@@ -272,10 +276,7 @@ public class DailyProgress implements java.io.Serializable {
                 a = iterator.next();
             }
             iterator.remove();
-            if (daySingle.size() == 0) {
-                return true;
-            }
-            return false;
+            return daySingle.size() == 0;
 
         }
     }
@@ -284,14 +285,13 @@ public class DailyProgress implements java.io.Serializable {
      * Holds single instance of users added progress
      */
     public class DaySingle implements java.io.Serializable {
+        public int id = -1;
         private long time;
         private float amount;
-        public int id = -1;
 
         /**
-         *
-         * @param Time  Creation time
-         * @param amount    Amount the user added progress
+         * @param Time   Creation time
+         * @param amount Amount the user added progress
          */
         DaySingle(long Time, float amount) {
             // TODO Auto-generated constructor stub
@@ -302,7 +302,8 @@ public class DailyProgress implements java.io.Serializable {
 
         /**
          * Retuns creation time of DaySingle
-         * @return  Creation Time
+         *
+         * @return Creation Time
          */
         public long getTime() {
             return time;
@@ -310,7 +311,8 @@ public class DailyProgress implements java.io.Serializable {
 
         /**
          * Retuns amount held in this DaySingle
-         * @return  Amount held in this DaySingle
+         *
+         * @return Amount held in this DaySingle
          */
         public float getAmount() {
             return amount;
@@ -318,14 +320,15 @@ public class DailyProgress implements java.io.Serializable {
 
         /**
          * Converts DaySingle to JSON
-         * @return  JSON containing all of daySingles information
+         *
+         * @return JSON containing all of daySingles information
          */
-        private JSONObject ToJson(){
-            JSONObject jsonObject=new JSONObject();
+        private JSONObject ToJson() {
+            JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("time",time);
-                jsonObject.put("amount",amount);
-                jsonObject.put("id",id);
+                jsonObject.put("time", time);
+                jsonObject.put("amount", amount);
+                jsonObject.put("id", id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

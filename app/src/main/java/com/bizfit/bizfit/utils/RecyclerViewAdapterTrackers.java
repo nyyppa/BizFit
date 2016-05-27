@@ -65,8 +65,21 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
 
 
     /**
+     * Callback interface for when RecyclerView item is interacted with.
+     */
+    public interface RecyclerViewItemClicked {
+
+        /**
+         * Notifies which item was clicked.
+         *
+         * @param vh ViewHolderTracker associated with the click event.
+         */
+        void onItemClick(RecyclerView.ViewHolder vh);
+    }
+
+    /**
      * Holds View's of a ViewGroup that need changing when a View is recycled.
-     *
+     * <p/>
      * Used to store references to View's components for easier recycling.
      * This way costly findViewById() calls can be avoided when the view
      * is relocated within it's containing RecyclerView.
@@ -106,7 +119,7 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
 
         /**
          * Constructs a new ViewHolderTracker with references to alterable Views.
-         *
+         * <p/>
          * Also performs one time styling events. Namely, fonts.
          *
          * @param itemView View that is styled on recycle.
@@ -125,13 +138,13 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
             });
 
             trackerName = (TextView) v.findViewById(R.id.view_trackable_tracker_name);
-            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium,itemView.getContext()));
+            trackerName.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium, itemView.getContext()));
 
             notes = (TextView) v.findViewById(R.id.view_trackable_notes);
-            notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular,itemView.getContext()));
+            notes.setTypeface(AssetManagerOur.getFont(AssetManagerOur.regular, itemView.getContext()));
 
             progress = (TextView) v.findViewById(R.id.view_trackable_progress_needed);
-            progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium,itemView.getContext()));
+            progress.setTypeface(AssetManagerOur.getFont(AssetManagerOur.medium, itemView.getContext()));
 
             done = (ImageView) v.findViewById(R.id.view_trackable_done);
 
@@ -195,18 +208,5 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
         public View getV() {
             return v;
         }
-    }
-
-    /**
-     * Callback interface for when RecyclerView item is interacted with.
-     */
-    public interface RecyclerViewItemClicked {
-
-        /**
-         * Notifies which item was clicked.
-         *
-         * @param vh ViewHolderTracker associated with the click event.
-         */
-        void onItemClick(RecyclerView.ViewHolder vh);
     }
 }

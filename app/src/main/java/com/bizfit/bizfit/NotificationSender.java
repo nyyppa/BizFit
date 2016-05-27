@@ -8,7 +8,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.NotificationCompat.Builder;
 
-
 import com.bizfit.bizfit.activities.MainPage;
 
 
@@ -20,8 +19,9 @@ public class NotificationSender {
 
     /**
      * sends message to android notification bar
-     * @param title tittle of the message
-     * @param message   actual message content
+     *
+     * @param title   tittle of the message
+     * @param message actual message content
      */
     /*
     public static void sendNotification(String title,String message){
@@ -57,9 +57,7 @@ public class NotificationSender {
         mNotificationManager.notify(mId, mBuilder.build());
     }
     */
-
-
-    public static void sendNotification(Context a,String title,String message){
+    public static void sendNotification(Context a, String title, String message) {
         NotificationCompat.Builder mBuilder =
                 (Builder) new Builder(a)
                         .setSmallIcon(R.drawable.ic_launcher)
@@ -77,7 +75,7 @@ public class NotificationSender {
         stackBuilder.addParentStack(MainPage.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
-       PendingIntent resultPendingIntent =
+        PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
@@ -86,9 +84,9 @@ public class NotificationSender {
 
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
-                (NotificationManager)a.getSystemService(a.NOTIFICATION_SERVICE);
+                (NotificationManager) a.getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
-        int mId=1;
+        int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
     }
 }

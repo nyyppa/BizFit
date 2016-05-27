@@ -9,8 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.bizfit.bizfit.activities.MainPage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put("tolerance", t.tolerance);
             values.put("color", t.color);
             System.out.println(t.getName() + t.id);
-            if(t.daily!=null){
+            if (t.daily != null) {
                 values.put("dailyProgress", t.daily.id);
             }
             db.insertWithOnConflict("user_" + user.userNumber + "_trackerTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -135,7 +133,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Checks if table exists in given SQLiteDataBase
-     * @param db    SQLiteDatabase from where to check
+     *
+     * @param db        SQLiteDatabase from where to check
      * @param tableName Table Name to check for
      * @return
      */
@@ -158,8 +157,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Deletes Tracker from given SQLiteDatabase
-     * @param db    database where the tracker is to be deleted from
-     * @param tracker   tracker to delete from database
+     *
+     * @param db      database where the tracker is to be deleted from
+     * @param tracker tracker to delete from database
      */
     public void deleteTracker(SQLiteDatabase db, Tracker tracker) {
         String args[] = {tracker.id + ""};
@@ -221,7 +221,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 h.completed = cursor.getInt(cursor.getColumnIndex("completed")) == 1 ? true : false;
                 h.tolerance = cursor.getFloat(cursor.getColumnIndex("tolerance"));
                 h.oldProgress = new ArrayList<OldProgress>(0);
-                Cursor cursor1 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_oldProgressTable WHERE trackerID="+h.trackerID, null);
+                Cursor cursor1 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_oldProgressTable WHERE trackerID=" + h.trackerID, null);
                 cursor1.moveToFirst();
                 while (!cursor1.isAfterLast()) {
                     long startDate = cursor1.getLong(cursor1.getColumnIndex("startDate"));
@@ -229,7 +229,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     float endProgress = cursor1.getFloat(cursor1.getColumnIndex("endProgress"));
                     float targetProgress = cursor1.getFloat(cursor1.getColumnIndex("targetProgress"));
                     int dailyProgressID = cursor1.getInt(cursor1.getColumnIndex("DailyProgressID"));
-                    Cursor cursor2 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+dailyProgressID, null);
+                    Cursor cursor2 = db.rawQuery("SELECT * FROM " + "user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID=" + dailyProgressID, null);
                     cursor2.moveToFirst();
                     List<DailyProgress.DaySingle> list = new ArrayList<>(0);
                     DailyProgress d = new DailyProgress();
@@ -248,7 +248,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor1.moveToNext();
                 }
 
-                Cursor cursor2 = db.rawQuery("SELECT * FROM user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID="+cursor.getInt(cursor.getColumnIndex("dailyProgress")), null);
+                Cursor cursor2 = db.rawQuery("SELECT * FROM user_" + user.userNumber + "_DailyProgressTable WHERE DailyProgressID=" + cursor.getInt(cursor.getColumnIndex("dailyProgress")), null);
                 cursor1.close();
                 List<DailyProgress.DaySingle> list = new ArrayList<>(0);
                 DailyProgress d = new DailyProgress();

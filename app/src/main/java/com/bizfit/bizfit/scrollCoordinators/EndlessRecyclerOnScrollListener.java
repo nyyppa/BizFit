@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 /**
  * Enables endless scrolling for RecyclerView.
- *
+ * <p/>
  * Courtesy of GitHub user ssinss. Code is as is, but with added commenting.
  * In the future most likely will be expanded to enable endless scroll in both
  * directions to enable the use of RecyclerView as a custom "slider selector".
@@ -13,25 +13,21 @@ import android.support.v7.widget.RecyclerView;
 public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
 
     /**
+     * Used to determine if more content should be loaded.
+     */
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+    /**
      * The total number of items in the dataset after the last load.
      */
     private int previousTotal = 0;
-
     /**
      * True if we are still waiting for the last set of data to load
      */
     private boolean loading = true;
-
     /**
      * The minimum amount of items to have below your current scroll position before loading more.
      */
     private int visibleThreshold = 0;
-
-    /**
-     * Used to determine if more content should be loaded.
-     */
-    int firstVisibleItem, visibleItemCount, totalItemCount;
-
     private int current_page = 1;
 
     /**

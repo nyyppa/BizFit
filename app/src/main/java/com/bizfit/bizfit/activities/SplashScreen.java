@@ -2,9 +2,10 @@ package com.bizfit.bizfit.activities;
 
 /**
  * Displays the Bizfit banner.
- *
+ * <p/>
  * Disabled for more convenient debugging and testing.
  */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -17,7 +17,7 @@ import com.bizfit.bizfit.R;
 
 /**
  * Defines behaviour of Floating Action Button when page content is scrolled.
- *
+ * <p/>
  * Can be applied through .XML. Cannot take credit for this class, since it was
  * made using a tutorial.
  */

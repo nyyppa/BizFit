@@ -104,14 +104,14 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
     /**
      * Holds View's of a ViewGroup that need changing when a View is recycled.
-     *
+     * <p/>
      * Upon recycling a view, ViewHolder is tasked to change the necessary
      * information within a view so it can be repurposed to show data at a
      * different index.
-     *
+     * <p/>
      * ViewHolder contains references to all View's which need changing. This
      * is so to reduce overhead created by repeated findViewById() calls.
-     *
+     * <p/>
      * This specific ViewHolder represents a horizontally single scrollable
      * row in the store. Contains multiple items.
      */
@@ -156,14 +156,14 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
     /**
      * Holds View's of a ViewGroup that need changing when a View is recycled.
-     *
+     * <p/>
      * Upon recycling a view, ViewHolder is tasked to change the necessary
      * information within a view so it can be repurposed to show data at a
      * different index.
-     *
+     * <p/>
      * ViewHolder contains references to all View's which need changing. This
      * is so to reduce overhead created by repeated findViewById() calls.
-     *
+     * <p/>
      * This specific ViewHolder represents a single big item.
      */
     public static class BigPromotion extends RecyclerView.ViewHolder {

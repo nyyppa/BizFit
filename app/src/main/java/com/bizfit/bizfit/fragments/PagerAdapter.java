@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Holds a set of Fragments which the user can page trough.
- *
+ * <p/>
  * Used with tab layout.
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {

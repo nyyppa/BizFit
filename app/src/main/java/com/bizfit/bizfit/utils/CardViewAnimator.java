@@ -14,46 +14,41 @@ import com.bizfit.bizfit.R;
  */
 public class CardViewAnimator implements View.OnTouchListener {
     /**
+     * Attribute name which is being animated.
+     */
+    private static final String ATTRIBUTE = "cardElevation";
+    /**
+     * CardView elevation for when it is not being interacted with.
+     */
+    private static float mRestElevation;
+    /**
+     * CardView elevation for when it is being pressed.
+     */
+    private static float mTargetElevation;
+    /**
+     * Duration of descend and ascend animation.
+     */
+    private static int mAnimDuration;
+    /**
+     * Has the necessary values been fetched.
+     */
+    private static boolean mResourcesFetched = false;
+    /**
      * Animator for ascend animation.
      */
     private ObjectAnimator ascend;
-
     /**
      * Animator for descend animation.
      */
     private ObjectAnimator descend;
 
     /**
-     * Attribute name which is being animated.
-     */
-    private static final String ATTRIBUTE = "cardElevation";
-
-    /**
-     * CardView elevation for when it is not being interacted with.
-     */
-    private static float mRestElevation;
-
-    /**
-     * CardView elevation for when it is being pressed.
-     */
-    private static float mTargetElevation;
-
-    /**
-     * Duration of descend and ascend animation.
-     */
-    private static int mAnimDuration;
-
-    /**
-     * Has the necessary values been fetched.
-     */
-    private static boolean mResourcesFetched = false;
-
-    /**
      * @param cardView View to animate.
      */
     public CardViewAnimator(CardView cardView) {
 
-        if (!mResourcesFetched) fetchResources(cardView.getContext().getResources());
+        if (!mResourcesFetched)
+            fetchResources(cardView.getContext().getResources());
 
         ascend = ObjectAnimator.ofFloat(cardView
                 , ATTRIBUTE

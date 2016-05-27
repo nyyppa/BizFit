@@ -11,7 +11,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 /**
- *  Decorates calendar days on which the daily target was missed.
+ * Decorates calendar days on which the daily target was missed.
  */
 public class GoalMissedDayViewDecorator implements DayViewDecorator {
 
@@ -37,7 +37,7 @@ public class GoalMissedDayViewDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular,context)));
+        view.addSpan(new CustomTypefaceSpan(AssetManagerOur.getFont(AssetManagerOur.regular, context)));
         view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.calendar_daily_target_missed));
     }
 }

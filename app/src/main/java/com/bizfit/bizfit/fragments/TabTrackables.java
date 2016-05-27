@@ -28,31 +28,26 @@ import com.bizfit.bizfit.utils.TrackerLoader;
  */
 public class TabTrackables extends Fragment implements TrackerLoader.OnFinishListener, User.UserLoadedListener {
 
-    public static String tag;
-
     /**
      * ID used to determine if delete option in contextual menu was clicked.
      */
     public final static int DELETE_ID = 0;
-
     /**
      * Used to determine if onActivityResult() callback was received
      * from AddTracker.
      */
     public static final int SET_NEW_GOAL = 1;
-
     /**
      * Used to determine if onActivityResult() callback was received
      * from ViewTracker.
      */
     public static final int VIEW_GOALS = 2;
-
     /**
      * Tag used to distinguish this fragment when accessing this fragment
      * via FragmentManager. Not yet in use.
      */
     public static final String TAG = "tab_trackables";
-
+    public static String tag;
     /**
      * List of Tracker's loaded from SQLite database.
      */
@@ -75,10 +70,11 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
     /**
      * Constructs a new TabTrackables object.
-     *
+     * <p/>
      * Required empty public constructor.
      */
-    public TabTrackables() {}
+    public TabTrackables() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +92,7 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
-        User.getLastUser(this,getContext());
+        User.getLastUser(this, getContext());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -149,7 +145,7 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
         switch (requestCode) {
             case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
-                    final Intent data2=data;
+                    final Intent data2 = data;
                     User.getLastUser(new User.UserLoadedListener() {
                         @Override
                         public void UserLoaded(User user) {
@@ -174,8 +170,6 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
                         }
                     }, getContext());
-
-
 
 
                 } else {
@@ -217,7 +211,8 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
     private boolean contentScrollable() {
         LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
-        if (layoutManager == null || adapter == null) return false;
+        if (layoutManager == null || adapter == null)
+            return false;
         return layoutManager.findLastCompletelyVisibleItemPosition() < adapter.getItemCount() - 1;
     }
 
@@ -237,7 +232,7 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
     @Override
     public void onFinish(Tracker[] trackers) {
-        this.trackers = trackers;
+        TabTrackables.trackers = trackers;
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
