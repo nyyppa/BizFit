@@ -202,10 +202,11 @@ public class User implements java.io.Serializable {
                     JSONObject jsonObject1 = new JSONObject();
                     try {
                         jsonObject1.put("_id", name);
+                        jsonObject1.put("Job","load");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    writer.write("load " + jsonObject1.toString());
+                    writer.write(jsonObject1.toString());
                     writer.flush();
                     conn.connect();
                     int response = conn.getResponseCode();
@@ -440,6 +441,8 @@ public class User implements java.io.Serializable {
                 if (db == null) {
 
                     db = new DBHelper(context, "database1", null, dbVersion);
+                    NetWorkThread t=new NetWorkThread();
+                    t.start();
                 }
                 if (d == null) {
                     d = db.getWritableDatabase();
@@ -508,7 +511,14 @@ public class User implements java.io.Serializable {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write("save" + currentUser.toJSON());
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put("Job","save");
+                    jsonObject.put("user",currentUser.toJSON());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                writer.write(jsonObject.toString());
                 //System.out.println(currentUser.toJSON().toString());
                 // Starts the query
                 writer.flush();
