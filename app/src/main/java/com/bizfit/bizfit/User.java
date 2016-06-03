@@ -13,14 +13,19 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -179,6 +184,7 @@ public class User implements java.io.Serializable {
             }
             userName = name;
         }
+
         final String name = userName;
         Thread t = new Thread(new Runnable() {
             @Override
@@ -257,6 +263,27 @@ public class User implements java.io.Serializable {
         });
         t.start();
     }
+
+
+
+    private BigInteger checksum(Object obj) throws IOException, NoSuchAlgorithmException {
+
+        if (obj == null) {
+            return BigInteger.ZERO;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(obj);
+        oos.close();
+
+        MessageDigest m = MessageDigest.getInstance("SHA1");
+        m.update(baos.toByteArray());
+
+        return new BigInteger(1, m.digest());
+    }
+
+
 
     /**
      * returs tracker with given index
@@ -441,14 +468,23 @@ public class User implements java.io.Serializable {
                 if (db == null) {
 
                     db = new DBHelper(context, "database1", null, dbVersion);
-                    NetWorkThread t=new NetWorkThread();
-                    t.start();
+
                 }
                 if (d == null) {
                     d = db.getWritableDatabase();
                 }
                 if (currentUser == null) {
                     currentUser = db.readUser(d);
+                    NetWorkThread t=new NetWorkThread();
+                    t.start();
+                    try {
+                        System.out.println(currentUser.checksum(currentUser));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+
                     //t.start();
                     /*try {
                         System.out.println(currentUser.toJSON().toString(4));
