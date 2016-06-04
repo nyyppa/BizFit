@@ -56,6 +56,7 @@ public class User implements java.io.Serializable {
     int lastTrackerID;
     int nextFreeDailyProgressID;
     int userNumber;
+    static boolean userLoaded=false;
 
 
     /**
@@ -209,6 +210,15 @@ public class User implements java.io.Serializable {
                     try {
                         jsonObject1.put("_id", name);
                         jsonObject1.put("Job","load");
+                        if(currentUser!=null){
+                            try {
+                                jsonObject1.put("checkSum",currentUser.checksum(currentUser));
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            jsonObject1.put("checkSum","0");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -216,26 +226,26 @@ public class User implements java.io.Serializable {
                     writer.flush();
                     conn.connect();
                     int response = conn.getResponseCode();
-                    Log.d("meh", "The response is: " + response);
-                    is = conn.getInputStream();
+                    if (response==200) {
+                        is = conn.getInputStream();
+                        // Convert the InputStream into a string
+                        BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                        StringBuilder total = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            System.out.println(line);
+                            total.append(line).append('\n');
+                        }
+                        System.out.println(total.toString());
+                        try {
+                            JSONObject jsonObject2 = new JSONObject(total.toString());
+                            if(jsonObject2.has("user")){
+                                currentUser = new User(jsonObject2.getJSONObject("user"));
+                            }
 
-                    // Convert the InputStream into a string
-                    BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder total = new StringBuilder();
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        total.append(line).append('\n');
-                    }
-                    try {
-                        JSONObject jsonObject2 = new JSONObject(total.toString());
-                        currentUser = new User(jsonObject2);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Map map = conn.getHeaderFields();
-                    for (Object key : map.keySet()) {
-                        //System.out.println(key + " - " + map.get(key));
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     // Makes sure that the InputStream is closed after the app is
@@ -254,6 +264,7 @@ public class User implements java.io.Serializable {
                             e.printStackTrace();
                         }
                     }
+                    userLoaded=true;
                 }
                 if (userLoadedListener != null) {
                     userLoadedListener.UserLoaded(currentUser);
@@ -312,6 +323,13 @@ public class User implements java.io.Serializable {
                 jsonArray.put(trackers.get(i).toJSON());
             }
             jsonObject.put("trackers", jsonArray);
+            try {
+                jsonObject.put("checkSum",checksum(this));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -443,6 +461,8 @@ public class User implements java.io.Serializable {
     public void save() {
         saveUser = true;
         WakeThread();
+        Thread t=new NetWorkThread();
+        t.start();
     }
 
     public interface UserLoadedListener {
@@ -475,8 +495,16 @@ public class User implements java.io.Serializable {
                 }
                 if (currentUser == null) {
                     currentUser = db.readUser(d);
-                    NetWorkThread t=new NetWorkThread();
-                    t.start();
+                    loadUserFromNet(new UserLoadedListener() {
+                        @Override
+                        public void UserLoaded(User user) {
+                            currentUser=user;
+
+                        }
+                    },currentUser.userName);
+                    while (!userLoaded){
+
+                    }
                     try {
                         System.out.println(currentUser.checksum(currentUser));
                     } catch (IOException e) {
@@ -560,21 +588,17 @@ public class User implements java.io.Serializable {
                 writer.flush();
                 conn.connect();
                 int response = conn.getResponseCode();
-                Log.d("meh", "The response is: " + response);
-                is = conn.getInputStream();
+                if (response==200) {
+                    is = conn.getInputStream();
 
-                // Convert the InputStream into a string
-                BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                StringBuilder total = new StringBuilder();
-                String line;
-                while ((line = r.readLine()) != null) {
-                    total.append(line).append('\n');
-                }
-                System.out.println(total);
-                Map map = conn.getHeaderFields();
-                for (Object key : map.keySet()) {
-                    //System.out.println(key + " - " + map.get(key));
-
+                    // Convert the InputStream into a string
+                    BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder total = new StringBuilder();
+                    String line;
+                    while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }
+                    System.out.println(total);
                 }
 
                 // Makes sure that the InputStream is closed after the app is
