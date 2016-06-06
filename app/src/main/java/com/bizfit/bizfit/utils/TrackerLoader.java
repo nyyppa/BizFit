@@ -25,12 +25,11 @@ public class TrackerLoader extends AsyncTask<Void, Void, Void> {
         // TODO load trackers from database
         return null;
     }
-
+    
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (listener != null)
-            listener.onFinish(trackers);
+        if (listener != null) listener.onFinish(trackers);
     }
 
     /**
@@ -39,7 +38,7 @@ public class TrackerLoader extends AsyncTask<Void, Void, Void> {
     public interface OnFinishListener {
         /**
          * Is called when task if finished.
-         *
+         * 
          * @param trackers Loaded trackers.
          */
         void onFinish(Tracker[] trackers);

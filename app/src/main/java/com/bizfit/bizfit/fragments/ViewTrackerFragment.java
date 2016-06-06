@@ -223,6 +223,8 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         builder.setPositiveButton(getString(R.string.action_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                // TODO Progressbar sometimes does not animate fully.
                 float progress = Float.parseFloat(input.getText().toString());
                 float start = tracker.getCurrentProgress() / tracker.getTargetProgress();
                 tracker.addProgress(progress);

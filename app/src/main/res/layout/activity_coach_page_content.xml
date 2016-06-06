@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_marginBottom="-50dp"
+            android:foreground="@drawable/black_fade_bottom">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy" />
+        </FrameLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/placeholderReplacethis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageView5"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="0dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:foregroundTint="@color/black87"
+                    android:foregroundTintMode="src_in"
+                    android:rating="4.5"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-5dp"
+                    android:text="4 ratings"
+                    android:textSize="16sp" />
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/expand_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    expandableTextView:maxCollapsedLines="4"
+                    expandableTextView:animDuration="200"
+                    android:layout_below="@id/textView6"
+                    android:layout_marginTop="16dp">
+                    <TextView
+                        android:id="@id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16sp"
+                        android:textColor="#666666" />
+                    <ImageButton
+                        android:id="@id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:background="@android:color/transparent"/>
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/placeholderReplacethis"
+            android:layout_alignLeft="@id/placeholderReplacethis"
+            android:layout_marginBottom="8dp"
+            android:text="Firstname Surname"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white100" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/textView5"
+            android:layout_alignLeft="@id/placeholderReplacethis"
+            android:text="Field of expertise"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white70"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+</ScrollView>

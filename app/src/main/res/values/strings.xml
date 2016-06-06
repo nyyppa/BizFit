@@ -54,6 +54,15 @@
         <item>@string/month_december</item>
     </array>
 
+    <string-array name="dummy_conversation">
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</item>
+        <item>Donec ut tortor pharetra, auctor purus ut, sollicitudin felis. Cras rutrum, neque et accumsan malesuada, arcu justo pretium mi, eu bibendum ex magna vel ante.</item>
+        <item>Duis blandit bibendum ex nec cursus.</item>
+        <item>Donec ornare, eros et rhoncus volutpat, orci leo lobortis nunc, ac dapibus nulla velit ac ante.</item>
+        <item>Proin dignissim maximus eleifend.</item>
+        <item>Sed ut varius elit.</item>
+    </string-array>
+
     <string-array name="tracker_name_suggestions">
         <item>Abkhazia</item>
         <item>Afghanistan</item>
@@ -303,4 +312,9 @@
     <string name="title_days_target">Todays target</string>
     <string name="title_progress">Progress</string>
     <string name="hint_search_hint">Search for something</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_message">MessageActivity</string>
 </resources>

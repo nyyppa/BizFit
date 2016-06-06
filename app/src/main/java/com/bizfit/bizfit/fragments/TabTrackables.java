@@ -26,22 +26,25 @@ import com.bizfit.bizfit.utils.TrackerLoader;
 /**
  * Displays visual representation of users progress.
  */
-public class TabTrackables extends Fragment implements TrackerLoader.OnFinishListener, User.UserLoadedListener {
+public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
     /**
      * ID used to determine if delete option in contextual menu was clicked.
      */
     public final static int DELETE_ID = 0;
+
     /**
      * Used to determine if onActivityResult() callback was received
      * from AddTracker.
      */
     public static final int SET_NEW_GOAL = 1;
+
     /**
      * Used to determine if onActivityResult() callback was received
      * from ViewTracker.
      */
     public static final int VIEW_GOALS = 2;
+
     /**
      * Tag used to distinguish this fragment when accessing this fragment
      * via FragmentManager. Not yet in use.
@@ -70,11 +73,10 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
     /**
      * Constructs a new TabTrackables object.
-     * <p/>
+     *
      * Required empty public constructor.
      */
-    public TabTrackables() {
-    }
+    public TabTrackables() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,7 +147,7 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
         switch (requestCode) {
             case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
-                    final Intent data2 = data;
+                    final Intent data2=data;
                     User.getLastUser(new User.UserLoadedListener() {
                         @Override
                         public void UserLoaded(User user) {
@@ -170,6 +172,8 @@ public class TabTrackables extends Fragment implements TrackerLoader.OnFinishLis
 
                         }
                     }, getContext());
+
+
 
 
                 } else {
