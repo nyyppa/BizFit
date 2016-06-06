@@ -234,11 +234,6 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
         startActivityForResult(viewTracker, VIEW_GOALS);
     }
 
-    @Override
-    public void onFinish(Tracker[] trackers) {
-        TabTrackables.trackers = trackers;
-        mRecyclerView.getAdapter().notifyDataSetChanged();
-    }
 
     @Override
     public void UserLoaded(final User user) {
