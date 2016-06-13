@@ -96,8 +96,8 @@
     <style name="MessageBase" parent="AppTheme">
         <item name="android:layout_marginRight">@dimen/activity_vertical_margin</item>
         <item name="android:layout_marginLeft">@dimen/activity_vertical_margin</item>
-        <item name="android:layout_marginTop">1dp</item>
-        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:layout_marginTop">@dimen/list_item_message_horizontal_margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/list_item_message_horizontal_margin_small</item>
         <item name="android:padding">6dp</item>
         <item name="android:textSize">16sp</item>
     </style>

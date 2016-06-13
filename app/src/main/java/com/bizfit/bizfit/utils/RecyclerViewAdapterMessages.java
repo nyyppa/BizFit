@@ -1,9 +1,12 @@
 package com.bizfit.bizfit.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.Message;
@@ -18,7 +21,10 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     private ArrayList<Message> messages;
 
-    public RecyclerViewAdapterMessages(String[] dummyText) {
+    protected float messageHorizontalMarginSmall;
+    protected float messageHorizontalMarginLarge;
+
+    public RecyclerViewAdapterMessages(String[] dummyText, Context context) {
         messages = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
             if (i % 5 == 0 || i % 4 == 0) {
@@ -27,7 +33,12 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.SENT));
             }
         }
+
+        messageHorizontalMarginSmall = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_small);
+        messageHorizontalMarginLarge = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_large);
     }
+
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,7 +57,18 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolder) holder).prepareToDisplay(messages.get(position));
+        MarginSize marginSize;
+
+        if (position == messages.size() - 1) {
+            marginSize = MarginSize.SMALL;
+        } else {
+            // If the previous message has same type, use a small margin.
+            marginSize = (messages.get(position).getType() == messages.get(position + 1).getType()) ?
+                    MarginSize.SMALL :
+                    MarginSize.LARGE;
+        }
+
+        ((ViewHolder) holder).prepareToDisplay(messages.get(position), marginSize);
     }
 
     @Override
@@ -59,9 +81,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         return messages.get(position).getType().ordinal();
     }
 
-    public void appendData(Message message) {
+    public void addData(Message message) {
         if (messages == null) messages = new ArrayList<>();
-        messages.add(message);
+        messages.add(0, message);
     }
 
     public void replaceDataSet(ArrayList<Message> messages) {
@@ -83,8 +105,24 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             message = (TextView) itemView.findViewById(R.id.message);
         }
 
-        public void prepareToDisplay(Message message) {
+        public void prepareToDisplay(Message message, MarginSize mSize) {
+            // TODO Check previous layout param state.
             this.message.setText(message.getPayload());
+            if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) this.message.getLayoutParams();
+
+                // Determine if small or large margin should be used.
+                int top = (int)((mSize == MarginSize.SMALL) ? RecyclerViewAdapterMessages.this.messageHorizontalMarginSmall :
+                        RecyclerViewAdapterMessages.this.messageHorizontalMarginLarge);
+
+                // Apply margins.
+                p.setMargins(p.leftMargin, top, p.rightMargin, p.bottomMargin);
+                this.message.requestLayout();
+            }
         }
+    }
+
+    enum MarginSize {
+        LARGE, SMALL;
     }
 }

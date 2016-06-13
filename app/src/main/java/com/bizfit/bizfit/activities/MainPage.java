@@ -50,7 +50,6 @@ public class MainPage extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
 
         setContentView(R.layout.activity_main);
