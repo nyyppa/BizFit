@@ -16,4 +16,14 @@
     <integer name="progress_added_anim_duration">500</integer>
     <integer name="from_zero_anim_duration">2000</integer>
     <integer name="button_animation_duration">80</integer>
+
+    <integer-array name="random_imgs">
+        <item>@drawable/tmp1</item>
+        <item>@drawable/tmp2</item>
+        <item>@drawable/tmp3</item>
+        <item>@drawable/tmp4</item>
+        <item>@drawable/tmp5</item>
+        <item>@drawable/tmp6</item>
+        <item>@drawable/tmp7</item>
+    </integer-array>
 </resources>

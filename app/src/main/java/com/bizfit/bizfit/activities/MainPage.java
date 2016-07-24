@@ -28,6 +28,7 @@ import com.bizfit.bizfit.fragments.TabMessages;
 import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
+import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
 import java.util.List;
@@ -199,7 +200,10 @@ public class MainPage extends AppCompatActivity implements
     }
 
     @Override
-    public void itemClicked(RecyclerViewAdapterStoreRow.ViewHolderStoreItem viewHolderStoreItem) {
-        startActivity(new Intent(this, CoachPage.class));
+    public void itemClicked(StoreRow.StoreItem data) {
+        Intent intent = new Intent(this, CoachPage.class);
+        intent.putExtra(CoachPage.FIELD_COACH_NAME, data.getName());
+        intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, data.getImageId());
+        startActivity(intent);
     }
 }

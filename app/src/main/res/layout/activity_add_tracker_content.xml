@@ -16,7 +16,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
+        <!-- background color doesn't matter, as its only for preview purposes -->
         <LinearLayout
             android:id="@+id/text_view_container"
             android:layout_width="match_parent"
@@ -48,9 +48,9 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:hint="@string/hint_target_name"
                     android:imeOptions="actionNext"
-                    android:minHeight="48dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:minHeight="@dimen/touch_area_min_size"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:selectAllOnFocus="true"
                     android:singleLine="true" />
 
@@ -78,9 +78,9 @@
                     android:hint="@string/hint_target_amount"
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
-                    android:minHeight="48dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:minHeight="@dimen/touch_area_min_size"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:selectAllOnFocus="true"
                     android:singleLine="true" />
 
@@ -105,9 +105,9 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:hint="@string/hint_target_date"
                     android:inputType="none"
-                    android:minHeight="48dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
+                    android:minHeight="@dimen/touch_area_min_size"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:selectAllOnFocus="true" />
 
             </android.support.v7.widget.CardView>
@@ -120,14 +120,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="SELECT A COLOR" />
+            android:text="@string/action_select_a_color" />
 
         <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_done_container"
             style="@style/MaterialButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:layout_marginTop="64dp"

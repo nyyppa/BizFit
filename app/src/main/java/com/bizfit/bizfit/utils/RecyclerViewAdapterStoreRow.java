@@ -1,10 +1,12 @@
 package com.bizfit.bizfit.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
@@ -23,7 +25,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
     /**
      * Set of items to show.
      */
-    private List<StoreRow.StoreItem> data;
+    protected List<StoreRow.StoreItem> data;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,7 +38,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ViewHolderStoreItem) holder).prepForDisplay(data.get(position));
+        ((ViewHolderStoreItem) holder).prepForDisplay(data.get(position), position);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
          * @param viewHolderStoreItem ViewHolderTracker associated with the
          *                            click event.
          */
-        void itemClicked(ViewHolderStoreItem viewHolderStoreItem);
+        void itemClicked(StoreRow.StoreItem viewHolderStoreItem);
     }
 
     /**
@@ -86,16 +88,19 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
      * ViewHolder contains references to all View's which need changing. This
      * is so to reduce overhead created by repeated findViewById() calls.
      */
-    public static class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolderStoreItem extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /**
          * Is a placeholder TextView to test functionality.
          */
         private TextView title;
+        private ImageView image;
+        private int index;
 
         public ViewHolderStoreItem(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView9);
+            image = (ImageView) itemView.findViewById(R.id.imageView3);
             itemView.setOnClickListener(this);
         }
 
@@ -104,16 +109,25 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
          *
          * @param item Item to display.
          */
-        public void prepForDisplay(StoreRow.StoreItem item) {
+        protected void prepForDisplay(StoreRow.StoreItem item, int index) {
+            this.index = index;
             title.setText(item.name);
+            image.setImageDrawable(item.image);
+        }
+
+        public String getName() {
+            return ((String) title.getText());
+        }
+
+        public Drawable getImage() {
+            return image.getDrawable();
         }
 
         @Override
         public void onClick(View v) {
             Context mContext = v.getContext();
-
             if (mContext instanceof StoreItemClicked)
-                ((StoreItemClicked) mContext).itemClicked(this);
+                ((StoreItemClicked) mContext).itemClicked(RecyclerViewAdapterStoreRow.this.data.get(index));
         }
     }
 }

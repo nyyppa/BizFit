@@ -1,7 +1,7 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin_large">32dp</dimen>
+    <dimen name="activity_vertical_margin_wide">32dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="tab_max_width">264dp</dimen>
     <dimen name="tab_padding_bottom">16dp</dimen>
@@ -30,4 +30,5 @@
 
     <dimen name="list_item_message_horizontal_margin_small">1dp</dimen>
     <dimen name="list_item_message_horizontal_margin_large">8dp</dimen>
+    <dimen name="touch_area_min_size">48dp</dimen>
 </resources>

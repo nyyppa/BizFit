@@ -105,13 +105,13 @@
     <style name="MessageSent" parent="MessageBase">
         <item name="android:background">@drawable/message_sent_background</item>
         <item name="android:textColor">@color/white100</item>
-        <item name="android:layout_marginLeft">@dimen/activity_vertical_margin_large</item>
+        <item name="android:layout_marginLeft">@dimen/activity_vertical_margin_wide</item>
     </style>
 
     <style name="MessageReceived" parent="MessageBase">
         <item name="android:background">@drawable/message_received_background</item>
         <item name="android:textColor">@color/black87</item>
-        <item name="android:layout_marginRight">@dimen/activity_vertical_margin_large</item>
+        <item name="android:layout_marginRight">@dimen/activity_vertical_margin_wide</item>
     </style>
 
 </resources>

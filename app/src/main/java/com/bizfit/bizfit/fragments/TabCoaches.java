@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.fragments;
 
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,11 +52,21 @@ public class TabCoaches extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         storeRows = new LinkedList<>();
 
+        final String[] firstNames = getResources().getStringArray(R.array.random_first_name);
+        final String[] lastNames = getResources().getStringArray(R.array.random_last_name);
+        final TypedArray imgIDs = getResources().obtainTypedArray(R.array.random_imgs);
+
+
         for (int i = 0; i < 10; i++) {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
 
             for (int j = 0; j < 10; j++) {
-                items.add(new StoreRow.StoreItem("name"));
+                // Assign a random name and image.
+                // TODO Parse info from server.
+                int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
+                items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
+                        lastNames[(int) (Math.random() * lastNames.length)],
+                        getResources().getDrawable(imageId), imageId));
             }
             HashMap<String, String> stringData = new HashMap<>();
             stringData.put(StoreRow.TITLE, "Title");
@@ -66,27 +77,16 @@ public class TabCoaches extends Fragment {
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         adapter = new RecyclerViewAdapterCoaches(storeRows);
 
+
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mManager) {
             @Override
             public void onLoadMore(int current_page) {
-                storeRows = new LinkedList<>();
-                int count = adapter.getItemCount();
-                for (int i = count; i < count + 10; i++) {
-                    LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
-
-                    for (int j = 0; j < 10; j++) {
-                        items.add(new StoreRow.StoreItem("name"));
-                    }
-                    HashMap<String, String> stringData = new HashMap<>();
-                    stringData.put(StoreRow.TITLE, "Title");
-                    storeRows.add(new StoreRow(stringData, items));
-                }
-
-                // TODO notifyDataSetChanged() is too intensive once data set grows.
-                adapter.notifyDataSetChanged();
+                // TODO Request data from server.
             }
         });
+
+        imgIDs.recycle();
     }
 }

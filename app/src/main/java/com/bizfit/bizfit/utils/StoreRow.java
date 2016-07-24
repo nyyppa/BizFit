@@ -128,10 +128,21 @@ public class StoreRow<T> {
      */
     public static class StoreItem {
         protected String name;
-        protected Image image;
+        protected Drawable image;
+        protected int imageId;
 
-        public StoreItem(String name) {
+        public StoreItem(String name, Drawable image, int imageId) {
+            this.image = image;
             this.name = name;
+            this.imageId = imageId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getImageId() {
+            return imageId;
         }
     }
 }

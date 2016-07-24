@@ -1,10 +1,12 @@
 package com.bizfit.bizfit.utils;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
@@ -129,14 +131,12 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
             container.setLayoutManager(mLayout);
             container.setAdapter(adapter);
             container.setNestedScrollingEnabled(false);
+
             container.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayout) {
                 @Override
                 public void onLoadMore(int current_page) {
-                    if (adapter.getItemCount() < 30) {
-                        adapter.addData(new StoreRow.StoreItem("name"));
-                    }
-
-                    adapter.notifyDataSetChanged();
+                    // TODO Request data from server and display a loading
+                    // animation.
                 }
             });
             title = (TextView) itemView.findViewById(R.id.textView8);

@@ -106,7 +106,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         }
 
         public void prepareToDisplay(Message message, MarginSize mSize) {
-            // TODO Check previous layout param state.
+            // TODO Check previous layout param state used for this particular item.
             this.message.setText(message.getPayload());
             if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) this.message.getLayoutParams();

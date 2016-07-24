@@ -316,4 +316,36 @@
     <string name="hint_message_field">Message...</string>
 
     <string name="title_activity_message">MessageActivity</string>
+
+
+    <string-array name="random_first_name">
+        <item>JAMES</item>
+        <item>JOHN</item>
+        <item>ROBERT</item>
+        <item>MICHAEL </item>
+        <item>WILLIAM </item>
+        <item>DAVID</item>
+        <item>RICHARD</item>
+        <item>CHARLES</item>
+        <item>JOSEPH</item>
+        <item>THOMAS</item>
+        <item>CHRISTOPHER</item>
+        <item>DANIEL</item>
+        <item>PAUL</item>
+        <item>MARK</item>
+        <item>DONALD</item>
+    </string-array>
+
+    <string-array name="random_last_name">
+        <item>SMITH</item>
+        <item>WILLIAMS</item>
+        <item>JONES</item>
+        <item>BROWN</item>
+        <item>JOHNSON</item>
+        <item>DAVIS</item>
+        <item>MILLER</item>
+        <item>WILSON</item>
+        <item>MOORE</item>
+        <item>TAYLOR</item>
+    </string-array>
 </resources>

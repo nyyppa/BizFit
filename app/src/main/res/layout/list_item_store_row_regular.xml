@@ -2,19 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
 
     <TextView
-        android:layout_marginLeft="16dp"
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:text="Title"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Optional subtitle"
+        android:textColor="@color/black54"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp"/>
 
     <com.bizfit.bizfit.views.CustomRecyclerView
         android:id="@+id/view3"
@@ -22,6 +33,6 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingRight="16dp"
-        android:paddingLeft="16dp"/>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" />
 </LinearLayout>
