@@ -1,5 +1,9 @@
 package com.bizfit.bizfit;
 
+import android.net.Network;
+
+import com.bizfit.bizfit.views.MyNetwork;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +15,7 @@ import java.util.List;
 /**
  * Created by Atte Ylivrronen on 10.5.2016.
  */
-public class Conversation {
+public class Conversation implements NetworkReturn {
     String sender;
     String resipiant;
     List<Message> messages;
@@ -39,6 +43,15 @@ public class Conversation {
     public void sendMessage(String text){
         Message m=new Message(sender,resipiant,text);
         messages.add(m);
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("Job","SendMessage");
+            jsonObject.put("message",m.toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MyNetwork n=new MyNetwork(null,this,jsonObject);
+
     }
 
     public List<Message> getMessages(){
@@ -71,5 +84,9 @@ public class Conversation {
         
     }
 
+    @Override
+    public void returnMessage(String message) {
+
+    }
 }
 
