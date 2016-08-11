@@ -157,8 +157,6 @@ public class User implements java.io.Serializable {
             thread.notify();
             thread.sleepThread = false;
         }
-
-
     }
 
     /**
@@ -530,11 +528,22 @@ public class User implements java.io.Serializable {
                     db.deleteTracker(d, iterator.next());
                     iterator.remove();
                 }
+                for(int i=0;i<listeners.size();i++){
+                    listeners.get(i).UserLoaded(currentUser);
+                    //listeners.remove(i);
+                }
+                listeners.clear();
                 Iterator<UserLoadedListener> iterator1 = listeners.iterator();
                 while (iterator1.hasNext()) {
-                    final UserLoadedListener userLoadedListener = iterator1.next();
-                    userLoadedListener.UserLoaded(currentUser);
-                    iterator1.remove();
+
+                    //// TODO: 11.8.2016 keksi parempi ratkasu
+                    try {
+                        //final UserLoadedListener userLoadedListener = iterator1.next();
+                        //userLoadedListener.UserLoaded(currentUser);
+                        //iterator1.remove();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 sleepThread = true;
                 while (sleepThread) {

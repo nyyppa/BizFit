@@ -1,4 +1,4 @@
-package com.bizfit.bizfit.views;
+package com.bizfit.bizfit;
 
 import android.net.Network;
 

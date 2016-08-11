@@ -28,9 +28,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         messages = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
             if (i % 5 == 0 || i % 4 == 0) {
-                messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.RECEIVED));
+                messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.RECEIVED,context));
             } else {
-                messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.SENT));
+                messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.SENT,context));
             }
         }
 

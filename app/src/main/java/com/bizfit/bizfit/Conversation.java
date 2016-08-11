@@ -1,9 +1,5 @@
 package com.bizfit.bizfit;
 
-import android.net.Network;
-
-import com.bizfit.bizfit.views.MyNetwork;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

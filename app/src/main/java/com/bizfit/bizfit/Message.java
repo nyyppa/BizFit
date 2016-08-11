@@ -1,4 +1,6 @@
 package com.bizfit.bizfit;
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,8 +25,9 @@ public class Message {
     private String payload;
     private Type type;
     String sender;
-    String resipiant;
+    String resipiant="atte.yliverronen@gmail.com";
     long creationTime;
+    User user2;
     public Message(String sender,String resipiant,String text){
         this.sender=sender;
         this.resipiant=resipiant;
@@ -59,7 +62,17 @@ public class Message {
         }
         return jsonObject;
     }
-    public Message(String payload, Type type) {
+    public Message(final String payload, Type type,Context c) {
+        User.getLastUser(new User.UserLoadedListener() {
+            @Override
+            public void UserLoaded(User user) {
+                user2=user;
+                sender=user.userName;
+                System.out.println("haist");
+                System.out.println(payload);
+                sendMessage();
+            }
+        },c);
         this.payload = payload;
         this.type = type;
     }
@@ -101,7 +114,7 @@ public class Message {
                     try {
                         jsonObject1.put("_id", sender);
                         jsonObject1.put("resipiant",resipiant);
-                        jsonObject1.put("Job","message");
+                        jsonObject1.put("Job","send_message");
                         jsonObject1.put("message", jsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
