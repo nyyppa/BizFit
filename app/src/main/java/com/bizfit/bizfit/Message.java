@@ -23,7 +23,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class Message {
     private String payload;
-    private Type type;
+    private Type type=Type.RECEIVED;
     String sender;
     String resipiant="atte.yliverronen@gmail.com";
     long creationTime;
@@ -39,7 +39,9 @@ public class Message {
         try {
             sender=jsonObject.getString("sender");
             resipiant=jsonObject.getString("resipiant");
-            payload=jsonObject.getString("text");
+            if(jsonObject.has("text")){
+                payload=jsonObject.getString("text");
+            }
             creationTime=jsonObject.getLong("creationTime");
         } catch (JSONException e) {
             e.printStackTrace();
