@@ -25,11 +25,17 @@ public class GetMessagesFromServer extends Thread implements NetworkReturn{
         while (true){
             try {
                 JSONObject jsonObject=new JSONObject();
+                Message m=mAdapter.getLastRecievedMessage();
                 try {
                     jsonObject.put("_id", "atte.yliverronen@gmail.com");
-                    jsonObject.put("resipiant","atte.yliverronen@gmail.com");
-                    jsonObject.put("Job","get_message");
-                    jsonObject.put("creationTime", -1);
+                    jsonObject.put("resipiant", "atte.yliverronen@gmail.com");
+                    jsonObject.put("Job", "get_message");
+                    if(m!=null){
+                        jsonObject.put("creationTime",m.getCreationTime());
+                    }else{
+                        jsonObject.put("creationTime", -1);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -38,6 +38,14 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         messageHorizontalMarginLarge = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_large);
     }
 
+    public Message getLastRecievedMessage(){
+        for(int i=messages.size()-1;i>=0;i--){
+            if(messages.get(i).getType()== Message.Type.RECEIVED){
+                return messages.get(i);
+            }
+        }
+        return null;
+    }
 
 
     @Override
