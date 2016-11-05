@@ -77,6 +77,7 @@ public class Message {
         },c);
         this.payload = payload;
         this.type = type;
+        creationTime=System.currentTimeMillis();
     }
 
     public String getPayload() {

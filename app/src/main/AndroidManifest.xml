@@ -26,10 +26,10 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <!--
-                Uncomment for splash screen
+
+                <!--Uncomment for splash screen-->
                 <category android:name="android.intent.category.LAUNCHER" />
-                -->
+
             </intent-filter>
         </activity>
 

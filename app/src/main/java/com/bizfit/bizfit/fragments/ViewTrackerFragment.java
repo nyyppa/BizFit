@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.decorators.EndAndStartDayViewDecorator;
 import com.bizfit.bizfit.decorators.TodayDayViewDecorator;
+import com.bizfit.bizfit.utils.OurDateTime;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.io.Serializable;
@@ -115,6 +117,8 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mCalendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
         mCalendar.setCurrentDate(Calendar.getInstance());
         mCalendar.addDecorator(new TodayDayViewDecorator(getContext()));
+        mCalendar.addDecorator(new EndAndStartDayViewDecorator(getContext(),new OurDateTime(tracker.getStartDateMillis())));
+        mCalendar.addDecorator(new EndAndStartDayViewDecorator(getContext(),new OurDateTime(tracker.getEndDateMillis())));
         // Tracker does not yet provide functionality to check if a goal  was met on
         // a specific date. Hence the pseudo code.
         //mCalendar.addDecorator(new GoalMissedDayViewDecorator(getContext()));
@@ -143,6 +147,9 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mDailyProgress = (TextView) root.findViewById(R.id.textView_daily_progress);
         // TODO get todays progress
         mDailyProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
+
+        TextView t= (TextView) root.findViewById(R.id.textView_daily_target);
+        t.setText(String.valueOf(tracker.getDailyTarget()));
 
         mTotalProgress = (TextView) root.findViewById(R.id.textView_total_progress);
         mTotalProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));

@@ -54,7 +54,10 @@ public class Tracker implements java.io.Serializable {
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
     int id;
     transient DataChangedListener listener;
-
+    public int getDailyTarget(){
+        long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
+        return (int)targetProgress/(int)days;
+    }
     public Tracker(Helper h) {
         startDate = h.startDate;
         lastReset = h.lastReset;
