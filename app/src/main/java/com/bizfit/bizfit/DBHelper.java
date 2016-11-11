@@ -9,6 +9,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,15 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param user user to save
      */
     public void saveUser(SQLiteDatabase db, User user) {
+        if (!isTableExists(db, "user")) {
+            db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,user TEXT)");
+
+
+        }
+        ContentValues values = new ContentValues();
+        values.put("user", user.toJSON().toString());
+        db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        /*
         if (!isTableExists(db, "user")) {
             db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT, trackerTable TEXT,lastTrackerID INTEGER,nextFreeDailyProgressID INTEGER)");
 
@@ -122,7 +134,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
                 db.insertWithOnConflict("user_" + user.userNumber + "_DailyProgressTable", null, values, SQLiteDatabase.CONFLICT_REPLACE);
             }
-        }
+        }*/
     }
 
     @Override
@@ -190,6 +202,35 @@ public class DBHelper extends SQLiteOpenHelper {
         User user = null;
         ArrayList<Tracker> trackerList = null;
         if (isTableExists(db, "user")) {
+            Cursor cursor = db.rawQuery("SELECT * FROM user", null);
+            cursor.moveToFirst();
+            try {
+                user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
+                System.out.print(cursor.getString(cursor.getColumnIndex("user")));
+                System.out.println(user);
+                System.out.println("hehe");
+            } catch (JSONException e) {
+                System.out.println("heihoi");
+                e.printStackTrace();
+            }
+        }else {
+            String name;
+            final AccountManager manager = AccountManager.get(User.getContext());
+            final Account[] accounts = manager.getAccountsByType("com.google");
+            final int size = accounts.length;
+            String[] names = new String[size];
+            for (int i = 0; i < size; i++) {
+                names[i] = accounts[i].name;
+
+            }
+            if (names.length > 0) {
+                name = names[0];
+            } else {
+                name = "default";
+            }
+            return new User(name);
+        }
+        /*if (isTableExists(db, "user")) {
             Cursor cursor = db.rawQuery("SELECT * FROM user", null);
             cursor.moveToFirst();
             user = new User(cursor.getString(cursor.getColumnIndex("username")));
@@ -285,11 +326,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 name = "default";
             }
             return new User(name);
-        }
-        user.trackers = trackerList;
-        user.updateIndexes();
+        }*/
+        //user.trackers = trackerList;
+        //user.updateIndexes();
         return user;
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
