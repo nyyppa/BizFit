@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainPage">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_main"
@@ -43,12 +43,14 @@
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
+                    style="@style/test"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     app:tabGravity="fill"
                     app:tabIndicatorColor="@color/white100"
                     app:tabMaxWidth="264dp"
-                    app:tabMode="fixed" />
+                    app:tabMode="fixed"
+                    android:theme="@style/test" />
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>

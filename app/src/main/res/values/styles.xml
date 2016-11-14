@@ -28,6 +28,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="test" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">1sp</item>
+    </style>
+
     <style name="AppThemeLight" parent="AppTheme">
         <item name="colorPrimary">@color/material_grey_50</item>
         <item name="colorPrimaryDark">@color/material_grey_600</item>

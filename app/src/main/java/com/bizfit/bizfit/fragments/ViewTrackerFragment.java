@@ -155,7 +155,7 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
         mTotalProgress.setText(String.valueOf((int) tracker.getCurrentProgress()));
 
         mTimeLeft = (TextView) root.findViewById(R.id.textView_time_left);
-        mTimeLeft.setText(tracker.getTimeRemaining().getTimeRemaining() + tracker.getTimeRemaining().getTimeType());
+        mTimeLeft.setText(tracker.getTimeRemaining().getTimeRemaining() +" "+ tracker.getTimeRemaining().getTimeType());
 
         mName = (TextView) root.findViewById(R.id.textView_name);
         mName.setText(tracker.getName());

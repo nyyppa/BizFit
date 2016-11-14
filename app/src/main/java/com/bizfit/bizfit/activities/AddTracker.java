@@ -257,6 +257,9 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    public void MinuaPainettiin(View v){
+        v.setVisibility(View.INVISIBLE);
+    }
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         int id = v.getId();
