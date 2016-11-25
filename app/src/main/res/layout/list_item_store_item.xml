@@ -10,19 +10,18 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="235dp">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/dummy" />
+            android:src="@drawable/dummy"
+            android:layout_height="140dp"/>
 
         <TextView
-            android:layout_margin="8dp"
             android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="NIMI"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -30,7 +29,19 @@
             android:layout_below="@id/imageView3"
             android:textSize="14sp"
             android:minLines="2"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            android:text="Aut debitis aut ipsa repellendus. . "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12"
+            android:layout_below="@+id/textView9"
+            android:layout_alignLeft="@+id/textView9"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_alignRight="@+id/textView9"
+            android:layout_alignEnd="@+id/textView9"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
