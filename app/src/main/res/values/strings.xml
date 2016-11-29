@@ -317,7 +317,18 @@
 
     <string name="title_activity_message">MessageActivity</string>
 
-
+    <string-array name="random_job_title">
+        <item>Sales</item>
+        <item>Accounting</item>
+        <item>Sosial Media Marketing</item>
+        <item>Marketing</item>
+        <item>Cold Calls</item>
+        <item>Work Safety</item>
+        <item>Work Happines</item>
+        <item>Work Satisfaction</item>
+        <item>German importing</item>
+        <item>Russian exports</item>
+    </string-array>
     <string-array name="random_first_name">
         <item>JAMES</item>
         <item>JOHN</item>

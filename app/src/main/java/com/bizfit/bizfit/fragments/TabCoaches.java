@@ -55,6 +55,7 @@ public class TabCoaches extends Fragment {
         final String[] firstNames = getResources().getStringArray(R.array.random_first_name);
         final String[] lastNames = getResources().getStringArray(R.array.random_last_name);
         final TypedArray imgIDs = getResources().obtainTypedArray(R.array.random_imgs);
+        final String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
 
 
         for (int i = 0; i < 10; i++) {
@@ -69,7 +70,7 @@ public class TabCoaches extends Fragment {
                         getResources().getDrawable(imageId), imageId));
             }
             HashMap<String, String> stringData = new HashMap<>();
-            stringData.put(StoreRow.TITLE, "Title");
+            stringData.put(StoreRow.TITLE,jobTitles[i]);
             storeRows.add(new StoreRow(stringData, items));
         }
 
