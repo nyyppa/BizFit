@@ -100,7 +100,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         public ViewHolderStoreItem(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView9);
-            image = (ImageView) itemView.findViewById(R.id.imageView3);
+            image = (ImageView) itemView.findViewById(R.id.iVCoach);
             itemView.setOnClickListener(this);
         }
 
