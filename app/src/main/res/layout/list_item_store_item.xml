@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="266dp">
+        android:layout_height="261dp">
 
         <ImageView
             android:id="@+id/iVCoach"
@@ -48,10 +48,10 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_call_black_24dp"
             android:id="@+id/iVIconPhone"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/textView12"
             android:layout_alignLeft="@+id/textView12"
             android:layout_alignStart="@+id/textView12"
-            android:layout_marginBottom="9dp"/>
+            android:layout_marginTop="8dp"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -66,9 +66,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_chat_black_24dp"
-            android:id="@+id/imageView9"
+            android:id="@+id/iViconMail"
             android:layout_alignTop="@+id/iVIconMail"
             android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_sentiment_satisfied_black_24dp"
+            android:id="@+id/iVIconSatisfied"
+            android:layout_alignTop="@+id/iViconMail"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tVTestimonials"
+            android:text='""'
+            android:layout_alignTop="@+id/iVIconSatisfied"
+            android:layout_toLeftOf="@+id/iVIconSatisfied"
+            android:layout_toStartOf="@+id/iVIconSatisfied"/>
 
     </RelativeLayout>
 

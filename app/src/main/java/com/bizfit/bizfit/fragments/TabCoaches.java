@@ -48,7 +48,8 @@ public class TabCoaches extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         storeRows = new LinkedList<>();
 
@@ -58,16 +59,18 @@ public class TabCoaches extends Fragment {
         final String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++)
+        {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
 
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 10; j++)
+            {
                 // Assign a random name and image.
                 // TODO Parse info from server.
                 int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
                 items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
                         lastNames[(int) (Math.random() * lastNames.length)],
-                        getResources().getDrawable(imageId), imageId));
+                        getResources().getDrawable(imageId), imageId,(int) (Math.random()*400)));
             }
             HashMap<String, String> stringData = new HashMap<>();
             stringData.put(StoreRow.TITLE,jobTitles[i]);

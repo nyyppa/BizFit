@@ -96,11 +96,14 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         private TextView title;
         private ImageView image;
         private int index;
+        private TextView testimonials;
 
-        public ViewHolderStoreItem(View itemView) {
+        public ViewHolderStoreItem(View itemView)
+        {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.textView9);
             image = (ImageView) itemView.findViewById(R.id.iVCoach);
+            testimonials = (TextView) itemView.findViewById(R.id.tVTestimonials);
             itemView.setOnClickListener(this);
         }
 
@@ -109,10 +112,12 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
          *
          * @param item Item to display.
          */
-        protected void prepForDisplay(StoreRow.StoreItem item, int index) {
+        protected void prepForDisplay(StoreRow.StoreItem item, int index)
+        {
             this.index = index;
             title.setText(item.name);
             image.setImageDrawable(item.image);
+            testimonials.setText(item.testimonials +"");
         }
 
         public String getName() {

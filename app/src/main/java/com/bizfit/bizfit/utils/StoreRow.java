@@ -2,6 +2,7 @@ package com.bizfit.bizfit.utils;
 
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -126,15 +127,19 @@ public class StoreRow<T> {
     /**
      * Represents a single coach in the store.
      */
-    public static class StoreItem {
+    public static class StoreItem
+    {
         protected String name;
         protected Drawable image;
         protected int imageId;
+        protected int testimonials;
 
-        public StoreItem(String name, Drawable image, int imageId) {
+        public StoreItem(String name, Drawable image, int imageId, int testimonials)
+        {
             this.image = image;
             this.name = name;
             this.imageId = imageId;
+            this.testimonials = testimonials;
         }
 
         public String getName() {
