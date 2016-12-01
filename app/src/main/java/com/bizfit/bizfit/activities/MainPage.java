@@ -65,15 +65,10 @@ public class MainPage extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // TODO DELETE THIS ABOMINATION!
-                boolean success = false;
-                for (int i = 0; i < getSupportFragmentManager().getFragments().size() && !success; i++) {
-                    try {
+                for (int i = 0; i < getSupportFragmentManager().getFragments().size(); i++){
+                    if(getSupportFragmentManager().getFragments().get(i) instanceof TabTrackables){
                         ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchAddTrackerActivity();
-                        success = true;
-                    } catch (ClassCastException e) {
-
+                        break;
                     }
                 }
             }
@@ -186,14 +181,10 @@ public class MainPage extends AppCompatActivity implements
         if (vh instanceof RecyclerViewAdapterTrackers.ViewHolderTracker) {
             List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-            // TODO DELETE THIS ABOMINATION!
-            boolean success = false;
-            for (int i = 0; i < fragments.size() && !success; i++) {
-                try {
-                    ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchViewTrackerActivity(vh);
-                    success = true;
-                } catch (ClassCastException e) {
-
+            for(int i=0;i<fragments.size();i++){
+                if(fragments.get(i) instanceof  TabTrackables){
+                    ((TabTrackables) fragments.get(i)).launchViewTrackerActivity(vh);
+                    break;
                 }
             }
         }
