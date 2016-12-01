@@ -316,7 +316,6 @@
     <string name="hint_message_field">Message...</string>
 
     <string name="title_activity_message">MessageActivity</string>
-
     <string-array name="random_job_title">
         <item>Sales</item>
         <item>Accounting</item>

@@ -32,6 +32,10 @@ public class CoachPage extends AppCompatActivity
         ExpandableTextView expTv1 = (ExpandableTextView) findViewById(R.id.expand_text_view)
                 .findViewById(R.id.expand_text_view);
 
+        TextView fieldOfExpertice=(TextView)findViewById(R.id.textView7);
+        String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
+        fieldOfExpertice.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
+
         // TODO Content should be fetched from the server. API specific resource reference.
         expTv1.setText(getString(R.string.dummy));
         Intent intent = getIntent();
