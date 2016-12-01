@@ -66,7 +66,7 @@ public class TabCoaches extends Fragment {
             for (int j = 0; j < 10; j++)
             {
                 // Assign a random name and image.
-                // TODO Parse info from server.
+                // TODO Parse info from server and fix deprecated function
                 int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
                 items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
                         lastNames[(int) (Math.random() * lastNames.length)],
