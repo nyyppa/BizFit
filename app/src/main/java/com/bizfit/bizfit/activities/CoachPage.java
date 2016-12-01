@@ -1,13 +1,9 @@
 package com.bizfit.bizfit.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,11 +25,11 @@ public class CoachPage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_page);
-        ExpandableTextView expTv1 = (ExpandableTextView) findViewById(R.id.expand_text_view)
-                .findViewById(R.id.expand_text_view);
+        TextView tvIntro = (TextView) findViewById(R.id.tVIntro)
+                .findViewById(R.id.tVIntro);
 
         // TODO Content should be fetched from the server. API specific resource reference.
-        expTv1.setText(getString(R.string.dummy));
+        tvIntro.setText(getString(R.string.dummy));
         Intent intent = getIntent();
 
         if (intent != null)
@@ -51,7 +47,7 @@ public class CoachPage extends AppCompatActivity
             // ((ImageView) findViewById(R.id.coach_banner_image)).setImageDrawable(getResources().getDrawable(imgId));
              */
             if (name != null)
-                ((TextView) findViewById(R.id.textView5)).setText(name);
+                ((TextView) findViewById(R.id.tVName)).setText(name);
         }
     }
 }

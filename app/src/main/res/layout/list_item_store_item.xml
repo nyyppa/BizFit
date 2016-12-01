@@ -31,8 +31,9 @@
             android:minLines="2"
             android:maxLines="2"
             android:layout_margin="8dp"/>
-
+            <!-- TODO different sales pitches to coaches -->
         <TextView
+
             android:text="Aut debitis aut ipsa repellendus. . "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

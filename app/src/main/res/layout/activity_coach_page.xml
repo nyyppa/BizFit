@@ -7,5 +7,5 @@
     <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        layout="@layout/activity_coach_page_content" />
+        layout="@layout/activity_coach_page_content_1" />
 </RelativeLayout>
