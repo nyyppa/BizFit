@@ -28,7 +28,7 @@ public class CoachPage extends AppCompatActivity
         TextView tvIntro = (TextView) findViewById(R.id.tVIntro)
                 .findViewById(R.id.tVIntro);
 
-        TextView fieldOfExpertice=(TextView)findViewById(R.id.textView7);
+        TextView fieldOfExpertice=(TextView)findViewById(R.id.tVexpertise);
         String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
         fieldOfExpertice.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
 
