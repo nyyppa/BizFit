@@ -313,10 +313,10 @@
     <string name="title_progress">Progress</string>
     <string name="hint_search_hint">Search for something</string>
     <string name="hint_message_field">Message...</string>
+    <string name="list_item_store_row_regular_more_button">more</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="title_activity_message">MessageActivity</string>
-
     <string-array name="random_job_title">
         <item>Sales</item>
         <item>Accounting</item>

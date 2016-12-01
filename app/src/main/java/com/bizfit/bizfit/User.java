@@ -444,7 +444,8 @@ public class User implements java.io.Serializable {
             Tracker current = iterator.next();
             if (current == t) {
                 iterator.remove();
-                trackersToDelete.add(t);
+                //trackersToDelete.add(t);
+                save();
                 WakeThread();
                 break;
             }

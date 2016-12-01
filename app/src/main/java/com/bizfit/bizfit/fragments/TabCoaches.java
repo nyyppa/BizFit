@@ -4,6 +4,7 @@ package com.bizfit.bizfit.fragments;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,11 +67,12 @@ public class TabCoaches extends Fragment {
             for (int j = 0; j < 10; j++)
             {
                 // Assign a random name and image.
-                // TODO Parse info from server and fix deprecated function
+                // TODO Parse info from server
                 int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
                 items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
                         lastNames[(int) (Math.random() * lastNames.length)],
-                        getResources().getDrawable(imageId), imageId,(int) (Math.random()*400)));
+                        ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400)));
+
             }
             HashMap<String, String> stringData = new HashMap<>();
             stringData.put(StoreRow.TITLE,jobTitles[i]);

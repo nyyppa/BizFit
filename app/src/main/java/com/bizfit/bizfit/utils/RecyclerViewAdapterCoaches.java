@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -170,6 +171,30 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
         public BigPromotion(View itemView) {
             super(itemView);
+            final String[] jobTitles=itemView.getResources().getStringArray(R.array.random_job_title);
+            List<TextView> viewList=new ArrayList<TextView>(0);
+            viewList.addAll(getViewsByTag((ViewGroup)itemView.getRootView(),"ballText"));
+            for(int i=0;i<viewList.size();i++){
+                viewList.get(i).setText(jobTitles[i]+"");
+            }
+
+        }
+        ArrayList<TextView> getViewsByTag(ViewGroup root, String tag) {
+            ArrayList<TextView> views = new ArrayList<TextView>();
+            final int childCount = root.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = root.getChildAt(i);
+                if (child instanceof ViewGroup) {
+                    views.addAll(getViewsByTag((ViewGroup) child, tag));
+                }
+
+                final Object tagObj = child.getTag();
+                if (tagObj != null && tagObj.equals(tag)) {
+                    views.add((TextView)child);
+                }
+
+            }
+            return views;
         }
     }
 }
