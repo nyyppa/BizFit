@@ -44,7 +44,7 @@ public class MyAlarmService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        NotificationSender.sendNotification(this, "hei", "hei");
+        //NotificationSender.sendNotification(this, "hei", "hei");
         User.update(this);
         return START_NOT_STICKY;
     }
