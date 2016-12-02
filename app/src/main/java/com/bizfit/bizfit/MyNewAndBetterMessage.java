@@ -14,9 +14,12 @@ public class MyNewAndBetterMessage implements NetworkReturn {
     private String message="";
     private long creationTime=0;
     private boolean hasBeenSent=false;
+    private MyNewAndBetterConversation myNewAndBetterConversation;
+    private Job job;
 
 
-    public MyNewAndBetterMessage(JSONObject jsonObject){
+    public MyNewAndBetterMessage(JSONObject jsonObject,MyNewAndBetterConversation myNewAndBetterConversation){
+        this.myNewAndBetterConversation=myNewAndBetterConversation;
         try {
             sender=jsonObject.getString("sender");
             resipient=jsonObject.getString("resipient");
@@ -30,11 +33,23 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         }
     }
 
-    public MyNewAndBetterMessage(String resipient,String sender,String message){
+    public MyNewAndBetterMessage(MyNewAndBetterConversation myNewAndBetterConversation,String resipient,String sender,String message){
+        this.myNewAndBetterConversation=myNewAndBetterConversation;
         this.resipient=resipient;
         this.sender=sender;
         this.message=message;
         creationTime=System.currentTimeMillis();
+    }
+
+    private void setJob(){
+        if(myNewAndBetterConversation.getOwner().equals(getSender())){
+            job=Job.sent;
+        }else{
+            job=Job.received;
+        }
+    }
+    public Job getJob(){
+        return job;
     }
     public String getResipient() {
         return resipient;
@@ -69,7 +84,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         new Thread(new MyNetwork(targetAddress,this,message)).start();
 
     }
-    public void reSend(){
+    public void checkToResend(){
         if(!hasBeenSent){
             sendMessage(null);
         }
@@ -93,5 +108,9 @@ public class MyNewAndBetterMessage implements NetworkReturn {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public enum Job{
+        sent,received;
     }
 }
