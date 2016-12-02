@@ -70,9 +70,11 @@ public class MyNetwork implements Runnable {
                     System.out.println(line);
                     total.append(line).append('\n');
                 }
-                networkReturn.returnMessage(total.toString());
+                sentReturnMessage(total.toString());
+                //networkReturn.returnMessage(total.toString());
             }else{
-                networkReturn.returnMessage("failed");
+                sentReturnMessage("failed");
+                //networkReturn.returnMessage("failed");
             }
 
             // Makes sure that the InputStream is closed after the app is
@@ -92,6 +94,11 @@ public class MyNetwork implements Runnable {
                 }
             }
 
+        }
+    }
+    void sentReturnMessage(String message){
+        if(networkReturn!=null){
+            networkReturn.returnMessage(message);
         }
     }
 }

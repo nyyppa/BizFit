@@ -70,7 +70,6 @@ public class Message {
             public void UserLoaded(User user) {
                 user2=user;
                 sender=user.userName;
-                System.out.println("haist");
                 System.out.println(payload);
                 sendMessage();
             }
