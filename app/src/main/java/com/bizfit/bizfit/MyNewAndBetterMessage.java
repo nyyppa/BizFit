@@ -9,11 +9,12 @@ import org.json.JSONObject;
 
 public class MyNewAndBetterMessage implements NetworkReturn {
 
-    String resipient="";
-    String sender="";
-    String message="";
-    long creationTime=0;
-    boolean hasBeenSent=false;
+    private String resipient="";
+    private String sender="";
+    private String message="";
+    private long creationTime=0;
+    private boolean hasBeenSent=false;
+
 
     public MyNewAndBetterMessage(JSONObject jsonObject){
         try {
@@ -35,6 +36,26 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         this.message=message;
         creationTime=System.currentTimeMillis();
     }
+    public String getResipient() {
+        return resipient;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public boolean isHasBeenSent() {
+        return hasBeenSent;
+    }
+
 
     public void sendMessage(String targetAddress){
         JSONObject message=new JSONObject();
