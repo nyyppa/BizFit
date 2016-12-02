@@ -28,9 +28,16 @@ public class CoachPage extends AppCompatActivity
         TextView tvIntro = (TextView) findViewById(R.id.tVIntro)
                 .findViewById(R.id.tVIntro);
 
-        TextView fieldOfExpertice=(TextView)findViewById(R.id.tVexpertise);
+        //random coach information assignments
+        TextView fieldOfExpertise=(TextView)findViewById(R.id.tVExpertise);
         String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
-        fieldOfExpertice.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
+        fieldOfExpertise.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
+
+        TextView placeofResidence=(TextView)findViewById(R.id.tVPlaceOfResidence);
+        String[] countriesAndCities=getResources().getStringArray(R.array.random_country_and_city);
+        placeofResidence.setText(countriesAndCities[(int)(Math.random()*countriesAndCities.length-1)]);
+
+
 
         // TODO Content should be fetched from the server. API specific resource reference.
         tvIntro.setText(getString(R.string.dummy));

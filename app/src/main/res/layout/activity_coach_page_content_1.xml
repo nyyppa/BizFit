@@ -37,11 +37,11 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:id="@+id/tVIntro"
-                android:layout_below="@+id/tVintroHL"
+                android:layout_below="@+id/tVIntroHL"
                 />
 
             <TextView
-                android:id="@+id/tVexpertise"
+                android:id="@+id/tVExpertise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -70,10 +70,10 @@
                 android:text="Introduction:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tVintroHL"
+                android:id="@+id/tVIntroHL"
                 android:layout_marginTop="27dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_below="@+id/tVexpertise"
+                android:layout_below="@+id/tVExpertise"
                 android:layout_alignLeft="@+id/tVIntro"
                 android:layout_alignStart="@+id/tVIntro"/>
 

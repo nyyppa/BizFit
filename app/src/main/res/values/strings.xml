@@ -359,4 +359,12 @@
         <item>MOORE</item>
         <item>TAYLOR</item>
     </string-array>
+
+    <string-array name="random_country_and_city">
+        <item>Finland, Tampere</item>
+        <item>Germany, Frankfurt</item>
+        <item>Russia, Moscow</item>
+        <item>France, Paris</item>
+        <item>Norway, Oslo</item>
+    </string-array>
 </resources>
