@@ -37,6 +37,10 @@ public class CoachPage extends AppCompatActivity
         String[] countriesAndCities=getResources().getStringArray(R.array.random_country_and_city);
         placeofResidence.setText(countriesAndCities[(int)(Math.random()*countriesAndCities.length-1)]);
 
+        TextView SalesPitch=(TextView)findViewById(R.id.tVSalesPitch);
+        String[] pitches=getResources().getStringArray(R.array.random_sales_pitch);
+        SalesPitch.setText(pitches[(int)(Math.random()*pitches.length-1)]);
+
 
 
         // TODO Content should be fetched from the server. API specific resource reference.

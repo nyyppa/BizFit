@@ -367,4 +367,13 @@
         <item>France, Paris</item>
         <item>Norway, Oslo</item>
     </string-array>
+
+    <string-array name="random_sales_pitch">
+        <item>"I'll make you rich! or at least more rich that you're now</item>
+        <item>"I'll boost your sales up to a 100%!"</item>
+        <item>"If you ever need any help concerning marketing, I'm your guy, contact me!"</item>
+        <item>"Don't you just hate to keep up with all the bills? I can help you with that"</item>
+        <item>"Want your enterprise to go worldwide? Maybe we should discuss about exporting?"</item>
+        <item>"You want easy, efficient and cost-effective marketing? Social is the today's word!</item>
+    </string-array>
 </resources>
