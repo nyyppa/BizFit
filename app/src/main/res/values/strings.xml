@@ -318,6 +318,13 @@
 
     <string name="title_activity_message">MessageActivity</string>
     <string name="Coach_page_content_introduction_title">Introduction</string>
+    <string name="sales_pitch">Sales pitch:</string>
+    <string name="social_media">Social media:</string>
+    <string name="field_of_expertise">Field of expertise</string>
+    <string name="place_of_residence">Place of Residence:</string>
+    <string name="btnOrder_chat">Order chat</string>
+    <string name="prices">Prices:</string>
+    <string name="terms_of_service">Terms of service</string>
     <string-array name="random_job_title">
         <item>Sales</item>
         <item>Accounting</item>
