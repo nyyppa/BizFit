@@ -194,7 +194,7 @@ public class User implements java.io.Serializable {
                 int len = 500;
 
                 try {
-                    URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
+                    URL url = new URL("https://bizfit-nyyppa.c9users.io");
                     HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                     conn.setReadTimeout(10000 /* milliseconds */);
                     conn.setConnectTimeout(15000 /* milliseconds */);
@@ -575,7 +575,7 @@ public class User implements java.io.Serializable {
             int len = 500;
 
             try {
-                URL url = new URL("https://bizfit-kaupunkiapina.c9users.io");
+                URL url = new URL("https://bizfit-nyyppa.c9users.io");
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);

@@ -25,7 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by attey on 09/08/2016.
  */
 public class MyNetwork implements Runnable {
-    public String connectionAddress="https://bizfit-kaupunkiapina.c9users.io";
+    public String connectionAddress="https://bizfit-nyyppa.c9users.io";
     public NetworkReturn networkReturn;
     public JSONObject message;
 
