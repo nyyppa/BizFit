@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="Field of expertise"
+                android:text="@string/field_of_expertise"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/white70"
                 android:textSize="16sp"
@@ -78,7 +78,7 @@
                 android:layout_alignStart="@+id/tVIntro"/>
 
             <TextView
-                android:text="Sales pitch:"
+                android:text="@string/sales_pitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tVSalesPitchHL"
@@ -99,74 +99,15 @@
                 android:layout_alignStart="@+id/tVSalesPitchHL"/>
 
             <TextView
-                android:text='"City", "Country"'
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tVPlaceOfResidence"
-                android:layout_below="@+id/tvPlaceOfResidenceHL"
-                android:layout_alignLeft="@+id/tvPlaceOfResidenceHL"
-                android:layout_alignStart="@+id/tvPlaceOfResidenceHL"
-                android:lines="1"/>
-
-            <TextView
-                android:text="Social media:"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tVSocialHL"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_marginTop="15dp"
-                android:layout_below="@+id/tVPlaceOfResidence"
-                android:layout_alignLeft="@+id/tVPlaceOfResidence"
-                android:layout_alignStart="@+id/tVPlaceOfResidence"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
-                android:layout_below="@+id/tVSocialHL"
-                android:layout_alignLeft="@+id/tVSocialHL"
-                android:layout_alignStart="@+id/tVSocialHL"
-                android:layout_marginTop="10dp"
-                android:id="@+id/iVLinked"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
-                android:id="@+id/iVFB"
-                android:layout_alignTop="@+id/iVTwitter"
-                android:layout_toRightOf="@+id/iVTwitter"
-                android:layout_toEndOf="@+id/iVTwitter"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
-                android:id="@+id/iVTwitter"
-                android:layout_alignTop="@+id/iVLinked"
-                android:layout_toRightOf="@+id/iVLinked"
-                android:layout_toEndOf="@+id/iVLinked"/>
-
-            <TextView
-                android:text="Prices:"
+                android:text="@string/prices"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iVLinked"
                 android:layout_alignLeft="@+id/iVLinked"
                 android:layout_alignStart="@+id/iVLinked"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="11dp"
                 android:id="@+id/tVPricesHL"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvPlaceOfResidenceHL"
-                android:text="Place of Residence:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:layout_below="@+id/tVSalesPitch"
-                android:layout_alignLeft="@+id/tVSalesPitch"
-                android:layout_alignStart="@+id/tVSalesPitch"/>
 
             <TextView
                 android:text='"Chat"'
@@ -176,7 +117,7 @@
                 android:layout_below="@+id/tVPricesHL"
                 android:layout_alignLeft="@+id/tVPricesHL"
                 android:layout_alignStart="@+id/tVPricesHL"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="3dp"/>
 
             <TextView
                 android:text='"99,9"'
@@ -189,7 +130,7 @@
                 android:layout_toEndOf="@+id/iVTwitter"/>
 
             <Button
-                android:text="Order chat"
+                android:text="@string/btnOrder_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnOrderChat"
@@ -199,7 +140,7 @@
                 android:layout_centerHorizontal="true"/>
 
             <Button
-                android:text="Terms of service"
+                android:text="@string/terms_of_service"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnTOS"
@@ -207,6 +148,66 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:text="@string/social_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVSocialHL"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="11dp"
+                android:layout_below="@+id/tVPlaceOfResidence"
+                android:layout_alignLeft="@+id/tVPlaceOfResidence"
+                android:layout_alignStart="@+id/tVPlaceOfResidence"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_call_black_24dp"
+                android:id="@+id/iVFB"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_toRightOf="@+id/iVTwitter"
+                android:layout_toEndOf="@+id/iVTwitter"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_call_black_24dp"
+                android:id="@+id/iVTwitter"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_toRightOf="@+id/iVLinked"
+                android:layout_toEndOf="@+id/iVLinked"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_call_black_24dp"
+                android:id="@+id/iVLinked"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_alignLeft="@+id/tVSocialHL"
+                android:layout_alignStart="@+id/tVSocialHL"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPlaceOfResidenceHL"
+                android:text="@string/place_of_residence"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tVSalesPitch"
+                android:layout_alignLeft="@+id/tVSalesPitch"
+                android:layout_alignStart="@+id/tVSalesPitch"/>
+
+            <TextView
+                android:text='"City", "Country"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVPlaceOfResidence"
+                android:lines="1"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/tvPlaceOfResidenceHL"
+                android:layout_alignLeft="@+id/tvPlaceOfResidenceHL"
+                android:layout_alignStart="@+id/tvPlaceOfResidenceHL"/>
 
         </RelativeLayout>
 

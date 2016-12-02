@@ -24,7 +24,6 @@
     <string name="message_remove_successful">Poistettu</string>
     <string name="error_empty_field">Tyhjä kenttä</string>
     <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
-
     <string name="month_april">Huhtikuu</string>
     <string name="month_november">Marraskuu</string>
     <string name="month_september">Syyskuu</string>
@@ -49,6 +48,14 @@
     <string name="hint_message_field">Viesti...</string>
     <string name="list_item_store_row_regular_more_button">lisää</string>
     <string name="Coach_page_content_introduction_title">Esittely</string>
+    <string name="sales_pitch">Myyntipuhe</string>
+    <string name="social_media">Sosiaalinen media:</string>
+    <string name="field_of_expertise">Erityisosaaminen</string>
+    <string name="place_of_residence">Asuinpaikka:</string>
+    <string name="btnOrder_chat">Tilaa chat</string>
+    <string name="prices">Hinnat:</string>
+    <string name="terms_of_service">Käyttöehdot</string>
+
     <string-array name="random_job_title">
         <item>Myynti</item>
         <item>Kirjanpito</item>
@@ -68,4 +75,14 @@
         <item>Ranska, Paris</item>
         <item>Norja, Oslo</item>
     </string-array>
+
+    <string-array name="random_sales_pitch">
+        <item>"Teen sinusta rikkaan! Tai ainakin rikkaamman kuin nyt!</item>
+        <item>"Lisään myyntiäsi jopa 100%:lla!"</item>
+        <item>"Jos tarvitset apua markkinoinnin suhteen, olen oikea henkilö hommaan, ota yhteyttä!"</item>
+        <item>"Etkö vihaakin laskujen perässä pysymisessä? Voin auttaa asiassa!"</item>
+        <item>"Tahtoisitko yrityksesi maailmanlaajuisille markkinoille ? Ehkä meidän kannattaisi keskustella asiasta?"</item>
+        <item>"Haluat helppoa, tehokasta ja kustannustehokasta markkinointia? Social on päivän sana!"</item>
+    </string-array>
+
 </resources>
