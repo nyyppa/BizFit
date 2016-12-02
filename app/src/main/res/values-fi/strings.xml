@@ -60,4 +60,11 @@
         <item>Saksan tuonti</item>
         <item>Venäjän vienti</item>
     </string-array>
+    <string-array name="random_country_and_city">
+        <item>Suomi, Tampere</item>
+        <item>Saksa, Frankfurt</item>
+        <item>Venäjä, Moscow</item>
+        <item>Ranska, Paris</item>
+        <item>Norja, Oslo</item>
+    </string-array>
 </resources>
