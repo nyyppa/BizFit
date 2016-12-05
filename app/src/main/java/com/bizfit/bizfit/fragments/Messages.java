@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.GetMessagesFromServer;
-import com.bizfit.bizfit.Message;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
 
@@ -52,7 +50,8 @@ public class Messages extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerViewAdapterMessages(getResources().getStringArray(R.array.dummy_conversation), getContext());
         mRecyclerView.setAdapter(mAdapter);
-        new GetMessagesFromServer(mAdapter,getActivity()).start();
+        //new GetMessagesFromServer(mAdapter,getActivity()).start();
+        //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
         input = (TextView) v.findViewById(R.id.message);
@@ -64,7 +63,8 @@ public class Messages extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_send_message:
                 // TODO A finer solution with text trimming.
-                mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
+                //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
+                mAdapter.getConversation().createMessage((input.getText()+"").trim());
                 mAdapter.notifyItemInserted(0);
                 mRecyclerView.smoothScrollToPosition(0);
                 input.setText("");

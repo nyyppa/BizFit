@@ -36,7 +36,9 @@ public class MyNewAndBetterConversation implements NetworkReturn {
         this.other=other;
         this.owner=owner;
     }
-
+    public List<MyNewAndBetterMessage> getMessages(){
+        return myNewAndBetterMessageList;
+    }
     public JSONObject toJSon(){
         JSONObject jsonObject=new JSONObject();
         try {
@@ -107,7 +109,10 @@ public class MyNewAndBetterConversation implements NetworkReturn {
     public void createMessage(String message){
         MyNewAndBetterMessage myNewAndBetterMessage=new MyNewAndBetterMessage(this,getOther(),getOwner(),message);
         myNewAndBetterMessage.sendMessage(null);
-        myNewAndBetterMessageList.add(myNewAndBetterMessage);
+        if(myNewAndBetterMessageList==null){
+            myNewAndBetterMessageList=new ArrayList<>();
+        }
+        myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
 
     }
     @Override
