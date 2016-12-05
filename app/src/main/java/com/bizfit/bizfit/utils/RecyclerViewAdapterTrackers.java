@@ -160,6 +160,9 @@ public class RecyclerViewAdapterTrackers extends RecyclerView.Adapter {
             trackerName.setText(data.getName());
             bg.getDrawable().mutate().setColorFilter(data.getColor(), PorterDuff.Mode.SRC_OVER);
 
+            TextView tv=(TextView) bg.getRootView().findViewById(R.id.view_trackable_progress_needed);
+            tv.setText(((int)data.getTargetProgress())+"");
+
             /**
              * Tracker is not able to provide info if daily goal has been met.
              * Pseudo code for two distinct outlooks for completed and uncompleted states.
