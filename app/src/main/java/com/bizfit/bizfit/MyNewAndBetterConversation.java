@@ -59,7 +59,7 @@ public class MyNewAndBetterConversation implements NetworkReturn {
         JSONObject jsonObject=new JSONObject();
         //// TODO: 02/12/2016 check real job from server
         try {
-            jsonObject.put("job","getMessages");
+            jsonObject.put("Job","get_message");
             jsonObject.put("owner",getOwner());
             jsonObject.put("other",getOther());
             jsonObject.put("creationTime",getLastReceivedMessage());
@@ -119,7 +119,11 @@ public class MyNewAndBetterConversation implements NetworkReturn {
     public void returnMessage(String message) {
         if(!message.equals("failed")){
             try {
-                myNewAndBetterMessageList.add(new MyNewAndBetterMessage(new JSONObject(message),this));
+                JSONArray jsonArray=new JSONArray(message);
+                for(int i=0;i<jsonArray.length();i++){
+                    System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
+                    myNewAndBetterMessageList.add(new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

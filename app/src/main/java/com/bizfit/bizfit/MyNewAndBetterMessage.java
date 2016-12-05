@@ -78,7 +78,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         JSONObject message=new JSONObject();
         try {
             //// TODO: 02/12/2016 check what correct job was
-            message.put("job","message");
+            message.put("Job","send_message");
             message.put("message",this.toJson());
         } catch (JSONException e) {
             e.printStackTrace();
