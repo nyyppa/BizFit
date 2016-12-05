@@ -163,7 +163,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
+                app:srcCompat="@drawable/facebook"
                 android:id="@+id/iVFB"
                 android:layout_below="@+id/tVSocialHL"
                 android:layout_toRightOf="@+id/iVTwitter"
@@ -172,7 +172,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
+                app:srcCompat="@drawable/twitter"
                 android:id="@+id/iVTwitter"
                 android:layout_below="@+id/tVSocialHL"
                 android:layout_toRightOf="@+id/iVLinked"
@@ -181,7 +181,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_call_black_24dp"
+                app:srcCompat="@drawable/linkedin_box"
                 android:id="@+id/iVLinked"
                 android:layout_below="@+id/tVSocialHL"
                 android:layout_alignLeft="@+id/tVSocialHL"
