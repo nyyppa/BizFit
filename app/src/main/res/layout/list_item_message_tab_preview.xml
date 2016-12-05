@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
@@ -8,29 +9,30 @@
     android:background="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/iVRecipient"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_margin="16dp"
-        android:src="@drawable/placeholder_delete_this" />
+        android:src="@drawable/placeholder_delete_this"
+        app:srcCompat="@drawable/tmp2"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/imageView6"
-        android:layout_toRightOf="@+id/imageView6"
+        android:layout_toEndOf="@+id/iVRecipient"
+        android:layout_toRightOf="@+id/iVRecipient"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageView6"
-            android:layout_toEndOf="@+id/imageView6"
-            android:layout_toRightOf="@+id/imageView6"
+            android:layout_alignBottom="@+id/iVRecipient"
+            android:layout_toEndOf="@+id/iVRecipient"
+            android:layout_toRightOf="@+id/iVRecipient"
             android:singleLine="true"
-            android:text="Preview name"
+            android:text="ROBERT WILSON"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black87" />
 
@@ -39,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="Preview message. Dolor sit amet"
+            android:text="Dolor sit amet..."
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 </RelativeLayout>
