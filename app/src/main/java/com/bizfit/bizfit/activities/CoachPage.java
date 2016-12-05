@@ -29,17 +29,25 @@ public class CoachPage extends AppCompatActivity
                 .findViewById(R.id.tVIntro);
 
         //random coach information assignments
-        TextView fieldOfExpertise=(TextView)findViewById(R.id.tVExpertise);
+        TextView tVfieldOfExpertise=(TextView)findViewById(R.id.tVExpertise);
         String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
-        fieldOfExpertise.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
+        tVfieldOfExpertise.setText(jobTitles[(int)(Math.random()*jobTitles.length-1)]);
 
-        TextView placeofResidence=(TextView)findViewById(R.id.tVPlaceOfResidence);
+        TextView tVplaceofResidence=(TextView)findViewById(R.id.tVPlaceOfResidence);
         String[] countriesAndCities=getResources().getStringArray(R.array.random_country_and_city);
-        placeofResidence.setText(countriesAndCities[(int)(Math.random()*countriesAndCities.length-1)]);
+        tVplaceofResidence.setText(countriesAndCities[(int)(Math.random()*countriesAndCities.length-1)]);
 
-        TextView SalesPitch=(TextView)findViewById(R.id.tVSalesPitch);
+        TextView tVSalesPitch=(TextView)findViewById(R.id.tVSalesPitch);
         String[] pitches=getResources().getStringArray(R.array.random_sales_pitch);
-        SalesPitch.setText(pitches[(int)(Math.random()*pitches.length-1)]);
+        tVSalesPitch.setText(pitches[(int)(Math.random()*pitches.length-1)]);
+
+        TextView tVpriceChat=(TextView)findViewById(R.id.tVChatPrice);
+        String[] chatPrices=getResources().getStringArray(R.array.random_price_chat);
+        tVpriceChat.setText(chatPrices[(int)(Math.random()*chatPrices.length-1)]);
+
+        TextView tVpriceCall=(TextView)findViewById(R.id.tVCallPrice);
+        String[] callPrices=getResources().getStringArray(R.array.random_price_call);
+        tVpriceCall.setText(callPrices[(int)(Math.random()*callPrices.length-1)]);
 
 
 

@@ -55,6 +55,7 @@
     <string name="btnOrder_chat">Tilaa chat</string>
     <string name="prices">Hinnat:</string>
     <string name="terms_of_service">Käyttöehdot</string>
+    <string name="order_call">Tilaa puhelu</string>
 
     <string-array name="random_job_title">
         <item>Myynti</item>
@@ -83,6 +84,20 @@
         <item>"Etkö vihaakin laskujen perässä pysymisessä? Voin auttaa asiassa!"</item>
         <item>"Tahtoisitko yrityksesi maailmanlaajuisille markkinoille ? Ehkä meidän kannattaisi keskustella asiasta?"</item>
         <item>"Haluat helppoa, tehokasta ja kustannustehokasta markkinointia? Social on päivän sana!"</item>
+    </string-array>
+
+    <string-array name="random_price_chat">
+        <item>9,99e/viikko</item>
+        <item>19,99e/viikko</item>
+        <item>2,50e/viikko</item>
+        <item>4,99e/viikko</item>
+    </string-array>
+
+    <string-array name="random_price_call">
+        <item>9,99e/tunti</item>
+        <item>19,99e/tunti</item>
+        <item>49,99e/tunti</item>
+        <item>29,99e/tunti</item>
     </string-array>
 
 </resources>

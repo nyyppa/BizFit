@@ -30,6 +30,16 @@
             android:id="@+id/rLforCoachName"
             android:layout_height="850dp">
 
+            <Button
+                android:text="@string/btnOrder_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnOrderChat"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_alignBaseline="@+id/tVChatPrice"
+                android:layout_alignBottom="@+id/tVChatPrice"
+                android:layout_centerHorizontal="true"/>
+
             <TextView
                 android:text='"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
                 android:layout_width="wrap_content"
@@ -110,7 +120,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
             <TextView
-                android:text='"Chat"'
+                android:text="Chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tVChat"
@@ -120,7 +130,7 @@
                 android:layout_marginTop="3dp"/>
 
             <TextView
-                android:text='"99,9"'
+                android:text='"99,9e"'
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tVChatPrice"
@@ -128,16 +138,6 @@
                 android:layout_alignBottom="@+id/tVChat"
                 android:layout_toRightOf="@+id/iVTwitter"
                 android:layout_toEndOf="@+id/iVTwitter"/>
-
-            <Button
-                android:text="@string/btnOrder_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnOrderChat"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_alignBaseline="@+id/tVChatPrice"
-                android:layout_alignBottom="@+id/tVChatPrice"
-                android:layout_centerHorizontal="true"/>
 
             <Button
                 android:text="@string/terms_of_service"
@@ -208,6 +208,40 @@
                 android:layout_below="@+id/tvPlaceOfResidenceHL"
                 android:layout_alignLeft="@+id/tvPlaceOfResidenceHL"
                 android:layout_alignStart="@+id/tvPlaceOfResidenceHL"/>
+
+            <TextView
+                android:text="Call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCall"
+                android:layout_above="@+id/btnTOS"
+                android:layout_alignLeft="@+id/tVChat"
+                android:layout_alignStart="@+id/tVChat"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:text='"9,99e"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCallPrice"
+                android:layout_alignBaseline="@+id/tVCall"
+                android:layout_alignBottom="@+id/tVCall"
+                android:layout_alignLeft="@+id/tVChatPrice"
+                android:layout_alignStart="@+id/tVChatPrice"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btnOrderCall"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:text="@string/order_call"
+                android:layout_alignBaseline="@+id/tVCallPrice"
+                android:layout_alignBottom="@+id/tVCallPrice"
+                android:layout_alignRight="@+id/btnOrderChat"
+                android:layout_alignEnd="@+id/btnOrderChat"
+                android:layout_alignLeft="@+id/btnOrderChat"
+                android:layout_alignStart="@+id/btnOrderChat"/>
 
         </RelativeLayout>
 
