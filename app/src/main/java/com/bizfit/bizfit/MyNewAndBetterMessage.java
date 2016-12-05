@@ -31,6 +31,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        setJob();
     }
 
     public MyNewAndBetterMessage(MyNewAndBetterConversation myNewAndBetterConversation,String resipient,String sender,String message){
@@ -39,6 +40,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         this.sender=sender;
         this.message=message;
         creationTime=System.currentTimeMillis();
+        setJob();
     }
 
     private void setJob(){

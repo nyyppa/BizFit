@@ -1,30 +1,44 @@
 package com.bizfit.bizfit.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.Message;
+import com.bizfit.bizfit.MyNewAndBetterConversation;
+import com.bizfit.bizfit.MyNewAndBetterMessage;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  */
 public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
-    private ArrayList<Message> messages;
+    MyNewAndBetterConversation conversation;
+
+    //private ArrayList<Message> messages;
 
     protected float messageHorizontalMarginSmall;
     protected float messageHorizontalMarginLarge;
 
-    public RecyclerViewAdapterMessages(String[] dummyText, Context context) {
+    public RecyclerViewAdapterMessages(final String[] dummyText, Context context) {
+        User.getLastUser(new User.UserLoadedListener() {
+            @Override
+            public void UserLoaded(User user) {
+                conversation=new MyNewAndBetterConversation(user.userName,"placeHolderOther");
+                for (int i = 0; i < 25; i++) {
+                    conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
+                }
+                conversation.getNewMessagesAndSentOldOnes();
+            }
+        },context);
+
+        /*
         messages = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
             if (i % 5 == 0 || i % 4 == 0) {
@@ -32,30 +46,23 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             } else {
                 messages.add(new Message(dummyText[((int)(Math.random() * dummyText.length))], Message.Type.SENT,context));
             }
-        }
+        }*/
 
         messageHorizontalMarginSmall = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_small);
         messageHorizontalMarginLarge = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_large);
     }
 
-    public Message getLastRecievedMessage(){
-        for(int i=messages.size()-1;i>=0;i--){
-            if(messages.get(i).getType()== Message.Type.RECEIVED){
-                return messages.get(i);
-            }
-        }
-        return null;
-    }
+
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
 
-        if (viewType == Message.Type.RECEIVED.ordinal()) {
+        if (viewType == MyNewAndBetterMessage.Job.received.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_received, parent, false);
-        } else if ( viewType == Message.Type.SENT.ordinal()) {
+        } else if ( viewType == MyNewAndBetterMessage.Job.sent.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_sent, parent, false);
         }
@@ -66,37 +73,30 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MarginSize marginSize;
-
-        if (position == messages.size() - 1) {
+        List<MyNewAndBetterMessage> list=conversation.getMessages();
+        if (position == list.size() - 1) {
             marginSize = MarginSize.SMALL;
         } else {
             // If the previous message has same type, use a small margin.
-            marginSize = (messages.get(position).getType() == messages.get(position + 1).getType()) ?
+            marginSize = (list.get(position).getJob() == list.get(position + 1).getJob()) ?
                     MarginSize.SMALL :
                     MarginSize.LARGE;
+
         }
 
-        ((ViewHolder) holder).prepareToDisplay(messages.get(position), marginSize);
+        ((ViewHolder) holder).prepareToDisplay(list.get(position), marginSize);
     }
 
     @Override
     public int getItemCount() {
-        return (messages != null) ? messages.size() : 0;
+        return (conversation.getMessages() != null) ? conversation.getMessages().size() : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return messages.get(position).getType().ordinal();
+        return conversation.getMessages().get(position).getJob().ordinal();
     }
 
-    public void addData(Message message) {
-        if (messages == null) messages = new ArrayList<>();
-        messages.add(0, message);
-    }
-
-    public void replaceDataSet(ArrayList<Message> messages) {
-        this.messages = messages;
-    }
 
     /**
      * Holds references to Views which need to be accessed upon recycle.
@@ -113,9 +113,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             message = (TextView) itemView.findViewById(R.id.message);
         }
 
-        public void prepareToDisplay(Message message, MarginSize mSize) {
+        public void prepareToDisplay(MyNewAndBetterMessage message, MarginSize mSize) {
             // TODO Check previous layout param state used for this particular item.
-            this.message.setText(message.getPayload());
+            this.message.setText(message.getMessage());
             if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) this.message.getLayoutParams();
 
@@ -128,6 +128,10 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 this.message.requestLayout();
             }
         }
+    }
+
+    public MyNewAndBetterConversation getConversation(){
+        return conversation;
     }
 
     enum MarginSize {
