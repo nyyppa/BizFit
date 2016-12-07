@@ -47,15 +47,16 @@
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
     <string name="hint_message_field">Viesti...</string>
     <string name="list_item_store_row_regular_more_button">lisää</string>
-    <string name="Coach_page_content_introduction_title">Esittely</string>
-    <string name="sales_pitch">Myyntipuhe</string>
+    <string name="Coach_page_content_introduction_title">Esittely:</string>
+    <string name="sales_pitch">Myyntipuhe:</string>
     <string name="social_media">Sosiaalinen media:</string>
     <string name="field_of_expertise">Erityisosaaminen</string>
     <string name="place_of_residence">Asuinpaikka:</string>
     <string name="btnOrder_chat">Tilaa chat</string>
     <string name="prices">Hinnat:</string>
-    <string name="terms_of_service">Käyttöehdot</string>
+    <string name="terms_of_service">Käyttöehdot:</string>
     <string name="order_call">Tilaa puhelu</string>
+    <string name="btnAccept">Hyväksyn</string>
 
     <string-array name="random_job_title">
         <item>Myynti</item>

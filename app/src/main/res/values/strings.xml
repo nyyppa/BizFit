@@ -317,15 +317,16 @@
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="title_activity_message">MessageActivity</string>
-    <string name="Coach_page_content_introduction_title">Introduction</string>
+    <string name="Coach_page_content_introduction_title">Introduction:</string>
     <string name="sales_pitch">Sales pitch:</string>
     <string name="social_media">Social media:</string>
-    <string name="field_of_expertise">Field of expertise</string>
+    <string name="field_of_expertise">Field of expertise:</string>
     <string name="place_of_residence">Place of Residence:</string>
     <string name="btnOrder_chat">Order chat</string>
     <string name="prices">Prices:</string>
-    <string name="terms_of_service">Terms of service</string>
+    <string name="terms_of_service">Terms of service:</string>
     <string name="order_call">Order call</string>
+    <string name="btnAccept">I accept</string>
     <string-array name="random_job_title">
         <item>Sales</item>
         <item>Accounting</item>
