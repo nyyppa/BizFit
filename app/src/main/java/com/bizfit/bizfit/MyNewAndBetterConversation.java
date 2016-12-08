@@ -35,8 +35,12 @@ public class MyNewAndBetterConversation implements NetworkReturn {
     public MyNewAndBetterConversation(String owner,String other){
         this.other=other;
         this.owner=owner;
+        myNewAndBetterMessageList=new ArrayList<>();
     }
     public List<MyNewAndBetterMessage> getMessages(){
+        if(myNewAndBetterMessageList==null){
+            myNewAndBetterMessageList=new ArrayList<>();
+        }
         return myNewAndBetterMessageList;
     }
     public JSONObject toJSon(){
@@ -66,7 +70,7 @@ public class MyNewAndBetterConversation implements NetworkReturn {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new Thread(new MyNetwork(null,this,jsonObject)).start();
+        NewAndBetterNetwork.addNetMessage(new NetMessage(null,this,jsonObject));
         for(int i=0;i<myNewAndBetterMessageList.size();i++){
             myNewAndBetterMessageList.get(i).checkToResend();
         }

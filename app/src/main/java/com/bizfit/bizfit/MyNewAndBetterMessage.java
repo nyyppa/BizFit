@@ -83,7 +83,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        new Thread(new MyNetwork(targetAddress,this,message)).start();
+        NewAndBetterNetwork.addNetMessage(new NetMessage(targetAddress,this,message));
 
     }
     public void checkToResend(){
