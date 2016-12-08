@@ -80,10 +80,12 @@ public class CoachPage extends AppCompatActivity
                     tVTosHL.setGravity(Gravity.CENTER);
                 }
                 tVTos.setGravity(Gravity.CENTER);
+                //closing the popup when user clicks "I accept"
                 Button btnClose = (Button) dialog.findViewById(R.id.btnAccept);
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View view)
+                    {
                         dialog.dismiss();
                     }
                 });

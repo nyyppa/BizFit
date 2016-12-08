@@ -61,8 +61,8 @@ public class MainPage extends AppCompatActivity implements
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(1);
-
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide(); //because tab is not switched, activated in onPageSelected
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,8 @@ public class MainPage extends AppCompatActivity implements
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
 
             }
 

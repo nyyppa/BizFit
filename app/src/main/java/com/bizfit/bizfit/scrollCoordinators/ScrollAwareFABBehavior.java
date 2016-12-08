@@ -4,9 +4,13 @@ import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
 
 /**
  * Defines behaviour of Floating Action Button when page content is scrolled.
@@ -21,8 +26,8 @@ import com.bizfit.bizfit.R;
  * Can be applied through .XML. Cannot take credit for this class, since it was
  * made using a tutorial.
  */
-public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
-
+public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior
+{
     /**
      * Defines the rate of change during the animation.
      */
@@ -55,7 +60,16 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
             animateOut(child);
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
             // User scrolled up and the FAB is currently not visible -> show the FAB
-            animateIn(child);
+            TabLayout tab = (TabLayout) coordinatorLayout.findViewById(R.id.tab_layout);
+            // if tab is something else than trackables
+            if(tab.getSelectedTabPosition()==0)
+            {
+                animateIn(child);
+            }
+            else
+            {
+                animateOut(child);
+            }
         }
     }
 

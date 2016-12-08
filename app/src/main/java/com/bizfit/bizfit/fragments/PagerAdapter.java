@@ -42,7 +42,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
-
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);

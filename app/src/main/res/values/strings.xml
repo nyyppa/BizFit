@@ -324,7 +324,7 @@
     <string name="place_of_residence">Place of Residence:</string>
     <string name="btnOrder_chat">Order chat</string>
     <string name="prices">Prices:</string>
-    <string name="terms_of_service">Terms of service:</string>
+    <string name="terms_of_service">Terms of service</string>
     <string name="order_call">Order call</string>
     <string name="btnAccept">I accept</string>
     <string-array name="random_job_title">
