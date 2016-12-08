@@ -44,7 +44,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 29;
+    private static final int dbVersion = 31;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     static DataBaseThread thread;
@@ -57,6 +57,7 @@ public class User implements java.io.Serializable {
     int nextFreeDailyProgressID;
     int userNumber;
     static boolean userLoaded=false;
+    List<MyNewAndBetterConversation> conversations;
 
 
     /**
@@ -67,17 +68,23 @@ public class User implements java.io.Serializable {
     public User(JSONObject jsonObject) {
 
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray("trackers");
+            JSONArray trackerArray = jsonObject.getJSONArray("trackers");
+            JSONArray conversationArray=jsonObject.getJSONArray("conversations");
             userName = jsonObject.getString("_id");
             lastTrackerID = jsonObject.getInt("lastTrackerID");
             nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
             userNumber = jsonObject.getInt("userNumber");
             trackers = new ArrayList<>(0);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Tracker t = new Tracker(jsonArray.getJSONObject(i));
+            for (int i = 0; i < trackerArray.length(); i++) {
+                Tracker t = new Tracker(trackerArray.getJSONObject(i));
                 trackers.add(t);
                 t.addParentUser(this);
             }
+            for(int i=0;i<conversationArray.length();i++){
+                MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
+                addConversation(conversation);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -311,16 +318,21 @@ public class User implements java.io.Serializable {
      */
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray trackerArray = new JSONArray();
+        JSONArray conversationArray=new JSONArray();
         try {
             jsonObject.put("_id", userName);
             jsonObject.put("lastTrackerID", lastTrackerID);
             jsonObject.put("nextFreeDailyProgressID", nextFreeDailyProgressID);
             jsonObject.put("userNumber", userNumber);
             for (int i = 0; i < trackers.size(); i++) {
-                jsonArray.put(trackers.get(i).toJSON());
+                trackerArray.put(trackers.get(i).toJSON());
             }
-            jsonObject.put("trackers", jsonArray);
+            for(int i=0;i<conversations.size();i++){
+                conversationArray.put(conversations.get(i).toJSon());
+            }
+            jsonObject.put("conversations",conversationArray);
+            jsonObject.put("trackers", trackerArray);
             try {
                 jsonObject.put("checkSum",checksum(this));
             } catch (IOException e) {
@@ -644,5 +656,18 @@ public class User implements java.io.Serializable {
                 }
             }
         }
+    }
+
+    public MyNewAndBetterConversation addConversation(MyNewAndBetterConversation conversation){
+        if(conversations==null){
+            conversations=new ArrayList<>();
+        }
+        for(int i=0;i<conversations.size();i++){
+            if(conversations.get(i).getOwner().equals(conversation.getOwner())&&conversations.get(i).getOther().equals(conversation.getOther())){
+                return conversations.get(i);
+            }
+        }
+        conversations.add(conversation);
+        return  conversation;
     }
 }

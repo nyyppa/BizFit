@@ -96,6 +96,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
     public void returnMessage(String message) {
         if (!message.equals("failed")){
             hasBeenSent=true;
+            myNewAndBetterConversation.getUser().save();
         }
     }
     public JSONObject toJson(){
