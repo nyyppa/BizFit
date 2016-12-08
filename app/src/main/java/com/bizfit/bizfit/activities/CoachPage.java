@@ -58,18 +58,6 @@ public class CoachPage extends AppCompatActivity
         tVpriceCall.setText(callPrices[(int)(Math.random()*callPrices.length-1)]);
 
 
-     /*   Button btnClose = (Button) findViewById(R.id.btnAccept);
-        btnClose.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v)
-            {
-                if(v.callOnClick())
-
-            }
-        });
-        */
         // 7.12.2016 jariJ Making a new popup window when terms of service button is clicked
 
         Button btnTos = (Button) findViewById(R.id.btnTOS);
@@ -79,10 +67,11 @@ public class CoachPage extends AppCompatActivity
             public void onClick(View v)
             {
 
-                Dialog dialog = new Dialog(CoachPage.this);
+                final Dialog dialog = new Dialog(CoachPage.this);
                 dialog.setContentView(R.layout.popup_tos);
                 // must be shown prior to fetching views and centering
                 dialog.show();
+
 
                 TextView tVTosHL = (TextView) dialog.findViewById(R.id.tVTosHL);
                 TextView tVTos = (TextView) dialog.findViewById(R.id.tVTos);
@@ -91,7 +80,13 @@ public class CoachPage extends AppCompatActivity
                     tVTosHL.setGravity(Gravity.CENTER);
                 }
                 tVTos.setGravity(Gravity.CENTER);
-                //Button btnClose = (Button) dialog.findViewById(R.id.btnAccept);
+                Button btnClose = (Button) dialog.findViewById(R.id.btnAccept);
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
 
             }
 
