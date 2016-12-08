@@ -18,7 +18,9 @@ public class MyNewAndBetterConversation implements NetworkReturn {
     String owner="";
     String other="";
     List<MyNewAndBetterMessage> myNewAndBetterMessageList;
-    public MyNewAndBetterConversation(JSONObject jsonObject){
+    User user;
+    public MyNewAndBetterConversation(JSONObject jsonObject, User user){
+        this.user=user;
         try {
             owner=jsonObject.getString("owner");
             other=jsonObject.getString("other");
@@ -32,10 +34,14 @@ public class MyNewAndBetterConversation implements NetworkReturn {
         }
     }
 
-    public MyNewAndBetterConversation(String owner,String other){
+    public MyNewAndBetterConversation(String owner,String other,User user){
         this.other=other;
         this.owner=owner;
         myNewAndBetterMessageList=new ArrayList<>();
+        this.user=user;
+    }
+    public User getUser(){
+        return user;
     }
     public List<MyNewAndBetterMessage> getMessages(){
         if(myNewAndBetterMessageList==null){
@@ -117,6 +123,7 @@ public class MyNewAndBetterConversation implements NetworkReturn {
             myNewAndBetterMessageList=new ArrayList<>();
         }
         myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
+        getUser().save();
 
     }
     @Override
@@ -128,6 +135,7 @@ public class MyNewAndBetterConversation implements NetworkReturn {
                     System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
                 }
+                getUser().save();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

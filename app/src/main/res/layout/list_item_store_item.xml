@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="261dp">
+        android:layout_height="261dp"
+        android:id="@+id/store_item_layout">
 
         <ImageView
             android:id="@+id/iVCoach"

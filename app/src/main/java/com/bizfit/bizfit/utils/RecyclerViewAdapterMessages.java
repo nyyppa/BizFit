@@ -30,10 +30,14 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         User.getLastUser(new User.UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
-                conversation=new MyNewAndBetterConversation(user.userName,"placeHolderOther");
-                for (int i = 0; i < 25; i++) {
-                    conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
+
+                conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,"placeHolderOther",user));
+                if(conversation.getMessages().size()==0){
+                    for (int i = 0; i < 25; i++) {
+                        conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
+                    }
                 }
+
                 conversation.getNewMessagesAndSentOldOnes();
             }
         },context);
