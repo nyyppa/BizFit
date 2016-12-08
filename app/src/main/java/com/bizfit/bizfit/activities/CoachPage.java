@@ -9,9 +9,11 @@ import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
@@ -28,11 +30,16 @@ public class CoachPage extends AppCompatActivity
     public static final String FIELD_COACH_NAME = "com.bizfit.field.name";
     public static final String FIELD_COACH_IMAGE_ID = "com.bizfit.field.image";
     private static final int IMAGE_NOT_FOUND = -1;
+
+    private static final float defaultFontScale=1;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_page);
+        RelativeLayout relative = (RelativeLayout) findViewById(R.id.rLforCoachName);
+        ViewGroup.LayoutParams params = relative.getLayoutParams();
+        params.height=(int)(getResources().getConfiguration().fontScale*params.height);
         TextView tvIntro = (TextView) findViewById(R.id.tVIntro)
                 .findViewById(R.id.tVIntro);
 

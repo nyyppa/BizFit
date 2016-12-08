@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
@@ -31,6 +32,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_store_item, parent, false);
+
         ViewHolderStoreItem vh = new ViewHolderStoreItem(v);
 
         return vh;
@@ -104,6 +106,9 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
             title = (TextView) itemView.findViewById(R.id.textView9);
             image = (ImageView) itemView.findViewById(R.id.iVCoach);
             testimonials = (TextView) itemView.findViewById(R.id.tVTestimonials);
+            RelativeLayout layout=(RelativeLayout)itemView.findViewById(R.id.store_item_layout);
+            ViewGroup.LayoutParams params=layout.getLayoutParams();
+            params.height=(int)(itemView.getResources().getConfiguration().fontScale*params.height);
             itemView.setOnClickListener(this);
         }
 
