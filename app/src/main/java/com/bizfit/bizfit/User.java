@@ -328,7 +328,7 @@ public class User implements java.io.Serializable {
             for (int i = 0; i < trackers.size(); i++) {
                 trackerArray.put(trackers.get(i).toJSON());
             }
-            for(int i=0;i<conversations.size();i++){
+            for(int i=0;conversations!=null && i<conversations.size();i++){
                 conversationArray.put(conversations.get(i).toJSon());
             }
             jsonObject.put("conversations",conversationArray);
