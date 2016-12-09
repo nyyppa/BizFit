@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizfit.bizfit" >
+    package="com.bizfit.bizfit">
 
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -14,7 +14,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <service android:name=".MyAlarmService" />
 
         <!-- Splash screen -->
@@ -22,13 +22,12 @@
             android:name=".activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="user"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--Uncomment for splash screen-->
+                <!-- Uncomment for splash screen -->
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
 
@@ -37,7 +36,7 @@
             android:name=".activities.MainPage"
             android:label="@string/app_name"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,7 +48,11 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
+        <!-- Login -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- Settings -->
         <activity
             android:name=".activities.Settings"
@@ -75,15 +78,17 @@
         <activity android:name=".activities.CoachPage" />
 
         <!-- Displays search results -->
-        <activity android:name=".activities.Search" >
+        <activity android:name=".activities.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.MessageActivity"
-            android:label="@string/title_activity_message" >
-        </activity>
+            android:label="@string/title_activity_message"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>
