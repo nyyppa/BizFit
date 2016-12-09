@@ -15,19 +15,19 @@ import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
 /**
  *
  */
-public class Messages extends Fragment implements View.OnClickListener {
+public class ChatFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerViewAdapterMessages mAdapter;
     private RecyclerView mRecyclerView;
     private TextView input;
 
     // TODO: Rename and change types and number of parameters
-    public static Messages newInstance(String param1, String param2) {
-        Messages fragment = new Messages();
+    public static ChatFragment newInstance(String param1, String param2) {
+        ChatFragment fragment = new ChatFragment();
         return fragment;
     }
 
-    public Messages() {
+    public ChatFragment() {
         // Required empty public constructor
     }
 
@@ -41,8 +41,8 @@ public class Messages extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_messages, container, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
@@ -65,7 +65,7 @@ public class Messages extends Fragment implements View.OnClickListener {
                 // TODO A finer solution with text trimming.
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
                 mAdapter.getConversation().createMessage((input.getText()+""));
-                mAdapter.getConversation().getNewMessagesAndSentOldOnes();
+                mAdapter.getConversation().getNewMessagesAndSendOldOnes();
                 mAdapter.notifyItemInserted(0);
                 mRecyclerView.smoothScrollToPosition(0);
                 input.setText("");

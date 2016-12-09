@@ -44,7 +44,8 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     public User getUser(){
         return user;
     }
-    public List<MyNewAndBetterMessage> getMessages(){
+    public List<MyNewAndBetterMessage> getMessages()
+    {
         if(myNewAndBetterMessageList==null){
             myNewAndBetterMessageList=new ArrayList<>();
         }
@@ -66,7 +67,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         return  jsonObject;
     }
-    public void getNewMessagesAndSentOldOnes(){
+    public void getNewMessagesAndSendOldOnes(){
         JSONObject jsonObject=new JSONObject();
         //// TODO: 02/12/2016 check real job from server
         try {

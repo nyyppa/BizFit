@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey_300"
     android:orientation="vertical"
-    tools:context="com.bizfit.bizfit.fragments.Messages">
+    tools:context="com.bizfit.bizfit.fragments.ChatFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_messages_recyclerView"
