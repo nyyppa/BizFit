@@ -3,11 +3,13 @@ package com.bizfit.bizfit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by attey on 02/12/2016.
  */
 
-public class MyNewAndBetterMessage implements NetworkReturn {
+public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
 
     private String resipient="";
     private String sender="";

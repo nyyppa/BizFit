@@ -64,7 +64,8 @@ public class Messages extends Fragment implements View.OnClickListener {
             case R.id.button_send_message:
                 // TODO A finer solution with text trimming.
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
-                mAdapter.getConversation().createMessage((input.getText()+"").trim());
+                mAdapter.getConversation().createMessage((input.getText()+""));
+                mAdapter.getConversation().getNewMessagesAndSentOldOnes();
                 mAdapter.notifyItemInserted(0);
                 mRecyclerView.smoothScrollToPosition(0);
                 input.setText("");

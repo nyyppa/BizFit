@@ -34,7 +34,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,"placeHolderOther",user));
                 if(conversation.getMessages().size()==0){
                     for (int i = 0; i < 25; i++) {
-                        conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
+                        //conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
                     }
                 }
 

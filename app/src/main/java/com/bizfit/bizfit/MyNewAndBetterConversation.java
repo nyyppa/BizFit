@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by attey on 02/12/2016.
  */
 
-public class MyNewAndBetterConversation implements NetworkReturn {
+public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
     String owner="";
     String other="";
