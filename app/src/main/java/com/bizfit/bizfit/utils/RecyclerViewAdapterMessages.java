@@ -63,10 +63,10 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
 
-        if (viewType == MyNewAndBetterMessage.Job.received.ordinal()) {
+        if (viewType == MyNewAndBetterMessage.Job.INCOMING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_received, parent, false);
-        } else if ( viewType == MyNewAndBetterMessage.Job.sent.ordinal()) {
+        } else if ( viewType == MyNewAndBetterMessage.Job.OUTGOING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_sent, parent, false);
         }

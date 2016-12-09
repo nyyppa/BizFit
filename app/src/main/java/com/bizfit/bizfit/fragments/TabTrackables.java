@@ -34,13 +34,13 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
     public final static int DELETE_ID = 0;
 
     /**
-     * Used to determine if onActivityResult() callback was received
+     * Used to determine if onActivityResult() callback was INCOMING
      * from AddTracker.
      */
     public static final int SET_NEW_GOAL = 1;
 
     /**
-     * Used to determine if onActivityResult() callback was received
+     * Used to determine if onActivityResult() callback was INCOMING
      * from ViewTracker.
      */
     public static final int VIEW_GOALS = 2;

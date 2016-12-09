@@ -44,7 +44,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 31;
+    private static final int dbVersion = 32;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     static DataBaseThread thread;
@@ -69,21 +69,26 @@ public class User implements java.io.Serializable {
 
         try {
             JSONArray trackerArray = jsonObject.getJSONArray("trackers");
-            JSONArray conversationArray=jsonObject.getJSONArray("conversations");
             userName = jsonObject.getString("_id");
             lastTrackerID = jsonObject.getInt("lastTrackerID");
             nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
             userNumber = jsonObject.getInt("userNumber");
             trackers = new ArrayList<>(0);
+            if(jsonObject.has("conversations"))
+            {
+                JSONArray conversationArray=jsonObject.getJSONArray("conversations");
+                for(int i=0;i<conversationArray.length();i++)
+                {
+                    MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
+                    addConversation(conversation);
+                }
+            }
             for (int i = 0; i < trackerArray.length(); i++) {
                 Tracker t = new Tracker(trackerArray.getJSONObject(i));
                 trackers.add(t);
                 t.addParentUser(this);
             }
-            for(int i=0;i<conversationArray.length();i++){
-                MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
-                addConversation(conversation);
-            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -119,15 +124,25 @@ public class User implements java.io.Serializable {
     public static void update(Context c) {
         getLastUser(new UserLoadedListener() {
             @Override
-            public void UserLoaded(User user) {
-                for (int i = 0; i < user.trackers.size(); i++) {
-                    user.trackers.get(i).update();
+            public void UserLoaded(User user)
+            {
+                List<Tracker> trackers = user.getTrackerlist();
+                for (int i = 0; i < trackers.size(); i++)
+                {
+                    trackers.get(i).update();
                 }
             }
         }, c);
 
     }
-
+    private List<Tracker> getTrackerlist()
+    {
+        if(trackers==null)
+        {
+            trackers = new ArrayList<>();
+        }
+        return trackers;
+    }
     /**
      * Returs Users current Context
      *
@@ -435,7 +450,12 @@ public class User implements java.io.Serializable {
     /**
      * @return Returns all the users trackers
      */
-    public Tracker[] getTrackers() {
+    public Tracker[] getTrackers()
+    {
+        if(trackers==null)
+        {
+            trackers = new ArrayList<>();
+        }
         Tracker[] t = new Tracker[trackers.size()];
         return trackers.toArray(t);
     }

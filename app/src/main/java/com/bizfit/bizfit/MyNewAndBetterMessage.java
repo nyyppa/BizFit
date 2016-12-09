@@ -45,9 +45,9 @@ public class MyNewAndBetterMessage implements NetworkReturn {
 
     private void setJob(){
         if(myNewAndBetterConversation.getOwner().equals(getSender())){
-            job=Job.sent;
+            job=Job.OUTGOING;
         }else{
-            job=Job.received;
+            job=Job.INCOMING;
         }
     }
     public Job getJob(){
@@ -69,8 +69,13 @@ public class MyNewAndBetterMessage implements NetworkReturn {
         return creationTime;
     }
 
-    public boolean isHasBeenSent() {
+    public boolean getHasBeenSent() {
         return hasBeenSent;
+    }
+
+    private void setHasBeenSent(boolean hasBeenSent)
+    {
+        this.hasBeenSent=hasBeenSent;
     }
 
 
@@ -87,7 +92,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
 
     }
     public void checkToResend(){
-        if(!hasBeenSent){
+        if(!getHasBeenSent()){
             sendMessage(null);
         }
     }
@@ -95,7 +100,7 @@ public class MyNewAndBetterMessage implements NetworkReturn {
     @Override
     public void returnMessage(String message) {
         if (!message.equals("failed")){
-            hasBeenSent=true;
+            setHasBeenSent(true);
             myNewAndBetterConversation.getUser().save();
         }
     }
@@ -114,6 +119,8 @@ public class MyNewAndBetterMessage implements NetworkReturn {
     }
 
     public enum Job{
-        sent,received;
+        OUTGOING, INCOMING;
     }
 }
+
+

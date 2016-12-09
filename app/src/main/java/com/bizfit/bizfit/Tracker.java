@@ -56,7 +56,7 @@ public class Tracker implements java.io.Serializable {
     transient DataChangedListener listener;
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
-        return (int)targetProgress/(int)days;
+        return (int)targetProgress/(int)(days+1); // todo: Change +1 to something better
     }
     public Tracker(Helper h) {
         startDate = h.startDate;

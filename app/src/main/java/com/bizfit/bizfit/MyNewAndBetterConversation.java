@@ -86,9 +86,9 @@ public class MyNewAndBetterConversation implements NetworkReturn {
         for(int i=0;i<myNewAndBetterMessageList.size();i++){
             MyNewAndBetterMessage myNewAndBetterMessage=myNewAndBetterMessageList.get(i);
             switch (myNewAndBetterMessage.getJob()){
-                case sent:
+                case OUTGOING:
                     break;
-                case received:
+                case INCOMING:
                     if(myNewAndBetterMessage.getCreationTime()>lastReceivedMessage){
                         lastReceivedMessage=myNewAndBetterMessage.getCreationTime();
                     }
