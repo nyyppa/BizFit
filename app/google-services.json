@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "781079134076",
+    "project_id": "firebase-bizfit"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781079134076:android:11113095dc0c662f",
+        "android_client_info": {
+          "package_name": "com.bizfit.bizfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781079134076-41euuddat3u5rahovgfmp511u2d8as7l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bizfit.bizfit",
+            "certificate_hash": "44CAFA110C2F83F4F1E0BAC5EB513E4C8FB0547D"
+          }
+        },
+        {
+          "client_id": "781079134076-hqlr0id528u9odfkbl6j75usg9uebgof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdVF0APfxjDMJwUPzsTN3UlSlXM9K7zcA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
