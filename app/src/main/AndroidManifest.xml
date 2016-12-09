@@ -86,9 +86,7 @@
         <activity
             android:name=".activities.MessageActivity"
             android:label="@string/title_activity_message"></activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+
     </application>
 
 </manifest>
