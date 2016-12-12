@@ -52,7 +52,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerViewAdapterMessages(getResources().getStringArray(R.array.dummy_conversation), getContext());
         mRecyclerView.setAdapter(mAdapter);
-       // mAdapter. setChatFragment(this);
+        mAdapter.setChatFragment(this);
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
