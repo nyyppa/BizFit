@@ -32,7 +32,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             @Override
             public void UserLoaded(User user) {
                 conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
-                conversation.setChatFragment(chatFragment);
+               // conversation.setChatFragment(chatFragment);
                 if(conversation.getMessages().size()==0){
                     for (int i = 0; i < 25; i++) {
                         //conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);

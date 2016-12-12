@@ -52,7 +52,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerViewAdapterMessages(getResources().getStringArray(R.array.dummy_conversation), getContext());
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter. setChatFragment(this);
+       // mAdapter. setChatFragment(this);
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
@@ -66,12 +66,18 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button_send_message:
                 // TODO A finer solution with text trimming.
+                if(!String.valueOf(input.getText()).trim().isEmpty())
+                {
+                    mAdapter.getConversation().createMessage((input.getText()+""));
+                    mAdapter.notifyItemInserted(0);
+                    mRecyclerView.smoothScrollToPosition(0);
+                    input.setText("");
+                }
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
-                mAdapter.getConversation().createMessage((input.getText()+""));
+
                 mAdapter.getConversation().getNewMessagesAndSendOldOnes();
-                mAdapter.notifyItemInserted(0);
-                mRecyclerView.smoothScrollToPosition(0);
-                input.setText("");
+
+
                 break;
         }
     }
