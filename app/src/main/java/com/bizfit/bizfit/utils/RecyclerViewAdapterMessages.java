@@ -11,6 +11,7 @@ import com.bizfit.bizfit.MyNewAndBetterConversation;
 import com.bizfit.bizfit.MyNewAndBetterMessage;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.fragments.ChatFragment;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     MyNewAndBetterConversation conversation;
+    ChatFragment chatFragment;
     //private ArrayList<Message> messages;
 
     protected float messageHorizontalMarginSmall;
@@ -30,6 +32,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             @Override
             public void UserLoaded(User user) {
                 conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
+                conversation.setChatFragment(chatFragment);
                 if(conversation.getMessages().size()==0){
                     for (int i = 0; i < 25; i++) {
                         //conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
@@ -38,6 +41,8 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 conversation.getNewMessagesAndSendOldOnes();
             }
         },context);
+
+
 
         /*
         messages = new ArrayList<>();
@@ -51,6 +56,11 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
         messageHorizontalMarginSmall = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_small);
         messageHorizontalMarginLarge = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_large);
+    }
+
+    public void setChatFragment(ChatFragment chatFragment)
+    {
+        this.chatFragment=chatFragment;
     }
 
 

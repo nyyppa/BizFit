@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.fragments;
 
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             // Set values from the bundle package if needed.
@@ -50,6 +52,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new RecyclerViewAdapterMessages(getResources().getStringArray(R.array.dummy_conversation), getContext());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter. setChatFragment(this);
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
@@ -71,6 +74,16 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 input.setText("");
                 break;
         }
+    }
+
+    public RecyclerViewAdapterMessages getmAdapter()
+    {
+        return mAdapter;
+    }
+
+    public RecyclerView getmRecyclerView()
+    {
+        return mRecyclerView;
     }
 }
 

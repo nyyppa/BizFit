@@ -1,5 +1,7 @@
 package com.bizfit.bizfit;
 
+import com.bizfit.bizfit.fragments.ChatFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,11 +18,13 @@ import java.util.List;
 
 public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
-    String owner="";
-    String other="";
-    List<MyNewAndBetterMessage> myNewAndBetterMessageList;
-    JSONArray jsonArray;
-    User user;
+    private String owner="";
+    private String other="";
+    private List<MyNewAndBetterMessage> myNewAndBetterMessageList;
+    private JSONArray jsonArray;
+    private User user;
+    private transient ChatFragment chatFragment;
+
     public MyNewAndBetterConversation(JSONObject jsonObject, User user){
         this.user=user;
         try {
@@ -143,14 +147,37 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         if(!message.equals("failed")){
             try {
                 JSONArray jsonArray=new JSONArray(message);
-                for(int i=0;i<jsonArray.length();i++){
+                for(int i=0;i<jsonArray.length();i++)
+                {
                     System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
-                    myNewAndBetterMessageList.add(new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
+                    myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
+                    if(chatFragment!=null)
+                    {
+                        chatFragment.getActivity().runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                               if(chatFragment.getmAdapter().getItemCount()>0)
+                               {
+                                   chatFragment.getmAdapter().notifyItemInserted(0);
+                                   chatFragment.getmRecyclerView().smoothScrollToPosition(0);
+                               }
+
+                            }
+                        });
+                    }
                 }
                 getUser().save();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
+    }
+
+    public void setChatFragment(ChatFragment chatFragment)
+    {
+        this.chatFragment=chatFragment;
     }
 }

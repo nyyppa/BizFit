@@ -44,10 +44,10 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 35;
+    private static final int dbVersion = 36;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
-    static DataBaseThread thread;
+    private transient static DataBaseThread thread;
     private transient static Context context;
     private transient static User currentUser;
     public String userName;
@@ -58,7 +58,6 @@ public class User implements java.io.Serializable {
     int userNumber;
     static boolean userLoaded=false;
     List<MyNewAndBetterConversation> conversations;
-    JSONArray trackerArray;
 
 
     /**
@@ -66,8 +65,9 @@ public class User implements java.io.Serializable {
      *
      * @param jsonObject JSONObject containing all the nessessary information
      */
-    public User(JSONObject jsonObject) {
-
+    public User(JSONObject jsonObject)
+    {
+        JSONArray trackerArray=null;
         try
         {
             if(jsonObject.has("trackers"))
