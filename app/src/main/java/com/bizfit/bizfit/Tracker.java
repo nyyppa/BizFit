@@ -88,7 +88,8 @@ public class Tracker implements java.io.Serializable {
 
     public Tracker(JSONObject jsonObject) {
 
-        try {
+        try
+        {
             JSONArray jsonArray = jsonObject.getJSONArray("oldProgress");
             startDate = jsonObject.getLong("startDate");
             lastReset = jsonObject.getLong("lastReset");

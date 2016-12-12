@@ -19,13 +19,23 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     String owner="";
     String other="";
     List<MyNewAndBetterMessage> myNewAndBetterMessageList;
+    JSONArray jsonArray;
     User user;
     public MyNewAndBetterConversation(JSONObject jsonObject, User user){
         this.user=user;
         try {
-            owner=jsonObject.getString("owner");
-            other=jsonObject.getString("other");
-            JSONArray jsonArray=jsonObject.getJSONArray("messages");
+            if(jsonObject.has("owner"))
+            {
+                owner=jsonObject.getString("owner");
+            }
+            if(jsonObject.has("other"))
+            {
+                other=jsonObject.getString("other");
+            }
+            if(jsonObject.has("messages"))
+            {
+                jsonArray=jsonObject.getJSONArray("messages");
+            }
             myNewAndBetterMessageList=new ArrayList<>();
             for (int i=0;i<jsonArray.length();i++){
                 myNewAndBetterMessageList.add(new MyNewAndBetterMessage(jsonArray.getJSONObject(i),this));

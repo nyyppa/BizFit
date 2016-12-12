@@ -58,6 +58,7 @@ public class User implements java.io.Serializable {
     int userNumber;
     static boolean userLoaded=false;
     List<MyNewAndBetterConversation> conversations;
+    JSONArray trackerArray;
 
 
     /**
@@ -67,12 +68,28 @@ public class User implements java.io.Serializable {
      */
     public User(JSONObject jsonObject) {
 
-        try {
-            JSONArray trackerArray = jsonObject.getJSONArray("trackers");
-            userName = jsonObject.getString("_id");
-            lastTrackerID = jsonObject.getInt("lastTrackerID");
-            nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
-            userNumber = jsonObject.getInt("userNumber");
+        try
+        {
+            if(jsonObject.has("trackers"))
+            {
+                trackerArray = jsonObject.getJSONArray("trackers");
+            }
+            if(jsonObject.has("_id"))
+            {
+                userName = jsonObject.getString("_id");
+            }
+            if(jsonObject.has("lastTrackerID"))
+            {
+                lastTrackerID = jsonObject.getInt("lastTrackerID");
+            }
+            if(jsonObject.has("nextFreeDailyProgressID"))
+            {
+                nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
+            }
+            if(jsonObject.has("userNumber"))
+            {
+                userNumber = jsonObject.getInt("userNumber");
+            }
             trackers = new ArrayList<>(0);
             if(jsonObject.has("conversations"))
             {
@@ -90,7 +107,8 @@ public class User implements java.io.Serializable {
             }
 
 
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -144,7 +162,7 @@ public class User implements java.io.Serializable {
         return trackers;
     }
     /**
-     * Returs Users current Context
+     * Returns Users current Context
      *
      * @return
      */

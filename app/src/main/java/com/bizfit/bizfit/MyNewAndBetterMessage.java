@@ -22,14 +22,29 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
 
     public MyNewAndBetterMessage(JSONObject jsonObject,MyNewAndBetterConversation myNewAndBetterConversation){
         this.myNewAndBetterConversation=myNewAndBetterConversation;
-        try {
-            sender=jsonObject.getString("sender");
-            resipient=jsonObject.getString("resipient");
+        try
+        {
+            if(jsonObject.has("sender"))
+            {
+                sender=jsonObject.getString("sender");
+            }
+            if(jsonObject.has("resipient"))
+            {
+                resipient=jsonObject.getString("resipient");
+            }
             if(jsonObject.has("message")){
                 message=jsonObject.getString("message");
             }
-            creationTime=jsonObject.getLong("creationTime");
-            hasBeenSent=jsonObject.getBoolean("hasBeenSent");
+
+            if(jsonObject.has("creationTime"))
+            {
+                creationTime=jsonObject.getLong("creationTime");
+            }
+            if(jsonObject.has("hasBeenSent"))
+            {
+                hasBeenSent=jsonObject.getBoolean("hasBeenSent");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
