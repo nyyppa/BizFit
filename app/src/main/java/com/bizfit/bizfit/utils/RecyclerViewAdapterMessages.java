@@ -29,7 +29,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         User.getLastUser(new User.UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
-                conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,"placeHolderOther",user));
+                conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
                 if(conversation.getMessages().size()==0){
                     for (int i = 0; i < 25; i++) {
                         //conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
