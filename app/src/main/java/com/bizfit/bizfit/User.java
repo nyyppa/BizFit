@@ -73,6 +73,11 @@ public class User implements java.io.Serializable {
             if(jsonObject.has("trackers"))
             {
                 trackerArray = jsonObject.getJSONArray("trackers");
+                for (int i = 0; i < trackerArray.length(); i++) {
+                    Tracker t = new Tracker(trackerArray.getJSONObject(i));
+                    trackers.add(t);
+                    t.addParentUser(this);
+                }
             }
             if(jsonObject.has("_id"))
             {
@@ -100,11 +105,7 @@ public class User implements java.io.Serializable {
                     addConversation(conversation);
                 }
             }
-            for (int i = 0; i < trackerArray.length(); i++) {
-                Tracker t = new Tracker(trackerArray.getJSONObject(i));
-                trackers.add(t);
-                t.addParentUser(this);
-            }
+
 
 
         }

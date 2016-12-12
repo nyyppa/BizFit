@@ -21,11 +21,12 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     private String owner="";
     private String other="";
     private List<MyNewAndBetterMessage> myNewAndBetterMessageList;
-    private JSONArray jsonArray;
+
     private User user;
     private transient ChatFragment chatFragment;
 
     public MyNewAndBetterConversation(JSONObject jsonObject, User user){
+        JSONArray jsonArray=null;
         this.user=user;
         try {
             if(jsonObject.has("owner"))
@@ -36,14 +37,16 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             {
                 other=jsonObject.getString("other");
             }
+            myNewAndBetterMessageList=new ArrayList<>();
             if(jsonObject.has("messages"))
             {
                 jsonArray=jsonObject.getJSONArray("messages");
+                for (int i=0;i<jsonArray.length();i++){
+                    myNewAndBetterMessageList.add(new MyNewAndBetterMessage(jsonArray.getJSONObject(i),this));
+                }
             }
-            myNewAndBetterMessageList=new ArrayList<>();
-            for (int i=0;i<jsonArray.length();i++){
-                myNewAndBetterMessageList.add(new MyNewAndBetterMessage(jsonArray.getJSONObject(i),this));
-            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -144,6 +147,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     }
     @Override
     public void returnMessage(String message) {
+        System.out.println(message);
         if(!message.equals("failed")){
             try {
                 JSONArray jsonArray=new JSONArray(message);
