@@ -44,7 +44,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 37;
+    private static final int dbVersion = 38;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
@@ -58,6 +58,7 @@ public class User implements java.io.Serializable {
     int userNumber;
     static boolean userLoaded=false;
     List<MyNewAndBetterConversation> conversations;
+    private transient static Thread GetMessagesThread;
 
 
     /**
@@ -697,9 +698,28 @@ public class User implements java.io.Serializable {
         }
     }
 
-    public MyNewAndBetterConversation addConversation(MyNewAndBetterConversation conversation){
+    public MyNewAndBetterConversation addConversation(final MyNewAndBetterConversation conversation){
         if(conversations==null){
             conversations=new ArrayList<>();
+        }
+        if(GetMessagesThread==null||!GetMessagesThread.isAlive()){
+            GetMessagesThread=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true){
+                        for (MyNewAndBetterConversation c : conversations) {
+                            c.getNewMessagesAndSendOldOnes();
+                        }
+                        try {
+                            wait(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
+            GetMessagesThread.start();
         }
         for(int i=0;i<conversations.size();i++){
             if(conversations.get(i).getOwner().equals(conversation.getOwner())&&conversations.get(i).getOther().equals(conversation.getOther())){
