@@ -712,7 +712,7 @@ public class User implements java.io.Serializable {
                         }
                         synchronized (this){
                             try {
-                                wait(10);
+                                wait(1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
