@@ -708,8 +708,9 @@ public class User implements java.io.Serializable {
                 public void run() {
                     while (true){
                         for (MyNewAndBetterConversation c : conversations) {
-                            //c.getNewMessagesAndSendOldOnes();
+                            c.getNewMessagesAndSendOldOnes();
                         }
+                        System.out.println(conversations.size()+"conversations koko");
                         synchronized (this){
                             try {
                                 wait(1000);

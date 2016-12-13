@@ -142,7 +142,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             myNewAndBetterMessageList=new ArrayList<>();
         }
         myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
-        getUser().save();
+        getUser().save(this);
 
     }
     @Override
@@ -159,6 +159,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                     messagesRecieved=true;
 
                 }
+                System.out.println(chatFragment+" chatFragment");
                 if(chatFragment!=null&&messagesRecieved)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
@@ -176,7 +177,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                         }
                     });
                 }
-                getUser().save();
+                //getUser().save(this);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

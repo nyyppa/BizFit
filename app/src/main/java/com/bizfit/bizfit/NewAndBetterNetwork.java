@@ -79,11 +79,13 @@ public class NewAndBetterNetwork extends Thread{
                             System.out.println(line);
                             total.append(line).append('\n');
                         }
-                        netMessage.getNetworkReturn().returnMessage(total.toString());
+                        returnMessage(netMessage,total.toString());
+                        //netMessage.getNetworkReturn().returnMessage(total.toString());
                         iterator.remove();
                         //networkReturn.returnMessage(total.toString());
                     }else{
-                        netMessage.getNetworkReturn().returnMessage("failed");
+                        returnMessage(netMessage,"failed");
+                        //netMessage.getNetworkReturn().returnMessage("failed");
                         //networkReturn.returnMessage("failed");
                     }
 
@@ -118,6 +120,12 @@ public class NewAndBetterNetwork extends Thread{
             }
         }
 
+    }
+
+    private void returnMessage(NetMessage netMessage,String message ){
+        if(netMessage.getNetworkReturn()!=null){
+            netMessage.getNetworkReturn().returnMessage(message);
+        }
     }
 
     public void onResume(){
