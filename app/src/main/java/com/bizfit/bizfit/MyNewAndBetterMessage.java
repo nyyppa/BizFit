@@ -103,23 +103,31 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
             //// TODO: 02/12/2016 check what correct job was
             message.put("Job","send_message");
             message.put("message",this.toJson());
+            setHasBeenSent(true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         NewAndBetterNetwork.addNetMessage(new NetMessage(targetAddress,this,message));
 
     }
-    public void checkToResend(){
-        if(!getHasBeenSent()){
+    public void checkToResend()
+    {
+        if(!getHasBeenSent() && getJob()==Job.OUTGOING)
+        {
             sendMessage(null);
         }
     }
 
     @Override
     public void returnMessage(String message) {
-        if (!message.equals("failed")){
+        if (!message.equals("failed"))
+        {
             setHasBeenSent(true);
             myNewAndBetterConversation.getUser().save();
+        }
+        else
+        {
+            setHasBeenSent(false);
         }
     }
     public JSONObject toJson(){
