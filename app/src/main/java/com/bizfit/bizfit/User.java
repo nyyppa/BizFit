@@ -708,7 +708,7 @@ public class User implements java.io.Serializable {
                 public void run() {
                     while (true){
                         for (MyNewAndBetterConversation c : conversations) {
-                            c.getNewMessagesAndSendOldOnes();
+                            //c.getNewMessagesAndSendOldOnes();
                         }
                         synchronized (this){
                             try {
