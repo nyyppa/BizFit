@@ -151,26 +151,30 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         if(!message.equals("failed")){
             try {
                 JSONArray jsonArray=new JSONArray(message);
+                boolean messagesRecieved=false;
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
-                    if(chatFragment!=null)
-                    {
-                        chatFragment.getActivity().runOnUiThread(new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                               if(chatFragment.getmAdapter().getItemCount()>0)
-                               {
-                                   chatFragment.getmAdapter().notifyItemInserted(0);
-                                   chatFragment.getmRecyclerView().smoothScrollToPosition(0);
-                               }
+                    messagesRecieved=true;
 
+                }
+                if(chatFragment!=null&&messagesRecieved)
+                {
+                    chatFragment.getActivity().runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            if(chatFragment.getmAdapter().getItemCount()>0)
+                            {
+                                System.out.println("TestiPaikka");
+                                chatFragment.getmAdapter().notifyItemInserted(0);
+                                chatFragment.getmRecyclerView().smoothScrollToPosition(0);
                             }
-                        });
-                    }
+
+                        }
+                    });
                 }
                 getUser().save();
             } catch (JSONException e) {

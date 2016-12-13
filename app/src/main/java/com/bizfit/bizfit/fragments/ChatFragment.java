@@ -73,6 +73,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     mRecyclerView.smoothScrollToPosition(0);
                     input.setText("");
                 }
+
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
 
                 mAdapter.getConversation().getNewMessagesAndSendOldOnes();

@@ -58,8 +58,28 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         messageHorizontalMarginLarge = context.getResources().getDimension(R.dimen.list_item_message_horizontal_margin_large);
     }
 
-    public void setChatFragment(ChatFragment chatFragment)
+    public void setChatFragment(final ChatFragment chatFragment)
     {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    if(getConversation()==null){
+
+                        try {
+                            wait(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        getConversation().setChatFragment(chatFragment);
+                        return;
+                    }
+
+                }
+            }
+        }).start();
+
         this.chatFragment=chatFragment;
     }
 
