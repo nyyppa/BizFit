@@ -86,35 +86,104 @@ public class Tracker implements java.io.Serializable {
         id = h.trackerID;
     }
 
-    public Tracker(JSONObject jsonObject) {
+    public Tracker(JSONObject jsonObject)
+    {
+        JSONArray jsonArray=null;
 
         try
         {
-            JSONArray jsonArray = jsonObject.getJSONArray("oldProgress");
-            startDate = jsonObject.getLong("startDate");
-            lastReset = jsonObject.getLong("lastReset");
-            dayInterval = jsonObject.getInt("dayInterval");
-            monthInterval = jsonObject.getInt("monthInterval");
-            yearInterval = jsonObject.getInt("yearInterval");
-            targetProgress = (float) jsonObject.getDouble("targetProgress");
-            currentProgress = (float) jsonObject.getDouble("currentProgress");
-            defaultIncrement = (float) jsonObject.getDouble("defaultIncrement");
-            timeProgress = jsonObject.getLong("timeProgress");
-            timeProgressNeed = jsonObject.getLong("timeProgressNeed");
-            name = jsonObject.getString("name");
-            targetType = jsonObject.getString("targetType");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                oldProgress.add(new OldProgress(jsonArray.getJSONObject(i)));
+            if(jsonObject.has("oldProgress"))
+            {
+                jsonArray = jsonObject.getJSONArray("oldProgress");
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    oldProgress.add(new OldProgress(jsonArray.getJSONObject(i)));
+                }
             }
-            daily = new DailyProgress(jsonObject.getJSONObject("daily"));
-            weekly = jsonObject.getBoolean("weekly");
-            repeat = jsonObject.getBoolean("repeat");
-            completed = jsonObject.getBoolean("completed");
-            tolerance = (float) jsonObject.getDouble("tolerance");
-            color = jsonObject.getInt("color");
-            numberTracked = jsonObject.getBoolean("numberTracked");
-            id = jsonObject.getInt("id");
-        } catch (JSONException e) {
+            if(jsonObject.has("startDate"))
+            {
+                startDate = jsonObject.getLong("startDate");
+            }
+           if(jsonObject.has("lastReset"))
+           {
+               lastReset = jsonObject.getLong("lastReset");
+           }
+           if(jsonObject.has("dayInterval"))
+           {
+               dayInterval = jsonObject.getInt("dayInterval");
+           }
+            if(jsonObject.has("monthInterval"))
+            {
+                monthInterval = jsonObject.getInt("monthInterval");
+            }
+            if(jsonObject.has("yearInterval"))
+            {
+                yearInterval = jsonObject.getInt("yearInterval");
+            }
+           if(jsonObject.has("targetProgress"))
+           {
+               targetProgress = (float) jsonObject.getDouble("targetProgress");
+           }
+            if(jsonObject.has("currentProgress"))
+            {
+                currentProgress = (float) jsonObject.getDouble("currentProgress");
+            }
+            if(jsonObject.has("defaultIncrement"))
+            {
+                defaultIncrement = (float) jsonObject.getDouble("defaultIncrement");
+            }
+            if(jsonObject.has("timeProgress"))
+            {
+                timeProgress = jsonObject.getLong("timeProgress");
+            }
+            if(jsonObject.has("timeProgressNeed"))
+            {
+                timeProgressNeed = jsonObject.getLong("timeProgressNeed");
+            }
+            if(jsonObject.has("name"))
+            {
+               name = jsonObject.getString("name");
+            }
+            if(jsonObject.has("targetType"))
+            {
+                targetType = jsonObject.getString("targetType");
+            }
+            if(jsonObject.has("daily"))
+            {
+                daily = new DailyProgress(jsonObject.getJSONObject("daily"));
+            }
+            if(jsonObject.has("weekly"))
+            {
+               weekly = jsonObject.getBoolean("weekly");
+            }
+            if(jsonObject.has("repeat"))
+            {
+                repeat = jsonObject.getBoolean("repeat");
+            }
+            if(jsonObject.has("completed"))
+            {
+                completed = jsonObject.getBoolean("completed");
+            }
+           if(jsonObject.has("tolerance"))
+           {
+               tolerance = (float) jsonObject.getDouble("tolerance");
+           }
+           if(jsonObject.has("color"))
+           {
+               color = jsonObject.getInt("color");
+           }
+            if(jsonObject.has("numberTracked"))
+            {
+                numberTracked = jsonObject.getBoolean("numberTracked");
+            }
+            if(jsonObject.has("id"))
+            {
+                id = jsonObject.getInt("id");
+            }
+
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }

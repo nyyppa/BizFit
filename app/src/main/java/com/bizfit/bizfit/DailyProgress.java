@@ -59,16 +59,28 @@ public class DailyProgress implements java.io.Serializable {
      *
      * @param jsonObject JSON containing nessessary information
      */
-    public DailyProgress(JSONObject jsonObject) {
-        try {
-            JSONArray jsonArray = jsonObject.getJSONArray("DaySingle");
-            id = jsonObject.getInt("id");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject object = jsonArray.getJSONObject(i);
-                DaySingle d = addDailyProgress((float) (object.getDouble("amount")), object.getLong("time"));
-                d.id = object.getInt("id");
+    public DailyProgress(JSONObject jsonObject)
+    {
+        JSONArray jsonArray=null;
+        try
+        {
+            if(jsonObject.has("DaySingle"))
+            {
+                jsonArray  = jsonObject.getJSONArray("DaySingle");
+                for (int i = 0; i < jsonArray.length(); i++)
+                {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    DaySingle d = addDailyProgress((float) (object.getDouble("amount")), object.getLong("time"));
+                    d.id = object.getInt("id");
+                }
             }
-        } catch (JSONException e) {
+            if(jsonObject.has("id"))
+            {
+                id = jsonObject.getInt("id");
+            }
+
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }

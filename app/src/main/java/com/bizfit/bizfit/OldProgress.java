@@ -41,14 +41,36 @@ public class OldProgress implements java.io.Serializable {
      * @param jsonObject JSON containing nessessary information for constructing OldProgress
      */
     OldProgress(JSONObject jsonObject) {
-        try {
-            startDate = jsonObject.getLong("startDate");
-            endDate = jsonObject.getLong("endDate");
-            endProgress = (float) jsonObject.getDouble("endProgress");
-            targetProgress = (float) jsonObject.getDouble("targetProgress");
-            id = jsonObject.getInt("id");
-            daily = new DailyProgress(jsonObject.getJSONObject("DailyProgress"));
-        } catch (JSONException e) {
+        try
+        {
+            if(jsonObject.has("startDate"))
+            {
+                startDate = jsonObject.getLong("startDate");
+            }
+
+            if(jsonObject.has("endDate"))
+            {
+                endDate = jsonObject.getLong("endDate");
+            }
+            if(jsonObject.has("endProgress"))
+            {
+                endProgress = (float) jsonObject.getDouble("endProgress");
+            }
+            if(jsonObject.has("targetProgress"))
+            {
+                targetProgress = (float) jsonObject.getDouble("targetProgress");
+            }
+            if(jsonObject.has("id"))
+            {
+                id = jsonObject.getInt("id");
+            }
+            if(jsonObject.has("dailyProgress"))
+            {
+                daily = new DailyProgress(jsonObject.getJSONObject("DailyProgress"));
+            }
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }

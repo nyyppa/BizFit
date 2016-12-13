@@ -32,7 +32,8 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
             {
                 resipient=jsonObject.getString("resipient");
             }
-            if(jsonObject.has("message")){
+            if(jsonObject.has("message"))
+            {
                 message=jsonObject.getString("message");
             }
 
