@@ -102,8 +102,8 @@ public class User implements java.io.Serializable {
                 JSONArray conversationArray=jsonObject.getJSONArray("conversations");
                 for(int i=0;i<conversationArray.length();i++)
                 {
-                    MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
-                    addConversation(conversation);
+                    //MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
+                    addConversation(new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this));
                 }
             }
 
@@ -698,7 +698,7 @@ public class User implements java.io.Serializable {
         }
     }
 
-    public MyNewAndBetterConversation addConversation(final MyNewAndBetterConversation conversation){
+    public MyNewAndBetterConversation addConversation(MyNewAndBetterConversation conversation){
         if(conversations==null){
             conversations=new ArrayList<>();
         }
@@ -707,9 +707,10 @@ public class User implements java.io.Serializable {
                 @Override
                 public void run() {
                     while (true){
-                        for (MyNewAndBetterConversation c : conversations) {
-                            c.getNewMessagesAndSendOldOnes();
+                        for(int i=0;i<conversations.size();i++){
+                            conversations.get(i).getNewMessagesAndSendOldOnes();
                         }
+
                         System.out.println(conversations.size()+"conversations koko");
                         synchronized (this){
                             try {

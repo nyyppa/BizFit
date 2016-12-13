@@ -16,7 +16,7 @@ import java.util.List;
  * Created by attey on 02/12/2016.
  */
 
-public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
+public class MyNewAndBetterConversation implements NetworkReturn{
 
     private String owner="";
     private String other="";
@@ -143,6 +143,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
         getUser().save(this);
+        System.out.println(chatFragment+" setChatFragment");
 
     }
     @Override
@@ -159,6 +160,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                     messagesRecieved=true;
 
                 }
+                System.out.println(this+" Conversation");
                 System.out.println(chatFragment+" chatFragment");
                 if(chatFragment!=null&&messagesRecieved)
                 {
@@ -187,6 +189,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
     public void setChatFragment(ChatFragment chatFragment)
     {
+
         this.chatFragment=chatFragment;
     }
 }
