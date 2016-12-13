@@ -732,4 +732,46 @@ public class User implements java.io.Serializable {
         conversations.add(conversation);
         return  conversation;
     }
+
+    public void save(Object obj)
+    {
+        JSONObject jsonObject = new JSONObject();
+       if (obj instanceof Tracker)
+       {
+           Tracker tracker = (Tracker) obj;
+
+           try
+           {
+               jsonObject.put("Job", "save_tracker");
+               jsonObject.put("User", userName);
+               jsonObject.put("Tracker", tracker.toJSON());
+           }
+           catch (JSONException e)
+           {
+               e.printStackTrace();
+           }
+
+
+       }
+        else if(obj instanceof MyNewAndBetterConversation)
+       {
+           MyNewAndBetterConversation conversation = (MyNewAndBetterConversation) obj;
+           try
+           {
+               jsonObject.put("Job", "save_conversation");
+               jsonObject.put("Conversation", conversation.toJSon());
+           }
+           catch (JSONException e)
+           {
+               e.printStackTrace();
+           }
+       }
+        //TODO: Make error handling
+        NewAndBetterNetwork.addNetMessage(new NetMessage(null, null, jsonObject));
+
+
+
+
+
+    }
 }

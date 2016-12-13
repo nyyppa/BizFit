@@ -100,11 +100,11 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
     public void sendMessage(String targetAddress){
         JSONObject message=new JSONObject();
         try {
-            //// TODO: 02/12/2016 check what correct job was
+            setHasBeenSent(true);
             message.put("Job","send_message");
             message.put("message",this.toJson());
-            setHasBeenSent(true);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
         NewAndBetterNetwork.addNetMessage(new NetMessage(targetAddress,this,message));
