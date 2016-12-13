@@ -16,7 +16,8 @@ import java.util.List;
  * Created by attey on 02/12/2016.
  */
 
-public class MyNewAndBetterConversation implements NetworkReturn{
+//todo prevent android from cloning thisw
+public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
     private String owner="";
     private String other="";
