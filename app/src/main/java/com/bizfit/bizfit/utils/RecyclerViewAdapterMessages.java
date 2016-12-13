@@ -60,22 +60,29 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     public void setChatFragment(final ChatFragment chatFragment)
     {
-        new Thread(new Runnable() {
+        new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                while(true){
-                    if(getConversation()==null){
-
-                        try {
+            public void run()
+            {
+                while(true)
+                {
+                    if(getConversation()==null)
+                    {
+                        try
+                        {
                             wait(1);
-                        } catch (InterruptedException e) {
+                        }
+                        catch (InterruptedException e)
+                        {
                             e.printStackTrace();
                         }
-                    }else{
+                    }
+                    else
+                    {
                         getConversation().setChatFragment(chatFragment);
                         return;
                     }
-
                 }
             }
         }).start();
