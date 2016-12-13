@@ -60,6 +60,8 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     public void setChatFragment(final ChatFragment chatFragment)
     {
+
+
         new Thread(new Runnable()
         {
             @Override
@@ -69,14 +71,17 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 {
                     if(getConversation()==null)
                     {
-                        try
-                        {
-                            wait(1);
+                        synchronized (this){
+                            try
+                            {
+                                wait(1);
+                            }
+                            catch (InterruptedException e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
-                        catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
+
                     }
                     else
                     {
@@ -86,6 +91,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 }
             }
         }).start();
+
 
         this.chatFragment=chatFragment;
     }

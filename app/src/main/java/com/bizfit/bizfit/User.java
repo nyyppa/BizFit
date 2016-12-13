@@ -710,11 +710,14 @@ public class User implements java.io.Serializable {
                         for (MyNewAndBetterConversation c : conversations) {
                             c.getNewMessagesAndSendOldOnes();
                         }
-                        try {
-                            wait(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        synchronized (this){
+                            try {
+                                wait(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     }
 
                 }
