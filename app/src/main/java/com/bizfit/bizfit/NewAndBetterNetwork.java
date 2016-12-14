@@ -85,6 +85,7 @@ public class NewAndBetterNetwork extends Thread{
                         //networkReturn.returnMessage(total.toString());
                     }else{
                         returnMessage(netMessage,"failed");
+                        iterator.remove();
                         //netMessage.getNetworkReturn().returnMessage("failed");
                         //networkReturn.returnMessage("failed");
                     }

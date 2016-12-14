@@ -315,7 +315,10 @@ public class User implements java.io.Serializable {
         t.start();
     }
 
-
+    /**
+     * this is becouse cloned version has correct chatfragment
+     * @param myNewAndBetterConversation
+     */
     public void addClonedMyNewAndBetterConversation(MyNewAndBetterConversation myNewAndBetterConversation){
         for(int i=0;i<conversations.size();i++){
             MyNewAndBetterConversation oldConversation=conversations.get(i);
