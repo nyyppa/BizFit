@@ -26,4 +26,9 @@
         <item>@drawable/tmp6</item>
         <item>@drawable/tmp7</item>
     </integer-array>
+
+    <integer-array name="work_imgs">
+        <item>@drawable/mylly</item>
+        <item>@drawable/pasi</item>
+    </integer-array>
 </resources>

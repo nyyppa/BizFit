@@ -2,6 +2,7 @@ package com.bizfit.bizfit.fragments;
 
 
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -58,22 +59,43 @@ public class TabCoaches extends Fragment {
         final String[] lastNames = getResources().getStringArray(R.array.random_last_name);
         final TypedArray imgIDs = getResources().obtainTypedArray(R.array.random_imgs);
         final String[] jobTitles=getResources().getStringArray(R.array.random_job_title);
+        final TypedArray worksIds = getResources().obtainTypedArray(R.array.work_imgs);
 
 
         for (int i = 0; i < 10; i++)
         {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
-
-            for (int j = 0; j < 10; j++)
+            if(i==0)
             {
-                // Assign a random name and image.
-                // TODO Parse info from server
-                int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
-                items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
-                        lastNames[(int) (Math.random() * lastNames.length)],
-                        ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400)));
-
+                for(int j = 0; j < 2; j++)
+                {
+                    Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
+                    Drawable pasi = (ContextCompat.getDrawable(this.getContext(), R.drawable.pasi));
+                    int imageID = worksIds.getResourceId(j, -1);
+                    if(j==0)
+                    {
+                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400)));
+                    }
+                   if(j==1)
+                    {
+                        items.add(new StoreRow.StoreItem("Pasi Ojanen", pasi,imageID,(int) (Math.random()*400)));
+                    }
+                }
             }
+            else
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    // Assign a random name and image.
+                    // TODO Parse info from server
+                    int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
+                    items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
+                            lastNames[(int) (Math.random() * lastNames.length)],
+                            ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400)));
+
+                }
+            }
+
             HashMap<String, String> stringData = new HashMap<>();
             stringData.put(StoreRow.TITLE,jobTitles[i]);
             storeRows.add(new StoreRow(stringData, items));
@@ -94,5 +116,7 @@ public class TabCoaches extends Fragment {
         });
 
         imgIDs.recycle();
+        worksIds.recycle();
+
     }
 }
