@@ -760,7 +760,7 @@ public class Tracker implements java.io.Serializable {
      */
     private void fieldUpdated() {
         try {
-            parentUser.save();
+            parentUser.save(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

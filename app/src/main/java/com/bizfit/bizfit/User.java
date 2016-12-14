@@ -59,7 +59,7 @@ public class User implements java.io.Serializable {
     static boolean userLoaded=false;
     List<MyNewAndBetterConversation> conversations;
     private transient static Thread GetMessagesThread;
-
+    //todo remove userNumber
 
     /**
      * Constructs user and it's dependencies from given JSONObject
@@ -73,8 +73,11 @@ public class User implements java.io.Serializable {
         {
             if(jsonObject.has("trackers"))
             {
+                System.out.println("Terse");
                 trackerArray = jsonObject.getJSONArray("trackers");
+                System.out.println("trackers"+jsonObject.getString("trackers"));
                 for (int i = 0; i < trackerArray.length(); i++) {
+                    System.out.println("Terse"+i);
                     Tracker t = new Tracker(trackerArray.getJSONObject(i));
                     trackers.add(t);
                     t.addParentUser(this);
@@ -225,7 +228,7 @@ public class User implements java.io.Serializable {
             }
             userName = name;
         }
-
+        System.out.println(userName+" userName");
         final String name = userName;
         Thread t = new Thread(new Runnable() {
             @Override
@@ -375,14 +378,18 @@ public class User implements java.io.Serializable {
             jsonObject.put("lastTrackerID", lastTrackerID);
             jsonObject.put("nextFreeDailyProgressID", nextFreeDailyProgressID);
             jsonObject.put("userNumber", userNumber);
+
             for (int i = 0; i < trackers.size(); i++) {
                 trackerArray.put(trackers.get(i).toJSON());
+                System.out.println(i+"TrackerToJSON");
             }
+            jsonObject.put("trackers", trackerArray);
+
             for(int i=0;conversations!=null && i<conversations.size();i++){
                 conversationArray.put(conversations.get(i).toJSon());
             }
             jsonObject.put("conversations",conversationArray);
-            jsonObject.put("trackers", trackerArray);
+
             try {
                 jsonObject.put("checkSum",checksum(this));
             } catch (IOException e) {
@@ -473,7 +480,8 @@ public class User implements java.io.Serializable {
         t.id = lastTrackerID;
         lastTrackerID++;
         updateIndexes();
-        save();
+        save(t);
+
     }
 
     public void updateIndexes() {
@@ -752,6 +760,8 @@ public class User implements java.io.Serializable {
 
     public void save(Object obj)
     {
+        saveUser = true;
+        WakeThread();
         JSONObject jsonObject = new JSONObject();
        if (obj instanceof Tracker)
        {

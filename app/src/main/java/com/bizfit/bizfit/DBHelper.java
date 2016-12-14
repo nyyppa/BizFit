@@ -39,6 +39,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         ContentValues values = new ContentValues();
         values.put("user", user.toJSON().toString());
+        System.out.println("user"+user.toJSON().toString());
+
+
         db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         /*
         if (!isTableExists(db, "user")) {
@@ -206,9 +209,9 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
             try {
                 user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
-                System.out.print(cursor.getString(cursor.getColumnIndex("user")));
-                System.out.println(user);
-                System.out.println("hehe");
+                System.out.println(cursor.getString(cursor.getColumnIndex("user")));
+                System.out.println(user.toJSON().toString(4));
+                System.out.println("user"+cursor.getString(cursor.getColumnIndex("user")));
             } catch (JSONException e) {
                 System.out.println("heihoi");
                 e.printStackTrace();
