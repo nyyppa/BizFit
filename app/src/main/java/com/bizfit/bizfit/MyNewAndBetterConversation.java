@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +60,12 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         myNewAndBetterMessageList=new ArrayList<>();
         this.user=user;
     }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        user.addClonedMyNewAndBetterConversation(this);
+    }
+
     public User getUser(){
         return user;
     }

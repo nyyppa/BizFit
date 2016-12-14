@@ -316,6 +316,18 @@ public class User implements java.io.Serializable {
     }
 
 
+    public void addClonedMyNewAndBetterConversation(MyNewAndBetterConversation myNewAndBetterConversation){
+        for(int i=0;i<conversations.size();i++){
+            MyNewAndBetterConversation oldConversation=conversations.get(i);
+            if(oldConversation.getOther().equals(myNewAndBetterConversation.getOther())){
+                conversations.set(i,myNewAndBetterConversation);
+                return;
+            }
+        }
+        conversations.add(myNewAndBetterConversation);
+    }
+
+
 
     private BigInteger checksum(Object obj) throws IOException, NoSuchAlgorithmException {
 
