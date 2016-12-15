@@ -44,7 +44,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 38;
+    private static final int dbVersion = 39;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
@@ -71,11 +71,13 @@ public class User implements java.io.Serializable {
         JSONArray trackerArray=null;
         try
         {
+            trackers = new ArrayList<>(0);
             if(jsonObject.has("trackers"))
             {
                 System.out.println("Terse");
                 trackerArray = jsonObject.getJSONArray("trackers");
                 System.out.println("trackers"+jsonObject.getString("trackers"));
+
                 for (int i = 0; i < trackerArray.length(); i++) {
                     System.out.println("Terse"+i);
                     Tracker t = new Tracker(trackerArray.getJSONObject(i));
@@ -99,7 +101,7 @@ public class User implements java.io.Serializable {
             {
                 userNumber = jsonObject.getInt("userNumber");
             }
-            trackers = new ArrayList<>(0);
+
             if(jsonObject.has("conversations"))
             {
                 JSONArray conversationArray=jsonObject.getJSONArray("conversations");
