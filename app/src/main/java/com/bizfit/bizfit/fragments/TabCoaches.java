@@ -70,6 +70,7 @@ public class TabCoaches extends Fragment {
                 for(int j = 0; j < 2; j++)
                 {
                     Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
+                    //TODO: Check Pasi's img
                     Drawable pasi = (ContextCompat.getDrawable(this.getContext(), R.drawable.pasi));
                     int imageID = worksIds.getResourceId(j, -1);
                     if(j==0)

@@ -64,6 +64,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         user.addClonedMyNewAndBetterConversation(this);
+        System.out.println("Kloonauksen jälkeeen käyttäjä on:" + getUser());
     }
 
     public User getUser(){

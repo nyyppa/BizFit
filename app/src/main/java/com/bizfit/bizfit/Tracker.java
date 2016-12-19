@@ -394,10 +394,10 @@ public class Tracker implements java.io.Serializable {
     }
 
     public OnTrack getProgressOnTrack() {
-        double timeProgressPersent = (double) (timeProgress) / (double) (timeProgressNeed);
-        if (getCurrentProgress() < timeProgressPersent - tolerance / 100) {
+        double timeProgressPercent = (double) (timeProgress) / (double) (timeProgressNeed);
+        if (getCurrentProgress() < timeProgressPercent - tolerance / 100) {
             return OnTrack.behind;
-        } else if (getCurrentProgress() > timeProgressPersent + tolerance / 100) {
+        } else if (getCurrentProgress() > timeProgressPercent + tolerance / 100) {
             return OnTrack.ahead;
         } else {
             return OnTrack.onTime;
@@ -429,9 +429,9 @@ public class Tracker implements java.io.Serializable {
     }
 
     public double getProgressComperedToTime() {
-        double timeProgressPersent = (double) (timeProgress) / (double) (timeProgressNeed);
+        double timeProgressPercent = (double) (timeProgress) / (double) (timeProgressNeed);
 
-        return getCurrentProgress() - timeProgressPersent;
+        return getCurrentProgress() - timeProgressPercent;
     }
 
     private void setAttributes(Tracker t) {

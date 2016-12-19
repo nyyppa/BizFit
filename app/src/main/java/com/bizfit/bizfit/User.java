@@ -321,7 +321,7 @@ public class User implements java.io.Serializable {
     }
 
     /**
-     * this is becouse cloned version has correct chatfragment
+     * this is because cloned version has correct chatfragment
      * @param myNewAndBetterConversation
      */
     public void addClonedMyNewAndBetterConversation(MyNewAndBetterConversation myNewAndBetterConversation){
@@ -329,10 +329,13 @@ public class User implements java.io.Serializable {
             MyNewAndBetterConversation oldConversation=conversations.get(i);
             if(oldConversation.getOther().equals(myNewAndBetterConversation.getOther())){
                 conversations.set(i,myNewAndBetterConversation);
+                System.out.println("Kloonauksen jälkeeen käyttäjä on:");
                 return;
             }
         }
         conversations.add(myNewAndBetterConversation);
+
+
     }
 
 
