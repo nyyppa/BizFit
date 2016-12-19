@@ -143,8 +143,25 @@ public class NewAndBetterNetwork extends Thread{
         }
     }
     public void addMessage(NetMessage message){
-        messagesToAdd.add(message);
+        if(alreadyInQueue(message)){
+            message.networkReturn.returnMessage("failed");
+        }else{
+            messagesToAdd.add(message);
+        }
         onResume();
+    }
+    private boolean alreadyInQueue(NetMessage message){
+        for(int i=0;i<messagesToAdd.size();i++){
+            if(messagesToAdd.get(i).equals(message)){
+                return true;
+            }
+        }
+        for(int i=0;i<netMessagesList.size();i++){
+            if(netMessagesList.get(i).equals(netMessagesList)){
+                return true;
+            }
+        }
+        return false;
     }
     public static void addNetMessage(NetMessage message){
         System.out.println("herhar");

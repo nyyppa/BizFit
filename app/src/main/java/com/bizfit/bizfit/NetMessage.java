@@ -18,6 +18,12 @@ public class NetMessage {
         this.networkReturn = networkReturn;
         this.message = message;
     }
+    public boolean equals(NetMessage netMessage){
+        if(netMessage.getConnectionAddress().equals(getConnectionAddress())&&netMessage.getMessage().toString().equals(getMessage().toString())){
+            return true;
+        }
+        return false;
+    }
 
     public String getConnectionAddress() {
         return connectionAddress;
