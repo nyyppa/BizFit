@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bizfit.bizfit.MyNewAndBetterConversation;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import org.w3c.dom.Text;
@@ -30,6 +34,9 @@ public class CoachPage extends AppCompatActivity
     public static final String FIELD_COACH_NAME = "com.bizfit.field.name";
     public static final String FIELD_COACH_IMAGE_ID = "com.bizfit.field.image";
     private static final int IMAGE_NOT_FOUND = -1;
+    private User user;
+    private MyNewAndBetterConversation myNewAndBetterConversation;
+    private String owner;
 
     private static final float defaultFontScale=1;
     @Override
@@ -126,6 +133,41 @@ public class CoachPage extends AppCompatActivity
                 ((TextView) findViewById(R.id.tVName)).setText(name);
         }
 
+        Button btnOrderChat = (Button) findViewById(R.id.btnOrderChat);
+        btnOrderChat.setOnClickListener(new View.OnClickListener()
+                // TODO: order chat-> välitä käyttäjä tunnus chatille -> avaa chat
+            //TODO: do method for getting username
+
+        {
+            @Override
+            public void onClick(View view)
+            {
+                User.getLastUser(new User.UserLoadedListener()
+                {
+                    String owner;
+                    String userName;
+                    @Override
+                    public void UserLoaded(User user)
+                    {
+                      if(user.userName != null)
+                      {
+                        userName = user.userName;
+                        //setting the conversations owner to the loaded username
+                        setOwner(userName);
+                      }
+                      else
+                      {
+
+                      }
+                    }
+                }, getApplicationContext());
+            }
+        });
+    }
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+        System.out.println("Owner: " + owner);
     }
 
 

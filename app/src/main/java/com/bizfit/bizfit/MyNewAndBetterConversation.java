@@ -1,5 +1,9 @@
 package com.bizfit.bizfit;
 
+import android.nfc.Tag;
+import android.os.Debug;
+import android.util.Log;
+
 import com.bizfit.bizfit.fragments.ChatFragment;
 
 import org.json.JSONArray;
@@ -12,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.google.android.gms.internal.zzs.TAG;
 
 /**
  * Created by attey on 02/12/2016.
@@ -64,7 +70,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         user.addClonedMyNewAndBetterConversation(this);
-        System.out.println("Kloonauksen jälkeeen käyttäjä on:" + getUser());
+
     }
 
     public User getUser(){

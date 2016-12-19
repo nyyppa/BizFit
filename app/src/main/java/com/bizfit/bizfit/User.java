@@ -329,7 +329,6 @@ public class User implements java.io.Serializable {
             MyNewAndBetterConversation oldConversation=conversations.get(i);
             if(oldConversation.getOther().equals(myNewAndBetterConversation.getOther())){
                 conversations.set(i,myNewAndBetterConversation);
-                System.out.println("Kloonauksen jälkeeen käyttäjä on:");
                 return;
             }
         }
@@ -544,7 +543,8 @@ public class User implements java.io.Serializable {
         t.start();
     }
 
-    public interface UserLoadedListener {
+    public interface UserLoadedListener
+    {
         void UserLoaded(User user);
     }
 
@@ -801,9 +801,10 @@ public class User implements java.io.Serializable {
         //TODO: Make error handling
         NewAndBetterNetwork.addNetMessage(new NetMessage(null, null, jsonObject));
 
+    }
 
-
-
-
+    public String getUserName(UserLoadedListener listener, String userName)
+    {
+        return userName;
     }
 }

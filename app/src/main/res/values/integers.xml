@@ -30,5 +30,6 @@
     <integer-array name="work_imgs">
         <item>@drawable/mylly</item>
         <item>@drawable/pasi</item>
+        <item>@drawable/atte</item>
     </integer-array>
 </resources>
