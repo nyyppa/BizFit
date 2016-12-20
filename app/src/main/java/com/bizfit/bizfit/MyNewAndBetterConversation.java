@@ -99,11 +99,20 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         return  jsonObject;
     }
-    public void getNewMessagesAndSendOldOnes(){
+    public void getNewMessagesAndSendOldOnes()
+    {
+        getIncomingMessages();
+        getOutgoingMessages();
+        for(int i=0;i<myNewAndBetterMessageList.size();i++){
+            myNewAndBetterMessageList.get(i).checkToResend();
+        }
+    }
+    private void getIncomingMessages()
+    {
         JSONObject jsonObject=new JSONObject();
         //// TODO: 02/12/2016 check real job from server
         try {
-            jsonObject.put("Job","get_message");
+            jsonObject.put("Job","get_message_incoming");
             jsonObject.put("owner",getOwner());
             jsonObject.put("other",getOther());
             jsonObject.put("creationTime",getLastReceivedMessage());
@@ -111,9 +120,20 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             e.printStackTrace();
         }
         NewAndBetterNetwork.addNetMessage(new NetMessage(null,this,jsonObject));
-        for(int i=0;i<myNewAndBetterMessageList.size();i++){
-            myNewAndBetterMessageList.get(i).checkToResend();
+    }
+    private void getOutgoingMessages()
+    {
+        JSONObject jsonObject=new JSONObject();
+        //// TODO: 02/12/2016 check real job from server
+        try {
+            jsonObject.put("Job","get_message_outgoing");
+            jsonObject.put("owner",getOwner());
+            jsonObject.put("other",getOther());
+            jsonObject.put("creationTime",getLastSentMessage());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        NewAndBetterNetwork.addNetMessage(new NetMessage(null,this,jsonObject));
     }
     private long getLastReceivedMessage(){
         long lastReceivedMessage=0;
@@ -130,6 +150,22 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             }
         }
         return lastReceivedMessage;
+    }
+    private long getLastSentMessage(){
+        long lastSentMessage=0;
+        for(int i=0;i<myNewAndBetterMessageList.size();i++){
+            MyNewAndBetterMessage myNewAndBetterMessage=myNewAndBetterMessageList.get(i);
+            switch (myNewAndBetterMessage.getJob()){
+                case OUTGOING:
+                    if(myNewAndBetterMessage.getCreationTime()>lastSentMessage){
+                        lastSentMessage=myNewAndBetterMessage.getCreationTime();
+                    }
+                    break;
+                case INCOMING:
+                    break;
+            }
+        }
+        return lastSentMessage;
     }
     public String getOwner(){
         return owner;
@@ -167,17 +203,17 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         if(!message.equals("failed")){
             try {
                 JSONArray jsonArray=new JSONArray(message);
-                boolean messagesRecieved=false;
+                boolean messagesReceived=false;
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
-                    messagesRecieved=true;
+                    messagesReceived=true;
 
                 }
                 System.out.println(this+" Conversation");
                 System.out.println(chatFragment+" chatFragment");
-                if(chatFragment!=null&&messagesRecieved&&chatFragment.getActivity()!=null)
+                if(chatFragment!=null&&messagesReceived)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
