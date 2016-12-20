@@ -48,70 +48,77 @@ public class NewAndBetterNetwork extends Thread{
             Iterator<NetMessage> iterator=netMessagesList.iterator();
             while (iterator.hasNext()){
                 NetMessage netMessage=iterator.next();
-                InputStream is = null;
-                // Only display the first 500 characters of the retrieved
-                // web page content.
-                int len = 500;
+                if (netMessage!=null&&netMessage.getConnectionAddress()!=null&&netMessage.getMessage()!=null) {
 
-                try {
-                    URL url = new URL(netMessage.getConnectionAddress());
-                    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                    conn.setReadTimeout(10000 /* milliseconds */);
-                    conn.setConnectTimeout(15000 /* milliseconds */);
-                    conn.setRequestMethod("POST");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    OutputStream os = conn.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(os, "UTF-8"));
+                    InputStream is = null;
+                    // Only display the first 500 characters of the retrieved
+                    // web page content.
+                    int len = 500;
 
-                    writer.write(netMessage.getMessage().toString());
-                    writer.flush();
-                    conn.connect();
-                    int response = conn.getResponseCode();
-                    if (response==200) {
-                        is = conn.getInputStream();
-                        // Convert the InputStream into a string
-                        BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                        StringBuilder total = new StringBuilder();
-                        String line;
-                        while ((line = r.readLine()) != null) {
-                            System.out.println(line);
-                            total.append(line).append('\n');
+                    try {
+                        URL url = new URL(netMessage.getConnectionAddress());
+                        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                        conn.setReadTimeout(10000 /* milliseconds */);
+                        conn.setConnectTimeout(15000 /* milliseconds */);
+                        conn.setRequestMethod("POST");
+                        conn.setDoInput(true);
+                        conn.setDoOutput(true);
+                        OutputStream os = conn.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+
+                        writer.write(netMessage.getMessage().toString());
+                        writer.flush();
+                        conn.connect();
+                        int response = conn.getResponseCode();
+                        if (response==200) {
+                            is = conn.getInputStream();
+                            // Convert the InputStream into a string
+                            BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                            StringBuilder total = new StringBuilder();
+                            String line;
+                            while ((line = r.readLine()) != null) {
+                                System.out.println(line);
+                                total.append(line).append('\n');
+                            }
+                            returnMessage(netMessage,total.toString());
+                            //netMessage.getNetworkReturn().returnMessage(total.toString());
+                            iterator.remove();
+                            //networkReturn.returnMessage(total.toString());
+                        }else{
+                            System.out.println("response"+conn.getResponseCode());
+                            returnMessage(netMessage,"failed");
+                            iterator.remove();
+                            //netMessage.getNetworkReturn().returnMessage("failed");
+                            //networkReturn.returnMessage("failed");
                         }
-                        returnMessage(netMessage,total.toString());
-                        //netMessage.getNetworkReturn().returnMessage(total.toString());
-                        iterator.remove();
-                        //networkReturn.returnMessage(total.toString());
-                    }else{
-                        returnMessage(netMessage,"failed");
-                        iterator.remove();
-                        //netMessage.getNetworkReturn().returnMessage("failed");
-                        //networkReturn.returnMessage("failed");
-                    }
 
-                    // Makes sure that the InputStream is closed after the app is
-                    // finished using it.
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (is != null) {
-                        try {
-                            is.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        // Makes sure that the InputStream is closed after the app is
+                        // finished using it.
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (is != null) {
+                            try {
+                                is.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
+                    }
                 }
 
             }
             netMessagesList.addAll(messagesToAdd);
-            messagesToAdd.clear();
+            synchronized (messagesToAdd){
+                messagesToAdd.clear();
+            }
+
             if(netMessagesList.size()==0){
                 paused=true;
                 System.out.print("terve");
@@ -143,24 +150,31 @@ public class NewAndBetterNetwork extends Thread{
         }
     }
     public void addMessage(NetMessage message){
-        if(alreadyInQueue(message)){
-            message.networkReturn.returnMessage("failed");
-        }else{
-            messagesToAdd.add(message);
+        if (message!=null) {
+            if(alreadyInQueue(message)){
+                message.networkReturn.returnMessage("failed");
+            }else{
+                messagesToAdd.add(message);
+            }
+            onResume();
         }
-        onResume();
     }
     private boolean alreadyInQueue(NetMessage message){
-        for(int i=0;i<messagesToAdd.size();i++){
-            if(messagesToAdd.get(i).equals(message)){
-                return true;
+        synchronized (messagesToAdd){
+            for(int i=0;i<messagesToAdd.size();i++){
+                if(messagesToAdd.get(i)!=null&&messagesToAdd.get(i).equals(message)){
+                    return true;
+                }
             }
         }
-        for(int i=0;i<netMessagesList.size();i++){
-            if(netMessagesList.get(i).equals(netMessagesList)){
-                return true;
+        synchronized (netMessagesList){
+            for(int i=0;i<netMessagesList.size();i++){
+                if(netMessagesList.get(i)!=null&&netMessagesList.get(i).equals(netMessagesList)){
+                    return true;
+                }
             }
         }
+
         return false;
     }
     public static void addNetMessage(NetMessage message){

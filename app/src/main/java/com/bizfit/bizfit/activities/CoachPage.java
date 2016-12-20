@@ -1,29 +1,21 @@
 package com.bizfit.bizfit.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.MyNewAndBetterConversation;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
-import com.ms.square.android.expandabletextview.ExpandableTextView;
-
-import org.w3c.dom.Text;
 
 /**
  * Fetches and displays an overview of hireable coaches.
@@ -38,6 +30,7 @@ public class CoachPage extends AppCompatActivity
     private User user;
     private MyNewAndBetterConversation myNewAndBetterConversation;
     private String other;
+    public String COACH_ID =null;
 
     private static final float defaultFontScale=1;
     @Override
@@ -120,7 +113,7 @@ public class CoachPage extends AppCompatActivity
         {
             String name = intent.getStringExtra(FIELD_COACH_NAME);
             int imgId = intent.getIntExtra(FIELD_COACH_IMAGE_ID, IMAGE_NOT_FOUND);
-
+            COACH_ID=intent.getStringExtra("coachID");
 
             if (imgId != IMAGE_NOT_FOUND)
             {
@@ -143,33 +136,23 @@ public class CoachPage extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                User.getLastUser(new User.UserLoadedListener()
-                {
-
-                    @Override
-                    public void UserLoaded(User user)
-                    {
-                      if(user.userName != null)
-                      {
-                        userName = user.userName;
-                        //setting the conversations owner to the loaded username
-                        setOther(userName);
-                      }
-                      else
-                      {
-
-                      }
-                    }
-                }, getApplicationContext());
+               if(COACH_ID !=null){
+                   //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
+                   MessageActivity.startChat(view,COACH_ID);
+               }
             }
         });
-    }
-    public void setOther(String other)
-    {
-        this.other = other;
-        System.out.println("Owner: " + other);
-    }
 
+    }
+    /*
+    public void orderChat(View view){
+        System.out.println("COACH_ID"+COACH_ID);
+        if(COACH_ID!=null){
+            //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
+            MessageActivity.startChat(view);
+        }
+    }
+    */
 
 
 

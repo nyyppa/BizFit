@@ -133,13 +133,15 @@ public class StoreRow<T> {
         protected Drawable image;
         protected int imageId;
         protected int testimonials;
+        protected String coachID;
 
-        public StoreItem(String name, Drawable image, int imageId, int testimonials)
+        public StoreItem(String name, Drawable image, int imageId, int testimonials,String coachID)
         {
             this.image = image;
             this.name = name;
             this.imageId = imageId;
             this.testimonials = testimonials;
+            this.coachID=coachID;
         }
 
         public String getName() {
@@ -148,6 +150,10 @@ public class StoreRow<T> {
 
         public int getImageId() {
             return imageId;
+        }
+
+        public String getCoachId(){
+            return  coachID;
         }
     }
 }

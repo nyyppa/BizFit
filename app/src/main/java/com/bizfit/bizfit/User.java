@@ -44,7 +44,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 40;
+    private static final int dbVersion = 43;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;

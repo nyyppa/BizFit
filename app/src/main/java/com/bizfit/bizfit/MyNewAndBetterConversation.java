@@ -177,7 +177,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                 }
                 System.out.println(this+" Conversation");
                 System.out.println(chatFragment+" chatFragment");
-                if(chatFragment!=null&&messagesRecieved)
+                if(chatFragment!=null&&messagesRecieved&&chatFragment.getActivity()!=null)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {

@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.v4.app.Fragment;
@@ -45,12 +46,13 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+
         View v = inflater.inflate(R.layout.fragment_messages, container, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_messages_recyclerView);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new RecyclerViewAdapterMessages(getResources().getStringArray(R.array.dummy_conversation), getContext());
+        mAdapter = new RecyclerViewAdapterMessages(getActivity().getIntent(), getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setChatFragment(this);
         //new GetMessagesFromServer(mAdapter,getActivity()).start();

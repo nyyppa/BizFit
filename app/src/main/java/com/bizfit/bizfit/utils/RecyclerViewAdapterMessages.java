@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +23,23 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     MyNewAndBetterConversation conversation;
     ChatFragment chatFragment;
+    Intent intent=null;
     //private ArrayList<Message> messages;
 
     protected float messageHorizontalMarginSmall;
     protected float messageHorizontalMarginLarge;
 
-    public RecyclerViewAdapterMessages(final String[] dummyText, Context context) {
+    public RecyclerViewAdapterMessages(final Intent intent, Context context) {
+        this.intent=intent;
         User.getLastUser(new User.UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
-                conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
+                if(intent!=null&&intent.hasExtra("coachID")){
+                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,intent.getStringExtra("coachID"),user));
+                }else{
+                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
+                }
+
                // conversation.setChatFragment(chatFragment);
                 if(conversation.getMessages().size()==0){
                     for (int i = 0; i < 25; i++) {

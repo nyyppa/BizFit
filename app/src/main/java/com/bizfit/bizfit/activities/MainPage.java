@@ -197,6 +197,7 @@ public class MainPage extends AppCompatActivity implements
         Intent intent = new Intent(this, CoachPage.class);
         intent.putExtra(CoachPage.FIELD_COACH_NAME, data.getName());
         intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, data.getImageId());
+        intent.putExtra("coachID",data.getCoachId());
         startActivity(intent);
     }
 }
