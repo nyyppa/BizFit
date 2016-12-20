@@ -34,9 +34,10 @@ public class CoachPage extends AppCompatActivity
     public static final String FIELD_COACH_NAME = "com.bizfit.field.name";
     public static final String FIELD_COACH_IMAGE_ID = "com.bizfit.field.image";
     private static final int IMAGE_NOT_FOUND = -1;
+    private String userName;
     private User user;
     private MyNewAndBetterConversation myNewAndBetterConversation;
-    private String owner;
+    private String other;
 
     private static final float defaultFontScale=1;
     @Override
@@ -144,8 +145,7 @@ public class CoachPage extends AppCompatActivity
             {
                 User.getLastUser(new User.UserLoadedListener()
                 {
-                    String owner;
-                    String userName;
+
                     @Override
                     public void UserLoaded(User user)
                     {
@@ -153,7 +153,7 @@ public class CoachPage extends AppCompatActivity
                       {
                         userName = user.userName;
                         //setting the conversations owner to the loaded username
-                        setOwner(userName);
+                        setOther(userName);
                       }
                       else
                       {
@@ -164,10 +164,10 @@ public class CoachPage extends AppCompatActivity
             }
         });
     }
-    public void setOwner(String owner)
+    public void setOther(String other)
     {
-        this.owner = owner;
-        System.out.println("Owner: " + owner);
+        this.other = other;
+        System.out.println("Owner: " + other);
     }
 
 
