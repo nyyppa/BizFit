@@ -1,7 +1,14 @@
 package com.bizfit.bizfit;
 
+import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.Tag;
 import android.os.Debug;
+import android.support.v4.content.ContextCompat;
+import android.telecom.Connection;
+import android.telecom.ConnectionService;
 import android.util.Log;
 
 import com.bizfit.bizfit.fragments.ChatFragment;
@@ -32,6 +39,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
     private User user;
     private transient ChatFragment chatFragment;
+    private NetworkInfo netinfo;
 
     public MyNewAndBetterConversation(JSONObject jsonObject, User user){
         JSONArray jsonArray=null;
@@ -165,6 +173,15 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         return lastSentMessage;
     }
+
+    // By JariJ 21.12.16 Solution taken from http://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out?page=2&tab=votes#tab-top
+    public boolean isOnline(Context c)
+    {
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     public String getOwner(){
         return owner;
     }
@@ -241,4 +258,6 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
         this.chatFragment=chatFragment;
     }
+
+
 }
