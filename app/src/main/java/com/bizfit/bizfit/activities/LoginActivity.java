@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
+        findViewById(R.id.skip_singin).setOnClickListener(this);
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -126,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
-
+            /*
             final Timer timer=new Timer();
             TimerTask timerTask =new TimerTask() {
                 final long waitTime=5000;
@@ -150,6 +151,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             };
             timer.schedule(timerTask,0,1000);
+            */
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
@@ -280,6 +282,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
+            case R.id.skip_singin:
+                System.out.println("mööh");
+                Intent intent=new Intent(LoginActivity.this,MainPage.class);
+                intent.putExtra("userName","default");
+                startActivity(intent);
+                break;
+
         }
     }
 
