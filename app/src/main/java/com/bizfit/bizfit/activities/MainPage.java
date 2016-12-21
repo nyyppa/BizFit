@@ -52,7 +52,6 @@ public class MainPage extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         setSupportActionBar(toolbar);

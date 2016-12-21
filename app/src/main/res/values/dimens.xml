@@ -31,4 +31,6 @@
     <dimen name="list_item_message_horizontal_margin_small">1dp</dimen>
     <dimen name="list_item_message_horizontal_margin_large">8dp</dimen>
     <dimen name="touch_area_min_size">48dp</dimen>
+
+    <dimen name="g_top_margin">100dp</dimen>
 </resources>

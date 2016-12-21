@@ -110,7 +110,6 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     private void getIncomingMessages()
     {
         JSONObject jsonObject=new JSONObject();
-        //// TODO: 02/12/2016 check real job from server
         try {
             jsonObject.put("Job","get_message_incoming");
             jsonObject.put("owner",getOwner());
@@ -124,7 +123,6 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     private void getOutgoingMessages()
     {
         JSONObject jsonObject=new JSONObject();
-        //// TODO: 02/12/2016 check real job from server
         try {
             jsonObject.put("Job","get_message_outgoing");
             jsonObject.put("owner",getOwner());
