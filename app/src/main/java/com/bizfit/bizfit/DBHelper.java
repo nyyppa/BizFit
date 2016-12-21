@@ -176,6 +176,7 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param db      database where the tracker is to be deleted from
      * @param tracker tracker to delete from database
+     * This is bullshit atm(not used)
      */
     public void deleteTracker(SQLiteDatabase db, Tracker tracker) {
         String args[] = {tracker.id + ""};

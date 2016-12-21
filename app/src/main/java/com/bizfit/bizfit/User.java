@@ -726,7 +726,7 @@ public class User implements java.io.Serializable {
         }
     }
 
-    public MyNewAndBetterConversation addConversation(MyNewAndBetterConversation conversation){
+    public MyNewAndBetterConversation addConversation(final MyNewAndBetterConversation conversation){
         if(conversations==null){
             conversations=new ArrayList<>();
         }
@@ -734,12 +734,16 @@ public class User implements java.io.Serializable {
             GetMessagesThread=new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    while (true){
-                        for(int i=0;i<conversations.size();i++){
+                    while (true && conversation.isOnline(getContext()))
+                    {
+                        for(int i=0;i<conversations.size();i++)
+                        {
                             conversations.get(i).getNewMessagesAndSendOldOnes();
                         }
 
+
                         System.out.println(conversations.size()+"conversations koko");
+                        System.out.println(conversations.size()+"Online");
                         synchronized (this){
                             try {
                                 wait(1000);
@@ -749,6 +753,7 @@ public class User implements java.io.Serializable {
                         }
 
                     }
+
 
                 }
             });
