@@ -219,16 +219,18 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             try {
                 JSONArray jsonArray=new JSONArray(message);
                 boolean messagesReceived=false;
+                MyNewAndBetterMessage message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
+                    message1=myNewAndBetterMessageList.get(0);
                     messagesReceived=true;
 
                 }
                 System.out.println(this+" Conversation");
                 System.out.println(chatFragment+" chatFragment");
-                if(chatFragment!=null&&messagesReceived)
+                if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
@@ -244,6 +246,8 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
 
                         }
                     });
+                }else if(messagesReceived&&message1!=null){
+                    NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage());
                 }
                 //getUser().save(this);
             } catch (JSONException e) {
