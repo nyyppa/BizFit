@@ -21,6 +21,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/skip_singin"/>
 
+        <Button
+            android:text="Continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/continue_button"
+            android:visibility="gone"/>
+
         <ImageView
             android:id="@+id/google_icon"
             android:layout_width="48dp"

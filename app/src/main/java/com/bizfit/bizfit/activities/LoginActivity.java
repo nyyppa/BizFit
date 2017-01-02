@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
         findViewById(R.id.skip_singin).setOnClickListener(this);
+        findViewById(R.id.continue_button).setOnClickListener(this);
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -115,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
     long startTime;
     boolean waiting=true;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -124,8 +126,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
             Log.d(TAG, "Got cached sign-in");
+
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
+
         } else {
             /*
             final Timer timer=new Timer();
@@ -178,6 +182,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             handleSignInResult(result);
         }
     }
+
+    GoogleSignInAccount acct;
     // [END onActivityResult]
 
     // [START handleSignInResult]
@@ -185,12 +191,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, "handleSignInResult:" + result.getStatus());
 
         if (result.isSuccess()) {
+            findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getEmail()));
-            Intent intent=new Intent(LoginActivity.this,MainPage.class);
-            intent.putExtra("userName",acct.getEmail());
-            startActivity(intent);
+
+
 
             updateUI(true);
         } else {
@@ -288,7 +294,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 intent.putExtra("userName","default");
                 startActivity(intent);
                 break;
-
+            case R.id.continue_button:{
+                Intent intent2=new Intent(LoginActivity.this,MainPage.class);
+                intent2.putExtra("userName",acct.getEmail());
+                startActivity(intent2);
+                break;
+            }
         }
     }
 
