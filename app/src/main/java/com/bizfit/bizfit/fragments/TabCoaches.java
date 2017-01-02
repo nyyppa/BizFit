@@ -113,7 +113,6 @@ public class TabCoaches extends Fragment {
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         adapter = new RecyclerViewAdapterCoaches(storeRows);
 
-
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mManager) {

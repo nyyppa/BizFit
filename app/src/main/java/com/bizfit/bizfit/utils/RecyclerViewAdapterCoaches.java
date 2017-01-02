@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * Manages the content in TabCoaches.
  */
-public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
+public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements View.OnClickListener {
 
     /**
      * Is the default layout for a row.
@@ -51,16 +53,20 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
     public RecyclerViewAdapterCoaches(List<StoreRow> data) {
         this.data = data;
     }
-
+    RecyclerView parent;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh = null;
-
+        this.parent= (RecyclerView) parent;
         switch (viewType) {
             case BIG_PROMOTION:
                 View v1 = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_store_big_promotion, parent, false);
                 vh = new BigPromotion(v1);
+                List<Button> viewList=((BigPromotion)vh).getViewList();
+                for(int i=0;i<viewList.size();i++){
+                    viewList.get(i).setOnClickListener(this);
+                }
                 break;
 
             case REGULAR_SCROLLABLE:
@@ -71,6 +77,20 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
         }
 
         return vh;
+    }
+    //// TODO: 2.1.2017  vaihda smoothscrolll?
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.promotion_button_1:
+                parent.scrollToPosition(1);
+                break;
+            case R.id.promotion_button_2:
+                parent.scrollToPosition(2);
+                break;
+            case R.id.promotion_button_3:
+                parent.scrollToPosition(3);
+                break;
+        }
     }
 
     @Override
@@ -104,6 +124,8 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
         // TODO placeholder. +1 because there is one single large item that is not included in data variable.
         return (data != null) ? data.size() + 1 : 1;
     }
+
+
 
     /**
      * Holds View's of a ViewGroup that need changing when a View is recycled.
@@ -168,19 +190,26 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
      * This specific ViewHolder represents a single big item.
      */
     public static class BigPromotion extends RecyclerView.ViewHolder {
-
+        List<Button> viewList;
         public BigPromotion(View itemView) {
             super(itemView);
             final String[] jobTitles=itemView.getResources().getStringArray(R.array.random_job_title);
-            List<TextView> viewList=new ArrayList<TextView>(0);
+            viewList=new ArrayList<Button>(0);
             viewList.addAll(getViewsByTag((ViewGroup)itemView.getRootView(),"ballText"));
             for(int i=0;i<viewList.size();i++){
                 viewList.get(i).setText(jobTitles[i]+"");
             }
 
+
+
         }
-        ArrayList<TextView> getViewsByTag(ViewGroup root, String tag) {
-            ArrayList<TextView> views = new ArrayList<TextView>();
+
+        public List<Button> getViewList() {
+            return viewList;
+        }
+
+        ArrayList<Button> getViewsByTag(ViewGroup root, String tag) {
+            ArrayList<Button> views = new ArrayList<Button>();
             final int childCount = root.getChildCount();
             for (int i = 0; i < childCount; i++) {
                 final View child = root.getChildAt(i);
@@ -190,7 +219,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter {
 
                 final Object tagObj = child.getTag();
                 if (tagObj != null && tagObj.equals(tag)) {
-                    views.add((TextView)child);
+                    views.add((Button) child);
                 }
 
             }
