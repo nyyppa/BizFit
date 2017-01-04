@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.CompletionService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -100,85 +101,85 @@ public class Tracker implements java.io.Serializable {
                     oldProgress.add(new OldProgress(jsonArray.getJSONObject(i)));
                 }
             }
-            if(jsonObject.has("startDate"))
+            if(jsonObject.has(Constants.start_date))
             {
-                startDate = jsonObject.getLong("startDate");
+                startDate = jsonObject.getLong(Constants.start_date);
             }
-           if(jsonObject.has("lastReset"))
+           if(jsonObject.has(Constants.last_reset))
            {
-               lastReset = jsonObject.getLong("lastReset");
+               lastReset = jsonObject.getLong(Constants.last_reset);
            }
-           if(jsonObject.has("dayInterval"))
+           if(jsonObject.has(Constants.day_interval))
            {
-               dayInterval = jsonObject.getInt("dayInterval");
+               dayInterval = jsonObject.getInt(Constants.day_interval);
            }
             if(jsonObject.has("monthInterval"))
             {
                 monthInterval = jsonObject.getInt("monthInterval");
             }
-            if(jsonObject.has("yearInterval"))
+            if(jsonObject.has(Constants.year_interval))
             {
-                yearInterval = jsonObject.getInt("yearInterval");
+                yearInterval = jsonObject.getInt(Constants.year_interval);
             }
-           if(jsonObject.has("targetProgress"))
+           if(jsonObject.has(Constants.target_progress))
            {
-               targetProgress = (float) jsonObject.getDouble("targetProgress");
+               targetProgress = (float) jsonObject.getDouble(Constants.target_progress);
            }
-            if(jsonObject.has("currentProgress"))
+            if(jsonObject.has(Constants.current_progress))
             {
-                currentProgress = (float) jsonObject.getDouble("currentProgress");
+                currentProgress = (float) jsonObject.getDouble(Constants.current_progress);
             }
-            if(jsonObject.has("defaultIncrement"))
+            if(jsonObject.has(Constants.default_increment))
             {
-                defaultIncrement = (float) jsonObject.getDouble("defaultIncrement");
+                defaultIncrement = (float) jsonObject.getDouble(Constants.default_increment);
             }
-            if(jsonObject.has("timeProgress"))
+            if(jsonObject.has(Constants.time_progress))
             {
-                timeProgress = jsonObject.getLong("timeProgress");
+                timeProgress = jsonObject.getLong(Constants.time_progress);
             }
-            if(jsonObject.has("timeProgressNeed"))
+            if(jsonObject.has(Constants.time_progress_need))
             {
-                timeProgressNeed = jsonObject.getLong("timeProgressNeed");
+                timeProgressNeed = jsonObject.getLong(Constants.time_progress_need);
             }
-            if(jsonObject.has("name"))
+            if(jsonObject.has(Constants.tracker_name))
             {
-               name = jsonObject.getString("name");
+               name = jsonObject.getString(Constants.tracker_name);
             }
-            if(jsonObject.has("targetType"))
+            if(jsonObject.has(Constants.target_type))
             {
-                targetType = jsonObject.getString("targetType");
+                targetType = jsonObject.getString(Constants.target_type);
             }
-            if(jsonObject.has("daily"))
+            if(jsonObject.has(Constants.daily))
             {
-                daily = new DailyProgress(jsonObject.getJSONObject("daily"));
+                daily = new DailyProgress(jsonObject.getJSONObject(Constants.daily));
             }
-            if(jsonObject.has("weekly"))
+            if(jsonObject.has(Constants.weekly))
             {
-               weekly = jsonObject.getBoolean("weekly");
+               weekly = jsonObject.getBoolean(Constants.weekly);
             }
-            if(jsonObject.has("repeat"))
+            if(jsonObject.has(Constants.repeat))
             {
-                repeat = jsonObject.getBoolean("repeat");
+                repeat = jsonObject.getBoolean(Constants.repeat);
             }
-            if(jsonObject.has("completed"))
+            if(jsonObject.has(Constants.completed))
             {
-                completed = jsonObject.getBoolean("completed");
+                completed = jsonObject.getBoolean(Constants.completed);
             }
-           if(jsonObject.has("tolerance"))
+           if(jsonObject.has(Constants.tolerance))
            {
-               tolerance = (float) jsonObject.getDouble("tolerance");
+               tolerance = (float) jsonObject.getDouble(Constants.tolerance);
            }
-           if(jsonObject.has("color"))
+           if(jsonObject.has(Constants.color))
            {
-               color = jsonObject.getInt("color");
+               color = jsonObject.getInt(Constants.color);
            }
-            if(jsonObject.has("numberTracked"))
+            if(jsonObject.has(Constants.number_tracked))
             {
-                numberTracked = jsonObject.getBoolean("numberTracked");
+                numberTracked = jsonObject.getBoolean(Constants.number_tracked);
             }
-            if(jsonObject.has("id"))
+            if(jsonObject.has(Constants.id))
             {
-                id = jsonObject.getInt("id");
+                id = jsonObject.getInt(Constants.id);
             }
 
         }
@@ -261,30 +262,30 @@ public class Tracker implements java.io.Serializable {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         try {
-            jsonObject.put("startDate", startDate);
-            jsonObject.put("lastReset", lastReset);
-            jsonObject.put("dayInterval", dayInterval);
-            jsonObject.put("monthInterval", monthInterval);
-            jsonObject.put("yearInterval", yearInterval);
-            jsonObject.put("targetProgress", targetProgress);
-            jsonObject.put("currentProgress", currentProgress);
-            jsonObject.put("defaultIncrement", defaultIncrement);
-            jsonObject.put("timeProgress", timeProgress);
-            jsonObject.put("timeProgressNeed", timeProgressNeed);
-            jsonObject.put("name", name);
-            jsonObject.put("targetType", targetType);
+            jsonObject.put(Constants.start_date, startDate);
+            jsonObject.put(Constants.last_reset, lastReset);
+            jsonObject.put(Constants.day_interval, dayInterval);
+            jsonObject.put(Constants.month_interval, monthInterval);
+            jsonObject.put(Constants.year_interval, yearInterval);
+            jsonObject.put(Constants.target_progress, targetProgress);
+            jsonObject.put(Constants.current_progress, currentProgress);
+            jsonObject.put(Constants.default_increment, defaultIncrement);
+            jsonObject.put(Constants.time_progress, timeProgress);
+            jsonObject.put(Constants.time_progress_need, timeProgressNeed);
+            jsonObject.put(Constants.tracker_name, name);
+            jsonObject.put(Constants.target_type, targetType);
             for (int i = 0; i < oldProgress.size(); i++) {
                 jsonArray.put(oldProgress.get(i).toJson());
             }
-            jsonObject.put("oldProgress", jsonArray);
-            jsonObject.put("daily", daily.toJSon());
-            jsonObject.put("weekly", weekly);
-            jsonObject.put("repeat", repeat);
-            jsonObject.put("completed", completed);
-            jsonObject.put("tolerance", tolerance);
-            jsonObject.put("color", color);
-            jsonObject.put("numberTracked", numberTracked);
-            jsonObject.put("id", id);
+            jsonObject.put(Constants.old_progress, jsonArray);
+            jsonObject.put(Constants.daily, daily.toJSon());
+            jsonObject.put(Constants.weekly, weekly);
+            jsonObject.put(Constants.repeat, repeat);
+            jsonObject.put(Constants.completed, completed);
+            jsonObject.put(Constants.tolerance, tolerance);
+            jsonObject.put(Constants.color, color);
+            jsonObject.put(Constants.number_tracked, numberTracked);
+            jsonObject.put(Constants.id, id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -467,7 +468,6 @@ public class Tracker implements java.io.Serializable {
         GregorianCalendar a = new GregorianCalendar();
         startDate = System.currentTimeMillis();
         int dayInterval = (int) (TimeUnit.MILLISECONDS.toDays(c.getTimeInMillis() - a.getTimeInMillis()));
-        System.out.println("tunniste: " + dayInterval);
         startStuff(a, dayInterval, 0);
         fieldUpdated();
 
@@ -619,7 +619,6 @@ public class Tracker implements java.io.Serializable {
         if (listener != null) {
             listener.dataChanged(this);
         }
-        System.out.println("terveisiä: " + listener);
         fieldUpdated();
     }
 
@@ -857,7 +856,6 @@ public class Tracker implements java.io.Serializable {
         int time;
 
         RemainingTime(long millis) {
-            //System.out.println("tunniste: ");
             float daysRemaining = (float) TimeUnit.MILLISECONDS.toDays(millis);
             if (daysRemaining > 30) {
                 timeType = RemaininTimeType.months;

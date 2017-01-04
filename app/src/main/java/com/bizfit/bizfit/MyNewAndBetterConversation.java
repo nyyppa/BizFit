@@ -45,18 +45,18 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         JSONArray jsonArray=null;
         this.user=user;
         try {
-            if(jsonObject.has("owner"))
+            if(jsonObject.has(Constants.owner))
             {
-                owner=jsonObject.getString("owner");
+                owner=jsonObject.getString(Constants.owner);
             }
-            if(jsonObject.has("other"))
+            if(jsonObject.has(Constants.other))
             {
-                other=jsonObject.getString("other");
+                other=jsonObject.getString(Constants.other);
             }
             myNewAndBetterMessageList=new ArrayList<>();
-            if(jsonObject.has("messages"))
+            if(jsonObject.has(Constants.messages))
             {
-                jsonArray=jsonObject.getJSONArray("messages");
+                jsonArray=jsonObject.getJSONArray(Constants.messages);
                 for (int i=0;i<jsonArray.length();i++){
                     myNewAndBetterMessageList.add(new MyNewAndBetterMessage(jsonArray.getJSONObject(i),this));
                 }
@@ -94,13 +94,13 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     public JSONObject toJSon(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("owner",owner);
-            jsonObject.put("other",other);
+            jsonObject.put(Constants.owner,owner);
+            jsonObject.put(Constants.other,other);
             JSONArray jsonArray=new JSONArray();
             for(int i=0;i<myNewAndBetterMessageList.size();i++){
                 jsonArray.put(myNewAndBetterMessageList.get(i).toJson());
             }
-            jsonObject.put("messages",jsonArray);
+            jsonObject.put(Constants.messages,jsonArray);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -119,10 +119,10 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     {
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("Job","get_message_incoming");
-            jsonObject.put("owner",getOwner());
-            jsonObject.put("other",getOther());
-            jsonObject.put("creationTime",getLastReceivedMessage());
+            jsonObject.put(Constants.job,Constants.get_message_incoming);
+            jsonObject.put(Constants.owner,getOwner());
+            jsonObject.put(Constants.other,getOther());
+            jsonObject.put(Constants.creationTime,getLastReceivedMessage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,10 +132,10 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     {
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("Job","get_message_outgoing");
-            jsonObject.put("owner",getOwner());
-            jsonObject.put("other",getOther());
-            jsonObject.put("creationTime",getLastSentMessage());
+            jsonObject.put(Constants.job,Constants.get_message_outgoing);
+            jsonObject.put(Constants.owner,getOwner());
+            jsonObject.put(Constants.other,getOther());
+            jsonObject.put(Constants.creationTime,getLastSentMessage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -209,7 +209,6 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
         getUser().save(this);
-        //System.out.println(chatFragment+" setChatFragment");
 
     }
     @Override
@@ -222,14 +221,11 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                 MyNewAndBetterMessage message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    //System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
                     message1=myNewAndBetterMessageList.get(0);
                     messagesReceived=true;
 
                 }
-                //System.out.println(this+" Conversation");
-                //System.out.println(chatFragment+" chatFragment");
                 if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()

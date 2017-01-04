@@ -26,10 +26,6 @@ public class CoachPage extends AppCompatActivity
     public static final String FIELD_COACH_NAME = "com.bizfit.field.name";
     public static final String FIELD_COACH_IMAGE_ID = "com.bizfit.field.image";
     private static final int IMAGE_NOT_FOUND = -1;
-    private String userName;
-    private User user;
-    private MyNewAndBetterConversation myNewAndBetterConversation;
-    private String other;
     public String COACH_ID =null;
 
     private static final float defaultFontScale=1;

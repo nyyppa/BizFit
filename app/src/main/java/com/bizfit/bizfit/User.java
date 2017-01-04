@@ -46,7 +46,6 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 48;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
@@ -75,42 +74,37 @@ public class User implements java.io.Serializable {
         try
         {
             trackers = new ArrayList<>(0);
-            if(jsonObject.has("trackers"))
+            if(jsonObject.has(Constants.trackers))
             {
-                System.out.println("Terse");
-                trackerArray = jsonObject.getJSONArray("trackers");
-                System.out.println("trackers"+jsonObject.getString("trackers"));
-
+                trackerArray = jsonObject.getJSONArray(Constants.trackers);
                 for (int i = 0; i < trackerArray.length(); i++) {
-                    System.out.println("Terse"+i);
                     Tracker t = new Tracker(trackerArray.getJSONObject(i));
                     trackers.add(t);
                     t.addParentUser(this);
                 }
             }
-            if(jsonObject.has("_id"))
+            if(jsonObject.has(Constants.user_name))
             {
-                userName = jsonObject.getString("_id");
+                userName = jsonObject.getString(Constants.user_name);
             }
-            if(jsonObject.has("lastTrackerID"))
+            if(jsonObject.has(Constants.last_tracker_id))
             {
-                lastTrackerID = jsonObject.getInt("lastTrackerID");
+                lastTrackerID = jsonObject.getInt(Constants.last_tracker_id);
             }
-            if(jsonObject.has("nextFreeDailyProgressID"))
+            if(jsonObject.has(Constants.next_free_daily_progress_id))
             {
-                nextFreeDailyProgressID = jsonObject.getInt("nextFreeDailyProgressID");
+                nextFreeDailyProgressID = jsonObject.getInt(Constants.next_free_daily_progress_id);
             }
-            if(jsonObject.has("userNumber"))
+            if(jsonObject.has(Constants.user_number))
             {
-                userNumber = jsonObject.getInt("userNumber");
+                userNumber = jsonObject.getInt(Constants.user_number);
             }
 
-            if(jsonObject.has("conversations"))
+            if(jsonObject.has(Constants.conversations))
             {
-                JSONArray conversationArray=jsonObject.getJSONArray("conversations");
+                JSONArray conversationArray=jsonObject.getJSONArray(Constants.conversations);
                 for(int i=0;i<conversationArray.length();i++)
                 {
-                    //MyNewAndBetterConversation conversation=new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this);
                     addConversation(new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this));
                 }
             }
@@ -263,16 +257,16 @@ public class User implements java.io.Serializable {
                             new OutputStreamWriter(os, "UTF-8"));
                     JSONObject jsonObject1 = new JSONObject();
                     try {
-                        jsonObject1.put("_id", name);
-                        jsonObject1.put("Job","load");
+                        jsonObject1.put(Constants.id, name);
+                        jsonObject1.put(Constants.job, Constants.load);
                         if(currentUser!=null){
                             try {
-                                jsonObject1.put("checkSum",currentUser.checksum(currentUser));
+                                jsonObject1.put(Constants.check_sum, currentUser.checksum(currentUser));
                             } catch (NoSuchAlgorithmException e) {
                                 e.printStackTrace();
                             }
                         }else{
-                            jsonObject1.put("checkSum","0");
+                            jsonObject1.put(Constants.check_sum,"0");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -388,24 +382,23 @@ public class User implements java.io.Serializable {
         JSONArray trackerArray = new JSONArray();
         JSONArray conversationArray=new JSONArray();
         try {
-            jsonObject.put("_id", userName);
-            jsonObject.put("lastTrackerID", lastTrackerID);
-            jsonObject.put("nextFreeDailyProgressID", nextFreeDailyProgressID);
-            jsonObject.put("userNumber", userNumber);
+            jsonObject.put(Constants.user_name, userName);
+            jsonObject.put(Constants.last_tracker_id, lastTrackerID);
+            jsonObject.put(Constants.next_free_daily_progress_id, nextFreeDailyProgressID);
+            jsonObject.put(Constants.user_number, userNumber);
 
             for (int i = 0; i < trackers.size(); i++) {
                 trackerArray.put(trackers.get(i).toJSON());
-                System.out.println(i+"TrackerToJSON");
             }
-            jsonObject.put("trackers", trackerArray);
+            jsonObject.put(Constants.trackers, trackerArray);
 
             for(int i=0;conversations!=null && i<conversations.size();i++){
                 conversationArray.put(conversations.get(i).toJSon());
             }
-            jsonObject.put("conversations",conversationArray);
+            jsonObject.put(Constants.conversations,conversationArray);
 
             try {
-                jsonObject.put("checkSum",checksum(this));
+                jsonObject.put(Constants.check_sum,checksum(this));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
@@ -578,7 +571,7 @@ public class User implements java.io.Serializable {
                 super.run();
                 if (db == null) {
 
-                    db = new DBHelper(context, "database1", null, dbVersion);
+                    db = new DBHelper(context, "database1", null, Constants.db_version);
 
                 }
                 if (d == null) {
@@ -667,7 +660,7 @@ public class User implements java.io.Serializable {
             int len = 500;
 
             try {
-                URL url = new URL("https://bizfit-nyyppa.c9users.io");
+                URL url = new URL(Constants.connection_address);
                 HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -679,8 +672,8 @@ public class User implements java.io.Serializable {
                         new OutputStreamWriter(os, "UTF-8"));
                 JSONObject jsonObject=new JSONObject();
                 try {
-                    jsonObject.put("Job","save");
-                    jsonObject.put("user",currentUser.toJSON());
+                    jsonObject.put(Constants.job, Constants.save);
+                    jsonObject.put(Constants.user, currentUser.toJSON());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -700,7 +693,6 @@ public class User implements java.io.Serializable {
                     while ((line = r.readLine()) != null) {
                         total.append(line).append('\n');
                     }
-                    System.out.println(total);
                 }
 
                 // Makes sure that the InputStream is closed after the app is
@@ -787,9 +779,9 @@ public class User implements java.io.Serializable {
 
            try
            {
-               jsonObject.put("Job", "save_tracker");
-               jsonObject.put("User", userName);
-               jsonObject.put("Tracker", tracker.toJSON());
+               jsonObject.put(Constants.job, Constants.save_tracker);
+               jsonObject.put(Constants.user_name, userName);
+               jsonObject.put(Constants.tracker, tracker.toJSON());
            }
            catch (JSONException e)
            {
@@ -803,8 +795,8 @@ public class User implements java.io.Serializable {
            MyNewAndBetterConversation conversation = (MyNewAndBetterConversation) obj;
            try
            {
-               jsonObject.put("Job", "save_conversation");
-               jsonObject.put("Conversation", conversation.toJSon());
+               jsonObject.put(Constants.job, Constants.save_conversation);
+               jsonObject.put(Constants.conversation, conversation.toJSon());
            }
            catch (JSONException e)
            {

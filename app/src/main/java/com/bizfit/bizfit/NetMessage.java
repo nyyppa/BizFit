@@ -7,12 +7,13 @@ import org.json.JSONObject;
  */
 
 public class NetMessage {
-    public String connectionAddress="https://bizfit-nyyppa.c9users.io";
+    public String connectionAddress = Constants.connection_address;
     public NetworkReturn networkReturn;
     public JSONObject message;
 
     public NetMessage(String connectionAddress, NetworkReturn networkReturn, JSONObject message) {
-        if (connectionAddress != null) {
+        if (connectionAddress != null)
+        {
             this.connectionAddress = connectionAddress;
         }
         this.networkReturn = networkReturn;

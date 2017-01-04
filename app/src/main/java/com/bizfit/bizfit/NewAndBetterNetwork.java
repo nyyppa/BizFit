@@ -121,7 +121,6 @@ public class NewAndBetterNetwork extends Thread{
 
             if(netMessagesList.size()==0){
                 paused=true;
-                System.out.print("terve");
             }
             if(exit){
                 return;
@@ -140,7 +139,6 @@ public class NewAndBetterNetwork extends Thread{
         synchronized (this){
             paused=false;
             this.notifyAll();
-            System.out.println("onResume");
         }
     }
     public void exit(){
@@ -178,7 +176,6 @@ public class NewAndBetterNetwork extends Thread{
         return false;
     }
     public static void addNetMessage(NetMessage message){
-        System.out.println("herhar");
         if(newAndBetterNetwork==null||!newAndBetterNetwork.isAlive()){
             newAndBetterNetwork=new NewAndBetterNetwork();
             newAndBetterNetwork.start();

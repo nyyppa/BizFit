@@ -43,30 +43,30 @@ public class OldProgress implements java.io.Serializable {
     OldProgress(JSONObject jsonObject) {
         try
         {
-            if(jsonObject.has("startDate"))
+            if(jsonObject.has(Constants.start_date))
             {
-                startDate = jsonObject.getLong("startDate");
+                startDate = jsonObject.getLong(Constants.start_date);
             }
 
-            if(jsonObject.has("endDate"))
+            if(jsonObject.has(Constants.end_date))
             {
-                endDate = jsonObject.getLong("endDate");
+                endDate = jsonObject.getLong(Constants.end_date);
             }
-            if(jsonObject.has("endProgress"))
+            if(jsonObject.has(Constants.end_progress))
             {
-                endProgress = (float) jsonObject.getDouble("endProgress");
+                endProgress = (float) jsonObject.getDouble(Constants.end_progress);
             }
-            if(jsonObject.has("targetProgress"))
+            if(jsonObject.has(Constants.target_progress))
             {
-                targetProgress = (float) jsonObject.getDouble("targetProgress");
+                targetProgress = (float) jsonObject.getDouble(Constants.target_progress);
             }
-            if(jsonObject.has("id"))
+            if(jsonObject.has(Constants.id))
             {
-                id = jsonObject.getInt("id");
+                id = jsonObject.getInt(Constants.id);
             }
-            if(jsonObject.has("dailyProgress"))
+            if(jsonObject.has(Constants.daily_progress))
             {
-                daily = new DailyProgress(jsonObject.getJSONObject("DailyProgress"));
+                daily = new DailyProgress(jsonObject.getJSONObject(Constants.daily_progress));
             }
         }
         catch (JSONException e)
@@ -83,12 +83,12 @@ public class OldProgress implements java.io.Serializable {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("startDate", startDate);
-            jsonObject.put("endDate", endDate);
-            jsonObject.put("endProgress", endProgress);
-            jsonObject.put("targetProgress", targetProgress);
-            jsonObject.put("id", id);
-            jsonObject.put("DailyProgress", daily.toJSon());
+            jsonObject.put(Constants.start_date, startDate);
+            jsonObject.put(Constants.end_date, endDate);
+            jsonObject.put(Constants.end_progress, endProgress);
+            jsonObject.put(Constants.target_progress, targetProgress);
+            jsonObject.put(Constants.id, id);
+            jsonObject.put(Constants.daily_progress, daily.toJSon());
         } catch (JSONException e) {
             e.printStackTrace();
         }

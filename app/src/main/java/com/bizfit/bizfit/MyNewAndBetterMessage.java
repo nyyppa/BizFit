@@ -24,26 +24,26 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
         this.myNewAndBetterConversation=myNewAndBetterConversation;
         try
         {
-            if(jsonObject.has("sender"))
+            if(jsonObject.has(Constants.sender))
             {
-                sender=jsonObject.getString("sender");
+                sender=jsonObject.getString(Constants.sender);
             }
-            if(jsonObject.has("resipient"))
+            if(jsonObject.has(Constants.resipient))
             {
-                resipient=jsonObject.getString("resipient");
+                resipient=jsonObject.getString(Constants.resipient);
             }
-            if(jsonObject.has("message"))
+            if(jsonObject.has(Constants.message))
             {
-                message=jsonObject.getString("message");
+                message=jsonObject.getString(Constants.message);
             }
 
-            if(jsonObject.has("creationTime"))
+            if(jsonObject.has(Constants.creationTime))
             {
-                creationTime=jsonObject.getLong("creationTime");
+                creationTime=jsonObject.getLong(Constants.creationTime);
             }
-            if(jsonObject.has("hasBeenSent"))
+            if(jsonObject.has(Constants.hasBeenSent))
             {
-                hasBeenSent=jsonObject.getBoolean("hasBeenSent");
+                hasBeenSent=jsonObject.getBoolean(Constants.hasBeenSent);
             }
 
         } catch (JSONException e) {
@@ -101,8 +101,8 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
         JSONObject message=new JSONObject();
         try {
             setHasBeenSent(true);
-            message.put("Job","send_message");
-            message.put("message",this.toJson());
+            message.put(Constants.job, Constants.send_message);
+            message.put(Constants.message, this.toJson());
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -133,11 +133,11 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
     public JSONObject toJson(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("sender",sender);
-            jsonObject.put("resipient",resipient);
-            jsonObject.put("message",message);
-            jsonObject.put("creationTime",creationTime);
-            jsonObject.put("hasBeenSent",hasBeenSent);
+            jsonObject.put(Constants.sender, sender);
+            jsonObject.put(Constants.resipient ,resipient);
+            jsonObject.put(Constants.message, message);
+            jsonObject.put(Constants.creationTime, creationTime);
+            jsonObject.put(Constants.hasBeenSent, hasBeenSent);
         } catch (JSONException e) {
             e.printStackTrace();
         }

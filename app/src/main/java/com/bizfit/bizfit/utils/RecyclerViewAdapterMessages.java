@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bizfit.bizfit.Constants;
 import com.bizfit.bizfit.MyNewAndBetterConversation;
 import com.bizfit.bizfit.MyNewAndBetterMessage;
 import com.bizfit.bizfit.R;
@@ -34,8 +35,8 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         User.getLastUser(new User.UserLoadedListener() {
             @Override
             public void UserLoaded(User user) {
-                if(intent!=null&&intent.hasExtra("coachID")){
-                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,intent.getStringExtra("coachID"),user));
+                if(intent!=null&&intent.hasExtra(Constants.coach_id)){
+                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
                 }else{
                     conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
                 }
@@ -140,7 +141,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
+        System.out.println("Conversation:" + conversation);
         return (conversation.getMessages() != null) ? conversation.getMessages().size() : 0;
     }
 
