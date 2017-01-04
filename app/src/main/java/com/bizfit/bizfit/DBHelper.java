@@ -20,9 +20,22 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-
+    final String lastUser="lastUser";
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+    }
+
+    public void saveLastUser(SQLiteDatabase db, String user){
+        if(!isTableExists(db,lastUser)){
+            db.execSQL("CREATE TABLE "+lastUser+" (id INTEGER PRIMARY KEY AUTOINCREMENT, "+lastUser+" TEXT)");
+        }
+        ContentValues values = new ContentValues();
+
+        values.put("id",0);
+        values.put(lastUser,user);
+        //System.out.println("user"+user.toJSON().toString());
+
+        db.insertWithOnConflict(lastUser, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     /**
@@ -33,17 +46,19 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveUser(SQLiteDatabase db, User user) {
         if (!isTableExists(db, "user")) {
-            db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,user TEXT)");
+            db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,userName TEXT,user TEXT)");
 
 
         }
         ContentValues values = new ContentValues();
         values.put("user", user.toJSON().toString());
         values.put("id",user.userNumber);
-        System.out.println("user"+user.toJSON().toString());
-
+        values.put("userName",user.userName);
+        //System.out.println("user"+user.toJSON().toString());
 
         db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        saveLastUser(db,user.userName);
+
         /*
         if (!isTableExists(db, "user")) {
             db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT, trackerTable TEXT,lastTrackerID INTEGER,nextFreeDailyProgressID INTEGER)");
@@ -203,11 +218,16 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param db SQLiteDatabase to try to create user
      * @return Created user
      */
-    public User readUser(SQLiteDatabase db) {
+    public User readUser(SQLiteDatabase db,String username) {
         User user = null;
-        ArrayList<Tracker> trackerList = null;
+        if(username.equals("default")&&isTableExists(db,lastUser)){
+            Cursor cursor = db.rawQuery("SELECT * FROM "+lastUser, null);
+            cursor.moveToFirst();
+            username=cursor.getString(cursor.getColumnIndex(lastUser));
+            saveLastUser(db,username);
+        }
         if (isTableExists(db, "user")) {
-            Cursor cursor = db.rawQuery("SELECT * FROM user", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'"+username+"\'", null);
             cursor.moveToFirst();
             try {
                 user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
@@ -219,6 +239,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
         }else {
+            /*
             String name;
             final AccountManager manager = AccountManager.get(User.getContext());
             final Account[] accounts = manager.getAccountsByType("com.google");
@@ -232,8 +253,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 name = names[0];
             } else {
                 name = "default";
-            }
-            return new User(name);
+            }*/
+            return new User(username);
         }
         /*if (isTableExists(db, "user")) {
             Cursor cursor = db.rawQuery("SELECT * FROM user", null);

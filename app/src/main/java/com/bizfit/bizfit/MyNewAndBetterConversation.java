@@ -209,7 +209,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
         myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
         getUser().save(this);
-        System.out.println(chatFragment+" setChatFragment");
+        //System.out.println(chatFragment+" setChatFragment");
 
     }
     @Override
@@ -222,14 +222,14 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                 MyNewAndBetterMessage message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
+                    //System.out.println("json "+i+" : "+jsonArray.getString(i).toString());
                     myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
                     message1=myNewAndBetterMessageList.get(0);
                     messagesReceived=true;
 
                 }
-                System.out.println(this+" Conversation");
-                System.out.println(chatFragment+" chatFragment");
+                //System.out.println(this+" Conversation");
+                //System.out.println(chatFragment+" chatFragment");
                 if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
@@ -239,7 +239,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                         {
                             if(chatFragment.getmAdapter().getItemCount()>0)
                             {
-                                System.out.println("TestiPaikka");
+                                //System.out.println("TestiPaikka");
                                 chatFragment.getmAdapter().notifyItemInserted(0);
                                 chatFragment.getmRecyclerView().smoothScrollToPosition(0);
                             }

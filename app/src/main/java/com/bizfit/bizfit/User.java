@@ -46,7 +46,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 44;
+    private static final int dbVersion = 48;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
@@ -61,6 +61,7 @@ public class User implements java.io.Serializable {
     static boolean userLoaded=false;
     List<MyNewAndBetterConversation> conversations;
     private transient static Thread GetMessagesThread;
+    private static String userNameForLogin;
     //todo remove userNumber
 
     /**
@@ -186,6 +187,12 @@ public class User implements java.io.Serializable {
      * @param listener notifies this listener when user is loaded
      */
     public static void getLastUser(UserLoadedListener listener, Context c, String userName) {
+        if(userName!=null){
+            userNameForLogin=userName;
+        }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
+            userNameForLogin="default";
+        }
+        System.out.println("userNameForLogin "+userNameForLogin);
         context = c;
         listeners.add(listener);
         WakeThread();
@@ -552,6 +559,7 @@ public class User implements java.io.Serializable {
         void UserLoaded(User user);
     }
 
+    //TODO KILL THIS
     private static class DataBaseThread extends Thread {
         DBHelper db;
         SQLiteDatabase d;
@@ -577,7 +585,7 @@ public class User implements java.io.Serializable {
                     d = db.getWritableDatabase();
                 }
                 if (currentUser == null) {
-                    currentUser = db.readUser(d);
+                    currentUser = db.readUser(d,userNameForLogin);
                     loadUserFromNet(new UserLoadedListener() {
                         @Override
                         public void UserLoaded(User user) {
