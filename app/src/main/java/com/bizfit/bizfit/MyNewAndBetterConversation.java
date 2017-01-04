@@ -193,7 +193,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         Comparator<MyNewAndBetterMessage> comparator=new Comparator<MyNewAndBetterMessage>() {
             @Override
             public int compare(MyNewAndBetterMessage myNewAndBetterMessage, MyNewAndBetterMessage t1) {
-                return (int)(myNewAndBetterMessage.getCreationTime()-t1.getCreationTime());
+                return -1*(int)(myNewAndBetterMessage.getCreationTime()-t1.getCreationTime());
             }
         };
         Collections.sort(myNewAndBetterMessageList,comparator);
@@ -240,14 +240,17 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
                             if(chatFragment.getmAdapter().getItemCount()>0)
                             {
                                 //System.out.println("TestiPaikka");
+                                sortConversation();
                                 chatFragment.getmAdapter().notifyItemInserted(0);
                                 chatFragment.getmRecyclerView().smoothScrollToPosition(0);
+
                             }
 
                         }
                     });
                 }else if(messagesReceived&&message1!=null){
                     NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage());
+                    sortConversation();
                 }
                 //getUser().save(this);
             } catch (JSONException e) {
