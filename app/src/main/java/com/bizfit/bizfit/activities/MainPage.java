@@ -22,6 +22,7 @@ import android.view.View;
 
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabMessages;
@@ -52,6 +53,7 @@ public class MainPage extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
+        findUser();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         setSupportActionBar(toolbar);
@@ -198,5 +200,32 @@ public class MainPage extends AppCompatActivity implements
         intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, data.getImageId());
         intent.putExtra("coachID",data.getCoachId());
         startActivity(intent);
+    }
+
+	/**
+     * if user has assigned userName it's logged in, otherwise we will use the default user, so its not logged in
+     */
+    private void findUser()
+    {
+        if(getIntent().hasExtra("userName"))
+        {
+            User.getLastUser(new User.UserLoadedListener()
+            {
+                @Override
+                public void UserLoaded(User user)
+                {
+                }
+            }, this, getIntent().getStringExtra("userName"));
+        }
+        else
+        {
+            User.getLastUser(new User.UserLoadedListener()
+            {
+                @Override
+                public void UserLoaded(User user)
+                {
+                }
+            }, this, "default");
+        }
     }
 }

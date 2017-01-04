@@ -33,7 +33,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        User.getLastUser(this, this);
+        User.getLastUser(this, this, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

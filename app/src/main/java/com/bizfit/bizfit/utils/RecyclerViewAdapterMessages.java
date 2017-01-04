@@ -48,7 +48,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 }
                 conversation.getNewMessagesAndSendOldOnes();
             }
-        },context);
+        },context, null);
 
 
 

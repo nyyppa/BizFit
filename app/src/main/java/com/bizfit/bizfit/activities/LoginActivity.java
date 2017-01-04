@@ -70,16 +70,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        User.getLastUser(new User.UserLoadedListener() {
-            @Override
-            public void UserLoaded(User user) {
-                if(getIntent().hasExtra("userName")){
-                    user.userName=getIntent().getStringExtra("userName");
-                }
-
-            }
-        },this);
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
 
@@ -292,11 +282,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 System.out.println("mööh");
                 Intent intent=new Intent(LoginActivity.this,MainPage.class);
                 intent.putExtra("userName","default");
+                intent.putExtra("loggedIn", false);
                 startActivity(intent);
                 break;
             case R.id.continue_button:{
                 Intent intent2=new Intent(LoginActivity.this,MainPage.class);
                 intent2.putExtra("userName",acct.getEmail());
+                intent2.putExtra("loggedIn", true);
                 startActivity(intent2);
                 break;
             }

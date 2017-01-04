@@ -7,6 +7,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.bizfit.bizfit.activities.LoginActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,7 @@ public class User implements java.io.Serializable {
      *
      */
     private static final long serialVersionUID = 8425799364006222365L;
-    private static final int dbVersion = 43;
+    private static final int dbVersion = 44;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
     static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
@@ -146,7 +148,8 @@ public class User implements java.io.Serializable {
      *
      * @param c Context for sending notifications and loading user from internal database
      */
-    public static void update(Context c) {
+    public static void update(Context c)
+    {
         getLastUser(new UserLoadedListener() {
             @Override
             public void UserLoaded(User user)
@@ -157,7 +160,7 @@ public class User implements java.io.Serializable {
                     trackers.get(i).update();
                 }
             }
-        }, c);
+        }, c, null);
 
     }
     private List<Tracker> getTrackerlist()
@@ -182,7 +185,7 @@ public class User implements java.io.Serializable {
      *
      * @param listener notifies this listener when user is loaded
      */
-    public static void getLastUser(UserLoadedListener listener, Context c) {
+    public static void getLastUser(UserLoadedListener listener, Context c, String userName) {
         context = c;
         listeners.add(listener);
         WakeThread();
@@ -536,7 +539,8 @@ public class User implements java.io.Serializable {
     /**
      * Saves users current information
      */
-    public void save() {
+    public void save()
+    {
         saveUser = true;
         WakeThread();
         Thread t=new NetWorkThread();
@@ -740,10 +744,6 @@ public class User implements java.io.Serializable {
                         {
                             conversations.get(i).getNewMessagesAndSendOldOnes();
                         }
-
-
-                        System.out.println(conversations.size()+"conversations koko");
-                        System.out.println(conversations.size()+"Online");
                         synchronized (this){
                             try {
                                 wait(1000);

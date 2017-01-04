@@ -94,7 +94,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
-        User.getLastUser(this, getContext());
+        User.getLastUser(this, getContext(), null);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -171,7 +171,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                             });
 
                         }
-                    }, getContext());
+                    }, getContext(), null);
 
 
 
@@ -193,7 +193,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                     trackers = user.getTrackers();
                     adapter.notifyDataSetChanged();
                 } else {
-                    User.getLastUser(this, getContext());
+                    User.getLastUser(this, getContext(), null);
                 }
                 break;
         }
