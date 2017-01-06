@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
@@ -220,111 +221,50 @@ public class User implements java.io.Serializable {
      * @param userName           Username to find, if null will try to find users google account and use it
      */
     public static void loadUserFromNet(final UserLoadedListener userLoadedListener, String userName) {
-        if (userName == null) {
-            String name;
-            final AccountManager manager = AccountManager.get(User.getContext());
-            final Account[] accounts = manager.getAccountsByType("com.google");
-            final int size = accounts.length;
-            String[] names = new String[size];
-            for (int i = 0; i < size; i++) {
-                names[i] = accounts[i].name;
-
-            }
-            if (names.length > 0) {
-                name = names[0];
-            } else {
-                name = "default";
-            }
-            userName = name;
-        }
-        System.out.println(userName+" userName");
-        final String name = userName;
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                InputStream is = null;
-                // Only display the first 500 characters of the retrieved
-                // web page content.
-                int len = 500;
-
+        JSONObject jsonObject1 = new JSONObject();
+        try {
+            jsonObject1.put(Constants.id, userName);
+            jsonObject1.put(Constants.job, Constants.load);
+            if(currentUser!=null){
                 try {
-                    URL url = new URL("https://bizfit-nyyppa.c9users.io");
-                    HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-                    conn.setReadTimeout(10000 /* milliseconds */);
-                    conn.setConnectTimeout(15000 /* milliseconds */);
-                    conn.setRequestMethod("POST");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    OutputStream os = conn.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(os, "UTF-8"));
-                    JSONObject jsonObject1 = new JSONObject();
-                    try {
-                        jsonObject1.put(Constants.id, name);
-                        jsonObject1.put(Constants.job, Constants.load);
-                        if(currentUser!=null){
-                            try {
-                                jsonObject1.put(Constants.check_sum, currentUser.checksum(currentUser));
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            }
-                        }else{
-                            jsonObject1.put(Constants.check_sum,"0");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    writer.write(jsonObject1.toString());
-                    writer.flush();
-                    conn.connect();
-                    int response = conn.getResponseCode();
-                    if (response==200) {
-                        is = conn.getInputStream();
-                        // Convert the InputStream into a string
-                        BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                        StringBuilder total = new StringBuilder();
-                        String line;
-                        while ((line = r.readLine()) != null) {
-                            System.out.println(line);
-                            total.append(line).append('\n');
-                        }
-                        System.out.println(total.toString());
-                        try {
-                            JSONObject jsonObject2 = new JSONObject(total.toString());
-                            if(jsonObject2.has("user")){
-                                currentUser = new User(jsonObject2.getJSONObject("user"));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    // Makes sure that the InputStream is closed after the app is
-                    // finished using it.
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
+                    jsonObject1.put(Constants.check_sum, currentUser.checksum(currentUser));
+                } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    if (is != null) {
-                        try {
-                            is.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    userLoaded=true;
                 }
-                if (userLoadedListener != null) {
-                    userLoadedListener.UserLoaded(currentUser);
+            }else{
+                jsonObject1.put(Constants.check_sum,"0");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //todo merge user, add fail handling
+        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals("failed")){
+
+                }else{
+                    JSONObject jsonObject=null;
+                    try {
+                        jsonObject=new JSONObject(message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(jsonObject!=null){
+                        currentUser=new User(jsonObject);
+                    }
+                    if(userLoadedListener!=null){
+                        userLoadedListener.UserLoaded(currentUser);
+
+                    }
                 }
 
             }
-        });
-        t.start();
+        },jsonObject1);
+        Network.addNetMessage(netMessage);
     }
 
     /**
@@ -546,9 +486,30 @@ public class User implements java.io.Serializable {
     {
         saveUser = true;
         WakeThread();
-        Thread t=new NetWorkThread();
-        t.start();
+        saveToNet();
+
+
     }
+
+    public void saveToNet(){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put(Constants.job, Constants.save);
+            jsonObject.put(Constants.user, currentUser.toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals("failed")){
+                    saveToNet();
+                }
+            }
+        },jsonObject);
+        Network.addNetMessage(netMessage);
+    }
+
 
     public interface UserLoadedListener
     {

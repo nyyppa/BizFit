@@ -208,7 +208,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements 
             return viewList;
         }
 
-        ArrayList<Button> getViewsByTag(ViewGroup root, String tag) {
+        private ArrayList<Button> getViewsByTag(ViewGroup root, String tag) {
             ArrayList<Button> views = new ArrayList<Button>();
             final int childCount = root.getChildCount();
             for (int i = 0; i < childCount; i++) {
