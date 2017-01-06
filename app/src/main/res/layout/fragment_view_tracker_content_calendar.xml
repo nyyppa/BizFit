@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    tools:context=".activities.ViewTrackerActivity">
+    <!-- TODO Calendar is slow to inflate, find ways to speed it up
+    jariJ 8.12.2016 removed unnecessary cardview, maybe it's lighter now
+    -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="8dp"
+            android:background="@color/grey_50"
+            android:paddingBottom="8dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="8dp"
+            app:mcv_dateTextAppearance="@style/AppTheme.CalendarDates"
+            app:mcv_headerTextAppearance="@style/AppTheme.CalendarHeader"
+            app:mcv_monthLabels="@array/months"
+            app:mcv_selectionColor="@color/grey_400"
+            app:mcv_showOtherDates="all"
+            app:mcv_weekDayTextAppearance="@style/AppTheme.CalendarWeekHeader" />
+
+        <Button
+            android:id="@+id/button_today"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="11dp"
+            android:text="@string/action_calendar_today"
+            android:theme="@style/BorderlessButton"
+            android:layout_marginEnd="11dp"
+            android:layout_alignBottom="@+id/calendarView"
+            android:layout_alignRight="@+id/calendarView"
+            android:layout_alignEnd="@+id/calendarView"/>
+    </RelativeLayout>
+
+</FrameLayout>

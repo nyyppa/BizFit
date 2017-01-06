@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:baselineAligned="true">
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:id="@+id/fLPic">
+
+            <ImageView
+                android:id="@+id/coach_banner_image"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/rLforCoachName"
+            android:layout_height="850dp">
+
+            <Button
+                android:text="@string/btnOrder_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnOrderChat"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_alignBaseline="@+id/tVChatPrice"
+                android:layout_alignBottom="@+id/tVChatPrice"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:text='"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/tVIntro"
+                android:layout_below="@+id/tVIntroHL"
+                />
+
+            <TextView
+                android:id="@+id/tVExpertise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/field_of_expertise"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white70"
+                android:textSize="16sp"
+                android:layout_below="@+id/tVName"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/tVName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="Firstname Surname"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white100"
+                android:layout_marginTop="256dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:text="@string/Coach_page_content_introduction_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVIntroHL"
+                android:layout_marginTop="27dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_below="@+id/tVExpertise"
+                android:layout_alignLeft="@+id/tVIntro"
+                android:layout_alignStart="@+id/tVIntro"/>
+
+            <TextView
+                android:text="@string/sales_pitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVSalesPitchHL"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="11dp"
+                android:layout_below="@+id/tVIntro"
+                android:layout_alignLeft="@+id/tVIntro"
+                android:layout_alignStart="@+id/tVIntro"/>
+
+            <TextView
+                android:text="Sale Sale Sale Sale Sale Sale Sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVSalesPitch"
+                android:lines="2"
+                android:layout_below="@+id/tVSalesPitchHL"
+                android:layout_alignLeft="@+id/tVSalesPitchHL"
+                android:layout_alignStart="@+id/tVSalesPitchHL"/>
+
+            <TextView
+                android:text="@string/prices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iVLinked"
+                android:layout_alignLeft="@+id/iVLinked"
+                android:layout_alignStart="@+id/iVLinked"
+                android:layout_marginTop="11dp"
+                android:id="@+id/tVPricesHL"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+            <TextView
+                android:text="Chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVChat"
+                android:layout_below="@+id/tVPricesHL"
+                android:layout_alignLeft="@+id/tVPricesHL"
+                android:layout_alignStart="@+id/tVPricesHL"
+                android:layout_marginTop="3dp"/>
+
+            <TextView
+                android:text='"99,9e"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVChatPrice"
+                android:layout_alignBaseline="@+id/tVChat"
+                android:layout_alignBottom="@+id/tVChat"
+                android:layout_toRightOf="@+id/iVTwitter"
+                android:layout_toEndOf="@+id/iVTwitter"/>
+
+            <Button
+                android:text="@string/terms_of_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnTOS"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:text="@string/social_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVSocialHL"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="11dp"
+                android:layout_below="@+id/tVPlaceOfResidence"
+                android:layout_alignLeft="@+id/tVPlaceOfResidence"
+                android:layout_alignStart="@+id/tVPlaceOfResidence"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/facebook"
+                android:id="@+id/iVFB"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_toRightOf="@+id/iVTwitter"
+                android:layout_toEndOf="@+id/iVTwitter"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/twitter"
+                android:id="@+id/iVTwitter"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_toRightOf="@+id/iVLinked"
+                android:layout_toEndOf="@+id/iVLinked"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/linkedin_box"
+                android:id="@+id/iVLinked"
+                android:layout_below="@+id/tVSocialHL"
+                android:layout_alignLeft="@+id/tVSocialHL"
+                android:layout_alignStart="@+id/tVSocialHL"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPlaceOfResidenceHL"
+                android:text="@string/place_of_residence"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tVSalesPitch"
+                android:layout_alignLeft="@+id/tVSalesPitch"
+                android:layout_alignStart="@+id/tVSalesPitch"/>
+
+            <TextView
+                android:text='"City", "Country"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVPlaceOfResidence"
+                android:lines="1"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/tvPlaceOfResidenceHL"
+                android:layout_alignLeft="@+id/tvPlaceOfResidenceHL"
+                android:layout_alignStart="@+id/tvPlaceOfResidenceHL"/>
+
+            <TextView
+                android:text="Call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCall"
+                android:layout_above="@+id/btnTOS"
+                android:layout_alignLeft="@+id/tVChat"
+                android:layout_alignStart="@+id/tVChat"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:text='"9,99e"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCallPrice"
+                android:layout_alignBaseline="@+id/tVCall"
+                android:layout_alignBottom="@+id/tVCall"
+                android:layout_alignLeft="@+id/tVChatPrice"
+                android:layout_alignStart="@+id/tVChatPrice"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btnOrderCall"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:text="@string/order_call"
+                android:layout_alignBaseline="@+id/tVCallPrice"
+                android:layout_alignBottom="@+id/tVCallPrice"
+                android:layout_alignRight="@+id/btnOrderChat"
+                android:layout_alignEnd="@+id/btnOrderChat"
+                android:layout_alignLeft="@+id/btnOrderChat"
+                android:layout_alignStart="@+id/btnOrderChat"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</ScrollView>
+

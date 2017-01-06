@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="145dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clipChildren="true"
+    android:orientation="vertical"
+    app:cardCornerRadius="2dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="261dp"
+        android:id="@+id/store_item_layout">
+
+        <ImageView
+            android:id="@+id/iVCoach"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy"
+            android:layout_height="140dp"/>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NIMI"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAllCaps="true"
+            android:layout_below="@id/iVCoach"
+            android:textSize="14sp"
+            android:minLines="2"
+            android:maxLines="2"
+            android:layout_margin="8dp"/>
+            <!-- TODO different sales pitches to coaches -->
+        <TextView
+
+            android:text="Aut debitis aut ipsa repellendus. . "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12"
+            android:layout_below="@+id/textView9"
+            android:layout_alignLeft="@+id/textView9"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_alignRight="@+id/textView9"
+            android:layout_alignEnd="@+id/textView9"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_call_black_24dp"
+            android:id="@+id/iVIconPhone"
+            android:layout_below="@+id/textView12"
+            android:layout_alignLeft="@+id/textView12"
+            android:layout_alignStart="@+id/textView12"
+            android:layout_marginTop="8dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_mail_outline_black_24dp"
+            android:id="@+id/iVIconMail"
+            android:layout_alignTop="@+id/iVIconPhone"
+            android:layout_toRightOf="@+id/iVIconPhone"
+            android:layout_toEndOf="@+id/iVIconPhone"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_chat_black_24dp"
+            android:id="@+id/iViconMail"
+            android:layout_alignTop="@+id/iVIconMail"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_sentiment_satisfied_black_24dp"
+            android:id="@+id/iVIconSatisfied"
+            android:layout_alignTop="@+id/iViconMail"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tVTestimonials"
+            android:text='""'
+            android:layout_alignTop="@+id/iVIconSatisfied"
+            android:layout_toLeftOf="@+id/iVIconSatisfied"
+            android:layout_toStartOf="@+id/iVIconSatisfied"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

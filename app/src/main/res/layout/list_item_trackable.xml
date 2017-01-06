@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:longClickable="true"
+    android:paddingRight="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/percentage_container"
+        android:duplicateParentState="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_trackable_progress_needed_bg"
+            android:src="@drawable/view_trackable_main_percentage_bg"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="@dimen/view_trackable_percentage_size"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:id="@+id/view_trackable_progress_needed"
+            android:layout_gravity="center"
+            style="@style/ViewTrackablePercentage"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/view_trackable_done"
+            android:src="@drawable/ic_done_white_48dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/percentage_container"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:duplicateParentState="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_trackable_tracker_name"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textSize="18sp"
+            android:singleLine="false"
+            android:text="Tracker name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preview of notes if any are present. Can extend multiple lines and still look good. Maximum of 3 lines."
+            android:id="@+id/view_trackable_notes"
+            style="@style/ViewTrackableNotes"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</RelativeLayout>

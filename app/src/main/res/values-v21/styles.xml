@@ -1,8 +1,33 @@
-<resources>>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
+<resources>
+
+    <style name="AppTheme.DarkActionbar" parent="AppTheme">
+        <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:datePickerDialogTheme">@style/CustomDialogueTheme</item>
+        <item name="android:timePickerDialogTheme">@style/CustomDialogueTheme</item>
+        <item name="android:alertDialogTheme">@style/CustomDialogueTheme</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        <item name="android:colorEdgeEffect">@color/grey_600</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:datePickerDialogTheme">@style/CustomDialogueTheme</item>
+        <item name="android:colorEdgeEffect">@color/grey_600</item>
+    </style>
+
+    <style name="CustomDialogueTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <!--
+        <item NAME="android:datePickerStyle">@style/MyDatePickerStyle</item>
+        -->
     </style>
 </resources>

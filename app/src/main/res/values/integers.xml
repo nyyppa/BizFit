@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Represents a dp value for a method, which only accepts raw
+     dp value and does the conversion to pixels by itself.-->
+    <integer name="total_progress_graph_line_width">2</integer>
+    <integer name="text_caption">12</integer>
+    <integer name="y_axis_label_y_offset">-5</integer>
+    <integer name="x_axis_height">1</integer>
+    <integer name="graph_circle_size">3</integer>
+
+    <integer name="number_of_bar_steps">20000</integer>
+
+    <integer name="message_field_max_lines">6</integer>
+
+    <!-- Represents animation duration in milli seconds.-->
+    <integer name="progress_added_anim_duration">500</integer>
+    <integer name="from_zero_anim_duration">2000</integer>
+    <integer name="button_animation_duration">80</integer>
+
+    <integer-array name="random_imgs">
+        <item>@drawable/tmp1</item>
+        <item>@drawable/tmp2</item>
+        <item>@drawable/tmp3</item>
+        <item>@drawable/tmp4</item>
+        <item>@drawable/tmp5</item>
+        <item>@drawable/tmp6</item>
+        <item>@drawable/tmp7</item>
+    </integer-array>
+
+    <integer-array name="work_imgs">
+        <item>@drawable/mylly</item>
+        <item>@drawable/pasi</item>
+        <item>@drawable/atte</item>
+    </integer-array>
+</resources>

@@ -3,14 +3,21 @@ package com.bizfit.bizfit.utils;
 import android.graphics.Typeface;
 
 /**
- * Created by Käyttäjä on 22.12.2015.
+ * Contains a true type font.
  */
 public class FontHolder {
-        Typeface font;
-        String file;
+    /**
+     * True type font.
+     */
+    Typeface font;
 
-    FontHolder(Typeface font, String file){
-            this.font=font;
-            this.file=file;
+    /**
+     * Font path.
+     */
+    String file;
+
+    FontHolder(Typeface font, String file) {
+        this.font = font;
+        this.file = file;
     }
 }

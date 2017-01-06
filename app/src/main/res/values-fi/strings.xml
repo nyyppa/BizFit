@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bizfit</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="error_insufficent_data">Et ole syöttänyt vielä edistystä</string>
+    <string name="title_new_goal">Uusi tavoite</string>
+    <string name="hint_target_amount">Määrä</string>
+    <string name="hint_target_date">Pvm.</string>
+    <string name="hint_target_name">Nimi</string>
+    <string name="title_view_tracker_target">Tavoite</string>
+    <string name="title_view_tracker_target_date">Tavoite pvm.</string>
+    <string name="unit_time_days">päivää</string>
+    <string name="unit_time_days_one">päivä</string>
+    <string name="unit_time_months">kuukautta</string>
+    <string name="unit_time_months_one">kuukausi</string>
+    <string name="title_tab_my_trackers">Seuranta</string>
+    <string name="title_time_left">Aikaa jäljellä</string>
+    <string name="title_tab_messages">Viestit</string>
+    <string name="title_tab_coaches">Valmentajat</string>
+    <string name="action_add_progress">lisää edistystä</string>
+    <string name="title_target">Tavoite</string>
+    <string name="action_edit">Muokkaa</string>
+    <string name="action_delete">Poista</string>
+    <string name="message_remove_successful">Poistettu</string>
+    <string name="error_empty_field">Tyhjä kenttä</string>
+    <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
+    <string name="month_april">Huhtikuu</string>
+    <string name="month_november">Marraskuu</string>
+    <string name="month_september">Syyskuu</string>
+    <string name="month_october">Lokakuu</string>
+    <string name="month_may">Toukokuu</string>
+    <string name="month_january">Tammikuu</string>
+    <string name="month_february">Helmikuu</string>
+    <string name="month_march">Maaliskuu</string>
+    <string name="month_june">Kesäkuu</string>
+    <string name="month_july">Heinäkuu</string>
+    <string name="month_december">Joulukuu</string>
+    <string name="month_august">Elokuu</string>
+    <string name="action_calendar_today">Tänään</string>
+    <string name="action_select_a_color">Valitse väri</string>
+    <string name="title_amount_to_add">Lisättävä määrä</string>
+    <string name="action_confirm">OK</string>
+    <string name="action_cancel">Peruuta</string>
+    <string name="title_days_target">Päivän tavoite</string>
+    <string name="title_progress">Edistys</string>
+    <string name="hint_search_hint">Etsi jotain</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
+    <string name="hint_message_field">Viesti...</string>
+    <string name="list_item_store_row_regular_more_button">lisää</string>
+    <string name="Coach_page_content_introduction_title">Esittely:</string>
+    <string name="sales_pitch">Myyntipuhe:</string>
+    <string name="social_media">Sosiaalinen media:</string>
+    <string name="field_of_expertise">Erityisosaaminen</string>
+    <string name="place_of_residence">Asuinpaikka:</string>
+    <string name="btnOrder_chat">Tilaa chat</string>
+    <string name="prices">Hinnat:</string>
+    <string name="terms_of_service">Käyttöehdot</string>
+    <string name="order_call">Tilaa puhelu</string>
+    <string name="btnAccept">Hyväksyn</string>
+
+    <string-array name="random_job_title">
+        <item> Toimii </item>
+        <item>Myynti</item>
+        <item>Kirjanpito</item>
+        <item>Sosiaalinen media markkinointi</item>
+        <item>markkinointi</item>
+        <item>Kylmä puhelut</item>
+        <item>Työturvallisuus</item>
+        <item>Työ Onnellisuus</item>
+        <item>Työ Tyytyväisyys</item>
+        <item>Saksan tuonti</item>
+        <item>Venäjän vienti</item>
+    </string-array>
+    <string-array name="random_country_and_city">
+        <item>Suomi, Tampere</item>
+        <item>Saksa, Frankfurt</item>
+        <item>Venäjä, Moscow</item>
+        <item>Ranska, Paris</item>
+        <item>Norja, Oslo</item>
+    </string-array>
+
+    <string-array name="random_sales_pitch">
+        <item>"Teen sinusta rikkaan! Tai ainakin rikkaamman kuin nyt!</item>
+        <item>"Lisään myyntiäsi jopa 100%:lla!"</item>
+        <item>"Jos tarvitset apua markkinoinnin suhteen, olen oikea henkilö hommaan, ota yhteyttä!"</item>
+        <item>"Etkö vihaakin laskujen perässä pysymisessä? Voin auttaa asiassa!"</item>
+        <item>"Tahtoisitko yrityksesi maailmanlaajuisille markkinoille ? Ehkä meidän kannattaisi keskustella asiasta?"</item>
+        <item>"Haluat helppoa, tehokasta ja kustannustehokasta markkinointia? Social on päivän sana!"</item>
+    </string-array>
+
+    <string-array name="random_price_chat">
+        <item>9,99e/viikko</item>
+        <item>19,99e/viikko</item>
+        <item>2,50e/viikko</item>
+        <item>4,99e/viikko</item>
+    </string-array>
+
+    <string-array name="random_price_call">
+        <item>9,99e/tunti</item>
+        <item>19,99e/tunti</item>
+        <item>49,99e/tunti</item>
+        <item>29,99e/tunti</item>
+    </string-array>
+
+</resources>

@@ -1,27 +1,127 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:timePickerDialogTheme">@style/AlertDialogCustom</item>
-        <item name="android:datePickerDialogTheme">@style/AlertDialogCustom</item>
-        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
     </style>
-
-    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="EditTextCustom" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ViewTrackablePercentage" parent="AppTheme">
+        <item name="android:textColor">@color/white100</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ViewTrackableNotes" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="test" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">1sp</item>
+    </style>
+
+    <style name="AppThemeLight" parent="AppTheme">
+        <item name="colorPrimary">@color/material_grey_50</item>
+        <item name="colorPrimaryDark">@color/material_grey_600</item>
+    </style>
+
+    <!-- All fonts are applied progmatically -->
+    <style name="AppTheme.CalendarDates" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppTheme.CalendarHeader" parent="AppTheme">
+        <item name="android:textColor">@color/black87</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.CalendarWeekHeader" parent="AppTheme">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BorderlessButton" parent="AppTheme">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <style name="ViewTrackerFragmentInfoContent" parent="AppTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black87</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ViewTrackerFragmentInfoTitle" parent="ViewTrackerFragmentInfoContent">
+        <item name="android:textColor">@color/black54</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="MaterialButtonStyle" parent="CardView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/black87</item>
+        <item name="android:textColorPrimaryInverse">@color/white100</item>
+        <item name="android:textColorSecondary">@color/black54</item>
+        <item name="actionMenuTextColor">@color/black54</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="MessageBase" parent="AppTheme">
+        <item name="android:layout_marginRight">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginLeft">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginTop">@dimen/list_item_message_horizontal_margin_small</item>
+        <item name="android:layout_marginBottom">@dimen/list_item_message_horizontal_margin_small</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MessageSent" parent="MessageBase">
+        <item name="android:background">@drawable/message_sent_background</item>
+        <item name="android:textColor">@color/white100</item>
+        <item name="android:layout_marginLeft">@dimen/activity_vertical_margin_wide</item>
+    </style>
+
+    <style name="MessageReceived" parent="MessageBase">
+        <item name="android:background">@drawable/message_received_background</item>
+        <item name="android:textColor">@color/black87</item>
+        <item name="android:layout_marginRight">@dimen/activity_vertical_margin_wide</item>
+    </style>
+
+    <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorButtonNormal">@color/blue_grey_500</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>

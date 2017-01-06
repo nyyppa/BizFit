@@ -1,7 +1,36 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin_wide">32dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="trackabeview_horizontal_margin">32dp</dimen>
+    <dimen name="tab_max_width">264dp</dimen>
+    <dimen name="tab_padding_bottom">16dp</dimen>
+    <dimen name="tab_label">14sp</dimen>
+    <dimen name="custom_tab_layout_height">72dp</dimen>
+
+    <dimen name="text_button">14sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_subheading">16sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_headline">24sp</dimen>
+    <dimen name="text_display1">34sp</dimen>
+
+    <dimen name="view_trackable_percentage_size">48dp</dimen>
+    <dimen name="color_picker_height">48dp</dimen>
+
+    <dimen name="calendar_view_inset_day_missed">6dp</dimen>
+    <dimen name="calendar_view_inset_today">3dp</dimen>
+
+    <dimen name="ring_progress_thickness">8dp</dimen>
+    <dimen name="calendar_tile_size">40dp</dimen>
+
+    <dimen name="button_resting_elevation">2dp</dimen>
+    <dimen name="button_elevated_elevation">8dp</dimen>
+
+    <dimen name="list_item_message_horizontal_margin_small">1dp</dimen>
+    <dimen name="list_item_message_horizontal_margin_large">8dp</dimen>
+    <dimen name="touch_area_min_size">48dp</dimen>
+
+    <dimen name="g_top_margin">100dp</dimen>
 </resources>
