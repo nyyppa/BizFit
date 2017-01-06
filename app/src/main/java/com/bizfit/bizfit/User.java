@@ -51,16 +51,12 @@ public class User implements java.io.Serializable {
      */
     private static final long serialVersionUID = 8425799364006222365L;
     static List<UserLoadedListener> listeners = new ArrayList<>(0);
-    static List<Tracker> trackersToDelete = new ArrayList<>(0);
     private transient static DataBaseThread thread;
     private transient static Context context;
     private transient static User currentUser;
     public String userName;
     public boolean saveUser = false;
     List<Tracker> trackers;
-    int lastTrackerID;
-    int nextFreeDailyProgressID;
-    public int userNumber;
     static boolean userLoaded=false;
     List<Conversation> conversations;
     private transient static Thread GetMessagesThread;
@@ -91,18 +87,9 @@ public class User implements java.io.Serializable {
             {
                 userName = jsonObject.getString(Constants.user_name);
             }
-            if(jsonObject.has(Constants.last_tracker_id))
-            {
-                lastTrackerID = jsonObject.getInt(Constants.last_tracker_id);
-            }
-            if(jsonObject.has(Constants.next_free_daily_progress_id))
-            {
-                nextFreeDailyProgressID = jsonObject.getInt(Constants.next_free_daily_progress_id);
-            }
-            if(jsonObject.has(Constants.user_number))
-            {
-                userNumber = jsonObject.getInt(Constants.user_number);
-            }
+
+
+
 
             if(jsonObject.has(Constants.conversations))
             {
@@ -134,13 +121,7 @@ public class User implements java.io.Serializable {
         }
     }
 
-    static public int getNextFreeDailyProgressID() {
-        if (currentUser == null) {
-            return -1;
-        }
-        currentUser.nextFreeDailyProgressID++;
-        return currentUser.nextFreeDailyProgressID;
-    }
+
 
     /**
      * Runs update for every tracker to keep their internal time moving
@@ -190,7 +171,7 @@ public class User implements java.io.Serializable {
         }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
             userNameForLogin="default";
         }
-        System.out.println("userNameForLogin "+userNameForLogin);
+        System.out.println("userNameForLogin "+listeners.size());
         context = c;
         listeners.add(listener);
         WakeThread();
@@ -244,6 +225,7 @@ public class User implements java.io.Serializable {
         NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
             @Override
             public void returnMessage(String message) {
+
                 if(message.equals("failed")){
 
                 }else{
@@ -261,6 +243,7 @@ public class User implements java.io.Serializable {
 
                     }
                 }
+                userLoaded=true;
 
             }
         },jsonObject1);
@@ -326,9 +309,7 @@ public class User implements java.io.Serializable {
         JSONArray conversationArray=new JSONArray();
         try {
             jsonObject.put(Constants.user_name, userName);
-            jsonObject.put(Constants.last_tracker_id, lastTrackerID);
-            jsonObject.put(Constants.next_free_daily_progress_id, nextFreeDailyProgressID);
-            jsonObject.put(Constants.user_number, userNumber);
+
 
             for (int i = 0; i < trackers.size(); i++) {
                 trackerArray.put(trackers.get(i).toJSON());
@@ -427,8 +408,6 @@ public class User implements java.io.Serializable {
         }
         trackers.add(t);
         t.addParentUser(this);
-        t.id = lastTrackerID;
-        lastTrackerID++;
         updateIndexes();
         save(t);
 
@@ -471,7 +450,6 @@ public class User implements java.io.Serializable {
                 iterator.remove();
                 //trackersToDelete.add(t);
                 save();
-                WakeThread();
                 break;
             }
         }
@@ -547,7 +525,7 @@ public class User implements java.io.Serializable {
                         @Override
                         public void UserLoaded(User user) {
                             currentUser=user;
-
+                            userLoaded=true;
                         }
                     },currentUser.userName);
                     while (!userLoaded){
@@ -572,11 +550,6 @@ public class User implements java.io.Serializable {
                 if (currentUser.saveUser) {
                     db.saveUser(d, currentUser);
                     currentUser.saveUser = false;
-                }
-                Iterator<Tracker> iterator = trackersToDelete.iterator();
-                while (iterator.hasNext()) {
-                    db.deleteTracker(d, iterator.next());
-                    iterator.remove();
                 }
                 for(int i=0;i<listeners.size();i++){
                     listeners.get(i).UserLoaded(currentUser);

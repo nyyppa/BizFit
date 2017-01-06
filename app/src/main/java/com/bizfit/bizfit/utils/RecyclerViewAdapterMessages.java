@@ -142,6 +142,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     @Override
     public int getItemCount()
     {
+        if(conversation==null){
+            return 0;
+        }
         System.out.println("Conversation:" + conversation);
         return (conversation.getMessages() != null) ? conversation.getMessages().size() : 0;
     }

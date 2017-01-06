@@ -47,13 +47,12 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveUser(SQLiteDatabase db, User user) {
         if (!isTableExists(db, "user")) {
-            db.execSQL("CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT,userName TEXT,user TEXT)");
+            db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
 
 
         }
         ContentValues values = new ContentValues();
         values.put("user", user.toJSON().toString());
-        values.put("id",user.userNumber);
         values.put("userName",user.userName);
         //System.out.println("user"+user.toJSON().toString());
 
@@ -187,25 +186,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    /**
-     * Deletes Tracker from given SQLiteDatabase
-     *
-     * @param db      database where the tracker is to be deleted from
-     * @param tracker tracker to delete from database
-     * This is bullshit atm(not used)
-     */
-    public void deleteTracker(SQLiteDatabase db, Tracker tracker) {
-        String args[] = {tracker.id + ""};
-        System.out.println(tracker.parentUser);
-        db.delete("user_" + tracker.parentUser.userNumber + "_trackerTable", "trackerId=?", args);
-        db.delete("user_" + tracker.parentUser.userNumber + "_oldProgressTable", "trackerId=?", args);
-        for (int i = 0; i < tracker.oldProgress.size(); i++) {
-            args = new String[]{tracker.oldProgress.get(i).getDailyProgress().id + ""};
-            db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "DailyProgressID=?", args);
-        }
-        args = new String[]{tracker.getDailyProgress().id + ""};
-        db.delete("user_" + tracker.parentUser.userNumber + "_DailyProgressTable", "DailyProgressID=?", args);
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

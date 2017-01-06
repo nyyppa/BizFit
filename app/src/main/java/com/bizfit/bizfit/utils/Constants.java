@@ -19,6 +19,8 @@ public class Constants
 	public static final String message = "message";
 	public static final String hasBeenSent = "hasBeenSent";
 	public static final String send_message = "send_message";
+
+	//tracker
 	public static final String start_date = "startDate";
 	public static final String end_date = "endDate";
 	public static final String end_progress = "endProgress";
@@ -43,7 +45,9 @@ public class Constants
 	public static final String tolerance = "tolerance";
 	public static final String color = "color";
 	public static final String number_tracked = "numberTracked";
-	public static final int db_version = 50;
+
+
+	public static final int db_version = 52;
 	public static final String trackers = "trackers";
 	public static final String last_tracker_id = "lastTrackerID";
 	public static final String next_free_daily_progress_id = "nextFreeDailyProgressID";

@@ -4,16 +4,19 @@ package com.bizfit.bizfit.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
@@ -143,14 +146,18 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             case SET_NEW_GOAL:
                 if (resultCode == Activity.RESULT_OK) {
+                    Log.d("Testi","testi");
                     final Intent data2=data;
                     User.getLastUser(new User.UserLoadedListener() {
                         @Override
                         public void UserLoaded(User user) {
+                            Log.d("Testi","testi");
                             final Tracker newTracker = new Tracker();
+
                             user.addTracker(newTracker);
                             newTracker.setName(data2.getStringExtra(FieldNames.TRACKERNAME));
                             newTracker.setTargetAmount(data2.getFloatExtra(FieldNames.TARGET, 0));
@@ -165,6 +172,9 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                                 @Override
                                 public void run() {
                                     adapter.notifyItemInserted(newTracker.getIndex());
+                                    DebugPrinter.Debug("testitesti");
+                                    Log.d("Testi","testi");
+                                    Log.d("Testi","testi");
                                     //Your code to run in GUI thread here
                                 }//public void run() {
                             });

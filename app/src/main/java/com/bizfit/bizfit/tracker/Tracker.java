@@ -56,7 +56,6 @@ public class Tracker implements java.io.Serializable {
     long lastTestUpdate;
     boolean numberTracked = true;
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
-    public int id;
     transient DataChangedListener listener;
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
@@ -87,7 +86,7 @@ public class Tracker implements java.io.Serializable {
         index = h.index;
         lastTestUpdate = h.lastTestUpdate;
         numberTracked = h.numberTracker;
-        id = h.trackerID;
+
     }
 
     public Tracker(JSONObject jsonObject)
@@ -180,10 +179,7 @@ public class Tracker implements java.io.Serializable {
             {
                 numberTracked = jsonObject.getBoolean(Constants.number_tracked);
             }
-            if(jsonObject.has(Constants.id))
-            {
-                id = jsonObject.getInt(Constants.id);
-            }
+
 
         }
         catch (JSONException e)
@@ -288,7 +284,7 @@ public class Tracker implements java.io.Serializable {
             jsonObject.put(Constants.tolerance, tolerance);
             jsonObject.put(Constants.color, color);
             jsonObject.put(Constants.number_tracked, numberTracked);
-            jsonObject.put(Constants.id, id);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -460,7 +456,7 @@ public class Tracker implements java.io.Serializable {
     public void addParentUser(User user) {
         parentUser = user;
         if (daily == null) {
-            daily = new DailyProgress(parentUser);
+            daily = new DailyProgress();
         }
     }
 
@@ -559,7 +555,7 @@ public class Tracker implements java.io.Serializable {
                 addOldProgress(new OldProgress(lastReset,
                         resetCalender.getTimeInMillis(), currentProgress,
                         targetProgress, daily));
-                daily = new DailyProgress(parentUser);
+                daily = new DailyProgress();
                 lastReset = resetCalender.getTimeInMillis();
                 currentProgress = 0;
                 if (!repeat) {
@@ -592,7 +588,7 @@ public class Tracker implements java.io.Serializable {
                 addOldProgress(new OldProgress(lastReset,
                         resetCalender.getTimeInMillis(), currentProgress,
                         targetProgress, daily));
-                daily = new DailyProgress(parentUser);
+                daily = new DailyProgress();
                 lastReset = resetCalender.getTimeInMillis();
                 currentProgress = 0;
                 if (!repeat) {
@@ -615,7 +611,7 @@ public class Tracker implements java.io.Serializable {
     public void addProgress(float progress) {
         currentProgress += progress;
         if (daily == null) {
-            daily = new DailyProgress(parentUser);
+            daily = new DailyProgress();
         }
         daily.addDailyProgress(progress, System.currentTimeMillis());
         changes.add(0, new Change(progress + "", lastModification.currentProgress));

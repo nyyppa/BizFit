@@ -19,16 +19,15 @@ import java.util.ListIterator;
  * Contains users progress in single tracking period
  */
 public class DailyProgress implements java.io.Serializable {
-    public int id;
+
     private List<DayPool> dayPool = new ArrayList<DayPool>(0);
 
     /**
      * Constructs new DailyProgress from given list of daySingles and DailyProgress ID
      *
      * @param list List containing DaySingles that DailyProgress will hold
-     * @param id   ID of DailyProgress
      */
-    public DailyProgress(List<DaySingle> list, int id) {
+    public DailyProgress(List<DaySingle> list) {
         Comparator<DaySingle> comparator = new Comparator<DaySingle>() {
             @Override
             public int compare(DaySingle lhs, DaySingle rhs) {
@@ -40,13 +39,10 @@ public class DailyProgress implements java.io.Serializable {
             DaySingle single = addDailyProgress(list.get(i).getAmount(), list.get(i).getTime());
             single.id = list.get(i).id;
         }
-        this.id = id;
-    }
-
-    public DailyProgress(User user) {
-        id = User.getNextFreeDailyProgressID();
 
     }
+
+
 
     /**
      * Default constructor
@@ -75,10 +71,7 @@ public class DailyProgress implements java.io.Serializable {
                     d.id = object.getInt("id");
                 }
             }
-            if(jsonObject.has("id"))
-            {
-                id = jsonObject.getInt("id");
-            }
+
 
         } catch (JSONException e)
         {
@@ -113,7 +106,7 @@ public class DailyProgress implements java.io.Serializable {
         }
 
         try {
-            jsonObject.put("id", id);
+
             jsonObject.put("DaySingle", jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
