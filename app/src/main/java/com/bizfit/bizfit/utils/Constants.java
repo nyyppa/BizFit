@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.utils;
 
 /**
  * Created by jariJ on 4.1.2017.

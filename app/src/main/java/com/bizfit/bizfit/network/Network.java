@@ -1,4 +1,4 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.network;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -21,13 +20,13 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by attey on 08/12/2016.
  */
 
-public class NewAndBetterNetwork extends Thread{
+public class Network extends Thread{
     List<NetMessage> netMessagesList;
     private boolean exit=false;
     private boolean paused=false;
     List<NetMessage> messagesToAdd;
-    static NewAndBetterNetwork newAndBetterNetwork;
-    public NewAndBetterNetwork(){
+    static Network network;
+    public Network(){
         netMessagesList=new ArrayList<>();
         messagesToAdd=new ArrayList<>();
     }
@@ -176,11 +175,11 @@ public class NewAndBetterNetwork extends Thread{
         return false;
     }
     public static void addNetMessage(NetMessage message){
-        if(newAndBetterNetwork==null||!newAndBetterNetwork.isAlive()){
-            newAndBetterNetwork=new NewAndBetterNetwork();
-            newAndBetterNetwork.start();
+        if(network ==null||!network.isAlive()){
+            network =new Network();
+            network.start();
         }
-        newAndBetterNetwork.addMessage(message);
+        network.addMessage(message);
     }
 
 

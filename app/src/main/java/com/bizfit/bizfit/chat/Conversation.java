@@ -1,16 +1,15 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.chat;
 
-import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.nfc.Tag;
-import android.os.Debug;
-import android.support.v4.content.ContextCompat;
-import android.telecom.Connection;
-import android.telecom.ConnectionService;
-import android.util.Log;
 
+import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.NotificationSender;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
 
 import org.json.JSONArray;
@@ -24,24 +23,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.google.android.gms.internal.zzs.TAG;
-
 /**
  * Created by attey on 02/12/2016.
  */
 
 //todo prevent android from cloning thisw
-public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
+public class Conversation implements NetworkReturn,Serializable{
 
     private String owner="";
     private String other="";
-    private List<MyNewAndBetterMessage> myNewAndBetterMessageList;
+    private List<Message> messageList;
 
     private User user;
     private transient ChatFragment chatFragment;
     private NetworkInfo netinfo;
 
-    public MyNewAndBetterConversation(JSONObject jsonObject, User user){
+    public Conversation(JSONObject jsonObject, User user){
         JSONArray jsonArray=null;
         this.user=user;
         try {
@@ -53,12 +50,12 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             {
                 other=jsonObject.getString(Constants.other);
             }
-            myNewAndBetterMessageList=new ArrayList<>();
+            messageList =new ArrayList<>();
             if(jsonObject.has(Constants.messages))
             {
                 jsonArray=jsonObject.getJSONArray(Constants.messages);
                 for (int i=0;i<jsonArray.length();i++){
-                    myNewAndBetterMessageList.add(new MyNewAndBetterMessage(jsonArray.getJSONObject(i),this));
+                    messageList.add(new Message(jsonArray.getJSONObject(i),this));
                 }
             }
 
@@ -68,10 +65,10 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         }
     }
 
-    public MyNewAndBetterConversation(String owner,String other,User user){
+    public Conversation(String owner, String other, User user){
         this.other=other;
         this.owner=owner;
-        myNewAndBetterMessageList=new ArrayList<>();
+        messageList =new ArrayList<>();
         this.user=user;
     }
 
@@ -84,12 +81,12 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     public User getUser(){
         return user;
     }
-    public List<MyNewAndBetterMessage> getMessages()
+    public List<Message> getMessages()
     {
-        if(myNewAndBetterMessageList==null){
-            myNewAndBetterMessageList=new ArrayList<>();
+        if(messageList ==null){
+            messageList =new ArrayList<>();
         }
-        return myNewAndBetterMessageList;
+        return messageList;
     }
     public JSONObject toJSon(){
         JSONObject jsonObject=new JSONObject();
@@ -97,8 +94,8 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             jsonObject.put(Constants.owner,owner);
             jsonObject.put(Constants.other,other);
             JSONArray jsonArray=new JSONArray();
-            for(int i=0;i<myNewAndBetterMessageList.size();i++){
-                jsonArray.put(myNewAndBetterMessageList.get(i).toJson());
+            for(int i = 0; i< messageList.size(); i++){
+                jsonArray.put(messageList.get(i).toJson());
             }
             jsonObject.put(Constants.messages,jsonArray);
 
@@ -111,8 +108,8 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     {
         getIncomingMessages();
         getOutgoingMessages();
-        for(int i=0;i<myNewAndBetterMessageList.size();i++){
-            myNewAndBetterMessageList.get(i).checkToResend();
+        for(int i = 0; i< messageList.size(); i++){
+            messageList.get(i).checkToResend();
         }
     }
     private void getIncomingMessages()
@@ -126,7 +123,7 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        NewAndBetterNetwork.addNetMessage(new NetMessage(null,this,jsonObject));
+        Network.addNetMessage(new NetMessage(null,this,jsonObject));
     }
     private void getOutgoingMessages()
     {
@@ -139,18 +136,18 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        NewAndBetterNetwork.addNetMessage(new NetMessage(null,this,jsonObject));
+        Network.addNetMessage(new NetMessage(null,this,jsonObject));
     }
     private long getLastReceivedMessage(){
         long lastReceivedMessage=0;
-        for(int i=0;i<myNewAndBetterMessageList.size();i++){
-            MyNewAndBetterMessage myNewAndBetterMessage=myNewAndBetterMessageList.get(i);
-            switch (myNewAndBetterMessage.getJob()){
+        for(int i = 0; i< messageList.size(); i++){
+            Message message = messageList.get(i);
+            switch (message.getJob()){
                 case OUTGOING:
                     break;
                 case INCOMING:
-                    if(myNewAndBetterMessage.getCreationTime()>lastReceivedMessage){
-                        lastReceivedMessage=myNewAndBetterMessage.getCreationTime();
+                    if(message.getCreationTime()>lastReceivedMessage){
+                        lastReceivedMessage= message.getCreationTime();
                     }
                     break;
             }
@@ -159,12 +156,12 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     }
     private long getLastSentMessage(){
         long lastSentMessage=0;
-        for(int i=0;i<myNewAndBetterMessageList.size();i++){
-            MyNewAndBetterMessage myNewAndBetterMessage=myNewAndBetterMessageList.get(i);
-            switch (myNewAndBetterMessage.getJob()){
+        for(int i = 0; i< messageList.size(); i++){
+            Message message = messageList.get(i);
+            switch (message.getJob()){
                 case OUTGOING:
-                    if(myNewAndBetterMessage.getCreationTime()>lastSentMessage){
-                        lastSentMessage=myNewAndBetterMessage.getCreationTime();
+                    if(message.getCreationTime()>lastSentMessage){
+                        lastSentMessage= message.getCreationTime();
                     }
                     break;
                 case INCOMING:
@@ -188,26 +185,26 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
     public String getOther(){
         return other;
     }
-    public List<MyNewAndBetterMessage> sortConversation(){
+    public List<Message> sortConversation(){
 
-        Comparator<MyNewAndBetterMessage> comparator=new Comparator<MyNewAndBetterMessage>() {
+        Comparator<Message> comparator=new Comparator<Message>() {
             @Override
-            public int compare(MyNewAndBetterMessage myNewAndBetterMessage, MyNewAndBetterMessage t1) {
+            public int compare(Message myNewAndBetterMessage, Message t1) {
                 return -1*(int)(myNewAndBetterMessage.getCreationTime()-t1.getCreationTime());
             }
         };
-        Collections.sort(myNewAndBetterMessageList,comparator);
+        Collections.sort(messageList,comparator);
 
-        return  myNewAndBetterMessageList;
+        return messageList;
     }
 
     public void createMessage(String message){
-        MyNewAndBetterMessage myNewAndBetterMessage=new MyNewAndBetterMessage(this,getOther(),getOwner(),message);
+        Message myNewAndBetterMessage=new Message(this,getOther(),getOwner(),message);
         myNewAndBetterMessage.sendMessage(null);
-        if(myNewAndBetterMessageList==null){
-            myNewAndBetterMessageList=new ArrayList<>();
+        if(messageList ==null){
+            messageList =new ArrayList<>();
         }
-        myNewAndBetterMessageList.add(0,myNewAndBetterMessage);
+        messageList.add(0,myNewAndBetterMessage);
         getUser().save(this);
 
     }
@@ -218,11 +215,11 @@ public class MyNewAndBetterConversation implements NetworkReturn,Serializable{
             try {
                 JSONArray jsonArray=new JSONArray(message);
                 boolean messagesReceived=false;
-                MyNewAndBetterMessage message1=null;
+                Message message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    myNewAndBetterMessageList.add(0, new MyNewAndBetterMessage(new JSONObject(jsonArray.getString(i)),this));
-                    message1=myNewAndBetterMessageList.get(0);
+                    messageList.add(0, new Message(new JSONObject(jsonArray.getString(i)),this));
+                    message1= messageList.get(0);
                     messagesReceived=true;
 
                 }

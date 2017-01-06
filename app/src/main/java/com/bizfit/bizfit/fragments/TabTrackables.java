@@ -15,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.AddTracker;
 import com.bizfit.bizfit.activities.ViewTracker;
 import com.bizfit.bizfit.utils.FieldNames;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
-import com.bizfit.bizfit.utils.TrackerLoader;
 
 /**
  * Displays visual representation of users progress.

@@ -1,4 +1,8 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.tracker;
+
+import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +21,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.CompletionService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,19 +44,19 @@ public class Tracker implements java.io.Serializable {
     long timeProgressNeed;
     String name;
     String targetType = "e";
-    List<OldProgress> oldProgress = new ArrayList<OldProgress>(0);
+    public List<OldProgress> oldProgress = new ArrayList<OldProgress>(0);
     DailyProgress daily;
-    transient User parentUser;
+    public transient User parentUser;
     boolean weekly;
     boolean repeat;
-    boolean completed = false;
+    public boolean completed = false;
     List<Change> changes = new ArrayList<Change>(0);
     int color;
-    int index;
+    public int index;
     long lastTestUpdate;
     boolean numberTracked = true;
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
-    int id;
+    public int id;
     transient DataChangedListener listener;
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);

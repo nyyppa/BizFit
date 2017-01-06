@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.fragments.TabTrackables;
 
 /**

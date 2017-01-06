@@ -1,4 +1,7 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.tracker;
+
+import com.bizfit.bizfit.tracker.DailyProgress;
+import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;

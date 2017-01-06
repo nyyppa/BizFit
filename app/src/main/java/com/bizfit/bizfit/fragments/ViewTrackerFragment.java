@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.decorators.EndAndStartDayViewDecorator;
 import com.bizfit.bizfit.decorators.TodayDayViewDecorator;
 import com.bizfit.bizfit.utils.OurDateTime;

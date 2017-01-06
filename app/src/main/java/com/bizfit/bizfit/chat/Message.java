@@ -1,4 +1,9 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.chat;
+
+import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,19 +14,19 @@ import java.io.Serializable;
  * Created by attey on 02/12/2016.
  */
 
-public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
+public class Message implements NetworkReturn, Serializable {
 
     private String resipient="";
     private String sender="";
     private String message="";
     private long creationTime=0;
     private boolean hasBeenSent=false;
-    private MyNewAndBetterConversation myNewAndBetterConversation;
+    private Conversation conversation;
     private Job job;
 
 
-    public MyNewAndBetterMessage(JSONObject jsonObject,MyNewAndBetterConversation myNewAndBetterConversation){
-        this.myNewAndBetterConversation=myNewAndBetterConversation;
+    public Message(JSONObject jsonObject, Conversation conversation){
+        this.conversation = conversation;
         try
         {
             if(jsonObject.has(Constants.sender))
@@ -52,8 +57,8 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
         setJob();
     }
 
-    public MyNewAndBetterMessage(MyNewAndBetterConversation myNewAndBetterConversation,String resipient,String sender,String message){
-        this.myNewAndBetterConversation=myNewAndBetterConversation;
+    public Message(Conversation conversation, String resipient, String sender, String message){
+        this.conversation = conversation;
         this.resipient=resipient;
         this.sender=sender;
         this.message=message;
@@ -62,7 +67,7 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
     }
 
     private void setJob(){
-        if(myNewAndBetterConversation.getOwner().equals(getSender())){
+        if(conversation.getOwner().equals(getSender())){
             job=Job.OUTGOING;
         }else{
             job=Job.INCOMING;
@@ -107,7 +112,7 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
         catch (JSONException e) {
             e.printStackTrace();
         }
-        NewAndBetterNetwork.addNetMessage(new NetMessage(targetAddress,this,message));
+        Network.addNetMessage(new NetMessage(targetAddress,this,message));
 
     }
     public void checkToResend()
@@ -123,7 +128,7 @@ public class MyNewAndBetterMessage implements NetworkReturn, Serializable {
         if (!message.equals("failed"))
         {
             setHasBeenSent(true);
-            myNewAndBetterConversation.getUser().save();
+            conversation.getUser().save();
         }
         else
         {

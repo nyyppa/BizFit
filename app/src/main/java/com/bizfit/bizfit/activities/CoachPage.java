@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.MyNewAndBetterConversation;
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.User;
 
 /**
  * Fetches and displays an overview of hireable coaches.

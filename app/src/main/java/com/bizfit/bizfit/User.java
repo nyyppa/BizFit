@@ -5,9 +5,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.bizfit.bizfit.activities.LoginActivity;
+import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.tracker.Tracker;
+import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.utils.DBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +37,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -56,9 +59,9 @@ public class User implements java.io.Serializable {
     List<Tracker> trackers;
     int lastTrackerID;
     int nextFreeDailyProgressID;
-    int userNumber;
+    public int userNumber;
     static boolean userLoaded=false;
-    List<MyNewAndBetterConversation> conversations;
+    List<Conversation> conversations;
     private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
     //todo remove userNumber
@@ -105,7 +108,7 @@ public class User implements java.io.Serializable {
                 JSONArray conversationArray=jsonObject.getJSONArray(Constants.conversations);
                 for(int i=0;i<conversationArray.length();i++)
                 {
-                    addConversation(new MyNewAndBetterConversation(conversationArray.getJSONObject(i),this));
+                    addConversation(new Conversation(conversationArray.getJSONObject(i),this));
                 }
             }
 
@@ -122,7 +125,7 @@ public class User implements java.io.Serializable {
      *
      * @param userName Username for user
      */
-    User(String userName) {
+    public User(String userName) {
         this.userName = userName;
 
         if (trackers == null) {
@@ -326,17 +329,17 @@ public class User implements java.io.Serializable {
 
     /**
      * this is because cloned version has correct chatfragment
-     * @param myNewAndBetterConversation
+     * @param conversation
      */
-    public void addClonedMyNewAndBetterConversation(MyNewAndBetterConversation myNewAndBetterConversation){
+    public void addClonedMyNewAndBetterConversation(Conversation conversation){
         for(int i=0;i<conversations.size();i++){
-            MyNewAndBetterConversation oldConversation=conversations.get(i);
-            if(oldConversation.getOther().equals(myNewAndBetterConversation.getOther())){
-                conversations.set(i,myNewAndBetterConversation);
+            Conversation oldConversation=conversations.get(i);
+            if(oldConversation.getOther().equals(conversation.getOther())){
+                conversations.set(i, conversation);
                 return;
             }
         }
-        conversations.add(myNewAndBetterConversation);
+        conversations.add(conversation);
 
 
     }
@@ -730,7 +733,7 @@ public class User implements java.io.Serializable {
         }
     }
 
-    public MyNewAndBetterConversation addConversation(final MyNewAndBetterConversation conversation){
+    public Conversation addConversation(final Conversation conversation){
         if(conversations==null){
             conversations=new ArrayList<>();
         }
@@ -790,9 +793,9 @@ public class User implements java.io.Serializable {
 
 
        }
-        else if(obj instanceof MyNewAndBetterConversation)
+        else if(obj instanceof Conversation)
        {
-           MyNewAndBetterConversation conversation = (MyNewAndBetterConversation) obj;
+           Conversation conversation = (Conversation) obj;
            try
            {
                jsonObject.put(Constants.job, Constants.save_conversation);
@@ -804,7 +807,7 @@ public class User implements java.io.Serializable {
            }
        }
         //TODO: Make error handling
-        NewAndBetterNetwork.addNetMessage(new NetMessage(null, null, jsonObject));
+        Network.addNetMessage(new NetMessage(null, null, jsonObject));
 
     }
 

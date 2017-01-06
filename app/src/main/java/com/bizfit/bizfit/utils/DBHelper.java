@@ -1,13 +1,14 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.utils;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.bizfit.bizfit.tracker.Tracker;
+import com.bizfit.bizfit.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.Constants;
-import com.bizfit.bizfit.MyNewAndBetterConversation;
-import com.bizfit.bizfit.MyNewAndBetterMessage;
+import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
-    MyNewAndBetterConversation conversation;
+    Conversation conversation;
     ChatFragment chatFragment;
     Intent intent=null;
     //private ArrayList<Message> messages;
@@ -36,9 +35,9 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             @Override
             public void UserLoaded(User user) {
                 if(intent!=null&&intent.hasExtra(Constants.coach_id)){
-                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
+                    conversation=user.addConversation(new Conversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
                 }else{
-                    conversation=user.addConversation(new MyNewAndBetterConversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
+                    conversation=user.addConversation(new Conversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
                 }
 
                // conversation.setChatFragment(chatFragment);
@@ -112,10 +111,10 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
 
-        if (viewType == MyNewAndBetterMessage.Job.INCOMING.ordinal()) {
+        if (viewType == Message.Job.INCOMING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_received, parent, false);
-        } else if ( viewType == MyNewAndBetterMessage.Job.OUTGOING.ordinal()) {
+        } else if ( viewType == Message.Job.OUTGOING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_message_sent, parent, false);
         }
@@ -126,7 +125,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MarginSize marginSize;
-        List<MyNewAndBetterMessage> list=conversation.getMessages();
+        List<Message> list=conversation.getMessages();
         if (position == list.size() - 1) {
             marginSize = MarginSize.SMALL;
         } else {
@@ -168,7 +167,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             message = (TextView) itemView.findViewById(R.id.message);
         }
 
-        public void prepareToDisplay(MyNewAndBetterMessage message, MarginSize mSize) {
+        public void prepareToDisplay(Message message, MarginSize mSize) {
             // TODO Check previous layout param state used for this particular item.
             this.message.setText(message.getMessage());
             if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
@@ -185,7 +184,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
         }
     }
 
-    public MyNewAndBetterConversation getConversation(){
+    public Conversation getConversation(){
         return conversation;
     }
 

@@ -1,4 +1,6 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.network;
+
+import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONObject;
 

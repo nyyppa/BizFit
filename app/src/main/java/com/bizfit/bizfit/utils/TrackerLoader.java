@@ -2,7 +2,7 @@ package com.bizfit.bizfit.utils;
 
 import android.os.AsyncTask;
 
-import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.tracker.Tracker;
 
 public class TrackerLoader extends AsyncTask<Void, Void, Void> {
 

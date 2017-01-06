@@ -1,5 +1,6 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.tracker;
 
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.utils.OurDateTime;
 
 import org.json.JSONArray;
@@ -18,7 +19,7 @@ import java.util.ListIterator;
  * Contains users progress in single tracking period
  */
 public class DailyProgress implements java.io.Serializable {
-    int id;
+    public int id;
     private List<DayPool> dayPool = new ArrayList<DayPool>(0);
 
     /**

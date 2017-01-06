@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.Tracker;
+import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.ViewTrackerFragment;
