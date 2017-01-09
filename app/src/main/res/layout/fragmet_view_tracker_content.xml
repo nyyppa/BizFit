@@ -26,6 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/top" />
 
+
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
@@ -35,12 +37,13 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
-            android:background="@drawable/abc_action_bar_item_background_material"
+            android:background="@drawable/btn_bg"
             android:clickable="true"
             android:padding="12dp"
             android:src="@drawable/ic_more_vert_black_24dp"
             android:tint="@color/black54"
             android:tintMode="src_in" />
+
 
     </RelativeLayout>
 
