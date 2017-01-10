@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 /**
  * Created by attey on 02/12/2016.
@@ -62,7 +63,7 @@ public class Message implements NetworkReturn, Serializable {
         this.resipient=resipient;
         this.sender=sender;
         this.message=message;
-        creationTime=System.currentTimeMillis();
+        creationTime= GregorianCalendar.getInstance().getTimeInMillis();
         setJob();
     }
 
@@ -128,7 +129,7 @@ public class Message implements NetworkReturn, Serializable {
         if (!message.equals("failed"))
         {
             setHasBeenSent(true);
-            conversation.getUser().save();
+            conversation.getUser().save(message);
         }
         else
         {
