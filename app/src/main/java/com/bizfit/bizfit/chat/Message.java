@@ -129,7 +129,7 @@ public class Message implements NetworkReturn, Serializable {
         if (!message.equals("failed"))
         {
             setHasBeenSent(true);
-            conversation.getUser().save();
+            conversation.getUser().save(conversation);
         }
         else
         {

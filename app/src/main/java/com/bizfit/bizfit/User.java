@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
