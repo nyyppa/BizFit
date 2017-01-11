@@ -157,6 +157,7 @@ public class Network extends Thread{
             onResume();
         }
     }
+    //TODO Something is leaking in slownet
     private boolean alreadyInQueue(NetMessage message){
         synchronized (messagesToAdd){
             for(int i=0;i<messagesToAdd.size();i++){
