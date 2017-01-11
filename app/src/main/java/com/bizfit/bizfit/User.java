@@ -612,11 +612,13 @@ public class User implements java.io.Serializable {
             GetMessagesThread=new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    while (true && conversation.isOnline(getContext()))
+                    while (true)
                     {
-                        for(int i=0;i<conversations.size();i++)
-                        {
-                            conversations.get(i).getNewMessagesAndSendOldOnes();
+                        if(conversation.isOnline(getContext())){
+                            for(int i=0;i<conversations.size();i++)
+                            {
+                                conversations.get(i).getNewMessagesAndSendOldOnes();
+                            }
                         }
                         synchronized (this){
                             try {
