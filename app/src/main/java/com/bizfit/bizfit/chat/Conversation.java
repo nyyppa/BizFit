@@ -208,6 +208,15 @@ public class Conversation implements NetworkReturn,Serializable{
         getUser().save(this);
 
     }
+
+    private boolean messageAlreadyExists(Message message){
+        for(int i=0;i<messageList.size();i++){
+            if(message.equals(messageList.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public void returnMessage(String message) {
         System.out.println(message);
@@ -218,9 +227,13 @@ public class Conversation implements NetworkReturn,Serializable{
                 Message message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    messageList.add(0, new Message(new JSONObject(jsonArray.getString(i)),this));
-                    message1= messageList.get(0);
-                    messagesReceived=true;
+                    Message m=new Message(new JSONObject(jsonArray.getString(i)),this);
+                    if(!messageAlreadyExists(m)){
+                        messageList.add(0, m);
+                        message1= messageList.get(0);
+                        messagesReceived=true;
+                    }
+
 
                 }
                 if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
