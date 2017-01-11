@@ -149,7 +149,10 @@ public class Network extends Thread{
     public void addMessage(NetMessage message){
         if (message!=null) {
             if(alreadyInQueue(message)){
-                message.networkReturn.returnMessage("failed");
+                if(message.getNetworkReturn()!=null){
+                    message.getNetworkReturn().returnMessage("failed");
+                }
+
             }else{
                 messagesToAdd.add(message);
             }
