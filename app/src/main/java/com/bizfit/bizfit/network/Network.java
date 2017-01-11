@@ -113,6 +113,7 @@ public class Network extends Thread{
                 }
 
             }
+            netMessagesList.clear();
             netMessagesList.addAll(messagesToAdd);
             synchronized (messagesToAdd){
                 messagesToAdd.clear();
@@ -149,10 +150,7 @@ public class Network extends Thread{
     public void addMessage(NetMessage message){
         if (message!=null) {
             if(alreadyInQueue(message)){
-                if(message.getNetworkReturn()!=null){
-                    message.getNetworkReturn().returnMessage("failed");
-                }
-
+                returnMessage(message,"failed");
             }else{
                 messagesToAdd.add(message);
             }
