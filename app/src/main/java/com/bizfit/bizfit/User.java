@@ -557,7 +557,7 @@ public class User implements java.io.Serializable {
                     //listeners.remove(i);
                 }
                 listeners.clear();
-                Iterator<UserLoadedListener> iterator1 = listeners.iterator();
+                /*Iterator<UserLoadedListener> iterator1 = listeners.iterator();
                 while (iterator1.hasNext()) {
 
                     //// TODO: 11.8.2016 keksi parempi ratkasu
@@ -569,6 +569,7 @@ public class User implements java.io.Serializable {
                         e.printStackTrace();
                     }
                 }
+                */
                 sleepThread = true;
                 while (sleepThread) {
                     synchronized (thread) {
