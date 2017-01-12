@@ -63,6 +63,7 @@ public class Constants
 	public static final String conversation = "conversation";
 	public static final String load = "load";
 	public static final String coach_id = "coachID";
+	public static final String networkconn_failed = "failed";
 
 
 
