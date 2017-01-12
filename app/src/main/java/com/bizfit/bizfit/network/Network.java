@@ -168,7 +168,7 @@ public class Network extends Thread{
         }
         synchronized (netMessagesList){
             for(int i=0;i<netMessagesList.size();i++){
-                if(netMessagesList.get(i)!=null&&netMessagesList.get(i).equals(netMessagesList)){
+                if(netMessagesList.get(i)!=null&&netMessagesList.get(i).equals(message)){
                     return true;
                 }
             }

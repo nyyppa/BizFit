@@ -208,6 +208,9 @@ public class Conversation implements NetworkReturn,Serializable{
         getUser().save(this);
 
     }
+    public boolean isActive(){
+        return chatFragment!=null&&chatFragment.getActivity()!=null;
+    }
 
     private boolean messageAlreadyExists(Message message){
         for(int i=0;i<messageList.size();i++){
@@ -236,7 +239,10 @@ public class Conversation implements NetworkReturn,Serializable{
 
 
                 }
-                if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
+                if(chatFragment!=null&&chatFragment.getActivity()==null){
+                    chatFragment=null;
+                }
+                if(isActive())
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
