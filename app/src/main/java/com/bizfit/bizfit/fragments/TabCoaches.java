@@ -76,15 +76,15 @@ public class TabCoaches extends Fragment {
                     int imageID = worksIds.getResourceId(j, -1);
                     if(j==0)
                     {
-                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com"));
+                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com","0447358220"));
                     }
                    if(j==1)
                     {
-                        items.add(new StoreRow.StoreItem("Pasi Ojanen", pasi,imageID,(int) (Math.random()*400),"pasojan@gmail.com"));
+                        items.add(new StoreRow.StoreItem("Pasi Ojanen", pasi,imageID,(int) (Math.random()*400),"pasojan@gmail.com","0407283115"));
                     }
                     if(j==2)
                     {
-                        items.add(new StoreRow.StoreItem("Atte Yliverronen", atte,imageID,(int) (Math.random()*400),"atte.yliverronen@gmail.com"));
+                        items.add(new StoreRow.StoreItem("Atte Yliverronen", atte,imageID,(int) (Math.random()*400),"atte.yliverronen@gmail.com",null));
                     }
 
 
@@ -99,7 +99,7 @@ public class TabCoaches extends Fragment {
                     int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
                     items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
                             lastNames[(int) (Math.random() * lastNames.length)],
-                            ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400),null));
+                            ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400),null,null));
 
                 }
             }

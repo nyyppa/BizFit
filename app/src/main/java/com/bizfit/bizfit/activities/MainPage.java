@@ -196,9 +196,7 @@ public class MainPage extends AppCompatActivity implements
     @Override
     public void itemClicked(StoreRow.StoreItem data) {
         Intent intent = new Intent(this, CoachPage.class);
-        intent.putExtra(CoachPage.FIELD_COACH_NAME, data.getName());
-        intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, data.getImageId());
-        intent.putExtra("coachID",data.getCoachId());
+        data.fillIntent(intent);
         startActivity(intent);
     }
 
