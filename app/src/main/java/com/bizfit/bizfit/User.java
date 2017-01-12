@@ -611,14 +611,30 @@ public class User implements java.io.Serializable {
         }
         if(GetMessagesThread==null||!GetMessagesThread.isAlive()){
             GetMessagesThread=new Thread(new Runnable() {
+                long waitTime=10000;
+                long lastUpdateTime=0;
                 @Override
                 public void run() {
+
                     while (true)
                     {
+                        boolean alreadyUpdatedLastUpdateTime=false;
                         if(conversation.isOnline(getContext())){
+
                             for(int i=0;i<conversations.size();i++)
                             {
-                                conversations.get(i).getNewMessagesAndSendOldOnes();
+                                Conversation conversation1=conversations.get(i);
+                                if(conversation1.isActive()){
+                                    conversations.get(i).getNewMessagesAndSendOldOnes();
+                                }else if(lastUpdateTime+waitTime<System.currentTimeMillis()){
+                                    if (!alreadyUpdatedLastUpdateTime){
+                                        alreadyUpdatedLastUpdateTime=true;
+                                        lastUpdateTime=System.currentTimeMillis();
+                                    }
+                                    conversation1.getNewMessagesAndSendOldOnes();
+
+                                }
+
                             }
                         }
                         synchronized (this){
