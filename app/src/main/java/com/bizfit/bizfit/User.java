@@ -184,7 +184,10 @@ public class User implements java.io.Serializable {
         }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
             userNameForLogin="default";
         }
-        System.out.println("userNameForLogin "+listeners.size());
+        if(currentUser!=null&&userName!=null&&!currentUser.userName.equals(userName)){
+            currentUser=null;
+        }
+        System.out.println("userNameForLogin "+userName);
         context = c;
         listeners.add(listener);
         listenersForInformationUpdated.add(listener);
@@ -242,7 +245,7 @@ public class User implements java.io.Serializable {
             @Override
             public void returnMessage(String message) {
 
-                if(message.equals("failed")){
+                if(message.equals("failed")||message.length()==0){
 
                 }else{
                     JSONObject jsonObject=null;

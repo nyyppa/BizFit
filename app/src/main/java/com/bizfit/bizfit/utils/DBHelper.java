@@ -209,7 +209,10 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (isTableExists(db, "user")) {
             Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'"+username+"\'", null);
-            cursor.moveToFirst();
+            if(!cursor.moveToFirst()){
+                return new User(username);
+            }
+
             try {
                 user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
                 System.out.println(cursor.getString(cursor.getColumnIndex("user")));
