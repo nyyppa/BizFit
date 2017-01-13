@@ -62,6 +62,7 @@ public class User implements java.io.Serializable {
     List<Conversation> conversations;
     private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
+    private transient static List<UserLoadedListener> listenersForInformationUpdated=new ArrayList<>();
     //todo remove userNumber
 
     /**
@@ -88,10 +89,6 @@ public class User implements java.io.Serializable {
             {
                 userName = jsonObject.getString(Constants.user_name);
             }
-
-
-
-
             if(jsonObject.has(Constants.conversations))
             {
                 JSONArray conversationArray=jsonObject.getJSONArray(Constants.conversations);
@@ -100,13 +97,22 @@ public class User implements java.io.Serializable {
                     addConversation(new Conversation(conversationArray.getJSONObject(i),this));
                 }
             }
-
-
-
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void updateInformation(User user){
+
+    }
+    private boolean updateTrackers(List<Tracker> list){
+        boolean infoUpdated=false;
+        for(int i=0;i<list.size();i++){
+            for(int j=0;j<trackers.size();i++){
+
+            }
+        }
+        return infoUpdated;
     }
 
     /**
@@ -141,6 +147,12 @@ public class User implements java.io.Serializable {
                     trackers.get(i).update();
                 }
             }
+
+            @Override
+            public void informationUpdated() {
+
+            }
+
         }, c, null);
 
     }
@@ -175,8 +187,11 @@ public class User implements java.io.Serializable {
         System.out.println("userNameForLogin "+listeners.size());
         context = c;
         listeners.add(listener);
+        listenersForInformationUpdated.add(listener);
         WakeThread();
     }
+
+
 
     /**
      * wakes or creates new thread for local database
@@ -493,6 +508,7 @@ public class User implements java.io.Serializable {
     public interface UserLoadedListener
     {
         void UserLoaded(User user);
+        void informationUpdated();
     }
 
     //TODO KILL THIS
@@ -528,10 +544,13 @@ public class User implements java.io.Serializable {
                             currentUser=user;
                             userLoaded=true;
                         }
-                    },currentUser.userName);
-                    while (!userLoaded){
 
-                    }
+                        @Override
+                        public void informationUpdated() {
+
+                        }
+                    },currentUser.userName);
+
                     try {
                         System.out.println(currentUser.checksum(currentUser));
                     } catch (IOException e) {

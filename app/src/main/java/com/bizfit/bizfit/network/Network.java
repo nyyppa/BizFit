@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -56,7 +57,7 @@ public class Network extends Thread{
 
                     try {
                         URL url = new URL(netMessage.getConnectionAddress());
-                        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setReadTimeout(10000 /* milliseconds */);
                         conn.setConnectTimeout(15000 /* milliseconds */);
                         conn.setRequestMethod("POST");

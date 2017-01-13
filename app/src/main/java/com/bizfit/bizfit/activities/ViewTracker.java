@@ -74,4 +74,9 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
             }
         });
     }
+
+    @Override
+    public void informationUpdated() {
+
+    }
 }

@@ -180,6 +180,11 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                             });
 
                         }
+
+                        @Override
+                        public void informationUpdated() {
+
+                        }
                     }, getContext(), null);
 
 
@@ -254,6 +259,11 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void informationUpdated() {
+
     }
 }
 

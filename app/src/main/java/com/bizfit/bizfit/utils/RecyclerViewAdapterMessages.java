@@ -48,6 +48,11 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 }
                 conversation.getNewMessagesAndSendOldOnes();
             }
+
+            @Override
+            public void informationUpdated() {
+
+            }
         },context, null);
 
 

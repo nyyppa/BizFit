@@ -213,6 +213,11 @@ public class MainPage extends AppCompatActivity implements
                 public void UserLoaded(User user)
                 {
                 }
+
+                @Override
+                public void informationUpdated() {
+
+                }
             }, this, getIntent().getStringExtra("userName"));
         }
         else
@@ -222,6 +227,11 @@ public class MainPage extends AppCompatActivity implements
                 @Override
                 public void UserLoaded(User user)
                 {
+                }
+
+                @Override
+                public void informationUpdated() {
+
                 }
             }, this, "default");
         }

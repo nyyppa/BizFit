@@ -54,7 +54,7 @@ public class Constants
 	public static final String user_number = "userNumber";
 	public static final String conversations = "conversations";
 	public static final String check_sum = "checkSum";
-	public static final String connection_address = "https://bizfit-nyyppa.c9users.io";
+	public static final String connection_address = "http://51.15.37.28:8080";
 	public static final String save = "save";
 	public static final String user = "user";
 	public static final String save_tracker = "save_tracker";

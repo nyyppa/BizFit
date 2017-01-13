@@ -242,7 +242,7 @@ public class Conversation implements NetworkReturn,Serializable{
                 if(chatFragment!=null&&chatFragment.getActivity()==null){
                     chatFragment=null;
                 }
-                if(isActive())
+                if(isActive()&&messagesReceived)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
