@@ -65,6 +65,22 @@ public class User implements java.io.Serializable {
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     //todo remove userNumber
 
+
+    private User(){
+        userName="";
+    }
+    /**
+     * Constructs user with given username
+     *
+     * @param userName Username for user
+     */
+    public User(String userName) {
+        this.userName = userName;
+
+        if (trackers == null) {
+            trackers = new ArrayList<>(0);
+        }
+    }
     /**
      * Constructs user and it's dependencies from given JSONObject
      *
@@ -120,8 +136,10 @@ public class User implements java.io.Serializable {
         return this.getConversations().addAll(newConversations);
     }
     private void updateInformation(User user){
-        if(!user.userName.equals(this.userName)){
+        if(!user.userName.equals(this.userName)&&!this.userName.equals("")&&!this.userName.isEmpty()){
             return;
+        }else{
+            this.userName=user.userName;
         }
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated){
@@ -129,7 +147,10 @@ public class User implements java.io.Serializable {
         }else{
             informationUpdated=updateCOnversations(user.getConversations());
         }
+
         if(informationUpdated){
+            DebugPrinter.Debug("täällä ollaan");
+            List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
             for(int i=0;i<listenersForInformationUpdated.size();i++){
                 if(listenersForInformationUpdated.get(i)!=null){
                     listenersForInformationUpdated.get(i).informationUpdated();
@@ -150,18 +171,7 @@ public class User implements java.io.Serializable {
         return getTrackerlist().addAll(newTrackers);
     }
 
-    /**
-     * Constructs user with given username
-     *
-     * @param userName Username for user
-     */
-    public User(String userName) {
-        this.userName = userName;
 
-        if (trackers == null) {
-            trackers = new ArrayList<>(0);
-        }
-    }
 
 
 
@@ -172,16 +182,7 @@ public class User implements java.io.Serializable {
      */
     public static void update(Context c)
     {
-        getLastUser(new UserLoadedListener() {
-            @Override
-            public void UserLoaded(User user)
-            {
-                List<Tracker> trackers = user.getTrackerlist();
-                for (int i = 0; i < trackers.size(); i++)
-                {
-                    trackers.get(i).update();
-                }
-            }
+        User user=getLastUser(new UserLoadedListener() {
 
             @Override
             public void informationUpdated() {
@@ -189,6 +190,11 @@ public class User implements java.io.Serializable {
             }
 
         }, c, null);
+        List<Tracker> trackers = user.getTrackerlist();
+        for (int i = 0; i < trackers.size(); i++)
+        {
+            trackers.get(i).update();
+        }
 
     }
     private List<Tracker> getTrackerlist()
@@ -213,7 +219,8 @@ public class User implements java.io.Serializable {
      *
      * @param listener notifies this listener when user is loaded
      */
-    public static void getLastUser(UserLoadedListener listener, Context c, String userName) {
+    public static User getLastUser(UserLoadedListener listener, Context c, String userName) {
+
         if(userName!=null){
             userNameForLogin=userName;
         }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
@@ -222,11 +229,21 @@ public class User implements java.io.Serializable {
         if(currentUser!=null&&userName!=null&&!currentUser.userName.equals(userName)){
             currentUser=null;
         }
+        if(currentUser==null){
+            currentUser=new User();
+        }
         System.out.println("userNameForLogin "+userName);
         context = c;
-        listeners.add(listener);
-        listenersForInformationUpdated.add(listener);
+
+        getListenersForInformationUpdated().add(listener);
         WakeThread();
+        return currentUser;
+    }
+    private static List<UserLoadedListener> getListenersForInformationUpdated(){
+        if(listenersForInformationUpdated==null){
+            listenersForInformationUpdated=new ArrayList<>();
+        }
+        return listenersForInformationUpdated;
     }
 
 
@@ -252,10 +269,9 @@ public class User implements java.io.Serializable {
     /**
      * Loads user with given username from server database and notifies given listener when it's loaded
      *
-     * @param userLoadedListener Listener to notify when ready, if null wont notify anything
      * @param userName           Username to find, if null will try to find users google account and use it
      */
-    public static void loadUserFromNet(final UserLoadedListener userLoadedListener, String userName) {
+    public static void loadUserFromNet( String userName) {
         JSONObject jsonObject1 = new JSONObject();
         try {
             jsonObject1.put(Constants.id, userName);
@@ -290,14 +306,9 @@ public class User implements java.io.Serializable {
                         e.printStackTrace();
                     }
                     if(jsonObject!=null){
-                        currentUser=new User(jsonObject);
-                    }
-                    if(userLoadedListener!=null){
-                        userLoadedListener.UserLoaded(currentUser);
-
+                        currentUser.updateInformation(new User(jsonObject));
                     }
                 }
-                userLoaded=true;
 
             }
         },jsonObject1);
@@ -550,7 +561,6 @@ public class User implements java.io.Serializable {
 
     public interface UserLoadedListener
     {
-        void UserLoaded(User user);
         void informationUpdated();
     }
 
@@ -579,20 +589,9 @@ public class User implements java.io.Serializable {
                 if (d == null) {
                     d = db.getWritableDatabase();
                 }
-                if (currentUser == null) {
-                    currentUser = db.readUser(d,userNameForLogin);
-                    loadUserFromNet(new UserLoadedListener() {
-                        @Override
-                        public void UserLoaded(User user) {
-                            currentUser=user;
-                            userLoaded=true;
-                        }
-
-                        @Override
-                        public void informationUpdated() {
-
-                        }
-                    },currentUser.userName);
+                currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                loadUserFromNet(currentUser.userName);
+                if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true) {
 
                     try {
                         System.out.println(currentUser.checksum(currentUser));
@@ -613,10 +612,6 @@ public class User implements java.io.Serializable {
                 if (currentUser.saveUser) {
                     db.saveUser(d, currentUser);
                     currentUser.saveUser = false;
-                }
-                for(int i=0;i<listeners.size();i++){
-                    listeners.get(i).UserLoaded(currentUser);
-                    //listeners.remove(i);
                 }
                 listeners.clear();
                 /*Iterator<UserLoadedListener> iterator1 = listeners.iterator();

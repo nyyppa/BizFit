@@ -31,29 +31,20 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     public RecyclerViewAdapterMessages(final Intent intent, Context context) {
         this.intent=intent;
-        User.getLastUser(new User.UserLoadedListener() {
-            @Override
-            public void UserLoaded(User user) {
-                if(intent!=null&&intent.hasExtra(Constants.coach_id)){
-                    conversation=user.addConversation(new Conversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
-                }else{
-                    conversation=user.addConversation(new Conversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
-                }
+        User user=User.getLastUser(new User.UserLoadedListener() {
 
-               // conversation.setChatFragment(chatFragment);
-                if(conversation.getMessages().size()==0){
-                    for (int i = 0; i < 25; i++) {
-                        //conversation.createMessage(dummyText[((int)(Math.random() * dummyText.length))]);
-                    }
-                }
-                conversation.getNewMessagesAndSendOldOnes();
-            }
 
             @Override
             public void informationUpdated() {
 
             }
         },context, null);
+        if(intent!=null&&intent.hasExtra(Constants.coach_id)){
+            conversation=user.addConversation(new Conversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
+        }else{
+            conversation=user.addConversation(new Conversation(user.userName,user.userName.equals("default")?"atte.yliverronen@gmail.com":"default",user));
+        }
+        conversation.getNewMessagesAndSendOldOnes();
 
 
 

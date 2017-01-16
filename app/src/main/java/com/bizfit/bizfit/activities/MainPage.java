@@ -209,10 +209,7 @@ public class MainPage extends AppCompatActivity implements
         {
             User.getLastUser(new User.UserLoadedListener()
             {
-                @Override
-                public void UserLoaded(User user)
-                {
-                }
+
 
                 @Override
                 public void informationUpdated() {
@@ -224,10 +221,7 @@ public class MainPage extends AppCompatActivity implements
         {
             User.getLastUser(new User.UserLoadedListener()
             {
-                @Override
-                public void UserLoaded(User user)
-                {
-                }
+
 
                 @Override
                 public void informationUpdated() {
