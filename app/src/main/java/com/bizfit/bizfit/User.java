@@ -313,6 +313,7 @@ public class User implements java.io.Serializable {
      * @param conversation
      */
     public void addClonedMyNewAndBetterConversation(Conversation conversation){
+        List<Conversation> conversations=getConversations();
         for(int i=0;i<conversations.size();i++){
             Conversation oldConversation=conversations.get(i);
             if(oldConversation.getOther().equals(conversation.getOther())){
@@ -713,6 +714,7 @@ public class User implements java.io.Serializable {
             });
             GetMessagesThread.start();
         }
+        List<Conversation> conversations=getConversations();
         for(int i=0;i<conversations.size();i++){
             if(conversations.get(i).getOwner().equals(conversation.getOwner())&&conversations.get(i).getOther().equals(conversation.getOther())){
                 return conversations.get(i);
