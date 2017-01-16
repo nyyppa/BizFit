@@ -254,7 +254,9 @@ public class Conversation implements NetworkReturn,Serializable{
                                 //System.out.println("TestiPaikka");
                                 sortConversation();
                                 chatFragment.getmAdapter().notifyItemInserted(0);
-                                chatFragment.getmRecyclerView().smoothScrollToPosition(0);
+
+                                //TODO why does this crash when getting own send messages?
+                                //chatFragment.getmRecyclerView().smoothScrollToPosition();
 
                             }
 

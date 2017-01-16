@@ -47,7 +47,7 @@ public class Constants
 	public static final String number_tracked = "numberTracked";
 
 
-	public static final int db_version = 57;
+	public static final int db_version = 58;
 	public static final String trackers = "trackers";
 	public static final String last_tracker_id = "lastTrackerID";
 	public static final String next_free_daily_progress_id = "nextFreeDailyProgressID";
