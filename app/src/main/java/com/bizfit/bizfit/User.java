@@ -62,7 +62,7 @@ public class User implements java.io.Serializable {
     List<Conversation> conversations;
     private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
-    private transient static List<UserLoadedListener> listenersForInformationUpdated=new ArrayList<>();
+    private transient static List<UserLoadedListener> listenersForInformationUpdated;
     //todo remove userNumber
 
     /**
@@ -102,17 +102,45 @@ public class User implements java.io.Serializable {
             e.printStackTrace();
         }
     }
-    private void updateInformation(User user){
+    private boolean updateCOnversations(List<Conversation> conversations){
+        List<Conversation>newConversations=new ArrayList<>();
+        for(int i=0;i<conversations.size();i++){
+            Conversation conversation=conversations.get(i);
+            if(!conversation.isConversationAlreadyInList(this.conversations)){
+                newConversations.add(conversation);
+            }
 
+        }
+        return this.conversations.addAll(newConversations);
     }
-    private boolean updateTrackers(List<Tracker> list){
-        boolean infoUpdated=false;
-        for(int i=0;i<list.size();i++){
-            for(int j=0;j<trackers.size();i++){
-
+    private void updateInformation(User user){
+        if(!user.userName.equals(this.userName)){
+            return;
+        }
+        boolean informationUpdated=updateTrackers(user.trackers);
+        if(informationUpdated){
+            updateCOnversations(user.conversations);
+        }else{
+            informationUpdated=updateCOnversations(user.conversations);
+        }
+        if(informationUpdated){
+            for(int i=0;i<listenersForInformationUpdated.size();i++){
+                if(listenersForInformationUpdated.get(i)!=null){
+                    listenersForInformationUpdated.get(i).informationUpdated();
+                }
             }
         }
-        return infoUpdated;
+    }
+    private boolean updateTrackers(List<Tracker> list){
+        List<Tracker> newTrackers=new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+           Tracker t=list.get(i);
+           if(!t.isTHisInList(trackers)){
+               newTrackers.add(t);
+           }
+        }
+
+        return trackers.addAll(newTrackers);
     }
 
     /**
@@ -267,6 +295,10 @@ public class User implements java.io.Serializable {
             }
         },jsonObject1);
         Network.addNetMessage(netMessage);
+    }
+
+    public static void singOut(){
+        currentUser=null;
     }
 
     /**
@@ -514,7 +546,7 @@ public class User implements java.io.Serializable {
         void informationUpdated();
     }
 
-    //TODO KILL THIS
+    //TODO make this better
     private static class DataBaseThread extends Thread {
         DBHelper db;
         SQLiteDatabase d;

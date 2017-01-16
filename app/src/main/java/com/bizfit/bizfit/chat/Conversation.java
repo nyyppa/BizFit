@@ -277,6 +277,18 @@ public class Conversation implements NetworkReturn,Serializable{
 
         this.chatFragment=chatFragment;
     }
+    //TODO Merge
+    public boolean isConversationAlreadyInList(List<Conversation>list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).equals(this)){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean equals(Conversation conversation){
+        return this.getOwner().equals(conversation.getOwner())&&this.getOther().equals(conversation.getOther());
+    }
 
 }

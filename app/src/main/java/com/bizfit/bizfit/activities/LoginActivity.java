@@ -210,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
+                        User.singOut();
                         updateUI(false);
                         // [END_EXCLUDE]
                     }
@@ -263,6 +264,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+            findViewById(R.id.continue_button).setVisibility(View.GONE);
         }
     }
 
