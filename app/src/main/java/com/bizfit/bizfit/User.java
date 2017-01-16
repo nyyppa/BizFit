@@ -102,26 +102,32 @@ public class User implements java.io.Serializable {
             e.printStackTrace();
         }
     }
+    private List<Conversation> getConversations(){
+        if(conversations==null){
+            conversations=new ArrayList<>();
+        }
+        return conversations;
+    }
     private boolean updateCOnversations(List<Conversation> conversations){
         List<Conversation>newConversations=new ArrayList<>();
         for(int i=0;i<conversations.size();i++){
             Conversation conversation=conversations.get(i);
-            if(!conversation.isConversationAlreadyInList(this.conversations)){
+            if(!conversation.isConversationAlreadyInList(this.getConversations())){
                 newConversations.add(conversation);
             }
 
         }
-        return this.conversations.addAll(newConversations);
+        return this.getConversations().addAll(newConversations);
     }
     private void updateInformation(User user){
         if(!user.userName.equals(this.userName)){
             return;
         }
-        boolean informationUpdated=updateTrackers(user.trackers);
+        boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated){
-            updateCOnversations(user.conversations);
+            updateCOnversations(user.getConversations());
         }else{
-            informationUpdated=updateCOnversations(user.conversations);
+            informationUpdated=updateCOnversations(user.getConversations());
         }
         if(informationUpdated){
             for(int i=0;i<listenersForInformationUpdated.size();i++){
@@ -131,16 +137,17 @@ public class User implements java.io.Serializable {
             }
         }
     }
+
     private boolean updateTrackers(List<Tracker> list){
+
         List<Tracker> newTrackers=new ArrayList<>();
         for(int i=0;i<list.size();i++){
            Tracker t=list.get(i);
-           if(!t.isTHisInList(trackers)){
+           if(!t.isTHisInList(getTrackerlist())){
                newTrackers.add(t);
            }
         }
-
-        return trackers.addAll(newTrackers);
+        return getTrackerlist().addAll(newTrackers);
     }
 
     /**
