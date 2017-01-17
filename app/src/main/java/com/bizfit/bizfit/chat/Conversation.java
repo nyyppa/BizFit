@@ -119,7 +119,9 @@ public class Conversation implements NetworkReturn,Serializable{
             jsonObject.put(Constants.job,Constants.get_message_incoming);
             jsonObject.put(Constants.owner,getOwner());
             jsonObject.put(Constants.other,getOther());
-            jsonObject.put(Constants.creationTime,getLastReceivedMessage());
+            //jsonObject.put(Constants.creationTime,getLastReceivedMessage());
+            //TODO PURKKA
+            jsonObject.put(Constants.creationTime,0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,7 +134,9 @@ public class Conversation implements NetworkReturn,Serializable{
             jsonObject.put(Constants.job,Constants.get_message_outgoing);
             jsonObject.put(Constants.owner,getOwner());
             jsonObject.put(Constants.other,getOther());
-            jsonObject.put(Constants.creationTime,getLastSentMessage());
+            //jsonObject.put(Constants.creationTime,getLastSentMessage());
+            //TODO PURKKA
+            jsonObject.put(Constants.creationTime,0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -253,10 +257,11 @@ public class Conversation implements NetworkReturn,Serializable{
                             {
                                 //System.out.println("TestiPaikka");
                                 sortConversation();
-                                chatFragment.getmAdapter().notifyItemInserted(0);
+                                chatFragment.getmAdapter().notifyDataSetChanged();
+                                //chatFragment.getmAdapter().notifyItemInserted(0);
 
                                 //TODO why does this crash when getting own send messages?
-                                //chatFragment.getmRecyclerView().smoothScrollToPosition();
+                                chatFragment.getmRecyclerView().smoothScrollToPosition(0);
 
                             }
 
