@@ -117,6 +117,8 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
         // Enable context menu
         registerForContextMenu(mRecyclerView);
         updateDataSet();
+
+        DebugPrinter.Debug("käyttäjä: "+user);
     }
 
     @Override
@@ -258,14 +260,17 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
     }
 
     private void updateDataSet(){
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TabTrackables.this.user = user;
-                trackers = user.getTrackers();
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if(getActivity()!=null){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TabTrackables.this.user = user;
+                    trackers = user.getTrackers();
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+
     }
 }
 

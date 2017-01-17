@@ -58,7 +58,7 @@ public class Tracker implements java.io.Serializable {
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
     transient DataChangedListener listener;
 
-    private long creationTime=System.currentTimeMillis();
+    public long creationTime=System.currentTimeMillis();
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
         return (int)targetProgress/(int)(days+1); // todo: Change +1 to something better
@@ -762,7 +762,7 @@ public class Tracker implements java.io.Serializable {
      * tells tracker to delete itself from users User
      */
     public void delete() {
-        parentUser.removeTracker(this);
+        User.getLastUser(null,null,null).removeTracker(this);
     }
 
     public void setRepeat(boolean repeat) {
@@ -941,5 +941,14 @@ public class Tracker implements java.io.Serializable {
             parentTracker.fieldUpdated();
         }
 
+    }
+
+    public boolean hasThisBeenDeleted(List<Long> list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).longValue()==creationTime){
+                return true;
+            }
+        }
+        return false;
     }
 }
