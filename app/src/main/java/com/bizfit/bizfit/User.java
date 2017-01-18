@@ -299,7 +299,7 @@ public class User implements java.io.Serializable {
             @Override
             public void returnMessage(String message) {
 
-                if(message.equals("failed")||message.length()==0){
+                if(message.equals(Constants.networkconn_failed)||message.length()==0){
 
                 }else{
                     JSONObject jsonObject=null;
@@ -569,7 +569,7 @@ public class User implements java.io.Serializable {
         NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
             @Override
             public void returnMessage(String message) {
-                if(message.equals("failed")){
+                if(message.equals(Constants.networkconn_failed)){
                     saveToNet();
                 }
             }
