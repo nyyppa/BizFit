@@ -225,6 +225,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
+                        User.singOut();
                         updateUI(false);
                         // [END_EXCLUDE]
                     }
