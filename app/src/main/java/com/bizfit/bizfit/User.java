@@ -758,26 +758,18 @@ public class User implements java.io.Serializable {
     {
         saveUser = true;
         WakeThread();
-        JSONObject jsonObject = new JSONObject();
+
        if (obj instanceof Tracker)
        {
            Tracker tracker = (Tracker) obj;
-
-           try
-           {
-               jsonObject.put(Constants.job, Constants.save_tracker);
-               jsonObject.put(Constants.user_name, userName);
-               jsonObject.put(Constants.tracker, tracker.toJSON());
-           }
-           catch (JSONException e)
-           {
-               e.printStackTrace();
-           }
-
-
+           tracker.saveToServer(userName,tracker.toJSON());
+               //jsonObject.put(Constants.job, Constants.save_tracker);
+               //jsonObject.put(Constants.user_name, userName);
+               //jsonObject.put(Constants.tracker, tracker.toJSON());
        }
         else if(obj instanceof Conversation)
        {
+           JSONObject jsonObject = new JSONObject();
            Conversation conversation = (Conversation) obj;
            try
            {
@@ -788,9 +780,10 @@ public class User implements java.io.Serializable {
            {
                e.printStackTrace();
            }
+           Network.addNetMessage(new NetMessage(null, null, jsonObject));
        }
         //TODO: Make error handling
-        Network.addNetMessage(new NetMessage(null, null, jsonObject));
+
 
     }
 

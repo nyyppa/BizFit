@@ -2,6 +2,8 @@ package com.bizfit.bizfit.tracker;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
@@ -765,6 +767,11 @@ public class Tracker implements java.io.Serializable {
         User.getLastUser(null,null,null).removeTracker(this);
     }
 
+    public JSONObject shareTracker(){
+        JSONObject jsonObject=toJSON();
+        jsonObject.remove(Constants.creationTime);
+        return jsonObject;
+    }
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
     }
@@ -950,5 +957,25 @@ public class Tracker implements java.io.Serializable {
             }
         }
         return false;
+    }
+
+    public void shareToOtherUser(String userName){
+        saveToServer(userName,shareTracker());
+    }
+    public void saveToServer(String userName,JSONObject tracker){
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put(Constants.job, Constants.save_tracker);
+            jsonObject.put(Constants.user_name, userName);
+            jsonObject.put(Constants.tracker, tracker);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        //TODO: Make error handling
+        Network.addNetMessage(new NetMessage(null, null, jsonObject));
+
     }
 }

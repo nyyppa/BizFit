@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context="com.bizfit.bizfit.fragments.ChatFragment">
 
+    <Button
+        android:text="shareTracker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareTracker" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_messages_recyclerView"
         android:layout_width="match_parent"
@@ -31,6 +37,7 @@
             android:orientation="horizontal">
 
             <!-- TODO Proper padding! -->
+
             <EditText
                 android:id="@+id/message"
                 android:layout_width="0dp"

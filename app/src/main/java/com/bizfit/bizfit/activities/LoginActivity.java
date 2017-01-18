@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        User.singOut();
+                        User.signOut();
                         updateUI(false);
                         // [END_EXCLUDE]
                     }
@@ -254,7 +254,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case R.id.skip_singin:
                 System.out.println("mööh");
                 Intent intent=new Intent(LoginActivity.this,MainPage.class);
-                intent.putExtra("userName","NoUser");
+                intent.putExtra("userName","default");
                 intent.putExtra("loggedIn", false);
                 startActivity(intent);
                 break;
