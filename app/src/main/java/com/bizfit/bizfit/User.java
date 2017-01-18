@@ -698,9 +698,6 @@ public class User implements java.io.Serializable {
     }
 
     public Conversation addConversation(final Conversation conversation){
-        if(conversations==null){
-            conversations=new ArrayList<>();
-        }
         if(GetMessagesThread==null||!GetMessagesThread.isAlive()){
             GetMessagesThread=new Thread(new Runnable() {
                 long waitTime=10000;
@@ -712,13 +709,13 @@ public class User implements java.io.Serializable {
                     {
                         boolean alreadyUpdatedLastUpdateTime=false;
                         if(conversation.isOnline(getContext())){
-
+                            List<Conversation> conversations=getConversations();
                             for(int i=0;i<conversations.size();i++)
                             {
                                 Conversation conversation1=conversations.get(i);
                                 if(conversation1.isActive()){
                                     conversations.get(i).getNewMessagesAndSendOldOnes();
-                                }else if(lastUpdateTime+waitTime<System.currentTimeMillis()){
+                                }else if(lastUpdateTime+waitTime<System.currentTimeMillis()||alreadyUpdatedLastUpdateTime){
                                     if (!alreadyUpdatedLastUpdateTime){
                                         alreadyUpdatedLastUpdateTime=true;
                                         lastUpdateTime=System.currentTimeMillis();
@@ -729,13 +726,16 @@ public class User implements java.io.Serializable {
 
                             }
                         }
-                        synchronized (this){
+
+                        synchronized (GetMessagesThread){
+                            //DebugPrinter.Debug("pää");
                             try {
-                                wait(1000);
+                                GetMessagesThread.wait(1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
+
 
                     }
 

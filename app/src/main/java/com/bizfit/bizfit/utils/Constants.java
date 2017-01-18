@@ -40,6 +40,7 @@ public class Constants
 	public static final String end_progress = "endProgress";
 	public static final String target_progress = "targetProgress";
 	public static final String id = "id";
+
 	public static final String daily_progress = "dailyProgress";
 	public static final String old_progress = "oldProgress";
 	public static final String last_reset = "lastReset";
