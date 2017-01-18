@@ -131,7 +131,7 @@ public class Message implements NetworkReturn, Serializable {
 
     @Override
     public void returnMessage(String message) {
-        if (!message.equals("failed"))
+        if (!message.equals(Constants.networkconn_failed))
         {
             setHasBeenSent(true);
             conversation.getUser().save(conversation);

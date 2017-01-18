@@ -6,7 +6,21 @@ package com.bizfit.bizfit.utils;
 
 public class Constants
 {
+	//User
 	public static final String user_name = "userName";
+	public static final int db_version = 61;
+    public static final String conversations = "conversations";
+    public static final String check_sum = "checkSum";
+    public static final String trackers = "trackers";
+    public static final String save = "save";
+    public static final String user = "user";
+    public static final String save_tracker = "save_tracker";
+    public static final String save_conversation = "save_conversation";
+    public static final String tracker = "tracker";
+    public static final String conversation = "conversation";
+    public static final String load = "load";
+
+	//Message
 	public static final String owner = "owner";
 	public static final String other = "other";
 	public static final String messages = "messages";
@@ -20,7 +34,7 @@ public class Constants
 	public static final String hasBeenSent = "hasBeenSent";
 	public static final String send_message = "send_message";
 
-	//tracker
+	//Tracker
 	public static final String start_date = "startDate";
 	public static final String end_date = "endDate";
 	public static final String end_progress = "endProgress";
@@ -47,24 +61,17 @@ public class Constants
 	public static final String number_tracked = "numberTracked";
 
 
-	public static final int db_version = 61;
-	public static final String trackers = "trackers";
-	public static final String last_tracker_id = "lastTrackerID";
-	public static final String next_free_daily_progress_id = "nextFreeDailyProgressID";
-	public static final String user_number = "userNumber";
-	public static final String conversations = "conversations";
-	public static final String check_sum = "checkSum";
+
+
+	//public static final String last_tracker_id = "lastTrackerID";
+	//public static final String next_free_daily_progress_id = "nextFreeDailyProgressID";
+	//public static final String user_number = "userNumber";
+
+    //NetMessage
 	public static final String connection_address = "http://51.15.37.28:8080";
-	public static final String save = "save";
-	public static final String user = "user";
-	public static final String save_tracker = "save_tracker";
-	public static final String save_conversation = "save_conversation";
-	public static final String tracker = "tracker";
-	public static final String conversation = "conversation";
-	public static final String load = "load";
+
+    //CoachPage
 	public static final String coach_id = "coachID";
 	public static final String networkconn_failed = "failed";
-
-	public static final String telNumber="telNumber";
-
+    public static final String telNumber="telNumber";
 }

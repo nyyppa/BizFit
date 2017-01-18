@@ -227,7 +227,7 @@ public class Conversation implements NetworkReturn,Serializable{
     @Override
     public void returnMessage(String message) {
         System.out.println(message);
-        if(!message.equals("failed")){
+        if(!message.equals(Constants.networkconn_failed)){
             try {
                 JSONArray jsonArray=new JSONArray(message);
                 boolean messagesReceived=false;

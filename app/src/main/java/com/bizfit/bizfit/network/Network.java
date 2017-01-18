@@ -1,5 +1,7 @@
 package com.bizfit.bizfit.network;
 
+import com.bizfit.bizfit.utils.Constants;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -87,7 +89,7 @@ public class Network extends Thread{
                             //networkReturn.returnMessage(total.toString());
                         }else{
                             System.out.println("response"+conn.getResponseCode());
-                            returnMessage(netMessage,"failed");
+                            returnMessage(netMessage, Constants.networkconn_failed);
                             iterator.remove();
                             //netMessage.getNetworkReturn().returnMessage("failed");
                             //networkReturn.returnMessage("failed");
@@ -151,7 +153,7 @@ public class Network extends Thread{
     public void addMessage(NetMessage message){
         if (message!=null) {
             if(alreadyInQueue(message)){
-                returnMessage(message,"failed");
+                returnMessage(message, Constants.networkconn_failed);
             }else{
                 messagesToAdd.add(message);
             }
