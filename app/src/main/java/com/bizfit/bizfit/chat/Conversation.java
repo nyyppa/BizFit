@@ -268,7 +268,7 @@ public class Conversation implements NetworkReturn,Serializable{
                         }
                     });
                 }else if(messagesReceived&&message1!=null){
-                    NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage());
+                    NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage(),getOther());
                     sortConversation();
                 }
                 //getUser().save(this);
