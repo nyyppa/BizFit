@@ -246,7 +246,7 @@ public class Conversation implements NetworkReturn,Serializable{
                 if(chatFragment!=null&&chatFragment.getActivity()==null){
                     chatFragment=null;
                 }
-                if(isActive()&&messagesReceived)
+                if(isActive() && messagesReceived)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
@@ -271,7 +271,11 @@ public class Conversation implements NetworkReturn,Serializable{
                     NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage());
                     sortConversation();
                 }
-                //getUser().save(this);
+                if(messagesReceived && message1!=null)
+                {
+                    getUser().save(this);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
