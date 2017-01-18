@@ -1,13 +1,10 @@
 package com.bizfit.bizfit;
 
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.bizfit.bizfit.chat.Conversation;
-import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -19,19 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -39,8 +27,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Class that contains user information, calls local database when needed and holds user's trackers
@@ -64,6 +50,7 @@ public class User implements java.io.Serializable {
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private List<Long> deletedTrackers=new ArrayList<>(0);
+    private static boolean dropLastUser=false;
     //todo remove userNumber
 
 
@@ -143,9 +130,9 @@ public class User implements java.io.Serializable {
         }
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated){
-            updateCOnversations(user.getConversations());
+            updateConversations(user.getConversations());
         }else{
-            informationUpdated=updateCOnversations(user.getConversations());
+            informationUpdated= updateConversations(user.getConversations());
         }
 
         if(informationUpdated){
@@ -158,7 +145,7 @@ public class User implements java.io.Serializable {
         }
     }
     //TODO Support for messages
-    private boolean updateCOnversations(List<Conversation> conversations){
+    private boolean updateConversations(List<Conversation> conversations){
         List<Conversation>newConversations=new ArrayList<>();
         for(int i=0;i<conversations.size();i++){
             Conversation conversation=conversations.get(i);
@@ -263,18 +250,22 @@ public class User implements java.io.Serializable {
     /**
      * wakes or creates new thread for local database
      */
-    private static void WakeThread() {
-        if (thread == null) {
-            thread = new DataBaseThread(context);
-            thread.start();
-        }
-        if (!thread.isAlive()) {
-            thread = new DataBaseThread(context);
-            thread.start();
-        }
-        synchronized (thread) {
-            thread.notify();
-            thread.sleepThread = false;
+    private static void WakeThread()
+    {
+        if(context!=null)
+        {
+            if (thread == null) {
+                thread = new DataBaseThread(context);
+                thread.start();
+            }
+            if (!thread.isAlive()) {
+                thread = new DataBaseThread(context);
+                thread.start();
+            }
+            synchronized (thread) {
+                thread.notify();
+                thread.sleepThread = false;
+            }
         }
     }
 
@@ -327,8 +318,11 @@ public class User implements java.io.Serializable {
         Network.addNetMessage(netMessage);
     }
 
-    public static void singOut(){
+    public static void signOut()
+    {
         currentUser=null;
+        dropLastUser=true;
+        WakeThread();
     }
 
     /**
@@ -606,34 +600,45 @@ public class User implements java.io.Serializable {
         public void run() {
             while (true) {
                 super.run();
-                if (db == null) {
+                if (db == null && context!=null)
+                {
 
                     db = new DBHelper(context, "database1", null, Constants.db_version);
 
                 }
-                if (d == null) {
+                if (d == null && db!=null) {
+                    DebugPrinter.Debug("Db:" + db.getWritableDatabase());
                     d = db.getWritableDatabase();
                 }
 
-                if (currentUser.saveUser) {
+                if (currentUser!=null && currentUser.saveUser) {
                     db.saveUser(d, currentUser);
                     currentUser.saveUser = false;
-                }else{
+                }
+                else if (currentUser!=null)
+                {
                     currentUser.updateInformation( db.readUser(d,userNameForLogin));
                     loadUserFromNet(currentUser.userName);
-
                 }
+                if(dropLastUser)
+                {
+                    db.deleteLastUser(d);
+                    dropLastUser=false;
+                }
+
+
                 DebugPrinter.Debug("käyttäjä:"+currentUser);
 
                 if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true) {
 
-                    try {
-                        System.out.println(currentUser.checksum(currentUser));
+                   /* try {
+                      //  System.out.println(currentUser.checksum(currentUser));
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
+                    */
 
                     //t.start();
                     /*try {
