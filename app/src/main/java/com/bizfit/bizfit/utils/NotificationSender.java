@@ -1,13 +1,13 @@
-package com.bizfit.bizfit;
+package com.bizfit.bizfit.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.NotificationCompat.Builder;
 
+import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.activities.MainPage;
 
 
@@ -58,7 +58,7 @@ public class NotificationSender {
     }
     */
     public static void sendNotification(Context a, String title, String message) {
-        NotificationCompat.Builder mBuilder =
+        Builder mBuilder =
                 (Builder) new Builder(a)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(title)

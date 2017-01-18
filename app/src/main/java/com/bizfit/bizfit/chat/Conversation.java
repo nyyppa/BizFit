@@ -8,9 +8,9 @@ import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
-import com.bizfit.bizfit.NotificationSender;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
+import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONArray;
 import org.json.JSONException;
