@@ -230,9 +230,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            findViewById(R.id.skip_singin).setVisibility(View.GONE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
-
+            findViewById(R.id.skip_singin).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
             findViewById(R.id.continue_button).setVisibility(View.GONE);
