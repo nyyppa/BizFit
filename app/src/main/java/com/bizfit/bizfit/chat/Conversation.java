@@ -72,6 +72,7 @@ public class Conversation implements NetworkReturn,Serializable{
         this.user=user;
     }
 
+
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         user.addClonedMyNewAndBetterConversation(this);

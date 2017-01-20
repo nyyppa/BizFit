@@ -103,6 +103,9 @@ public class NotificationSender {
         resultIntent.putExtra("coachID",coach);
         //jos viesti conversationista
 
+
+
+
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
         // This ensures that navigating backward from the Activity leads out of

@@ -115,7 +115,7 @@ public class User implements java.io.Serializable {
             e.printStackTrace();
         }
     }
-    private List<Conversation> getConversations(){
+    public List<Conversation> getConversations(){
         if(conversations==null){
             conversations=new ArrayList<>();
         }
