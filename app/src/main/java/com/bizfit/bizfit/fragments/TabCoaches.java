@@ -68,12 +68,12 @@ public class TabCoaches extends Fragment {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
             if(i==0)
             {
-                for(int j = 0; j < 3; j++)
+                for(int j = 0; j < 4; j++)
                 {
                     Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
-                    //TODO: Check Pasi's img
                     Drawable pasi = (ContextCompat.getDrawable(this.getContext(), R.drawable.pasi));
                     Drawable atte = (ContextCompat.getDrawable(this.getContext(), R.drawable.atte));
+                    Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
                     int imageID = worksIds.getResourceId(j, -1);
                     if(j==0)
                     {
@@ -87,7 +87,10 @@ public class TabCoaches extends Fragment {
                     {
                         items.add(new StoreRow.StoreItem("Atte Yliverronen", atte,imageID,(int) (Math.random()*400),"atte.yliverronen@gmail.com",null));
                     }
-
+                    if(j==3)
+                    {
+                        items.add(new StoreRow.StoreItem("Jari Järvenpää", jari,imageID,(int) (Math.random()*400),"jari.k4rita@gmail.com",null));
+                    }
 
                 }
             }

@@ -53,7 +53,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements 
     public RecyclerViewAdapterCoaches(List<StoreRow> data) {
         this.data = data;
     }
-    RecyclerView parent;
+    private RecyclerView parent;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh = null;

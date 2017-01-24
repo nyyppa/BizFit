@@ -8,7 +8,7 @@ public class Constants
 {
 	//User
 	public static final String user_name = "userName";
-	public static final int db_version = 61;
+	public static final int db_version = 62;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
     public static final String trackers = "trackers";
@@ -20,8 +20,9 @@ public class Constants
     public static final String conversation = "conversation";
     public static final String load = "load";
 	public static final String atte_email = "atte.yliverronen@gmail.com";
-	public static final String jariM_email = "jari.myllymäki@gmail.com";
+	public static final String jariM_email = "jari.myllymaki@gmail.com";
 	public static final String pasi_email = "pasojan@gmail.com";
+	public static final String jari_email = "jari.k4rita@gmail.com";
 
 
 	//Message
