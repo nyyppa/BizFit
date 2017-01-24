@@ -24,6 +24,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
     private ViewPager viewPager;
     private PagerAdapter adapter;
     private int index;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +34,22 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         viewPager = (ViewPager) findViewById(R.id.pager_view_tracker);
         adapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-        User.getLastUser(this, this, null);
+        user=User.getLastUser(this, this, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.grey_600));
         }
+        ViewTrackerFragment fragment;
+        Tracker[] trackers = user.getTrackers();
+        for (int i = 0; i < trackers.length; i++) {
+            fragment = ViewTrackerFragment.newInstance(trackers[i]);
+            adapter.addFragment(fragment, trackers[i].getName());
+        }
+
+        adapter.notifyDataSetChanged();
+        viewPager.setCurrentItem(index);
     }
 
 
@@ -57,8 +67,10 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
-    public void UserLoaded(final User user) {
+    public void informationUpdated() {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {

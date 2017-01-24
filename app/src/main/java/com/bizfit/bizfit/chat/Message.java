@@ -66,7 +66,12 @@ public class Message implements NetworkReturn, Serializable {
         creationTime= GregorianCalendar.getInstance().getTimeInMillis();
         setJob();
     }
-
+    public boolean equals(Message message){
+        if(message.getCreationTime()==getCreationTime()){
+            return true;
+        }
+        return false;
+    }
     private void setJob(){
         if(conversation.getOwner().equals(getSender())){
             job=Job.OUTGOING;
@@ -126,10 +131,10 @@ public class Message implements NetworkReturn, Serializable {
 
     @Override
     public void returnMessage(String message) {
-        if (!message.equals("failed"))
+        if (!message.equals(Constants.networkconn_failed))
         {
             setHasBeenSent(true);
-            conversation.getUser().save(message);
+            conversation.getUser().save(conversation);
         }
         else
         {

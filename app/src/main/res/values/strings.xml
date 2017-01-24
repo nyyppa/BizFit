@@ -331,7 +331,7 @@
 
         <item>Sales</item>
         <item>Accounting</item>
-        <item>Sosial Media Marketing</item>
+        <item>Social Media</item>
         <item>Marketing</item>
         <item>Cold Calls</item>
         <item>Work Safety</item>
@@ -422,6 +422,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="disconnect">Disconnect</string>
     <string name="signed_in_fmt">Signed in as: %s</string>
-    <string name="server_client_id">145140868499-t41n9afjur9sgmnqakg4q6t39895k499.apps.googleusercontent.com</string>
+    <string name="server_client_id">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
 
 </resources>

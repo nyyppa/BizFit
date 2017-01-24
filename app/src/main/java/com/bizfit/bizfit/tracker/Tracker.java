@@ -2,6 +2,8 @@ package com.bizfit.bizfit.tracker;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
@@ -57,6 +59,8 @@ public class Tracker implements java.io.Serializable {
     boolean numberTracked = true;
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
     transient DataChangedListener listener;
+
+    public long creationTime=System.currentTimeMillis();
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
         return (int)targetProgress/(int)(days+1); // todo: Change +1 to something better
@@ -179,6 +183,9 @@ public class Tracker implements java.io.Serializable {
             {
                 numberTracked = jsonObject.getBoolean(Constants.number_tracked);
             }
+            if(jsonObject.has(Constants.creationTime)){
+                creationTime=jsonObject.getLong(Constants.creationTime);
+            }
 
 
         }
@@ -220,6 +227,20 @@ public class Tracker implements java.io.Serializable {
 
     public Tracker() {
         weeklyStart();
+    }
+
+    public boolean isTHisInList(List<Tracker> list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).equals(this)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //TODO tracker mergin
+    public boolean equals(Tracker t){
+        return t.creationTime==this.creationTime;
     }
 
     public static Tracker copy(Tracker orig) {
@@ -284,6 +305,7 @@ public class Tracker implements java.io.Serializable {
             jsonObject.put(Constants.tolerance, tolerance);
             jsonObject.put(Constants.color, color);
             jsonObject.put(Constants.number_tracked, numberTracked);
+            jsonObject.put(Constants.creationTime,creationTime);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -742,9 +764,14 @@ public class Tracker implements java.io.Serializable {
      * tells tracker to delete itself from users User
      */
     public void delete() {
-        parentUser.removeTracker(this);
+        User.getLastUser(null,null,null).removeTracker(this);
     }
 
+    public JSONObject shareTracker(){
+        JSONObject jsonObject=toJSON();
+        jsonObject.remove(Constants.creationTime);
+        return jsonObject;
+    }
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
     }
@@ -920,6 +947,35 @@ public class Tracker implements java.io.Serializable {
             this.done = done;
             parentTracker.fieldUpdated();
         }
+
+    }
+
+    public boolean hasThisBeenDeleted(List<Long> list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).longValue()==creationTime){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void shareToOtherUser(String userName){
+        saveToServer(userName,shareTracker());
+    }
+    public void saveToServer(String userName,JSONObject tracker){
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put(Constants.job, Constants.save_tracker);
+            jsonObject.put(Constants.user_name, userName);
+            jsonObject.put(Constants.tracker, tracker);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        //TODO: Make error handling
+        Network.addNetMessage(new NetMessage(null, null, jsonObject));
 
     }
 }

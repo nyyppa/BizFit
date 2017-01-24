@@ -1,8 +1,11 @@
 package com.bizfit.bizfit.utils;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.widget.TextView;
+
+import com.bizfit.bizfit.activities.CoachPage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -134,14 +137,19 @@ public class StoreRow<T> {
         protected int imageId;
         protected int testimonials;
         protected String coachID;
+        protected String telNumber="5556";
 
-        public StoreItem(String name, Drawable image, int imageId, int testimonials,String coachID)
+        public StoreItem(String name, Drawable image, int imageId, int testimonials,String coachID,String telNumber)
         {
             this.image = image;
             this.name = name;
             this.imageId = imageId;
             this.testimonials = testimonials;
             this.coachID=coachID;
+            if(telNumber!=null){
+                this.telNumber=telNumber;
+            }
+
         }
 
         public String getName() {
@@ -154,6 +162,15 @@ public class StoreRow<T> {
 
         public String getCoachId(){
             return  coachID;
+        }
+        public String getTelNumber(){
+            return telNumber;
+        }
+        public void fillIntent(Intent intent){
+            intent.putExtra(CoachPage.FIELD_COACH_NAME, getName());
+            intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, getImageId());
+            intent.putExtra(Constants.coach_id,getCoachId());
+            intent.putExtra(Constants.telNumber,getTelNumber());
         }
     }
 }

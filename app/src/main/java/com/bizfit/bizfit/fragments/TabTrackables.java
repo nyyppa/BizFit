@@ -96,7 +96,8 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
         // TODO Loading trackers from database with AsyncTask
         // Get latest trackers
-        User.getLastUser(this, getContext(), null);
+        user=User.getLastUser(this, getContext(), null);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -115,6 +116,9 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
         // Enable context menu
         registerForContextMenu(mRecyclerView);
+        updateDataSet();
+
+        DebugPrinter.Debug("käyttäjä: "+user);
     }
 
     @Override
@@ -152,35 +156,38 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 if (resultCode == Activity.RESULT_OK) {
                     Log.d("Testi","testi");
                     final Intent data2=data;
-                    User.getLastUser(new User.UserLoadedListener() {
-                        @Override
-                        public void UserLoaded(User user) {
-                            Log.d("Testi","testi");
-                            final Tracker newTracker = new Tracker();
 
-                            user.addTracker(newTracker);
-                            newTracker.setName(data2.getStringExtra(FieldNames.TRACKERNAME));
-                            newTracker.setTargetAmount(data2.getFloatExtra(FieldNames.TARGET, 0));
-                            newTracker.setColor(data2.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
-                            newTracker.setTargetDate(data2.getIntExtra(FieldNames.YEAR, 2015)
-                                    , data2.getIntExtra(FieldNames.MONTH, 1)
-                                    , data2.getIntExtra(FieldNames.DAY, 1)
-                                    , data2.getBooleanExtra(FieldNames.RECURRING, false
-                            ));
-                            trackers = user.getTrackers();
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    adapter.notifyItemInserted(newTracker.getIndex());
-                                    DebugPrinter.Debug("testitesti");
-                                    Log.d("Testi","testi");
-                                    Log.d("Testi","testi");
-                                    //Your code to run in GUI thread here
-                                }//public void run() {
-                            });
+                    User user=User.getLastUser(new User.UserLoadedListener() {
+
+                        @Override
+                        public void informationUpdated() {
 
                         }
                     }, getContext(), null);
+                    Log.d("Testi","testi");
+                    final Tracker newTracker = new Tracker();
+
+                    user.addTracker(newTracker);
+                    newTracker.setName(data2.getStringExtra(FieldNames.TRACKERNAME));
+                    newTracker.setTargetAmount(data2.getFloatExtra(FieldNames.TARGET, 0));
+                    newTracker.setColor(data2.getIntExtra(FieldNames.COLOR, R.color.colorAccent));
+                    newTracker.setTargetDate(data2.getIntExtra(FieldNames.YEAR, 2015)
+                            , data2.getIntExtra(FieldNames.MONTH, 1)
+                            , data2.getIntExtra(FieldNames.DAY, 1)
+                            , data2.getBooleanExtra(FieldNames.RECURRING, false
+                            ));
+                    trackers = user.getTrackers();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyItemInserted(newTracker.getIndex());
+                            DebugPrinter.Debug("testitesti");
+                            Log.d("Testi","testi");
+                            Log.d("Testi","testi");
+                            //Your code to run in GUI thread here
+                        }//public void run() {
+                    });
+
 
 
 
@@ -192,6 +199,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                             , Toast.LENGTH_SHORT)
                     ).show();
                 }
+
                 break;
 
             case VIEW_GOALS:
@@ -244,16 +252,25 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
     }
 
 
+
+
     @Override
-    public void UserLoaded(final User user) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TabTrackables.this.user = user;
-                trackers = user.getTrackers();
-                adapter.notifyDataSetChanged();
-            }
-        });
+    public void informationUpdated() {
+        updateDataSet();
+    }
+
+    private void updateDataSet(){
+        if(getActivity()!=null){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TabTrackables.this.user = user;
+                    trackers = user.getTrackers();
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+
     }
 }
 

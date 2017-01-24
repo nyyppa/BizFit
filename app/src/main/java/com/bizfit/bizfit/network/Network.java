@@ -1,5 +1,7 @@
 package com.bizfit.bizfit.network;
 
+import com.bizfit.bizfit.utils.Constants;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -56,7 +59,7 @@ public class Network extends Thread{
 
                     try {
                         URL url = new URL(netMessage.getConnectionAddress());
-                        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setReadTimeout(10000 /* milliseconds */);
                         conn.setConnectTimeout(15000 /* milliseconds */);
                         conn.setRequestMethod("POST");
@@ -86,7 +89,7 @@ public class Network extends Thread{
                             //networkReturn.returnMessage(total.toString());
                         }else{
                             System.out.println("response"+conn.getResponseCode());
-                            returnMessage(netMessage,"failed");
+                            returnMessage(netMessage, Constants.networkconn_failed);
                             iterator.remove();
                             //netMessage.getNetworkReturn().returnMessage("failed");
                             //networkReturn.returnMessage("failed");
@@ -113,6 +116,7 @@ public class Network extends Thread{
                 }
 
             }
+            netMessagesList.clear();
             netMessagesList.addAll(messagesToAdd);
             synchronized (messagesToAdd){
                 messagesToAdd.clear();
@@ -149,13 +153,14 @@ public class Network extends Thread{
     public void addMessage(NetMessage message){
         if (message!=null) {
             if(alreadyInQueue(message)){
-                message.networkReturn.returnMessage("failed");
+                returnMessage(message, Constants.networkconn_failed);
             }else{
                 messagesToAdd.add(message);
             }
             onResume();
         }
     }
+    //TODO Something is leaking in slownet
     private boolean alreadyInQueue(NetMessage message){
         synchronized (messagesToAdd){
             for(int i=0;i<messagesToAdd.size();i++){
@@ -166,7 +171,7 @@ public class Network extends Thread{
         }
         synchronized (netMessagesList){
             for(int i=0;i<netMessagesList.size();i++){
-                if(netMessagesList.get(i)!=null&&netMessagesList.get(i).equals(netMessagesList)){
+                if(netMessagesList.get(i)!=null&&netMessagesList.get(i).equals(message)){
                     return true;
                 }
             }

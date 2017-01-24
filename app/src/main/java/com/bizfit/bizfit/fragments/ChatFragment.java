@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
 
 /**
@@ -59,6 +61,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
+        v.findViewById(R.id.shareTracker).setOnClickListener(this);
         input = (TextView) v.findViewById(R.id.message);
         return v;
     }
@@ -81,6 +84,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 mAdapter.getConversation().getNewMessagesAndSendOldOnes();
 
 
+                break;
+            case R.id.shareTracker:
+                Tracker[] trackers=User.getLastUser(null,null,null).getTrackers();
+                if(trackers.length>0){
+                    trackers[0].shareToOtherUser(getmAdapter().getConversation().getOther());
+                }
                 break;
         }
     }

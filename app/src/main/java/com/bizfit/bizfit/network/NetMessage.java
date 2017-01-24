@@ -24,7 +24,7 @@ public class NetMessage {
 
     //todo better way to compare JSONs
     public boolean equals(NetMessage netMessage){
-        if(netMessage.getConnectionAddress().equals(getConnectionAddress())&&netMessage.getMessage().toString().equals(getMessage().toString())){
+        if(netMessage.getConnectionAddress().equals(getConnectionAddress())&&netMessage.getMessage().toString().equals(getMessage().toString())&&getNetworkReturn()==netMessage.getNetworkReturn()){
             return true;
         }
         return false;

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
 
@@ -21,19 +22,20 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    final String lastUser="lastUser";
+    final String lastUser = "lastUser";
+
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    public void saveLastUser(SQLiteDatabase db, String user){
-        if(!isTableExists(db,lastUser)){
-            db.execSQL("CREATE TABLE "+lastUser+" (id INTEGER PRIMARY KEY AUTOINCREMENT, "+lastUser+" TEXT)");
+    public void saveLastUser(SQLiteDatabase db, String user) {
+        if (!isTableExists(db, lastUser)) {
+            db.execSQL("CREATE TABLE " + lastUser + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " + lastUser + " TEXT)");
         }
         ContentValues values = new ContentValues();
 
-        values.put("id",0);
-        values.put(lastUser,user);
+        values.put("id", 0);
+        values.put(lastUser, user);
         //System.out.println("user"+user.toJSON().toString());
 
         db.insertWithOnConflict(lastUser, null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -53,11 +55,12 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         ContentValues values = new ContentValues();
         values.put("user", user.toJSON().toString());
-        values.put("userName",user.userName);
+        values.put("userName", user.userName);
         //System.out.println("user"+user.toJSON().toString());
 
         db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
-        saveLastUser(db,user.userName);
+        saveLastUser(db, user.userName);
+
 
         /*
         if (!isTableExists(db, "user")) {
@@ -199,27 +202,30 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param db SQLiteDatabase to try to create user
      * @return Created user
      */
-    public User readUser(SQLiteDatabase db,String username) {
+    public User readUser(SQLiteDatabase db, String username) {
         User user = null;
-        if(username.equals("default")&&isTableExists(db,lastUser)){
-            Cursor cursor = db.rawQuery("SELECT * FROM "+lastUser, null);
+        if (username.equals("default") && isTableExists(db, lastUser)) {
+            Cursor cursor = db.rawQuery("SELECT * FROM " + lastUser, null);
             cursor.moveToFirst();
-            username=cursor.getString(cursor.getColumnIndex(lastUser));
-            saveLastUser(db,username);
+            username = cursor.getString(cursor.getColumnIndex(lastUser));
+            saveLastUser(db, username);
         }
         if (isTableExists(db, "user")) {
-            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'"+username+"\'", null);
-            cursor.moveToFirst();
+            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'" + username + "\'", null);
+            if (!cursor.moveToFirst()) {
+                return new User(username);
+            }
+
             try {
                 user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
                 System.out.println(cursor.getString(cursor.getColumnIndex("user")));
                 System.out.println(user.toJSON().toString(4));
-                System.out.println("user"+cursor.getString(cursor.getColumnIndex("user")));
+                System.out.println("user" + cursor.getString(cursor.getColumnIndex("user")));
             } catch (JSONException e) {
                 System.out.println("heihoi");
                 e.printStackTrace();
             }
-        }else {
+        } else {
             /*
             String name;
             final AccountManager manager = AccountManager.get(User.getContext());
@@ -358,4 +364,12 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + tableName);
         }
     }
+
+    public void deleteLastUser(SQLiteDatabase sqlDb)
+    {
+        sqlDb.execSQL("DROP TABLE IF EXISTS " + lastUser);
+    }
+
+
+
 }

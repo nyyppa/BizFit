@@ -8,9 +8,9 @@ import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
-import com.bizfit.bizfit.NotificationSender;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
+import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +72,7 @@ public class Conversation implements NetworkReturn,Serializable{
         this.user=user;
     }
 
+
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         user.addClonedMyNewAndBetterConversation(this);
@@ -119,7 +120,9 @@ public class Conversation implements NetworkReturn,Serializable{
             jsonObject.put(Constants.job,Constants.get_message_incoming);
             jsonObject.put(Constants.owner,getOwner());
             jsonObject.put(Constants.other,getOther());
-            jsonObject.put(Constants.creationTime,getLastReceivedMessage());
+            //jsonObject.put(Constants.creationTime,getLastReceivedMessage());
+            //TODO PURKKA
+            jsonObject.put(Constants.creationTime,0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,7 +135,9 @@ public class Conversation implements NetworkReturn,Serializable{
             jsonObject.put(Constants.job,Constants.get_message_outgoing);
             jsonObject.put(Constants.owner,getOwner());
             jsonObject.put(Constants.other,getOther());
-            jsonObject.put(Constants.creationTime,getLastSentMessage());
+            //jsonObject.put(Constants.creationTime,getLastSentMessage());
+            //TODO PURKKA
+            jsonObject.put(Constants.creationTime,0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -208,22 +213,41 @@ public class Conversation implements NetworkReturn,Serializable{
         getUser().save(this);
 
     }
+    public boolean isActive(){
+        return chatFragment!=null&&chatFragment.getActivity()!=null;
+    }
+
+    private boolean messageAlreadyExists(Message message){
+        for(int i=0;i<messageList.size();i++){
+            if(message.equals(messageList.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public void returnMessage(String message) {
         System.out.println(message);
-        if(!message.equals("failed")){
+        if(!message.equals(Constants.networkconn_failed)){
             try {
                 JSONArray jsonArray=new JSONArray(message);
                 boolean messagesReceived=false;
                 Message message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    messageList.add(0, new Message(new JSONObject(jsonArray.getString(i)),this));
-                    message1= messageList.get(0);
-                    messagesReceived=true;
+                    Message m=new Message(new JSONObject(jsonArray.getString(i)),this);
+                    if(!messageAlreadyExists(m)){
+                        messageList.add(0, m);
+                        message1= messageList.get(0);
+                        messagesReceived=true;
+                    }
+
 
                 }
-                if(chatFragment!=null&&messagesReceived&&chatFragment.getActivity()!=null)
+                if(chatFragment!=null&&chatFragment.getActivity()==null){
+                    chatFragment=null;
+                }
+                if(isActive() && messagesReceived)
                 {
                     chatFragment.getActivity().runOnUiThread(new Runnable()
                     {
@@ -234,7 +258,10 @@ public class Conversation implements NetworkReturn,Serializable{
                             {
                                 //System.out.println("TestiPaikka");
                                 sortConversation();
-                                chatFragment.getmAdapter().notifyItemInserted(0);
+                                chatFragment.getmAdapter().notifyDataSetChanged();
+                                //chatFragment.getmAdapter().notifyItemInserted(0);
+
+                                //TODO why does this crash when getting own send messages?
                                 chatFragment.getmRecyclerView().smoothScrollToPosition(0);
 
                             }
@@ -242,10 +269,14 @@ public class Conversation implements NetworkReturn,Serializable{
                         }
                     });
                 }else if(messagesReceived&&message1!=null){
-                    NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage());
+                    NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage(),getOther());
                     sortConversation();
                 }
-                //getUser().save(this);
+                if(messagesReceived && message1!=null)
+                {
+                    getUser().save(this);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -258,6 +289,18 @@ public class Conversation implements NetworkReturn,Serializable{
 
         this.chatFragment=chatFragment;
     }
+    //TODO Merge
+    public boolean isConversationAlreadyInList(List<Conversation>list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).equals(this)){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean equals(Conversation conversation){
+        return this.getOwner().equals(conversation.getOwner())&&this.getOther().equals(conversation.getOther());
+    }
 
 }
