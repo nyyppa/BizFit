@@ -19,6 +19,10 @@ public class Constants
     public static final String tracker = "tracker";
     public static final String conversation = "conversation";
     public static final String load = "load";
+	public static final String atte_email = "atte.yliverronen@gmail.com";
+	public static final String jariM_email = "jari.myllymäki@gmail.com";
+	public static final String pasi_email = "pasojan@gmail.com";
+
 
 	//Message
 	public static final String owner = "owner";
