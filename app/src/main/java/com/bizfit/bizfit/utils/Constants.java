@@ -7,7 +7,7 @@ package com.bizfit.bizfit.utils;
 public class Constants
 {
 	//User
-	public static final String user_name = "userName";
+	public static final String user_name = "_id";
 	public static final int db_version = 65;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
