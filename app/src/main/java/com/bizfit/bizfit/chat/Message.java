@@ -1,5 +1,7 @@
 package com.bizfit.bizfit.chat;
 
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
@@ -56,6 +58,7 @@ public class Message implements NetworkReturn, Serializable {
             e.printStackTrace();
         }
         setJob();
+        codeCheck();
     }
 
     public Message(Conversation conversation, String resipient, String sender, String message){
@@ -65,6 +68,7 @@ public class Message implements NetworkReturn, Serializable {
         this.message=message;
         creationTime= GregorianCalendar.getInstance().getTimeInMillis();
         setJob();
+        codeCheck();
     }
     public boolean equals(Message message){
         if(message.getCreationTime()==getCreationTime()){
@@ -77,6 +81,16 @@ public class Message implements NetworkReturn, Serializable {
             job=Job.OUTGOING;
         }else{
             job=Job.INCOMING;
+        }
+
+    }
+    private void codeCheck(){
+        if(message.startsWith("code share_tracker")){
+            try {
+                User.getLastUser(null,null,null).addSharedTracker(new SharedTracker(new JSONObject(getMessage().replace("code share_tracker",""))));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
     public Job getJob(){

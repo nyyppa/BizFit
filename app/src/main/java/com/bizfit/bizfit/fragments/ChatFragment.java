@@ -86,10 +86,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.shareTracker:
-                Tracker[] trackers=User.getLastUser(null,null,null).getTrackers();
-                if(trackers.length>0){
-                    trackers[0].shareToOtherUser(getmAdapter().getConversation().getOther());
-                }
+                mAdapter.getConversation().createMessage("code share_tracker"+User.getLastUser(null,null,null).getTrackers()[0].shareTracker(mAdapter.getConversation().getOwner()).toString());
+                mAdapter.notifyItemInserted(0);
+                mRecyclerView.smoothScrollToPosition(0);
                 break;
         }
     }

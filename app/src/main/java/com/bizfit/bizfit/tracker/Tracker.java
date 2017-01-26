@@ -767,10 +767,9 @@ public class Tracker implements java.io.Serializable {
         User.getLastUser(null,null,null).removeTracker(this);
     }
 
-    public JSONObject shareTracker(){
-        JSONObject jsonObject=toJSON();
-        jsonObject.remove(Constants.creationTime);
-        return jsonObject;
+    public JSONObject shareTracker(String username){
+
+        return new SharedTracker(username,creationTime).toJSON();
     }
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
@@ -959,9 +958,6 @@ public class Tracker implements java.io.Serializable {
         return false;
     }
 
-    public void shareToOtherUser(String userName){
-        saveToServer(userName,shareTracker());
-    }
     public void saveToServer(String userName,JSONObject tracker){
         JSONObject jsonObject = new JSONObject();
         try

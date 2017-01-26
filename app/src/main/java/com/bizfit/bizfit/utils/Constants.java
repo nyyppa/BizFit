@@ -8,7 +8,7 @@ public class Constants
 {
 	//User
 	public static final String user_name = "userName";
-	public static final int db_version = 62;
+	public static final int db_version = 64;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
     public static final String trackers = "trackers";
@@ -74,7 +74,9 @@ public class Constants
 	//public static final String user_number = "userNumber";
 
     //NetMessage
-	public static final String connection_address = "http://51.15.37.28:8080";
+	public static final String debug_address="http://bizfit-nyyppa.c9users.io";
+	public static final String deploiment_address="http://51.15.37.28:8080";
+	public static final String connection_address = debug_address;
 
     //CoachPage
 	public static final String coach_id = "coachID";

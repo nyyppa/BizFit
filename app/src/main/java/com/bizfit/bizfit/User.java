@@ -8,6 +8,7 @@ import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
@@ -19,10 +20,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -51,7 +54,8 @@ public class User implements java.io.Serializable {
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private List<Long> deletedTrackers=new ArrayList<>(0);
     private static boolean dropLastUser=false;
-    //todo remove userNumber
+    private List<SharedTracker> sharedTrackerList;
+    private List<Tracker> trackersSharedWithMe=new ArrayList<>();
 
 
     private User(){
@@ -110,6 +114,12 @@ public class User implements java.io.Serializable {
                     this.deletedTrackers.add(deletedTrackers.getLong(i));
                 }
             }
+            if(jsonObject.has("SharedTrackers")){
+                JSONArray sharedTrackers=jsonObject.getJSONArray("SharedTrackers");
+                for(int i=0;i<sharedTrackers.length();i++){
+                    getSharedTrackerList().add(new SharedTracker(sharedTrackers.getJSONObject(i)));
+                }
+            }
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -121,6 +131,35 @@ public class User implements java.io.Serializable {
         }
         return conversations;
     }
+    private List<SharedTracker> getSharedTrackerList(){
+        if (sharedTrackerList==null){
+            sharedTrackerList=new ArrayList<>();
+        }
+        return sharedTrackerList;
+    }
+    public void getSharedTrackersFromNet(){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put(Constants.job,"getSharedTrackers");
+            JSONArray jsonArray=new JSONArray();
+            for(int i=0;i<getSharedTrackerList().size();i++){
+                jsonArray.put(getSharedTrackerList().get(i).toJSON());
+            }
+            jsonObject.put("list",jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals(Constants.networkconn_failed)){
+
+                }else{
+
+                }
+            }
+        },jsonObject));
+    }
 
     private void updateInformation(User user){
         if(!user.userName.equals(this.userName)&&!this.userName.equals("")&&!this.userName.isEmpty()){
@@ -128,11 +167,17 @@ public class User implements java.io.Serializable {
         }else{
             this.userName=user.userName;
         }
+        getTrackersSharedWithMe();
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated){
             updateConversations(user.getConversations());
         }else{
             informationUpdated= updateConversations(user.getConversations());
+        }
+        if(informationUpdated){
+            SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
+        }else{
+            informationUpdated=SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
         }
 
         if(informationUpdated){
@@ -194,6 +239,65 @@ public class User implements java.io.Serializable {
             trackers.get(i).update();
         }
 
+    }
+
+    public void addSharedTracker(SharedTracker sharedTracker){
+        List<SharedTracker> list=getSharedTrackerList();
+        if(sharedTracker.getUserName()!=null&&sharedTracker.getUserName().equals(userName)){
+            return;
+        }
+
+        if(!sharedTracker.alreadyInList(list)){
+            list.add(sharedTracker);
+
+
+            //TODO updatedInformationCall
+        }
+        getTrackersSharedWithMe();
+    }
+    int sentOnes=0;
+    private void getTrackersSharedWithMe(){
+        if(sentOnes>0){
+            return;
+        }
+        sentOnes++;
+        DebugPrinter.Debug("numero "+sentOnes);
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put(Constants.job,"getSharedTrackers");
+            JSONArray jsonArray=new JSONArray();
+            for(int i=0;i<getSharedTrackerList().size();i++){
+                jsonArray.put(getSharedTrackerList().get(i).toJSON());
+            }
+            jsonObject.put("list",jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                DebugPrinter.Debug("veisti: "+message);
+                if(!message.equals(Constants.networkconn_failed)){
+                    try {
+                        JSONArray jsonArray=new JSONArray(message);
+
+                        for(int i=0;i<jsonArray.length();i++){
+                            trackersSharedWithMe.add(new Tracker(new JSONObject(jsonArray.getString(i))));
+                        }
+                        List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
+                        for(int i=0;i<listenersForInformationUpdated.size();i++){
+                            if(listenersForInformationUpdated.get(i)!=null){
+                                listenersForInformationUpdated.get(i).informationUpdated();
+                            }
+                        }
+                        DebugPrinter.Debug("veisti: "+trackersSharedWithMe.size());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        },jsonObject);
+        Network.addNetMessage(netMessage);
     }
     private List<Tracker> getTrackerlist()
     {
@@ -277,7 +381,7 @@ public class User implements java.io.Serializable {
     public static void loadUserFromNet( String userName) {
         JSONObject jsonObject1 = new JSONObject();
         try {
-            jsonObject1.put(Constants.id, userName);
+            jsonObject1.put(Constants.user_name, userName);
             jsonObject1.put(Constants.job, Constants.load);
             if(currentUser!=null){
                 try {
@@ -509,8 +613,16 @@ public class User implements java.io.Serializable {
         {
             trackers = new ArrayList<>();
         }
-        Tracker[] t = new Tracker[trackers.size()];
-        return trackers.toArray(t);
+        Tracker[] t = new Tracker[getTrackerlist().size()];
+        getTrackerlist().toArray(t);
+        Tracker[] p=new Tracker[trackersSharedWithMe.size()];
+        trackersSharedWithMe.toArray(p);
+        return concat(t,p);
+    }
+    public static <T> T[] concat(T[] first, T[] second) {
+        T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
     }
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
@@ -756,6 +868,8 @@ public class User implements java.io.Serializable {
 
     public void save(Object obj)
     {
+        save();
+        /*
         saveUser = true;
         WakeThread();
 
@@ -782,6 +896,8 @@ public class User implements java.io.Serializable {
            }
            Network.addNetMessage(new NetMessage(null, null, jsonObject));
        }
+        */
+
         //TODO: Make error handling
 
 
