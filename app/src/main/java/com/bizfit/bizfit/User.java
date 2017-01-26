@@ -162,9 +162,16 @@ public class User implements java.io.Serializable {
     }
 
     private void updateInformation(User user){
-        if(!user.userName.equals(this.userName)&&!this.userName.equals("")&&!this.userName.isEmpty()){
+        if(user.userName!=null && this.userName!=null && !user.userName.equals(this.userName)&&!this.userName.equals("")&&!this.userName.isEmpty())
+        {
             return;
-        }else{
+        }
+        else if(user.userName==null)
+        {
+            return;
+        }
+
+        else {
             this.userName=user.userName;
         }
         getTrackersSharedWithMe();

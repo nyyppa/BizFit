@@ -75,6 +75,10 @@ public class TabCoaches extends Fragment {
                     Drawable atte = (ContextCompat.getDrawable(this.getContext(), R.drawable.atte));
                     Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
                     int imageID = worksIds.getResourceId(j, -1);
+                    if(imageID==-1)
+                    {
+                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com","0447358220"));
+                    }
                     if(j==0)
                     {
                         items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com","0447358220"));

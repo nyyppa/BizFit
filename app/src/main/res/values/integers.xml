@@ -31,5 +31,6 @@
         <item>@drawable/mylly</item>
         <item>@drawable/pasi</item>
         <item>@drawable/atte</item>
+        <item>@drawable/jartsa</item>
     </integer-array>
 </resources>
