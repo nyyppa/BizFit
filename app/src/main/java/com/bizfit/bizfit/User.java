@@ -216,6 +216,8 @@ public class User implements java.io.Serializable {
            Tracker t=list.get(i);
            if(!t.isTHisInList(getTrackerlist())&&!t.hasThisBeenDeleted(deletedTrackers)){
                newTrackers.add(t);
+           }else{
+               DebugPrinter.Debug("poistettu");
            }
         }
         return getTrackerlist().addAll(newTrackers);

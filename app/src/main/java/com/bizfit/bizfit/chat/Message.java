@@ -85,9 +85,9 @@ public class Message implements NetworkReturn, Serializable {
 
     }
     private void codeCheck(){
-        if(message.startsWith("code share_tracker")){
+        if(message.startsWith("code share_tracker")&&getJob()==Job.INCOMING){
             try {
-                User.getLastUser(null,null,null).addSharedTracker(new SharedTracker(new JSONObject(getMessage().replace("code share_tracker",""))));
+                User.getLastUser(null,null,null).addSharedTracker(new SharedTracker(new JSONObject(message.replace("code share_tracker",""))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -105,6 +105,9 @@ public class Message implements NetworkReturn, Serializable {
     }
 
     public String getMessage() {
+        if(message.startsWith("code share_tracker")){
+            return "tracker shared";
+        }
         return message;
     }
 
