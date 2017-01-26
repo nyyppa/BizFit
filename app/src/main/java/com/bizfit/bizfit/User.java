@@ -262,13 +262,7 @@ public class User implements java.io.Serializable {
         }
         getTrackersSharedWithMe();
     }
-    int sentOnes=0;
     private void getTrackersSharedWithMe(){
-        if(sentOnes>0){
-            return;
-        }
-        sentOnes++;
-        DebugPrinter.Debug("numero "+sentOnes);
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.job,"getSharedTrackers");
