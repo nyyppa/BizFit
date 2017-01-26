@@ -74,8 +74,8 @@ public class Constants
 	//public static final String user_number = "userNumber";
 
     //NetMessage
-	public static final String debug_address="http://bizfit-nyyppa.c9users.io";
-	public static final String deploiment_address="http://51.15.37.28:8080";
+	private static final String debug_address="http://bizfit-nyyppa.c9users.io";
+	private static final String deploiment_address="http://51.15.37.28:8080";
 	public static final String connection_address = debug_address;
 
     //CoachPage
