@@ -277,13 +277,14 @@ public class User implements java.io.Serializable {
         NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
             @Override
             public void returnMessage(String message) {
-                DebugPrinter.Debug("veisti: "+message);
                 if(!message.equals(Constants.networkconn_failed)){
                     try {
                         JSONArray jsonArray=new JSONArray(message);
-
                         for(int i=0;i<jsonArray.length();i++){
-                            trackersSharedWithMe.add(new Tracker(new JSONObject(jsonArray.getString(i))));
+                            Tracker t=new Tracker(new JSONObject(jsonArray.getString(i)));
+                            if(!t.updateInList(trackersSharedWithMe)){
+                                trackersSharedWithMe.add(t);
+                            }
                         }
                         List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
                         for(int i=0;i<listenersForInformationUpdated.size();i++){

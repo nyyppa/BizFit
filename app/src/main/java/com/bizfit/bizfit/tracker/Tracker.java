@@ -789,7 +789,15 @@ public class Tracker implements java.io.Serializable {
             e.printStackTrace();
         }
     }
-
+    public boolean updateInList(List<Tracker> list){
+        for(int i=0;i<list.size();i++) {
+            if (this.equals(list.get(i))) {
+                list.set(i, this);
+                return true;
+            }
+        }
+        return false;
+    }
     public void setDefaultInrement(float increment) {
         this.defaultIncrement = increment;
         changes.add(0, new Change(increment + "", lastModification.defaultIncrement));
