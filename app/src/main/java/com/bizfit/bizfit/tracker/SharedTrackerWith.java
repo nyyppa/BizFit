@@ -16,8 +16,8 @@ public class SharedTrackerWith implements java.io.Serializable {
     }
     public SharedTrackerWith(JSONObject jsonObject){
         try {
-            if (jsonObject.has(Constants.user_name)) {
-                userName=jsonObject.getString(Constants.user_name);
+            if (jsonObject.has(Constants.getUser_Name())) {
+                userName=jsonObject.getString(Constants.getUser_Name());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -26,7 +26,7 @@ public class SharedTrackerWith implements java.io.Serializable {
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put(Constants.user_name,userName);
+            jsonObject.put(Constants.getUser_Name(),userName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

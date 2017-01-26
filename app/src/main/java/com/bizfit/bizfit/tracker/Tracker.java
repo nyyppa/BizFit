@@ -971,7 +971,7 @@ public class Tracker implements java.io.Serializable {
         try
         {
             jsonObject.put(Constants.job, Constants.save_tracker);
-            jsonObject.put(Constants.user_name, userName);
+            jsonObject.put(Constants.getUser_Name(), userName);
             jsonObject.put(Constants.tracker, tracker);
         }
         catch (JSONException e)

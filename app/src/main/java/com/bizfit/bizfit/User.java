@@ -93,9 +93,9 @@ public class User implements java.io.Serializable {
                     t.addParentUser(this);
                 }
             }
-            if(jsonObject.has(Constants.user_name))
+            if(jsonObject.has(Constants.getUser_Name()))
             {
-                userName = jsonObject.getString(Constants.user_name);
+                userName = jsonObject.getString(Constants.getUser_Name());
             }
             if(jsonObject.has(Constants.conversations))
             {
@@ -385,7 +385,7 @@ public class User implements java.io.Serializable {
     public static void loadUserFromNet( String userName) {
         JSONObject jsonObject1 = new JSONObject();
         try {
-            jsonObject1.put(Constants.user_name, userName);
+            jsonObject1.put(Constants.getUser_Name(), userName);
             jsonObject1.put(Constants.job, Constants.load);
             if(currentUser!=null){
                 try {
@@ -493,7 +493,7 @@ public class User implements java.io.Serializable {
         JSONArray conversationArray=new JSONArray();
         JSONArray deletedTrackers=new JSONArray();
         try {
-            jsonObject.put(Constants.user_name, userName);
+            jsonObject.put(Constants.getUser_Name(), userName);
 
             for (int i = 0; i < trackers.size(); i++) {
                 trackerArray.put(trackers.get(i).toJSON());

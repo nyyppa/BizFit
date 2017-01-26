@@ -7,8 +7,12 @@ package com.bizfit.bizfit.utils;
 public class Constants
 {
 	//User
+
 	public static final String user_name = "_id";
-	public static final int db_version = 65;
+	public static String getUser_Name(){
+		return "_id";
+	}
+	public static final int db_version = 66;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
     public static final String trackers = "trackers";
