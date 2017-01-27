@@ -217,7 +217,6 @@ public class User implements java.io.Serializable {
            if(!t.isTHisInList(getTrackerlist())&&!t.hasThisBeenDeleted(deletedTrackers)){
                newTrackers.add(t);
            }else{
-               DebugPrinter.Debug("poistettu");
            }
         }
         return getTrackerlist().addAll(newTrackers);
@@ -295,7 +294,6 @@ public class User implements java.io.Serializable {
                                 listenersForInformationUpdated.get(i).informationUpdated();
                             }
                         }
-                        DebugPrinter.Debug("veisti: "+trackersSharedWithMe.size());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -339,7 +337,6 @@ public class User implements java.io.Serializable {
         if(currentUser==null){
             currentUser=new User();
         }
-        System.out.println("userNameForLogin "+userName);
         if(c!=null){
             context = c;
         }
@@ -389,13 +386,15 @@ public class User implements java.io.Serializable {
             jsonObject1.put(Constants.getUser_Name(), userName);
             jsonObject1.put(Constants.job, Constants.load);
             if(currentUser!=null){
-                try {
-                    jsonObject1.put(Constants.check_sum, currentUser.checksum(currentUser));
+                jsonObject1.put(Constants.check_sum, 0);
+                /*try {
+
+                    //jsonObject1.put(Constants.check_sum, currentUser.checksum(currentUser));
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
             }else{
                 jsonObject1.put(Constants.check_sum,"0");
             }
@@ -407,7 +406,6 @@ public class User implements java.io.Serializable {
         NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
             @Override
             public void returnMessage(String message) {
-
                 if(message.equals(Constants.networkconn_failed)||message.length()==0){
 
                 }else{
@@ -651,14 +649,11 @@ public class User implements java.io.Serializable {
             if (current.equals(t)) {
                 iterator.remove();
                 deletedTrackers.add(t.creationTime);
-                DebugPrinter.Debug("poistuu: "+t.creationTime);
                 //trackersToDelete.add(t);
                 save();
                 break;
             }
         }
-        DebugPrinter.Debug("Koko:"+trackers.size()+":"+getTrackers().length);
-        DebugPrinter.Debug("käyttäjä"+this);
 
         updateIndexes();
     }
@@ -724,7 +719,6 @@ public class User implements java.io.Serializable {
 
                 }
                 if (d == null && db!=null) {
-                    DebugPrinter.Debug("Db:" + db.getWritableDatabase());
                     d = db.getWritableDatabase();
                 }
 
@@ -744,7 +738,6 @@ public class User implements java.io.Serializable {
                 }
 
 
-                DebugPrinter.Debug("käyttäjä:"+currentUser);
 
                 if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true) {
 
@@ -826,7 +819,9 @@ public class User implements java.io.Serializable {
                     {
                         boolean alreadyUpdatedLastUpdateTime=false;
                         if(conversation.isOnline(getContext())){
-                            List<Conversation> conversations=getConversations();
+
+                            List<Conversation> conversations=currentUser.getConversations();
+
                             for(int i=0;i<conversations.size();i++)
                             {
                                 Conversation conversation1=conversations.get(i);

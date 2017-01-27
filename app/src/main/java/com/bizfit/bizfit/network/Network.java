@@ -80,7 +80,6 @@ public class Network extends Thread{
                             StringBuilder total = new StringBuilder();
                             String line;
                             while ((line = r.readLine()) != null) {
-                                System.out.println(line);
                                 total.append(line).append('\n');
                             }
                             returnMessage(netMessage,total.toString());
@@ -88,7 +87,6 @@ public class Network extends Thread{
                             iterator.remove();
                             //networkReturn.returnMessage(total.toString());
                         }else{
-                            System.out.println("response"+conn.getResponseCode());
                             returnMessage(netMessage, Constants.networkconn_failed);
                             iterator.remove();
                             //netMessage.getNetworkReturn().returnMessage("failed");

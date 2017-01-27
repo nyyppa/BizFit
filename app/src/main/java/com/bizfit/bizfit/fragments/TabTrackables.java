@@ -118,7 +118,6 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
         registerForContextMenu(mRecyclerView);
         updateDataSet();
 
-        DebugPrinter.Debug("käyttäjä: "+user);
     }
 
     @Override
@@ -181,9 +180,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                         @Override
                         public void run() {
                             adapter.notifyItemInserted(newTracker.getIndex());
-                            DebugPrinter.Debug("testitesti");
-                            Log.d("Testi","testi");
-                            Log.d("Testi","testi");
+
                             //Your code to run in GUI thread here
                         }//public void run() {
                     });

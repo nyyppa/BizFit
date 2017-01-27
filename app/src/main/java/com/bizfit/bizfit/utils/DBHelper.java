@@ -218,11 +218,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
             try {
                 user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
-                System.out.println(cursor.getString(cursor.getColumnIndex("user")));
-                System.out.println(user.toJSON().toString(4));
-                System.out.println("user" + cursor.getString(cursor.getColumnIndex("user")));
+
             } catch (JSONException e) {
-                System.out.println("heihoi");
+
                 e.printStackTrace();
             }
         } else {

@@ -104,7 +104,6 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
                 conversation = conversations.get(i);
                 recipient = conversation.getOther();
-                DebugPrinter.Debug("CoachID keskustelulle:" + recipient);
                 items.add(new StoreRow.StoreItem(recipient, null, getDrawableID(recipient), (int) (Math.random()*400), null, null));
 
 
