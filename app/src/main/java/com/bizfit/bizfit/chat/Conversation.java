@@ -190,7 +190,8 @@ public class Conversation implements NetworkReturn,Serializable{
     public String getOther(){
         return other;
     }
-    public List<Message> sortConversation(){
+    public List<Message> sortConversation()
+    {
 
         Comparator<Message> comparator=new Comparator<Message>() {
             @Override

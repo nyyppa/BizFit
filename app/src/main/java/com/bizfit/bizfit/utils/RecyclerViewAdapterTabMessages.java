@@ -33,28 +33,21 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
     private ImageView iVRecipient;
     private LinkedList<StoreRow> storeRows;
     private RecyclerViewAdapterCoaches adapter;
-    private List<StoreRow> data;
+    private List<Conversation> data;
 
+    public RecyclerViewAdapterTabMessages(List<Conversation> data)
+    {
+        this.data=data;
+    }
+    private RecyclerView parent;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
+        this.parent = (RecyclerView) parent;
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_message_tab_preview, parent, false);
 
-        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.tab_messages_recyclerView);
-        LinearLayoutManager mManager = new LinearLayoutManager(getContext());
-        adapter = new RecyclerViewAdapterCoaches(storeRows);
 
-        /* mRecyclerView.setLayoutManager(mManager);
-        mRecyclerView.setAdapter(adapter);
-        //mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mManager)
-        {
-            @Override
-            public void onLoadMore(int current_page) {
-                // TODO Request data from server.
-            }
-        });
-        */
 
                 //TODO: Tee tämä!
                 showConversationInfo(v, parent);
@@ -134,11 +127,11 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
         public ScrollableMessages(View itemView) {
             super(itemView);
-            adapter = new RecyclerViewAdapterStoreRow();
+           // adapter = new RecyclerViewAdapterTabMessages();
             LinearLayoutManager mLayout = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.VERTICAL, false);
             container = (RecyclerView) itemView.findViewById(R.id.tab_messages_recyclerView);
             container.setLayoutManager(mLayout);
-            container.setAdapter(adapter);
+            //container.setAdapter(adapter);
             container.setNestedScrollingEnabled(false);
 
             container.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayout) {
@@ -157,7 +150,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
          * @param row Row to display.
          */
         public void prepareForDisplay(StoreRow row) {
-            ((RecyclerViewAdapterStoreRow) container.getAdapter()).setData(row.items);
+            //((RecyclerViewAdapterTabMessages) container.getAdapter()).setData(row.items);
             container.getAdapter().notifyDataSetChanged();
         }
     }
@@ -166,8 +159,9 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+//        ((ScrollableMessages) holder).prepareForDisplay(null);
     }
 
     @Override

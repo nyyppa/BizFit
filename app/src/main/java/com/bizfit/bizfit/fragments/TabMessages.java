@@ -13,12 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
+import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
 import com.bizfit.bizfit.utils.RecyclerViewAdapterTabMessages;
+
+import static com.bizfit.bizfit.User.getContext;
 
 public class TabMessages extends Fragment {
 
     public static String tag;
+    private RecyclerViewAdapterTabMessages adapter;
 
     public TabMessages() {
         // Required empty public constructor
@@ -35,8 +40,31 @@ public class TabMessages extends Fragment {
         View v = inflater.inflate(R.layout.tab_fragment_messages, container, false);
         RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.tab_messages_recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new RecyclerViewAdapterTabMessages());
+        mRecyclerView.setAdapter(new RecyclerViewAdapterTabMessages(null));
 
         return v;
     }
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_messages_recyclerView);
+        LinearLayoutManager mManager = new LinearLayoutManager(getContext());
+        adapter = new RecyclerViewAdapterTabMessages(null);
+
+        mRecyclerView.setLayoutManager(mManager);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mManager)
+        {
+            @Override
+            public void onLoadMore(int current_page) {
+                // TODO Request data from server.
+            }
+        });
+
+
+
+
+
+    }
+
 }
