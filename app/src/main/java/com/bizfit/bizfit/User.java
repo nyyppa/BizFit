@@ -270,6 +270,7 @@ public class User implements java.io.Serializable {
             jsonObject.put(Constants.job,"getSharedTrackers");
             JSONArray jsonArray=new JSONArray();
             for(int i=0;i<getSharedTrackerList().size();i++){
+                DebugPrinter.Debug("sharedTracker"+getSharedTrackerList().get(i).toJSON());
                 jsonArray.put(getSharedTrackerList().get(i).toJSON());
             }
             jsonObject.put("list",jsonArray);
