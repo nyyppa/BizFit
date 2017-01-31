@@ -415,7 +415,7 @@ public class User implements java.io.Serializable {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(jsonObject!=null){
+                    if(jsonObject!=null && currentUser !=null ){
                         currentUser.updateInformation(new User(jsonObject));
                     }
                 }
@@ -818,7 +818,7 @@ public class User implements java.io.Serializable {
                     while (true)
                     {
                         boolean alreadyUpdatedLastUpdateTime=false;
-                        if(conversation.isOnline(getContext())){
+                        if(conversation.isOnline(getContext()) && currentUser !=null ){
 
                             List<Conversation> conversations=currentUser.getConversations();
 
@@ -833,7 +833,6 @@ public class User implements java.io.Serializable {
                                         lastUpdateTime=System.currentTimeMillis();
                                     }
                                     conversation1.getNewMessagesAndSendOldOnes();
-
                                 }
 
                             }
