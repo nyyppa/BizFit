@@ -50,7 +50,9 @@
                     app:tabIndicatorColor="@color/white100"
                     app:tabMaxWidth="264dp"
                     app:tabMode="fixed"
-                    android:theme="@style/test" />
+                    android:theme="@style/TabTheme"
+                    app:tabTextColor="@color/grey_300"
+                    app:tabSelectedTextColor="@color/colorTextLight" />
             </LinearLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>

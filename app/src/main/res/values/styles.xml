@@ -19,17 +19,21 @@
     </style>
 
     <style name="ViewTrackablePercentage" parent="AppTheme">
-        <item name="android:textColor">@color/white100</item>
+        <item name="android:textColor">@color/colorTextLight</item>
         <item name="android:textSize">22sp</item>
     </style>
 
     <style name="ViewTrackableNotes" parent="AppTheme">
-        <item name="android:textColor">@color/black54</item>
+        <item name="android:textColor">@color/colorTextGrey</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="test" parent="AppTheme">
-        <item name="android:textColor">@color/black54</item>
+        <item name="android:textColor">@color/colorTextLight</item>
+        <item name="android:textSize">1sp</item>
+    </style>
+
+    <style name="TabTheme" parent="AppTheme">
         <item name="android:textSize">1sp</item>
     </style>
 
@@ -40,12 +44,12 @@
 
     <!-- All fonts are applied progmatically -->
     <style name="AppTheme.CalendarDates" parent="AppTheme">
-        <item name="android:textColor">@color/black54</item>
+        <item name="android:textColor">@color/colorTextGrey</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="AppTheme.CalendarHeader" parent="AppTheme">
-        <item name="android:textColor">@color/black87</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:singleLine">true</item>
@@ -53,7 +57,7 @@
     </style>
 
     <style name="AppTheme.CalendarWeekHeader" parent="AppTheme">
-        <item name="android:textColor">@color/black54</item>
+        <item name="android:textColor">@color/colorTextGrey</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
@@ -71,12 +75,12 @@
     
     <style name="ViewTrackerFragmentInfoContent" parent="AppTheme">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/black87</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ViewTrackerFragmentInfoTitle" parent="ViewTrackerFragmentInfoContent">
-        <item name="android:textColor">@color/black54</item>
+        <item name="android:textColor">@color/colorTextGrey</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -91,10 +95,10 @@
     </style>
 
     <style name="ToolBarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@color/black87</item>
-        <item name="android:textColorPrimaryInverse">@color/white100</item>
-        <item name="android:textColorSecondary">@color/black54</item>
-        <item name="actionMenuTextColor">@color/black54</item>
+        <item name="android:textColorPrimary">@color/colorTextDark</item>
+        <item name="android:textColorPrimaryInverse">@color/colorTextLight</item>
+        <item name="android:textColorSecondary">@color/colorTextGrey</item>
+        <item name="actionMenuTextColor">@color/colorTextGrey</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
@@ -109,13 +113,13 @@
 
     <style name="MessageSent" parent="MessageBase">
         <item name="android:background">@drawable/message_sent_background</item>
-        <item name="android:textColor">@color/white100</item>
+        <item name="android:textColor">@color/colorTextLight</item>
         <item name="android:layout_marginLeft">@dimen/activity_vertical_margin_wide</item>
     </style>
 
     <style name="MessageReceived" parent="MessageBase">
         <item name="android:background">@drawable/message_received_background</item>
-        <item name="android:textColor">@color/black87</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:layout_marginRight">@dimen/activity_vertical_margin_wide</item>
     </style>
 
