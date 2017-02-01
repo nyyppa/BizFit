@@ -111,7 +111,7 @@ public class MainPage extends AppCompatActivity implements
         Intent myIntent = new Intent(MainPage.this, MyAlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(MainPage.this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long time = TimeUnit.SECONDS.toMillis(60);
+        long time = TimeUnit.SECONDS.toMillis(10);
         //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,time, time, pendingIntent);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, time, time, pendingIntent);
     }

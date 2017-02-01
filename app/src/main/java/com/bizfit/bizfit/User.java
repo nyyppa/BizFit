@@ -12,6 +12,7 @@ import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
+import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -241,11 +242,34 @@ public class User implements java.io.Serializable {
             }
 
         }, c, null);
+        //JariJ 1.2.17
+        //Checking users conversations and calling getNewMessagesAndSendOldOnes
+        //Because notifications should show even when app is inactive
+        for(int i=0; i < user.getConversations().size();i++)
+        {
+            user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+        }
+
         List<Tracker> trackers = user.getTrackerlist();
         for (int i = 0; i < trackers.size(); i++)
         {
             trackers.get(i).update();
         }
+        Network.onExit();
+        Network network = Network.getNetwork();
+        try
+        {
+            if(network!=null)
+            {
+                Network.getNetwork().join();
+            }
+
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 

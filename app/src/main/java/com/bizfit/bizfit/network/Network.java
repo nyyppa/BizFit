@@ -192,5 +192,10 @@ public class Network extends Thread{
         network.addMessage(message);
     }
 
+    public static Network getNetwork()
+    {
+        return network;
+    }
+
 
 }
