@@ -429,7 +429,10 @@ public class User implements java.io.Serializable {
     {
         currentUser=null;
         dropLastUser=true;
+        Network.onExit();
         WakeThread();
+
+
     }
 
     /**
@@ -709,55 +712,83 @@ public class User implements java.io.Serializable {
         }
 
         @Override
-        public void run() {
-            while (true) {
-                super.run();
-                if (db == null && context!=null)
+        public void run()
+        {
+            try
+            {
+                while (true)
                 {
 
-                    db = new DBHelper(context, "database1", null, Constants.db_version);
+                    super.run();
+                    if (db == null && context!=null)
+                    {
 
-                }
-                if (d == null && db!=null) {
-                    d = db.getWritableDatabase();
-                }
+                        db = new DBHelper(context, "database1", null, Constants.db_version);
 
-                if (currentUser!=null && currentUser.saveUser) {
-                    db.saveUser(d, currentUser);
-                    currentUser.saveUser = false;
-                }
-                else if (currentUser!=null)
-                {
-                    currentUser.updateInformation( db.readUser(d,userNameForLogin));
-                    loadUserFromNet(currentUser.userName);
-                }
-                if(dropLastUser)
-                {
-                    db.deleteLastUser(d);
-                    dropLastUser=false;
-                }
-
-
-
-                if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true) {
-
-                   /* try {
-                      //  System.out.println(currentUser.checksum(currentUser));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
                     }
-                    */
+                    if (d == null && db!=null) {
+                        d = db.getWritableDatabase();
+                    }
 
-                    //t.start();
-                    /*try {
-                        System.out.println(currentUser.toJSON().toString(4));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
+                    if (currentUser!=null && currentUser.saveUser) {
+                        db.saveUser(d, currentUser);
+                        currentUser.saveUser = false;
+                    }
+                    else if (currentUser!=null)
+                    {
+                        currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                        loadUserFromNet(currentUser.userName);
+                    }
+                    if(dropLastUser)
+                    {
+                        db.deleteLastUser(d);
+                        dropLastUser=false;
+                    }
 
+
+
+                    if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true)
+                    {
+
+                       /* try {
+                          //  System.out.println(currentUser.checksum(currentUser));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+                        */
+
+                            //t.start();
+                        /*try {
+                            System.out.println(currentUser.toJSON().toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                    }
+                    sleepThread = true;
+                    while (sleepThread && currentUser !=null && !currentUser.saveUser) {
+                        synchronized (thread) {
+                            try {
+                                thread.wait(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    if (exit || currentUser == null ) {
+                        db.close();
+                        d.close();
+                        return;
+                    }
                 }
+            }
+            finally
+            {
+                DebugPrinter.Debug("Threadi");
+            }
+
 
                 /*Iterator<UserLoadedListener> iterator1 = listeners.iterator();
                 while (iterator1.hasNext()) {
@@ -772,22 +803,13 @@ public class User implements java.io.Serializable {
                     }
                 }
                 */
-                sleepThread = true;
-                while (sleepThread) {
-                    synchronized (thread) {
-                        try {
-                            thread.wait(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                if (exit) {
-                    db.close();
-                    d.close();
-                    return;
-                }
-            }
+
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            DebugPrinter.Debug("threadi tuhottu");
         }
     }
 
@@ -847,8 +869,14 @@ public class User implements java.io.Serializable {
                             }
                         }
 
+                        if(currentUser == null)
+                        {
+                            return;
+                        }
 
                     }
+
+
 
 
                 }

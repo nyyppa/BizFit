@@ -126,25 +126,19 @@ public class NotificationSender {
                 (NotificationManager) a.getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         int mId = 1;
-
         mNotificationManager.notify(mId, mBuilder.build());
-        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(a)
+      /*  NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(a)
                 .setContentTitle(title)
                 .setContentText(message);
         int numMessages = 0;
-// Start of a loop that processes data and then notifies the user
-        /*
-        mNotifyBuilder.setContentText(currentText)
+
+        mNotifyBuilder.setContentText(message)
                 .setNumber(++numMessages);
         // Because the ID remains unchanged, the existing notification is
         // updated.
         mNotificationManager.notify(
-                notifyID,
+                mId,
                 mNotifyBuilder.build());
-        ...
-
-
     */
-
     }
 }
