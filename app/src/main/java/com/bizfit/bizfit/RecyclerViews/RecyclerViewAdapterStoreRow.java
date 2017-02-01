@@ -1,4 +1,4 @@
-package com.bizfit.bizfit.utils;
+package com.bizfit.bizfit.RecyclerViews;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.utils.StoreRow;
 
 import java.util.List;
 

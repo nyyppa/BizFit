@@ -1,18 +1,16 @@
-package com.bizfit.bizfit.utils;
+package com.bizfit.bizfit.RecyclerViews;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
+import com.bizfit.bizfit.utils.StoreRow;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package com.bizfit.bizfit.utils;
+package com.bizfit.bizfit.RecyclerViews;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
+import com.bizfit.bizfit.utils.Constants;
 
 import java.util.List;
 
