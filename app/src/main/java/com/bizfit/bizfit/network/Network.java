@@ -148,6 +148,13 @@ public class Network extends Thread{
             onResume();
         }
     }
+    public static void onExit()
+    {
+        if(network !=null)
+        {
+            network.exit();
+        }
+    }
     public void addMessage(NetMessage message){
         if (message!=null) {
             if(alreadyInQueue(message)){
@@ -183,6 +190,11 @@ public class Network extends Thread{
             network.start();
         }
         network.addMessage(message);
+    }
+
+    public static Network getNetwork()
+    {
+        return network;
     }
 
 

@@ -4,9 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat.Builder;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.activities.MessageActivity;
@@ -101,10 +103,6 @@ public class NotificationSender {
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(a, MessageActivity.class);
         resultIntent.putExtra("coachID",coach);
-        //jos viesti conversationista
-
-
-
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -112,7 +110,7 @@ public class NotificationSender {
         // your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(a);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainPage.class);
+        stackBuilder.addParentStack(MessageActivity.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
@@ -123,10 +121,24 @@ public class NotificationSender {
 
 
         mBuilder.setContentIntent(resultPendingIntent);
+        mBuilder.setAutoCancel(true);
         NotificationManager mNotificationManager =
                 (NotificationManager) a.getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
+      /*  NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(a)
+                .setContentTitle(title)
+                .setContentText(message);
+        int numMessages = 0;
+
+        mNotifyBuilder.setContentText(message)
+                .setNumber(++numMessages);
+        // Because the ID remains unchanged, the existing notification is
+        // updated.
+        mNotificationManager.notify(
+                mId,
+                mNotifyBuilder.build());
+    */
     }
 }

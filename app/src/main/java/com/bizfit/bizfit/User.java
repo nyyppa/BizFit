@@ -12,6 +12,7 @@ import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
+import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -241,11 +242,34 @@ public class User implements java.io.Serializable {
             }
 
         }, c, null);
+        //JariJ 1.2.17
+        //Checking users conversations and calling getNewMessagesAndSendOldOnes
+        //Because notifications should show even when app is inactive
+        for(int i=0; i < user.getConversations().size();i++)
+        {
+            user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+        }
+
         List<Tracker> trackers = user.getTrackerlist();
         for (int i = 0; i < trackers.size(); i++)
         {
             trackers.get(i).update();
         }
+        Network.onExit();
+        Network network = Network.getNetwork();
+        try
+        {
+            if(network!=null)
+            {
+                Network.getNetwork().join();
+            }
+
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -415,7 +439,7 @@ public class User implements java.io.Serializable {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(jsonObject!=null){
+                    if(jsonObject!=null && currentUser !=null ){
                         currentUser.updateInformation(new User(jsonObject));
                     }
                 }
@@ -429,7 +453,10 @@ public class User implements java.io.Serializable {
     {
         currentUser=null;
         dropLastUser=true;
+        Network.onExit();
         WakeThread();
+
+
     }
 
     /**
@@ -709,55 +736,83 @@ public class User implements java.io.Serializable {
         }
 
         @Override
-        public void run() {
-            while (true) {
-                super.run();
-                if (db == null && context!=null)
+        public void run()
+        {
+            try
+            {
+                while (true)
                 {
 
-                    db = new DBHelper(context, "database1", null, Constants.db_version);
+                    super.run();
+                    if (db == null && context!=null)
+                    {
 
-                }
-                if (d == null && db!=null) {
-                    d = db.getWritableDatabase();
-                }
+                        db = new DBHelper(context, "database1", null, Constants.db_version);
 
-                if (currentUser!=null && currentUser.saveUser) {
-                    db.saveUser(d, currentUser);
-                    currentUser.saveUser = false;
-                }
-                else if (currentUser!=null)
-                {
-                    currentUser.updateInformation( db.readUser(d,userNameForLogin));
-                    loadUserFromNet(currentUser.userName);
-                }
-                if(dropLastUser)
-                {
-                    db.deleteLastUser(d);
-                    dropLastUser=false;
-                }
-
-
-
-                if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true) {
-
-                   /* try {
-                      //  System.out.println(currentUser.checksum(currentUser));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
                     }
-                    */
+                    if (d == null && db!=null) {
+                        d = db.getWritableDatabase();
+                    }
 
-                    //t.start();
-                    /*try {
-                        System.out.println(currentUser.toJSON().toString(4));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
+                    if (currentUser!=null && currentUser.saveUser) {
+                        db.saveUser(d, currentUser);
+                        currentUser.saveUser = false;
+                    }
+                    else if (currentUser!=null)
+                    {
+                        currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                        loadUserFromNet(currentUser.userName);
+                    }
+                    if(dropLastUser)
+                    {
+                        db.deleteLastUser(d);
+                        dropLastUser=false;
+                    }
 
+
+
+                    if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true)
+                    {
+
+                       /* try {
+                          //  System.out.println(currentUser.checksum(currentUser));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+                        */
+
+                            //t.start();
+                        /*try {
+                            System.out.println(currentUser.toJSON().toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                    }
+                    sleepThread = true;
+                    while (sleepThread && currentUser !=null && !currentUser.saveUser) {
+                        synchronized (thread) {
+                            try {
+                                thread.wait(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    if (exit || currentUser == null ) {
+                        db.close();
+                        d.close();
+                        return;
+                    }
                 }
+            }
+            finally
+            {
+                DebugPrinter.Debug("Threadi");
+            }
+
 
                 /*Iterator<UserLoadedListener> iterator1 = listeners.iterator();
                 while (iterator1.hasNext()) {
@@ -772,22 +827,13 @@ public class User implements java.io.Serializable {
                     }
                 }
                 */
-                sleepThread = true;
-                while (sleepThread) {
-                    synchronized (thread) {
-                        try {
-                            thread.wait(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                if (exit) {
-                    db.close();
-                    d.close();
-                    return;
-                }
-            }
+
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            DebugPrinter.Debug("threadi tuhottu");
         }
     }
 
@@ -818,7 +864,7 @@ public class User implements java.io.Serializable {
                     while (true)
                     {
                         boolean alreadyUpdatedLastUpdateTime=false;
-                        if(conversation.isOnline(getContext())){
+                        if(conversation.isOnline(getContext()) && currentUser !=null ){
 
                             List<Conversation> conversations=currentUser.getConversations();
 
@@ -833,7 +879,6 @@ public class User implements java.io.Serializable {
                                         lastUpdateTime=System.currentTimeMillis();
                                     }
                                     conversation1.getNewMessagesAndSendOldOnes();
-
                                 }
 
                             }
@@ -848,8 +893,14 @@ public class User implements java.io.Serializable {
                             }
                         }
 
+                        if(currentUser == null)
+                        {
+                            return;
+                        }
 
                     }
+
+
 
 
                 }

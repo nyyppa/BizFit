@@ -68,12 +68,13 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
                 break;
             case Constants.jari_email:
                 id=R.drawable.jartsa;
+                break;
             default:
                 id=R.drawable.tmp2;
                 break;
 
         }
-        return R.drawable.mylly;
+        return id;
     }
     // jariJ 20.1.17
     private void showConversationInfo(View v, ViewGroup parent)
