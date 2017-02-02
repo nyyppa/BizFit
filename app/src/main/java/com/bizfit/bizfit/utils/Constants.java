@@ -42,6 +42,7 @@ public class Constants
 	public static final String message = "message";
 	public static final String hasBeenSent = "hasBeenSent";
 	public static final String send_message = "send_message";
+	public static final String hasBeenSeen="hasBeenSeen";
 
 	//Tracker
 	public static final String start_date = "startDate";
