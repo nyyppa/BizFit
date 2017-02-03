@@ -59,11 +59,11 @@
     <string name="btnAccept">Hyväksyn</string>
 
     <string-array name="random_job_title">
-        <item> Toimii </item>
+        <item> Markkinointi </item>
         <item>Myynti</item>
         <item>Kirjanpito</item>
         <item>Sosiaalinen media markkinointi</item>
-        <item>markkinointi</item>
+        <item>Venäjän markkinointi</item>
         <item>Kylmä puhelut</item>
         <item>Työturvallisuus</item>
         <item>Työ Onnellisuus</item>
