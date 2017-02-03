@@ -185,35 +185,8 @@
                 android:layout_alignBaseline="@+id/tVChat"
                 android:layout_alignBottom="@+id/tVChat"
                 android:layout_toRightOf="@+id/tVChat"
-                android:layout_toEndOf="@+id/tVChat" />
-
-            <Button
-                android:text="@string/btnOrder_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnOrderChat"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_alignTop="@+id/tVChatPrice"
-                android:layout_centerHorizontal="true" />
-
-            <TextView
-                android:text="Call"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tVCall"
-                android:layout_below="@+id/btnOrderChat"
-                android:layout_alignLeft="@+id/tVChat"
-                android:layout_alignStart="@+id/tVChat" />
-
-            <TextView
-                android:text='"9,99e"'
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tVCallPrice"
-                android:layout_alignBaseline="@+id/tVCall"
-                android:layout_alignBottom="@+id/tVCall"
-                android:layout_toRightOf="@+id/tVCall"
-                android:layout_toEndOf="@+id/tVCall" />
+                android:layout_toEndOf="@+id/tVChat"
+                android:paddingLeft="5dp" />
 
             <Button
                 android:text="@string/terms_of_service"
@@ -234,6 +207,37 @@
                 android:layout_below="@+id/tVPlaceOfResidence"
                 android:layout_alignLeft="@+id/tVPlaceOfResidence"
                 android:layout_alignStart="@+id/tVPlaceOfResidence" />
+
+            <Button
+                android:text="@string/btnOrder_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnOrderChat"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_alignBaseline="@+id/tVChatPrice"
+                android:layout_alignBottom="@+id/tVChatPrice"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:text="Call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCall"
+                android:layout_alignBaseline="@+id/btnOrderCall"
+                android:layout_alignBottom="@+id/btnOrderCall"
+                android:layout_alignLeft="@+id/tVChat"
+                android:layout_alignStart="@+id/tVChat" />
+
+            <TextView
+                android:text='"9,99e"'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tVCallPrice"
+                android:layout_alignBaseline="@+id/tVCall"
+                android:layout_alignBottom="@+id/tVCall"
+                android:layout_toRightOf="@+id/tVChat"
+                android:layout_toEndOf="@+id/tVChat"
+                android:paddingLeft="5dp" />
 
         </RelativeLayout>
 
