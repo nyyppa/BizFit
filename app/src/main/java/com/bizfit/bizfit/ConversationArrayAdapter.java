@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.utils.Constants;
 
 import java.util.ArrayList;
@@ -55,9 +56,11 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         TextView textView=(TextView)convertView.findViewById(R.id.tVName);
         textView.setText(conversation.getOther());
         textView=(TextView)convertView.findViewById(R.id.tVPreview);
-        if(conversation.getMessages()!=null&&conversation.getMessages().size()>0){
-            textView.setText(conversation.getMessages().get(0).getMessage());
+        Message message=conversation.getLastRecievedMessage();
+        if (message!=null){
+            textView.setText(message.getMessage());
         }
+
         ImageView imageView=(ImageView)convertView.findViewById(R.id.iVRecipient);
         imageView.setImageDrawable(findDrawable(conversation.getOther()));
         convertView.setOnClickListener(new View.OnClickListener() {

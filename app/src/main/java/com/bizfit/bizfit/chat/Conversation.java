@@ -143,7 +143,35 @@ public class Conversation implements NetworkReturn,Serializable{
         }
         Network.addNetMessage(new NetMessage(null,this,jsonObject));
     }
-    private long getLastReceivedMessage(){
+    public Message getLastRecievedMessage(){
+        List<Message> list=getMessages();
+        Message message=null;
+        if(list!=null&&list.size()>0){
+            for(int i=0;i<list.size();i++){
+                if(list.get(i).getJob()== Message.Job.INCOMING){
+                    message=list.get(i);
+                    break;
+                }
+            }
+            if(message==null){
+                return null;
+            }
+            for(int i=0;i<list.size();i++){
+                switch (list.get(i).getJob()){
+                    case OUTGOING:
+                        break;
+                    case INCOMING:
+                        if(message.getCreationTime()<list.get(i).getCreationTime()){
+                            message=list.get(i);
+                        }
+                        break;
+                }
+            }
+            return message;
+        }
+        return null;
+    }
+    private long getLastReceivedMessageTime(){
         long lastReceivedMessage=0;
         for(int i = 0; i< messageList.size(); i++){
             Message message = messageList.get(i);
