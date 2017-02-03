@@ -180,6 +180,7 @@ public class Message implements NetworkReturn, Serializable {
             jsonObject.put(Constants.message, message);
             jsonObject.put(Constants.creationTime, creationTime);
             jsonObject.put(Constants.hasBeenSent, hasBeenSent);
+            jsonObject.put(Constants.hasBeenSeen,hasBeenSeen);
         } catch (JSONException e) {
             e.printStackTrace();
         }
