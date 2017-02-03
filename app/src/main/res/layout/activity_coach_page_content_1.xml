@@ -233,16 +233,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:id="@+id/btnOrderCall"
                 style="@style/Widget.AppCompat.Button.Small"
                 android:text="@string/order_call"
-                android:layout_alignBaseline="@+id/tVCallPrice"
-                android:layout_alignBottom="@+id/tVCallPrice"
-                android:layout_alignRight="@+id/btnOrderChat"
-                android:layout_alignEnd="@+id/btnOrderChat"
+                android:layout_below="@+id/btnOrderChat"
                 android:layout_alignLeft="@+id/btnOrderChat"
-                android:layout_alignStart="@+id/btnOrderChat"/>
+                android:layout_alignStart="@+id/btnOrderChat" />
 
         </RelativeLayout>
 
