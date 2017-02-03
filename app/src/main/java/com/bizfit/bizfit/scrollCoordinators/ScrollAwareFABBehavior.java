@@ -5,12 +5,9 @@ import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,7 +15,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
 import com.bizfit.bizfit.R;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
 
 /**
  * Defines behaviour of Floating Action Button when page content is scrolled.

@@ -184,6 +184,18 @@ public class Conversation implements NetworkReturn,Serializable{
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    private void updateMessageSeens(){
+        boolean valuesChanged=false;
+        for(int i=0;messageList!=null&&i<messageList.size();i++){
+            if(messageList.get(i).updateHasBeenSeen(true)){
+                valuesChanged=true;
+            }
+        }
+        if(valuesChanged){
+            getUser().save(this);
+        }
+    }
+
     public String getOwner(){
         return owner;
     }
@@ -268,7 +280,7 @@ public class Conversation implements NetworkReturn,Serializable{
 
                         }
                     });
-                }else if(messagesReceived&&message1!=null){
+                }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     NotificationSender.sendNotification(User.getContext(),getOther(),message1.getMessage(),getOther());
                     sortConversation();
                 }
@@ -288,6 +300,7 @@ public class Conversation implements NetworkReturn,Serializable{
     {
 
         this.chatFragment=chatFragment;
+        updateMessageSeens();
     }
     //TODO Merge
     public boolean isConversationAlreadyInList(List<Conversation>list){

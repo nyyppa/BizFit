@@ -14,11 +14,7 @@ import android.view.ViewGroup;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterTabMessages;
-
-import static com.bizfit.bizfit.User.getContext;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTabMessages;
 
 public class TabMessages extends Fragment {
 

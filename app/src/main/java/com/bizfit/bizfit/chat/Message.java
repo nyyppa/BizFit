@@ -26,6 +26,7 @@ public class Message implements NetworkReturn, Serializable {
     private boolean hasBeenSent=false;
     private Conversation conversation;
     private Job job;
+    private boolean hasBeenSeen=false;
 
 
     public Message(JSONObject jsonObject, Conversation conversation){
@@ -53,6 +54,9 @@ public class Message implements NetworkReturn, Serializable {
             {
                 hasBeenSent=jsonObject.getBoolean(Constants.hasBeenSent);
             }
+            if(jsonObject.has(Constants.hasBeenSeen)){
+                hasBeenSeen=jsonObject.getBoolean(Constants.hasBeenSeen);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,6 +64,7 @@ public class Message implements NetworkReturn, Serializable {
         setJob();
         codeCheck();
     }
+
 
     public Message(Conversation conversation, String resipient, String sender, String message){
         this.conversation = conversation;
@@ -70,6 +75,11 @@ public class Message implements NetworkReturn, Serializable {
         setJob();
         codeCheck();
     }
+    public boolean updateHasBeenSeen(boolean newValue){
+        boolean oldValue=hasBeenSeen;
+        this.hasBeenSeen=newValue;
+        return oldValue!=newValue;
+    }
     public boolean equals(Message message){
         if(message.getCreationTime()==getCreationTime()){
             return true;
@@ -79,10 +89,14 @@ public class Message implements NetworkReturn, Serializable {
     private void setJob(){
         if(conversation.getOwner().equals(getSender())){
             job=Job.OUTGOING;
+            hasBeenSeen=true;
         }else{
             job=Job.INCOMING;
         }
 
+    }
+    public boolean getHasBeenSeen(){
+        return hasBeenSeen;
     }
     private void codeCheck(){
         if(message.startsWith("code share_tracker")&&getJob()==Job.INCOMING){

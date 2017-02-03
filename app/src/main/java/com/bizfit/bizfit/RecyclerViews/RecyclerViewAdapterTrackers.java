@@ -1,4 +1,4 @@
-package com.bizfit.bizfit.utils;
+package com.bizfit.bizfit.RecyclerViews;
 
 
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.fragments.TabTrackables;
+import com.bizfit.bizfit.utils.AssetManagerOur;
 
 /**
  * Manages binding of View's of RecyclerView within Trackers tab.

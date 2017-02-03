@@ -1,7 +1,6 @@
-package com.bizfit.bizfit.utils;
+package com.bizfit.bizfit.RecyclerViews;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,18 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
+import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.utils.StoreRow;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.bizfit.bizfit.R.id.iVRecipient;
-import static com.bizfit.bizfit.User.getContext;
 
 /**
  *

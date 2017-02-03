@@ -4,7 +4,6 @@ package com.bizfit.bizfit.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,14 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.AddTracker;
 import com.bizfit.bizfit.activities.ViewTracker;
 import com.bizfit.bizfit.utils.FieldNames;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
 
 /**
  * Displays visual representation of users progress.

@@ -25,17 +25,17 @@ public class StoreRow<T> {
     /**
      * Contains String format data associated with this row.
      */
-    protected HashMap<String, String> stringData;
+    public HashMap<String, String> stringData;
 
     /**
      * Store row may have a background, but is not necessary.
      */
-    protected Drawable background;
+    public Drawable background;
 
     /**
      * Store row may contain object type data.
      */
-    protected List<T> items;
+    public List<T> items;
 
     public StoreRow() {
     }
@@ -132,12 +132,12 @@ public class StoreRow<T> {
      */
     public static class StoreItem
     {
-        protected String name;
-        protected Drawable image;
-        protected int imageId;
-        protected int testimonials;
-        protected String coachID;
-        protected String telNumber="5556";
+        public String name;
+        public Drawable image;
+        public int imageId;
+        public int testimonials;
+        public String coachID;
+        public String telNumber="5556";
 
         public StoreItem(String name, Drawable image, int imageId, int testimonials,String coachID,String telNumber)
         {

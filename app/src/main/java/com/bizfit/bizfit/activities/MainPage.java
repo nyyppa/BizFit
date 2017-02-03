@@ -25,10 +25,10 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
-import com.bizfit.bizfit.fragments.TabMessages;
+import com.bizfit.bizfit.fragments.TabConversationList;
 import com.bizfit.bizfit.fragments.TabTrackables;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterStoreRow;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterTrackers;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterStoreRow;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
@@ -171,7 +171,7 @@ public class MainPage extends AppCompatActivity implements
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabTrackables(), getResources().getString(R.string.title_tab_my_trackers));
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
-        adapter.addFragment(new TabMessages(), getResources().getString(R.string.title_tab_messages));
+        adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 

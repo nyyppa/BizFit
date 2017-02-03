@@ -1,8 +1,6 @@
 package com.bizfit.bizfit.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +11,7 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
-import com.bizfit.bizfit.tracker.Tracker;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterMessages;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterMessages;
 
 /**
  *

@@ -12,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
-import com.bizfit.bizfit.utils.RecyclerViewAdapterCoaches;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterCoaches;
 import com.bizfit.bizfit.utils.StoreRow;
 
 import java.util.HashMap;
