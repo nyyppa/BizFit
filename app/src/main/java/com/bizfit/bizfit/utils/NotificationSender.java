@@ -127,18 +127,5 @@ public class NotificationSender {
         // mId allows you to update the notification later on.
         int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
-      /*  NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(a)
-                .setContentTitle(title)
-                .setContentText(message);
-        int numMessages = 0;
-
-        mNotifyBuilder.setContentText(message)
-                .setNumber(++numMessages);
-        // Because the ID remains unchanged, the existing notification is
-        // updated.
-        mNotificationManager.notify(
-                mId,
-                mNotifyBuilder.build());
-    */
     }
 }

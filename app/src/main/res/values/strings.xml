@@ -328,11 +328,10 @@
     <string name="order_call">Order call</string>
     <string name="btnAccept">I accept</string>
     <string-array name="random_job_title">
-
-        <item>Sales</item>
+        <item>Marketing</item>
         <item>Accounting</item>
         <item>Social Media</item>
-        <item>Marketing</item>
+        <item>Russian Marketing</item>
         <item>Cold Calls</item>
         <item>Work Safety</item>
         <item>Work Happines</item>
