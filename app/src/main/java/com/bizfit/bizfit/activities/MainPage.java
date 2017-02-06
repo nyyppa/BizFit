@@ -108,12 +108,15 @@ public class MainPage extends AppCompatActivity implements
     }
 
     private void startBackGroundService() {
+
         Intent myIntent = new Intent(MainPage.this, MyAlarmService.class);
         PendingIntent pendingIntent = PendingIntent.getService(MainPage.this, 0, myIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long time = TimeUnit.SECONDS.toMillis(10);
-        //alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,time, time, pendingIntent);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, time, time, pendingIntent);
+
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,time, time, pendingIntent);
+
+        //alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, time, time, pendingIntent);
     }
 
     @Override
@@ -207,27 +210,11 @@ public class MainPage extends AppCompatActivity implements
     {
         if(getIntent().hasExtra("userName"))
         {
-            User.getLastUser(new User.UserLoadedListener()
-            {
-
-
-                @Override
-                public void informationUpdated() {
-
-                }
-            }, this, getIntent().getStringExtra("userName"));
+            User.getLastUser(null, this, getIntent().getStringExtra("userName"));
         }
         else
         {
-            User.getLastUser(new User.UserLoadedListener()
-            {
-
-
-                @Override
-                public void informationUpdated() {
-
-                }
-            }, this, "default");
+            User.getLastUser(null, this, "default");
         }
     }
 }

@@ -234,14 +234,8 @@ public class User implements java.io.Serializable {
      */
     public static void update(Context c)
     {
-        User user=getLastUser(new UserLoadedListener() {
-
-            @Override
-            public void informationUpdated() {
-
-            }
-
-        }, c, null);
+        User user=getLastUser(null, c, null);
+        DebugPrinter.Debug("userAlarm"+user.userName);
         //JariJ 1.2.17
         //Checking users conversations and calling getNewMessagesAndSendOldOnes
         //Because notifications should show even when app is inactive
@@ -257,6 +251,7 @@ public class User implements java.io.Serializable {
         }
         Network.onExit();
         Network network = Network.getNetwork();
+        /*
         try
         {
             if(network!=null)
@@ -268,7 +263,7 @@ public class User implements java.io.Serializable {
         catch (InterruptedException e)
         {
             e.printStackTrace();
-        }
+        }*/
 
 
     }
@@ -293,7 +288,6 @@ public class User implements java.io.Serializable {
             jsonObject.put(Constants.job,"getSharedTrackers");
             JSONArray jsonArray=new JSONArray();
             for(int i=0;i<getSharedTrackerList().size();i++){
-                DebugPrinter.Debug("sharedTracker"+getSharedTrackerList().get(i).toJSON());
                 jsonArray.put(getSharedTrackerList().get(i).toJSON());
             }
             jsonObject.put("list",jsonArray);
@@ -306,17 +300,21 @@ public class User implements java.io.Serializable {
                 if(!message.equals(Constants.networkconn_failed)){
                     try {
                         JSONArray jsonArray=new JSONArray(message);
+                        boolean informationUpdated=false;
                         for(int i=0;i<jsonArray.length();i++){
                             Tracker t=new Tracker(new JSONObject(jsonArray.getString(i)));
                             if(!t.updateInList(trackersSharedWithMe)){
                                 trackersSharedWithMe.add(t);
+                                informationUpdated=true;
                             }
                         }
                         List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
-                        for(int i=0;i<listenersForInformationUpdated.size();i++){
+                        for(int i=0;i<listenersForInformationUpdated.size()&&informationUpdated;i++){
                             if(listenersForInformationUpdated.get(i)!=null){
                                 listenersForInformationUpdated.get(i).informationUpdated();
                             }
+                            DebugPrinter.Debug("time"+System.currentTimeMillis());
+                            DebugPrinter.Debug("ListenersSize"+listenersForInformationUpdated.size());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -349,7 +347,6 @@ public class User implements java.io.Serializable {
      * @param listener notifies this listener when user is loaded
      */
     public static User getLastUser(UserLoadedListener listener, Context c, String userName) {
-
         if(userName!=null){
             userNameForLogin=userName;
         }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
@@ -364,7 +361,9 @@ public class User implements java.io.Serializable {
         if(c!=null){
             context = c;
         }
-        getListenersForInformationUpdated().add(listener);
+        if (listener!=null){
+            getListenersForInformationUpdated().add(listener);
+        }
         WakeThread();
         return currentUser;
     }
@@ -393,6 +392,7 @@ public class User implements java.io.Serializable {
                 thread.start();
             }
             synchronized (thread) {
+                thread.setName("DatabaseThread");
                 thread.notify();
                 thread.sleepThread = false;
             }
@@ -795,12 +795,13 @@ public class User implements java.io.Serializable {
                     while (sleepThread && currentUser !=null && !currentUser.saveUser) {
                         synchronized (thread) {
                             try {
-                                thread.wait(1000);
+                                thread.wait(10000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
                     }
+                    DebugPrinter.Debug("DatabaseThread"+this);
                     if (exit || currentUser == null ) {
                         db.close();
                         d.close();
@@ -905,6 +906,7 @@ public class User implements java.io.Serializable {
 
                 }
             });
+            GetMessagesThread.setName("MessageThread");
             GetMessagesThread.start();
         }
         List<Conversation> conversations=getConversations();

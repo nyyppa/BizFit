@@ -32,6 +32,7 @@ public class Network extends Thread{
     public Network(){
         netMessagesList=new ArrayList<>();
         messagesToAdd=new ArrayList<>();
+        setName("NetWorkThread");
     }
 
 
@@ -139,7 +140,7 @@ public class Network extends Thread{
     public void onResume(){
         synchronized (this){
             paused=false;
-            this.notifyAll();
+            this.notify();
         }
     }
     public void exit(){

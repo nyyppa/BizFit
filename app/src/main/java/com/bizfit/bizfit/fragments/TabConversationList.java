@@ -18,7 +18,8 @@ import java.util.ArrayList;
  */
 
 public class TabConversationList extends Fragment{
-
+    View view2;
+    User user2;
     public TabConversationList(){
 
     }
@@ -32,10 +33,24 @@ public class TabConversationList extends Fragment{
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
-        User user= User.getLastUser(null,null,null);
+        view2=view;
+        user2= User.getLastUser(new User.UserLoadedListener() {
+            @Override
+            public void informationUpdated() {
+                if(getActivity()!=null){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ListView listView= (ListView) view2.findViewById(R.id.lista);
+                            listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
+                        }
+                    });
+                }
+            }
+        }, null, null);
         ListView listView= (ListView) view.findViewById(R.id.lista);
 
-        listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user.getConversations()));
+        listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
 
     }
 }

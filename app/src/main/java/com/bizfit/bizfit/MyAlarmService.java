@@ -17,6 +17,7 @@ public class MyAlarmService extends Service {
 
 
     public IBinder onBind(Intent intent) {
+
         // TODO Auto-generated method stub
         return null;
     }
@@ -29,12 +30,9 @@ public class MyAlarmService extends Service {
     }
 
 
-    @Override
 
-    public void onStart(Intent intent, int startId) {
-        // TODO Auto-generated method stub
-        super.onStart(intent, startId);
-    }
+
+
 
     @Override
     public boolean onUnbind(Intent intent) {

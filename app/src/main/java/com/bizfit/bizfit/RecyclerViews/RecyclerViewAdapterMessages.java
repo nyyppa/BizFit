@@ -32,14 +32,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
     public RecyclerViewAdapterMessages(final Intent intent, Context context) {
         this.intent=intent;
-        User user=User.getLastUser(new User.UserLoadedListener() {
-
-
-            @Override
-            public void informationUpdated() {
-
-            }
-        },context, null);
+        User user=User.getLastUser(null,context, null);
         if(intent!=null&&intent.hasExtra(Constants.coach_id)){
             conversation=user.addConversation(new Conversation(user.userName,intent.getStringExtra(Constants.coach_id),user));
         }else{

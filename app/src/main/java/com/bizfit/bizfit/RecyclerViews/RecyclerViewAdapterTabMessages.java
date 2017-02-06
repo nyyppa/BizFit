@@ -79,12 +79,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
     // jariJ 20.1.17
     private void showConversationInfo(View v, ViewGroup parent)
     {
-        User user= User.getLastUser(new User.UserLoadedListener() {
-            @Override
-            public void informationUpdated()
-            {
-            }
-        }, null,null);
+        User user= User.getLastUser(null, null,null);
 
         List<Conversation> conversations= user.getConversations();
         for(int i=0; i < conversations.size();i++)

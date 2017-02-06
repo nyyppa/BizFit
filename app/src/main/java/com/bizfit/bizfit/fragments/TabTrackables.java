@@ -154,13 +154,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                     Log.d("Testi","testi");
                     final Intent data2=data;
 
-                    User user=User.getLastUser(new User.UserLoadedListener() {
-
-                        @Override
-                        public void informationUpdated() {
-
-                        }
-                    }, getContext(), null);
+                    User user=User.getLastUser(null, getContext(), null);
                     Log.d("Testi","testi");
                     final Tracker newTracker = new Tracker();
 
