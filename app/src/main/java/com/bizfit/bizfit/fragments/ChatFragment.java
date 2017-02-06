@@ -170,11 +170,12 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         // Share-button listener
 
         Button share = (Button) layout.findViewById(R.id.tracker_sharing_share);
-        close.setOnClickListener(new View.OnClickListener() {
+        share.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO: share selected trackers
+                popupSelect.dismiss();
                 mAdapter.getConversation().createMessage("code share_tracker"+User.getLastUser(null,null,null).getTrackers()[0].shareTracker(mAdapter.getConversation().getOwner()).toString());
                 mAdapter.notifyItemInserted(0);
                 mRecyclerView.smoothScrollToPosition(0);
