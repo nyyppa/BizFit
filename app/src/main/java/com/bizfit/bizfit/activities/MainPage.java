@@ -57,7 +57,7 @@ public class MainPage extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         setSupportActionBar(toolbar);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
@@ -75,7 +75,6 @@ public class MainPage extends AppCompatActivity implements
                 }
             }
         });
-
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
