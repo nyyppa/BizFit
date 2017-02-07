@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -39,6 +41,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private RecyclerViewAdapterMessages mAdapter;
     private RecyclerView mRecyclerView;
     private TextView input;
+    private Snackbar noTrackers;
+    private Snackbar noTrackersShared;
 
     // TODO: Rename and change types and number of parameters
     public static ChatFragment newInstance(String param1, String param2) {
@@ -75,6 +79,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
+        noTrackers = Snackbar.make(v, "You don't have any trackers to share", Snackbar.LENGTH_LONG);
+        noTrackersShared = Snackbar.make(v, "No trackers were shared", Snackbar.LENGTH_LONG);
+
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
         v.findViewById(R.id.shareTracker).setOnClickListener(this);
         input = (TextView) v.findViewById(R.id.message);
@@ -83,6 +90,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.button_send_message:
                 // TODO A finer solution with text trimming.
@@ -101,13 +109,15 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.shareTracker:
-                if(User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN).length>0){
+                if(User.getLastUser(null,null,null).getTrackers().length>0){
+
 
                     shareTrackers();
 
                 } else {
+
                     // Notifies user if no trackers are found
-                    Snackbar.make(v.findViewById(R.id.coordinatorMessages), "You don't have any trackers to share", Snackbar.LENGTH_LONG).show();
+                    noTrackers.show();
                 }
 
                 break;
@@ -127,10 +137,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         // Adding trackers into a list
 
-        ListView lv = (ListView) layout.findViewById(R.id.share_tracker_listview);
-        Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers(User.TrackerSharedEnum.OWN);
+        final ListView lv = (ListView) layout.findViewById(R.id.share_tracker_listview);
+        final Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers();
 
-        List<String> trackerlist = new ArrayList();
+        final List<String> trackerlist = new ArrayList();
 
 
         for(int i = 0; i < trackerarray.length; i++) {
@@ -164,6 +174,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 popupSelect.dismiss();
+                noTrackersShared.show();
             }
         });
 
@@ -176,9 +187,27 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO: share selected trackers
                 popupSelect.dismiss();
-                mAdapter.getConversation().createMessage("code share_tracker"+User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN)[0].shareTracker(mAdapter.getConversation().getOwner()).toString());
-                mAdapter.notifyItemInserted(0);
-                mRecyclerView.smoothScrollToPosition(0);
+
+                boolean shared = false;
+
+                // Iterating through trackers and sharing selected ones
+
+                for(int i = 0; i < trackerarray.length; i++) {
+                    if(lv.isItemChecked(i)) {
+                        trackerarray[i].shareTracker(mAdapter.getConversation().getOwner());
+                        shared = true;
+                    }
+                }
+
+                // If trackers were shared, create message. Else notify user that nothing was shared.
+
+                if(shared) {
+                    mAdapter.getConversation().createMessage("Shared tracker(s)");
+                    mAdapter.notifyItemInserted(0);
+                    mRecyclerView.smoothScrollToPosition(0);
+                } else {
+                    noTrackersShared.show();
+                }
             }
         });
     }
