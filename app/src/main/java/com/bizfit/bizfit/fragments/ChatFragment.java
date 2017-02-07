@@ -109,7 +109,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.shareTracker:
-                if(User.getLastUser(null,null,null).getTrackers().length>0){
+                if(User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN).length>0){
 
 
                     shareTrackers();
@@ -138,7 +138,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         // Adding trackers into a list
 
         final ListView lv = (ListView) layout.findViewById(R.id.share_tracker_listview);
-        final Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers();
+        final Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers(User.TrackerSharedEnum.OWN);
 
         final List<String> trackerlist = new ArrayList();
 
