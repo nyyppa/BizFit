@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.shareTracker:
-                if(User.getLastUser(null,null,null).getTrackers().length>0){
+                if(User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN).length>0){
 
                     shareTrackers();
 
@@ -128,7 +128,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         // Adding trackers into a list
 
         ListView lv = (ListView) layout.findViewById(R.id.share_tracker_listview);
-        Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers();
+        Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers(User.TrackerSharedEnum.OWN);
 
         List<String> trackerlist = new ArrayList();
 
@@ -176,7 +176,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO: share selected trackers
                 popupSelect.dismiss();
-                mAdapter.getConversation().createMessage("code share_tracker"+User.getLastUser(null,null,null).getTrackers()[0].shareTracker(mAdapter.getConversation().getOwner()).toString());
+                mAdapter.getConversation().createMessage("code share_tracker"+User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN)[0].shareTracker(mAdapter.getConversation().getOwner()).toString());
                 mAdapter.notifyItemInserted(0);
                 mRecyclerView.smoothScrollToPosition(0);
             }

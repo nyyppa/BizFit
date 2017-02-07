@@ -124,9 +124,9 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
         switch (item.getItemId()) {
             case DELETE_ID:
                 // TODO Confirmation dialogue
-                trackers = user.getTrackers();
+                trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 trackers[adapter.getPosition()].delete();
-                trackers = user.getTrackers();
+                trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 adapter.notifyItemRemoved(adapter.getPosition());
 
 
@@ -167,7 +167,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                             , data2.getIntExtra(FieldNames.DAY, 1)
                             , data2.getBooleanExtra(FieldNames.RECURRING, false
                             ));
-                    trackers = user.getTrackers();
+                    trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -196,7 +196,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 // notifyDataSetChanged() blanket notification. No animations are
                 // are triggered when this method is called.
                 if (user != null) {
-                    trackers = user.getTrackers();
+                    trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                     adapter.notifyDataSetChanged();
                 } else {
                     User.getLastUser(this, getContext(), null);
@@ -254,7 +254,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 @Override
                 public void run() {
                     TabTrackables.this.user = user;
-                    trackers = user.getTrackers();
+                    trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                     adapter.notifyDataSetChanged();
                 }
             });

@@ -637,7 +637,7 @@ public class User implements java.io.Serializable {
     /**
      * @return Returns all the users trackers
      */
-    public Tracker[] getTrackers()
+    public Tracker[] getTrackers(TrackerSharedEnum trackerSharedEnum)
     {
         if(trackers==null)
         {
@@ -647,6 +647,11 @@ public class User implements java.io.Serializable {
         getTrackerlist().toArray(t);
         Tracker[] p=new Tracker[trackersSharedWithMe.size()];
         trackersSharedWithMe.toArray(p);
+        if (trackerSharedEnum==TrackerSharedEnum.SHARED){
+            return p;
+        }else if(trackerSharedEnum==TrackerSharedEnum.OWN){
+            return t;
+        }
         return concat(t,p);
     }
     public static <T> T[] concat(T[] first, T[] second) {
@@ -959,5 +964,9 @@ public class User implements java.io.Serializable {
     public String getUserName(UserLoadedListener listener, String userName)
     {
         return userName;
+    }
+
+    public enum TrackerSharedEnum{
+        ALL,OWN,SHARED;
     }
 }
