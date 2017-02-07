@@ -158,12 +158,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 ctv.setText(getItem(position));
                 if(!trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){
                     ctv.setOnClickListener(new View.OnClickListener() {
-
                         @Override
                         public void onClick(View v) {
                             ctv.setChecked(!ctv.isChecked());
                         }
-
                     });
                 }else{
                     ctv.setOnClickListener(new View.OnClickListener() {
