@@ -42,7 +42,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
             window.setStatusBarColor(getResources().getColor(R.color.grey_600));
         }
         ViewTrackerFragment fragment;
-        Tracker[] trackers = user.getTrackers();
+        Tracker[] trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
         for (int i = 0; i < trackers.length; i++) {
             fragment = ViewTrackerFragment.newInstance(trackers[i]);
             adapter.addFragment(fragment, trackers[i].getName());
@@ -75,7 +75,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
             @Override
             public void run() {
                 ViewTrackerFragment fragment;
-                Tracker[] trackers = user.getTrackers();
+                Tracker[] trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 for (int i = 0; i < trackers.length; i++) {
                     fragment = ViewTrackerFragment.newInstance(trackers[i]);
                     adapter.addFragment(fragment, trackers[i].getName());

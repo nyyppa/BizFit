@@ -70,6 +70,7 @@ public class Constants
 	public static final String tolerance = "tolerance";
 	public static final String color = "color";
 	public static final String number_tracked = "numberTracked";
+	public static final String trackerShaderWith="trackerSharedWith";
 
 
 

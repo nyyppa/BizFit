@@ -5,6 +5,8 @@ import com.bizfit.bizfit.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 /**
  * Created by attey on 20/01/2017.
  */
@@ -32,7 +34,21 @@ public class SharedTrackerWith implements java.io.Serializable {
         }
         return jsonObject;
     }
+    public String getUserName(){
+        return userName;
+    }
     public boolean equals(SharedTrackerWith sharedTrackerWith){
         return this.userName.equals(sharedTrackerWith.userName);
+    }
+    public boolean equals(String userName){
+        return userName.equals(getUserName());
+    }
+    public static boolean alreadySharedWith(String userName, List<SharedTrackerWith> list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).equals(userName)){
+                return true;
+            }
+        }
+        return false;
     }
 }
