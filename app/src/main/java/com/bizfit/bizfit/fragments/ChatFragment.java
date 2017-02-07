@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -151,26 +152,29 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         // Setting the tracker list into listview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_multiple_choice, trackerlist){
             public View getView(int position, View convertView, ViewGroup parent) {
+                convertView=super.getView(position,convertView,parent);
+                View v = convertView;
+                final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
+                ctv.setText(getItem(position));
+                if(!trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){
+                    ctv.setOnClickListener(new View.OnClickListener() {
 
-                if(convertView == null)
-                {
-                    View v = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_multiple_choice, null);
-                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
-                    ctv.setText(getItem(position));
-                    if(!trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){
-                        ctv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ctv.setChecked(!ctv.isChecked());
+                        }
 
-                            @Override
-                            public void onClick(View v) {
-                                ctv.setChecked(!ctv.isChecked());
-                            }
+                    });
+                }else{
+                    ctv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        });
-                    }
-                    return v;
+                        }
+                    });
                 }
-                return convertView;
-            };
+                return v;
+            }
         };
         //ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, trackerlist);
         lv.setAdapter(adapter);
