@@ -12,7 +12,6 @@ import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
-import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +20,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -132,7 +130,7 @@ public class User implements java.io.Serializable {
         }
         return conversations;
     }
-    private List<SharedTracker> getSharedTrackerList(){
+    public List<SharedTracker> getSharedTrackerList(){
         if (sharedTrackerList==null){
             sharedTrackerList=new ArrayList<>();
         }
@@ -215,7 +213,7 @@ public class User implements java.io.Serializable {
         List<Tracker> newTrackers=new ArrayList<>();
         for(int i=0;i<list.size();i++){
            Tracker t=list.get(i);
-           if(!t.isTHisInList(getTrackerlist())&&!t.hasThisBeenDeleted(deletedTrackers)){
+           if(!t.isTHisInList(getTrackerlist())&&!t.hasThisBeenRemoved(deletedTrackers)){
                newTrackers.add(t);
            }else{
            }
@@ -282,7 +280,7 @@ public class User implements java.io.Serializable {
         }
         getTrackersSharedWithMe();
     }
-    private void getTrackersSharedWithMe(){
+    public void getTrackersSharedWithMe(){
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.job,"getSharedTrackers");
@@ -323,6 +321,15 @@ public class User implements java.io.Serializable {
             }
         },jsonObject);
         Network.addNetMessage(netMessage);
+    }
+
+    public List<Tracker> getTrackersSharedWithMeList()
+    {
+        if(trackersSharedWithMe==null)
+        {
+            trackersSharedWithMe=new ArrayList<>();
+        }
+        return trackersSharedWithMe;
     }
     private List<Tracker> getTrackerlist()
     {

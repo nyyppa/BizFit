@@ -1,5 +1,8 @@
 package com.bizfit.bizfit.tracker;
 
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONException;
@@ -32,6 +35,39 @@ public class SharedTracker implements java.io.Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void removeFromNet()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put(Constants.job, "CancelTrackerSharing");
+            jsonObject.put("SharedTracker", this.toJSON());
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        NetMessage netMessage = new NetMessage(null, new NetworkReturn()
+        {
+            @Override
+            //TODO error handling
+            public void returnMessage(String message)
+            {
+                if(message.equals(Constants.networkconn_failed))
+                {
+                    removeFromNet();
+                }
+
+            }
+        }, jsonObject);
+        Network.addNetMessage(netMessage);
+    }
+
+    public boolean equals(Tracker t)
+    {
+        return t.creationTime==this.creationTime;
     }
 
     public String getUserName(){

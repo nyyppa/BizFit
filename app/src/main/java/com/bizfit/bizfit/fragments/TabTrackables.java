@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
@@ -29,7 +30,7 @@ import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
 public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
     /**
-     * ID used to determine if delete option in contextual menu was clicked.
+     * ID used to determine if remove option in contextual menu was clicked.
      */
     public final static int DELETE_ID = 0;
 
@@ -125,7 +126,8 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
             case DELETE_ID:
                 // TODO Confirmation dialogue
                 trackers = user.getTrackers();
-                trackers[adapter.getPosition()].delete();
+               // DebugPrinter.Debug("sharedtrackerlist"+ user.getSharedTrackerList().toString());
+                trackers[adapter.getPosition()].remove();
                 trackers = user.getTrackers();
                 adapter.notifyItemRemoved(adapter.getPosition());
 
