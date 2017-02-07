@@ -59,6 +59,8 @@ public class Tracker implements java.io.Serializable {
     boolean numberTracked = true;
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
     transient DataChangedListener listener;
+    public List<SharedTrackerWith>  sharedTrackerWithList=new ArrayList<>();
+
 
     public long creationTime=System.currentTimeMillis();
     public int getDailyTarget(){
@@ -186,6 +188,13 @@ public class Tracker implements java.io.Serializable {
             if(jsonObject.has(Constants.creationTime)){
                 creationTime=jsonObject.getLong(Constants.creationTime);
             }
+            JSONArray jsonArray1=null;
+            if(jsonObject.has(Constants.trackerShaderWith)){
+                jsonArray1=jsonObject.getJSONArray(Constants.trackerShaderWith);
+                for(int i=0;i<jsonArray1.length();i++){
+                    sharedTrackerWithList.add(new SharedTrackerWith(new JSONObject(jsonArray1.getString(i))));
+                }
+            }
 
 
         }
@@ -281,6 +290,7 @@ public class Tracker implements java.io.Serializable {
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray1=new JSONArray();
         try {
             jsonObject.put(Constants.start_date, startDate);
             jsonObject.put(Constants.last_reset, lastReset);
@@ -306,7 +316,10 @@ public class Tracker implements java.io.Serializable {
             jsonObject.put(Constants.color, color);
             jsonObject.put(Constants.number_tracked, numberTracked);
             jsonObject.put(Constants.creationTime,creationTime);
-
+            for(int i=0;i<sharedTrackerWithList.size();i++){
+                jsonArray1.put(sharedTrackerWithList.get(i).toJSON());
+            }
+            jsonObject.put(Constants.trackerShaderWith,jsonArray1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -400,7 +413,6 @@ public class Tracker implements java.io.Serializable {
                     break;
                 default:
                     break;
-
             }
             iterator.remove();
         }
@@ -768,8 +780,11 @@ public class Tracker implements java.io.Serializable {
     }
 
     public JSONObject shareTracker(String username){
-
+        sharedTrackerWithList.add(new SharedTrackerWith(username));
         return new SharedTracker(username,creationTime).toJSON();
+    }
+    public boolean hasBeenSharedWith(String userName){
+        return SharedTrackerWith.alreadySharedWith(userName,sharedTrackerWithList);
     }
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
