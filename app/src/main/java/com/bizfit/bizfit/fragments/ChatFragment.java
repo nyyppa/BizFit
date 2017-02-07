@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -148,8 +149,30 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         }
 
         // Setting the tracker list into listview
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_multiple_choice, trackerlist){
+            public View getView(int position, View convertView, ViewGroup parent) {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, trackerlist);
+                if(convertView == null)
+                {
+                    View v = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_multiple_choice, null);
+                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
+                    ctv.setText(getItem(position));
+                    if(!trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){
+                        ctv.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                ctv.setChecked(!ctv.isChecked());
+                            }
+
+                        });
+                    }
+                    return v;
+                }
+                return convertView;
+            };
+        };
+        //ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, trackerlist);
         lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
