@@ -170,12 +170,10 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     ctv.setText(getItem(position));
 
                     ctv.setOnClickListener(new View.OnClickListener() {
-
                         @Override
                         public void onClick(View v) {
                             ctv.setChecked(!ctv.isChecked());
                         }
-
                     });
 
                     v.setClickable(false);

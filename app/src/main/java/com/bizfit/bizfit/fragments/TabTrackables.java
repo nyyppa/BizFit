@@ -29,7 +29,7 @@ import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
 public class TabTrackables extends Fragment implements User.UserLoadedListener {
 
     /**
-     * ID used to determine if delete option in contextual menu was clicked.
+     * ID used to determine if remove option in contextual menu was clicked.
      */
     public final static int DELETE_ID = 0;
 

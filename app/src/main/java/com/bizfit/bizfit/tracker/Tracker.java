@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.tracker;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.network.NetMessage;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
@@ -773,10 +775,50 @@ public class Tracker implements java.io.Serializable {
     }
 
     /**
-     * tells tracker to delete itself from users User
+     * tells tracker to remove itself from users User
      */
-    public void delete() {
-        User.getLastUser(null,null,null).removeTracker(this);
+    public void remove()
+    {
+        User user = User.getLastUser(null, null, null);
+
+        user.removeTracker(this);
+        removeSharedTrackers(user);
+
+    }
+    //Deleting trackers shared to you by jariJ 7.2.17
+    private void removeSharedTrackers(User user)
+    {
+        List<SharedTracker> removableTrackers = new ArrayList<>();
+        if(user.getSharedTrackerList()!=null&& user.getSharedTrackerList().size()>0)
+        {
+            List<Tracker> removableTrackers2 = user.getTrackersSharedWithMeList();
+            removableTrackers = user.getSharedTrackerList();
+            Iterator<SharedTracker> iterator = removableTrackers.iterator();
+            Iterator<Tracker> iterator2 = removableTrackers2.iterator();
+            while(iterator.hasNext())
+            {
+                SharedTracker current = iterator.next();
+                if(current.equals(this));
+                {
+                    current.removeFromNet();
+                    iterator.remove();
+                    user.save();
+                    break;
+                }
+            }
+            while(iterator2.hasNext())
+            {
+                Tracker current = iterator2.next();
+                if(current.equals(this));
+                {
+                    iterator2.remove();
+                    user.save();
+                    break;
+                }
+
+            }
+        }
+
     }
 
     public JSONObject shareTracker(String username){
@@ -972,7 +1014,7 @@ public class Tracker implements java.io.Serializable {
 
     }
 
-    public boolean hasThisBeenDeleted(List<Long> list){
+    public boolean hasThisBeenRemoved(List<Long> list){
         for(int i=0;i<list.size();i++){
             if(list.get(i).longValue()==creationTime){
                 return true;
@@ -981,20 +1023,4 @@ public class Tracker implements java.io.Serializable {
         return false;
     }
 
-    public void saveToServer(String userName,JSONObject tracker){
-        JSONObject jsonObject = new JSONObject();
-        try
-        {
-            jsonObject.put(Constants.job, Constants.save_tracker);
-            jsonObject.put(Constants.getUser_Name(), userName);
-            jsonObject.put(Constants.tracker, tracker);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        //TODO: Make error handling
-        Network.addNetMessage(new NetMessage(null, null, jsonObject));
-
-    }
 }
