@@ -125,7 +125,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
             case DELETE_ID:
                 // TODO Confirmation dialogue
                 trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
-                trackers[adapter.getPosition()].delete();
+                trackers[adapter.getPosition()].remove();
                 trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 adapter.notifyItemRemoved(adapter.getPosition());
 
