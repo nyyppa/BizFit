@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -134,7 +137,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         // Inflating xml-layout into a view
 
-        LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.fragment_select_tracker, null);
 
         // Adding trackers into a list
@@ -149,14 +152,23 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             trackerlist.add(trackerarray[i].getName());
         }
 
-        // Setting the tracker list into listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_multiple_choice, trackerlist){
+
+        // Setting the listview adapter
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_multiple_choice, trackerlist){
+            @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                convertView=super.getView(position,convertView,parent);
-                View v = convertView;
-                final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
-                ctv.setText(getItem(position));
+
+                View v;
+
                 if(!trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){
+
+                    convertView=super.getView(position,convertView,parent);
+                    v = convertView;
+
+                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
+                    ctv.setText(getItem(position));
+
                     ctv.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -165,20 +177,35 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         }
 
                     });
-                }else{
-                    ctv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
 
-                        }
-                    });
+                    v.setClickable(false);
+
+                } else {
+
+                    convertView = layoutInflater.inflate(R.layout.list_item_disabled, null);
+                    v = convertView;
+
+                    final TextView tv = (TextView) v.findViewById(R.id.disabled_item);
+                    tv.setText(getItem(position));
+
                 }
+
                 return v;
             }
+
+            @Override
+            public boolean isEnabled(int position) {
+
+                boolean enabled = true;
+                if(trackerarray[position].hasBeenSharedWith(mAdapter.getConversation().getOther())){ enabled = false; }
+                return enabled;
+
+            }
         };
-        //ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, trackerlist);
+
         lv.setAdapter(adapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lv.setDivider(null);
 
         // Setting up popup attributes
 
@@ -220,9 +247,13 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 // Iterating through trackers and sharing selected ones
 
                 for(int i = 0; i < trackerarray.length; i++) {
-                    if(lv.isItemChecked(i)) {
-                        trackerarray[i].shareTracker(mAdapter.getConversation().getOwner());
-                        shared = true;
+                    System.out.println(i + " is shared? " + lv.isItemChecked(i));
+
+                    if(lv.getAdapter().isEnabled(i)) {
+                        if (lv.isItemChecked(i)) {
+                            trackerarray[i].shareTracker(mAdapter.getConversation().getOther());
+                            shared = true;
+                        }
                     }
                 }
 
