@@ -63,6 +63,7 @@ public class Conversation implements NetworkReturn,Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        sortConversation();
     }
 
     public Conversation(String owner, String other, User user){
@@ -236,7 +237,13 @@ public class Conversation implements NetworkReturn,Serializable{
         Comparator<Message> comparator=new Comparator<Message>() {
             @Override
             public int compare(Message myNewAndBetterMessage, Message t1) {
-                return -1*(int)(myNewAndBetterMessage.getCreationTime()-t1.getCreationTime());
+                int order=0;
+                if(myNewAndBetterMessage.getCreationTime()>t1.getCreationTime()){
+                    order=-1;
+                }else if(myNewAndBetterMessage.getCreationTime()<t1.getCreationTime()){
+                    order=1;
+                }
+                return order;
             }
         };
         Collections.sort(messageList,comparator);
@@ -329,6 +336,7 @@ public class Conversation implements NetworkReturn,Serializable{
     {
 
         this.chatFragment=chatFragment;
+        sortConversation();
         updateMessageSeens();
     }
     //TODO Merge
