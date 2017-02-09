@@ -318,7 +318,7 @@ public class Conversation implements NetworkReturn,Serializable{
                     });
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     Message message2=getLastRecievedMessage();
-                    NotificationSender.sendNotification(User.getContext(),getOther(),message2.getMessage(),getOwner());
+                    NotificationSender.sendNotification(User.getContext(),getOther(),message2.getMessage(),getOther());
                     sortConversation();
                 }
                 if(messagesReceived && message1!=null)

@@ -236,8 +236,9 @@ public class User implements java.io.Serializable {
         SQLiteDatabase d;
         db = new DBHelper(c, "database1", null, Constants.db_version);
         d = db.getWritableDatabase();
-        User.getLastUser(null,c,null);
         User user=db.readUser(d,"default");
+
+        User.getLastUser(null,c,null);
         DebugPrinter.Debug("userAlarm"+user.userName);
 
         //JariJ 1.2.17
