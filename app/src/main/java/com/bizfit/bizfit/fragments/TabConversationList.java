@@ -41,6 +41,7 @@ public class TabConversationList extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            user2=User.getLastUser(null,null,null);
                             ListView listView= (ListView) view2.findViewById(R.id.lista);
                             listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
                         }
