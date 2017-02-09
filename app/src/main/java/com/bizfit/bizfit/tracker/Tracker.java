@@ -803,9 +803,9 @@ public class Tracker implements java.io.Serializable {
 
     }
 
-    public JSONObject shareTracker(String username){
-        sharedTrackerWithList.add(new SharedTrackerWith(username));
-        return new SharedTracker(username,uuid).toJSON();
+    public JSONObject shareTracker(String owner,String other){
+        sharedTrackerWithList.add(new SharedTrackerWith(other));
+        return new SharedTracker(owner,uuid).toJSON();
     }
     public boolean hasBeenSharedWith(String userName){
         return SharedTrackerWith.alreadySharedWith(userName,sharedTrackerWithList);
