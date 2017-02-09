@@ -128,7 +128,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-
+    Tracker [] trackerarray;
     /**
      *  Method for asking user which trackers to share, and sharing them.
      */
@@ -143,7 +143,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         // Adding trackers into a list
 
         final ListView lv = (ListView) layout.findViewById(R.id.share_tracker_listview);
-        final Tracker [] trackerarray = User.getLastUser(null, null, null).getTrackers(User.TrackerSharedEnum.OWN);
+        trackerarray = User.getLastUser(null, null, null).getTrackers(User.TrackerSharedEnum.OWN);
 
         final List<String> trackerlist = new ArrayList();
 
@@ -243,7 +243,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 boolean shared = false;
 
                 // Iterating through trackers and sharing selected ones
-
+                trackerarray=User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.OWN);
                 for(int i = 0; i < trackerarray.length; i++) {
                     System.out.println(i + " is shared? " + lv.isItemChecked(i));
 
