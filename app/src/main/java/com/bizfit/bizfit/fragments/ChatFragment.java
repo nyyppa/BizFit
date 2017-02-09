@@ -250,6 +250,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     if(lv.getAdapter().isEnabled(i)) {
                         if (lv.isItemChecked(i)) {
                             mAdapter.getConversation().createMessage("code share_tracker"+trackerarray[i].shareTracker(mAdapter.getConversation().getOwner(),mAdapter.getConversation().getOther()).toString());
+                            mAdapter.notifyItemInserted(0);
                             shared = true;
                         }
                     }
