@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -62,39 +63,12 @@ public class Tracker implements java.io.Serializable {
     List<NotNumberProgress> notNumberProgresses = new ArrayList<NotNumberProgress>(0);
     transient DataChangedListener listener;
     public List<SharedTrackerWith>  sharedTrackerWithList=new ArrayList<>();
-
+    UUID uuid;
 
     public long creationTime=System.currentTimeMillis();
     public int getDailyTarget(){
         long days=TimeUnit.MILLISECONDS.toDays(timeProgressNeed);
         return (int)targetProgress/(int)(days+1); // todo: Change +1 to something better
-    }
-    public Tracker(Helper h) {
-        startDate = h.startDate;
-        lastReset = h.lastReset;
-        dayInterval = h.dayInterval;
-        monthInterval = h.monthInterval;
-        yearInterval = h.yearInterval;
-        targetProgress = h.targetProgress;
-        currentProgress = h.currentProgress;
-        defaultIncrement = h.defaultIncrement;
-        timeProgress = h.timeProgress;
-        timeProgressNeed = h.timeProgressNeed;
-        name = h.name;
-        targetType = h.targetType;
-        oldProgress = h.oldProgress;
-        daily = h.daily;
-        parentUser = h.parentUser;
-        weekly = h.weekly;
-        repeat = h.repeat;
-        completed = h.completed;
-        tolerance = h.tolerance;
-        changes = h.changes;
-        color = h.color;
-        index = h.index;
-        lastTestUpdate = h.lastTestUpdate;
-        numberTracked = h.numberTracker;
-
     }
 
     public Tracker(JSONObject jsonObject)
@@ -197,8 +171,11 @@ public class Tracker implements java.io.Serializable {
                     sharedTrackerWithList.add(new SharedTrackerWith(new JSONObject(jsonArray1.getString(i))));
                 }
             }
-
-
+            if(jsonObject.has(Constants.UUID)){
+                uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+            }else{
+                uuid=UUID.randomUUID();
+            }
         }
         catch (JSONException e)
         {
@@ -213,6 +190,7 @@ public class Tracker implements java.io.Serializable {
             weeklyStart();
         } else {
             this.startDate = System.currentTimeMillis();
+            this.uuid=UUID.randomUUID();
             startStuff(new GregorianCalendar(), t.getDayInterval(), t.monthInterval);
         }
     }
@@ -222,6 +200,7 @@ public class Tracker implements java.io.Serializable {
      * @param monthInterval months between resets
      */
     public Tracker(int DayInterval, int monthInterval) {
+        uuid=UUID.randomUUID();
         startDate = System.currentTimeMillis();
         startStuff(new GregorianCalendar(), DayInterval, monthInterval);
     }
@@ -233,10 +212,12 @@ public class Tracker implements java.io.Serializable {
      */
     public Tracker(Date startDate, int dayInterval, int monthInterval) {
         this.startDate = startDate.getTime();
+        uuid=UUID.randomUUID();
         startStuff(new GregorianCalendar(), dayInterval, monthInterval);
     }
 
     public Tracker() {
+        uuid=UUID.randomUUID();
         weeklyStart();
     }
 
@@ -251,7 +232,7 @@ public class Tracker implements java.io.Serializable {
 
     //TODO tracker mergin
     public boolean equals(Tracker t){
-        return t.creationTime==this.creationTime;
+        return this.uuid.equals(t.uuid);
     }
 
     public static Tracker copy(Tracker orig) {
@@ -322,6 +303,7 @@ public class Tracker implements java.io.Serializable {
                 jsonArray1.put(sharedTrackerWithList.get(i).toJSON());
             }
             jsonObject.put(Constants.trackerShaderWith,jsonArray1);
+            jsonObject.put(Constants.UUID,uuid.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -823,7 +805,7 @@ public class Tracker implements java.io.Serializable {
 
     public JSONObject shareTracker(String username){
         sharedTrackerWithList.add(new SharedTrackerWith(username));
-        return new SharedTracker(username,creationTime).toJSON();
+        return new SharedTracker(username,uuid).toJSON();
     }
     public boolean hasBeenSharedWith(String userName){
         return SharedTrackerWith.alreadySharedWith(userName,sharedTrackerWithList);

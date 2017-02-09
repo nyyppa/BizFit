@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by attey on 20/01/2017.
@@ -17,10 +18,10 @@ import java.util.List;
 
 public class SharedTracker implements java.io.Serializable{
     String userName;
-    long creationTime;
-    public SharedTracker (String userName,long creationTime){
+    UUID uuid;
+    public SharedTracker (String userName,UUID uuid){
         this.userName=userName;
-        this.creationTime=creationTime;
+        this.uuid=uuid;
     }
 
     public SharedTracker(JSONObject jsonObject){
@@ -28,8 +29,8 @@ public class SharedTracker implements java.io.Serializable{
             if(jsonObject.has(Constants.getUser_Name())){
                 userName=jsonObject.getString(Constants.getUser_Name());
             }
-            if (jsonObject.has(Constants.creationTime)){
-                creationTime=jsonObject.getLong(Constants.creationTime);
+            if (jsonObject.has(Constants.UUID)){
+                uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
             }
 
         } catch (JSONException e) {
@@ -67,7 +68,7 @@ public class SharedTracker implements java.io.Serializable{
 
     public boolean equals(Tracker t)
     {
-        return t.creationTime==this.creationTime;
+        return t.uuid==this.uuid;
     }
 
     public String getUserName(){
@@ -77,14 +78,14 @@ public class SharedTracker implements java.io.Serializable{
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.getUser_Name(),userName);
-            jsonObject.put(Constants.creationTime,creationTime);
+            jsonObject.put(Constants.UUID,uuid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
     public boolean equals(SharedTracker sharedTracker){
-        return sharedTracker!=null&&sharedTracker.creationTime==this.creationTime&&sharedTracker.userName!=null&&sharedTracker.userName.equals(this.userName);
+        return uuid.equals(sharedTracker.uuid);
     }
 
     public static boolean combineLists(List<SharedTracker> to, List<SharedTracker> from){

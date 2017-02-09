@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 
 /**
  * Created by attey on 02/12/2016.
@@ -27,6 +28,7 @@ public class Message implements NetworkReturn, Serializable {
     private Conversation conversation;
     private Job job;
     private boolean hasBeenSeen=false;
+    UUID uuid;
 
 
     public Message(JSONObject jsonObject, Conversation conversation){
@@ -57,6 +59,11 @@ public class Message implements NetworkReturn, Serializable {
             if(jsonObject.has(Constants.hasBeenSeen)){
                 hasBeenSeen=jsonObject.getBoolean(Constants.hasBeenSeen);
             }
+            if(jsonObject.has(Constants.UUID)){
+                uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+            }else{
+                uuid=UUID.randomUUID();
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -72,19 +79,20 @@ public class Message implements NetworkReturn, Serializable {
         this.sender=sender;
         this.message=message;
         creationTime= GregorianCalendar.getInstance().getTimeInMillis();
+        uuid=UUID.randomUUID();
         setJob();
         codeCheck();
     }
     public boolean updateHasBeenSeen(boolean newValue){
+        if(job==Job.OUTGOING){
+            return false;
+        }
         boolean oldValue=hasBeenSeen;
         this.hasBeenSeen=newValue;
         return oldValue!=newValue;
     }
     public boolean equals(Message message){
-        if(message.getCreationTime()==getCreationTime()){
-            return true;
-        }
-        return false;
+        return this.uuid.equals(message.uuid);
     }
     private void setJob(){
         if(conversation.getOwner().equals(getSender())){
@@ -181,6 +189,7 @@ public class Message implements NetworkReturn, Serializable {
             jsonObject.put(Constants.creationTime, creationTime);
             jsonObject.put(Constants.hasBeenSent, hasBeenSent);
             jsonObject.put(Constants.hasBeenSeen,hasBeenSeen);
+            jsonObject.put(Constants.UUID,uuid.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
