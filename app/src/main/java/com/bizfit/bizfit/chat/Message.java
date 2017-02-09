@@ -97,7 +97,6 @@ public class Message implements NetworkReturn, Serializable {
     private void setJob(){
         if(conversation.getOwner().equals(getSender())){
             job=Job.OUTGOING;
-            hasBeenSeen=true;
         }else{
             job=Job.INCOMING;
         }

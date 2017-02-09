@@ -232,8 +232,14 @@ public class User implements java.io.Serializable {
      */
     public static void update(Context c)
     {
-        User user=getLastUser(null, c, null);
+        DBHelper db;
+        SQLiteDatabase d;
+        db = new DBHelper(c, "database1", null, Constants.db_version);
+        d = db.getWritableDatabase();
+        User.getLastUser(null,c,null);
+        User user=db.readUser(d,"default");
         DebugPrinter.Debug("userAlarm"+user.userName);
+
         //JariJ 1.2.17
         //Checking users conversations and calling getNewMessagesAndSendOldOnes
         //Because notifications should show even when app is inactive
