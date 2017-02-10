@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.network;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.utils.Constants;
 
 import java.io.BufferedReader;
@@ -132,7 +133,7 @@ public class Network extends Thread{
     }
 
     private void returnMessage(NetMessage netMessage,String message ){
-        if(netMessage.getNetworkReturn()!=null){
+        if(netMessage!=null&&netMessage.getNetworkReturn()!=null){
             netMessage.getNetworkReturn().returnMessage(message);
         }
     }

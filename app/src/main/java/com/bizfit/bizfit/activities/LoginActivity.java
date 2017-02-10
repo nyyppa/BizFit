@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
+        //hides disconnect button
+        findViewById(R.id.disconnect_button).setVisibility(View.GONE);
         findViewById(R.id.skip_singin).setOnClickListener(this);
         findViewById(R.id.continue_button).setOnClickListener(this);
 

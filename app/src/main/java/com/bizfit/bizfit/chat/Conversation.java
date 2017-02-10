@@ -318,14 +318,15 @@ public class Conversation implements NetworkReturn,Serializable{
                     });
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     Message message2=getLastRecievedMessage();
-                    NotificationSender.sendNotification(User.getContext(),getOther(),message2.getMessage(),getOther());
+                    if(message2!=null){
+                        NotificationSender.sendNotification(User.getContext(),getOther(),message2.getMessage(),getOther());
+                    }
                     sortConversation();
                 }
                 if(messagesReceived && message1!=null)
                 {
                     getUser().save(this);
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
