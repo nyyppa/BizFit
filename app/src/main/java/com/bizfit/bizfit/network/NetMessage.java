@@ -21,10 +21,12 @@ public class NetMessage {
         }
         this.networkReturn = networkReturn;
         this.message = message;
-        try {
-            this.message.put("dbversion",Constants.db_version);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(!message.has("dbversion")){
+            try {
+                this.message.put("dbversion",Constants.db_version);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
