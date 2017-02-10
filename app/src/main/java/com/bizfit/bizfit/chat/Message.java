@@ -126,7 +126,7 @@ public class Message implements NetworkReturn, Serializable {
     }
 
     public String getMessage() {
-        if(message!=null){
+        if(message==null){
             return "";
         }
         if(message.startsWith("code share_tracker")){

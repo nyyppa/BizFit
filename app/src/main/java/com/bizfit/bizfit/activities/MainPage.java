@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
@@ -29,6 +30,7 @@ import com.bizfit.bizfit.fragments.TabConversationList;
 import com.bizfit.bizfit.fragments.TabTrackables;
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
+import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
@@ -56,7 +58,9 @@ public class MainPage extends AppCompatActivity implements
         findUser();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
+        toolbar.setTitle("Bizfit v."+ Constants.version);
         setSupportActionBar(toolbar);
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
