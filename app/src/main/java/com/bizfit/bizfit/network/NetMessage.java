@@ -2,6 +2,7 @@ package com.bizfit.bizfit.network;
 
 import com.bizfit.bizfit.utils.Constants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +21,11 @@ public class NetMessage {
         }
         this.networkReturn = networkReturn;
         this.message = message;
+        try {
+            this.message.put("dbversion",Constants.db_version);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     //todo better way to compare JSONs
