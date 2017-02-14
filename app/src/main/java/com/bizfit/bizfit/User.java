@@ -983,4 +983,10 @@ public class User implements java.io.Serializable {
     public enum TrackerSharedEnum{
         ALL,OWN,SHARED;
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        currentUser.save();
+    }
 }
