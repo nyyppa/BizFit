@@ -175,22 +175,31 @@ public class User implements java.io.Serializable {
         }
         getTrackersSharedWithMe();
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
-        if(informationUpdated){
+        if(informationUpdated)
+        {
             updateConversations(user.getConversations());
-        }else{
+            DebugPrinter.Debug("tallennuksessa conversationit;" + user.getConversations());
+        }else
+        {
             informationUpdated= updateConversations(user.getConversations());
         }
         if(informationUpdated){
             SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
+            DebugPrinter.Debug("tallennuksessa jaetut trackerit;" + user.getSharedTrackerList().size());
         }else{
             informationUpdated=SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
+            DebugPrinter.Debug("tallennuksessa jaetut trackerit2;" + user.getSharedTrackerList().size());
         }
+
+        //TODO: Clean list when can't find sharedtrackers from server
+        DebugPrinter.Debug("Koko lista: "+getSharedTrackerList().size());
 
         if(informationUpdated){
             List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
             for(int i=0;i<listenersForInformationUpdated.size();i++){
                 if(listenersForInformationUpdated.get(i)!=null){
                     listenersForInformationUpdated.get(i).informationUpdated();
+                    DebugPrinter.Debug("tallennuksessa listenerit;" + listenersForInformationUpdated.get(i).toString());
                 }
             }
         }
@@ -200,7 +209,8 @@ public class User implements java.io.Serializable {
         List<Conversation>newConversations=new ArrayList<>();
         for(int i=0;i<conversations.size();i++){
             Conversation conversation=conversations.get(i);
-            if(!conversation.isConversationAlreadyInList(this.getConversations())){
+            if(!conversation.isConversationAlreadyInList(this.getConversations()))
+            {
                 newConversations.add(conversation);
             }
 
@@ -532,11 +542,15 @@ public class User implements java.io.Serializable {
         JSONArray trackerArray = new JSONArray();
         JSONArray conversationArray=new JSONArray();
         JSONArray deletedTrackers=new JSONArray();
+        JSONArray sharedTrackers = new JSONArray();
         try {
             jsonObject.put(Constants.getUser_Name(), userName);
-
-            for (int i = 0; i < trackers.size(); i++) {
-                trackerArray.put(trackers.get(i).toJSON());
+            if(trackers!=null)
+            {
+                for (int i = 0; i < trackers.size(); i++)
+                {
+                    trackerArray.put(trackers.get(i).toJSON());
+                }
             }
             jsonObject.put(Constants.trackers, trackerArray);
 
@@ -550,6 +564,13 @@ public class User implements java.io.Serializable {
             }
             jsonObject.put("DeletedTrackers",deletedTrackers);
 
+            if(getSharedTrackerList()!=null)
+            {
+                for(int i = 0; i < sharedTrackers.length(); i++)
+                {
+                    sharedTrackers.put(getSharedTrackerList().get(i).toJSON());
+                }
+            }
             try {
                 jsonObject.put(Constants.check_sum,checksum(this));
             } catch (IOException e) {
