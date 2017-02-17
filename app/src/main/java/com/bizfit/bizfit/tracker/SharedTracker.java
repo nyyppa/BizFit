@@ -19,9 +19,11 @@ import java.util.UUID;
 public class SharedTracker implements java.io.Serializable{
     String userName;
     UUID uuid;
-    public SharedTracker (String userName,UUID uuid){
+    String trackerName;
+    public SharedTracker (String userName,UUID uuid, String trackerName){
         this.userName=userName;
         this.uuid=uuid;
+        this.trackerName=trackerName;
     }
 
     public SharedTracker(JSONObject jsonObject){
@@ -32,6 +34,11 @@ public class SharedTracker implements java.io.Serializable{
             if (jsonObject.has(Constants.UUID)){
                 uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
             }
+            if(jsonObject.has("trackerName"))
+            {
+                trackerName=jsonObject.getString("trackerName");
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -45,6 +52,7 @@ public class SharedTracker implements java.io.Serializable{
         {
             jsonObject.put(Constants.job, "CancelTrackerSharing");
             jsonObject.put("SharedTracker", this.toJSON());
+            jsonObject.put("TrackerName", "TrackerName");
         }
         catch (JSONException e)
         {

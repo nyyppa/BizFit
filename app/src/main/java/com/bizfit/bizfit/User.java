@@ -561,15 +561,15 @@ public class User implements java.io.Serializable {
             for(int i=0;this.deletedTrackers!=null&&i<this.deletedTrackers.size();i++){
                 deletedTrackers.put(this.deletedTrackers.get(i).longValue());
             }
-            jsonObject.put("DeletedTrackers",deletedTrackers);
+            jsonObject.put(Constants.deleted_trackers,deletedTrackers);
 
             if(getSharedTrackerList()!=null)
             {
-                for(int i = 0; i < sharedTrackers.length(); i++)
+                for(int i = 0; i < getSharedTrackerList().size(); i++)
                 {
                     sharedTrackers.put(getSharedTrackerList().get(i).toJSON());
                 }
-                jsonObject.put("SharedTrackers",sharedTrackers);
+                jsonObject.put(Constants.shared_trackers,sharedTrackers);
             }
             try {
                 jsonObject.put(Constants.check_sum,checksum(this));

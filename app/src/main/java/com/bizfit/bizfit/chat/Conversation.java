@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
@@ -285,6 +286,10 @@ public class Conversation implements NetworkReturn,Serializable{
                 {
                     Message m=new Message(new JSONObject(jsonArray.getString(i)),this);
                     if(!messageAlreadyExists(m)){
+                        if(isActive())
+                        {
+                            m.updateHasBeenSeen(true);
+                        }
                         messageList.add(0, m);
                         message1= messageList.get(0);
                         messagesReceived=true;
@@ -336,10 +341,10 @@ public class Conversation implements NetworkReturn,Serializable{
 
     public void setChatFragment(ChatFragment chatFragment)
     {
-
         this.chatFragment=chatFragment;
         sortConversation();
         updateMessageSeens();
+        sortConversation();
     }
     //TODO Merge
     public boolean isConversationAlreadyInList(List<Conversation>list){

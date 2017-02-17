@@ -71,6 +71,8 @@ public class Constants
 	public static final String color = "color";
 	public static final String number_tracked = "numberTracked";
 	public static final String trackerShaderWith="trackerSharedWith";
+	public static final String deleted_trackers = "DeletedTrackers";
+	public static final String shared_trackers = "SharedTrackers";
 
 
 
@@ -81,8 +83,8 @@ public class Constants
 
     //NetMessage
 	private static final String debug_address="http://bizfit-nyyppa.c9users.io";
-	private static final String deploiment_address="http://51.15.37.28:8080";
-	public static final String connection_address = deploiment_address;
+	private static final String deployment_address ="http://51.15.37.28:8080";
+	public static final String connection_address = debug_address;
 
     //CoachPage
 	public static final String coach_id = "coachID";
