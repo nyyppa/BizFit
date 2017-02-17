@@ -22,7 +22,6 @@ public class BackgroundThread extends Thread {
         while (true){
             Iterator<OurRunnable> iterator=ourRunnables.iterator();
             long repeatInterval=60000;
-            Long startTime=System.currentTimeMillis();
             while (iterator.hasNext()){
                 OurRunnable ourRunnable=iterator.next();
                 Long temp=ourRunnable.timeToNextRunAndRun(System.currentTimeMillis());
@@ -67,28 +66,6 @@ public class BackgroundThread extends Thread {
     private void wake(){
         backgroundThread.notify();
     }
-    public abstract class OurRunnable{
-        Boolean repeat;
-        long repeatInterval;
-        private Long lastRun;
-        public OurRunnable(Boolean repeat,int repeatInterval){
-            this.repeat=repeat;
-            this.repeatInterval=repeatInterval;
-        }
-        public OurRunnable(){
-            repeat=false;
-            repeatInterval=-1;
-        }
-        private long timeToNextRunAndRun(long millis){
-            if(repeatInterval<0){
-                repeatInterval= TimeUnit.SECONDS.toMillis(60);
-            }
-            if(lastRun+repeatInterval<=millis){
-                run();
-                lastRun=millis;
-            }
-            return (lastRun+repeatInterval)-millis;
-        }
-        public abstract void run();
-    }
+
 }
+
