@@ -52,7 +52,7 @@ public class SharedTracker implements java.io.Serializable{
         {
             jsonObject.put(Constants.job, "CancelTrackerSharing");
             jsonObject.put("SharedTracker", this.toJSON());
-            jsonObject.put("TrackerName", "TrackerName");
+            jsonObject.put("TrackerName", trackerName);
         }
         catch (JSONException e)
         {
@@ -87,6 +87,7 @@ public class SharedTracker implements java.io.Serializable{
         try {
             jsonObject.put(Constants.getUser_Name(),userName);
             jsonObject.put(Constants.UUID,uuid);
+            jsonObject.put("TrackerName",trackerName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

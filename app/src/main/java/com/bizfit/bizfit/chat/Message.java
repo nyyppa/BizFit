@@ -135,6 +135,14 @@ public class Message implements NetworkReturn, Serializable {
             return "";
         }
         if(message.startsWith("code share_tracker")){
+            try {
+                JSONObject jsonObject=new JSONObject(message.replace("code share_tracker",""));
+                if(jsonObject.has("TrackerName")){
+                    return "tracker shared: "+jsonObject.getString("TrackerName");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return "tracker shared";
         }
         return message;
