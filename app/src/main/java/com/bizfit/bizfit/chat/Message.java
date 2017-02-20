@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.chat;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.utils.Constants;
@@ -83,12 +84,16 @@ public class Message implements NetworkReturn, Serializable {
         setJob();
         codeCheck();
     }
-    public boolean updateHasBeenSeen(boolean newValue){
-        if(job==Job.OUTGOING){
+    public boolean updateHasBeenSeen(boolean newValue)
+    {
+        DebugPrinter.Debug("hasbeenseen job:" + job);
+        if(job==Job.OUTGOING)
+        {
             return false;
         }
         boolean oldValue=hasBeenSeen;
         this.hasBeenSeen=newValue;
+        DebugPrinter.Debug("newValue: " + newValue + "oldValue: " + oldValue + "message: " + getMessage());
         return oldValue!=newValue;
     }
     public boolean equals(Message message){
@@ -106,7 +111,7 @@ public class Message implements NetworkReturn, Serializable {
         return hasBeenSeen;
     }
     private void codeCheck(){
-        if(message.startsWith("code share_tracker")&&getJob()==Job.INCOMING){
+        if(message.startsWith("code share_tracker")&&getJob()==Job.INCOMING && !hasBeenSeen){
             try {
                 User.getLastUser(null,null,null).addSharedTracker(new SharedTracker(new JSONObject(message.replace("code share_tracker",""))));
             } catch (JSONException e) {
@@ -130,6 +135,14 @@ public class Message implements NetworkReturn, Serializable {
             return "";
         }
         if(message.startsWith("code share_tracker")){
+            try {
+                JSONObject jsonObject=new JSONObject(message.replace("code share_tracker",""));
+                if(jsonObject.has("TrackerName")){
+                    return "tracker shared: "+jsonObject.getString("TrackerName");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return "tracker shared";
         }
         return message;

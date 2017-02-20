@@ -1,10 +1,7 @@
 package com.bizfit.bizfit.tracker;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
-import com.bizfit.bizfit.network.NetMessage;
-import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
@@ -805,7 +802,7 @@ public class Tracker implements java.io.Serializable {
 
     public JSONObject shareTracker(String owner,String other){
         sharedTrackerWithList.add(new SharedTrackerWith(other));
-        return new SharedTracker(owner,uuid).toJSON();
+        return new SharedTracker(owner,uuid, name).toJSON();
     }
     public boolean hasBeenSharedWith(String userName){
         return SharedTrackerWith.alreadySharedWith(userName,sharedTrackerWithList);

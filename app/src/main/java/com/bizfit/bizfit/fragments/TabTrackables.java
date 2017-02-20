@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
@@ -126,8 +127,10 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 // TODO Confirmation dialogue
                 trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 trackers[adapter.getPosition()].remove();
+                adapter.notifyDataSetChanged();
                 trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
-                adapter.notifyItemRemoved(adapter.getPosition());
+               // adapter.notifyItemRemoved(adapter.getPosition());
+
 
 
                 // Confirm successful deletion
@@ -138,10 +141,12 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 ).show();
 
                 // Call consumed here
+                DebugPrinter.Debug("trackers after deletion:"+ User.getLastUser(null,null,null).getTrackers(User.TrackerSharedEnum.ALL ));
                 return true;
 
             default:
                 return super.onContextItemSelected(item);
+
         }
     }
 
