@@ -762,10 +762,40 @@ public class User implements java.io.Serializable {
         void informationUpdated();
     }
     private class DBT extends OurRunnable{
-
+        DBHelper dbHelper;
+        SQLiteDatabase database;
+        Context context;
+        private DBT(Context context){
+            super(true,10000);
+            this.context=context;
+        }
         @Override
         public void run() {
-
+            if(dbHelper==null&&context!=null){
+                dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
+            }
+            if(database==null&&dbHelper!=null){
+                database=dbHelper.getWritableDatabase();
+            }
+            if(currentUser!=null&&currentUser.saveUser){
+                dbHelper.saveUser(database,currentUser);
+                currentUser.saveUser=false;
+            }
+            else if (currentUser!=null)
+            {
+                currentUser.updateInformation( dbHelper.readUser(database,userNameForLogin));
+                loadUserFromNet(currentUser.userName);
+            }
+            if(dropLastUser)
+            {
+                dbHelper.deleteLastUser(database);
+                dropLastUser=false;
+            }
+            if (currentUser == null ) {
+                dbHelper.close();
+                database.close();
+                repeat=false;
+            }
         }
     }
     //TODO make this better
@@ -810,26 +840,6 @@ public class User implements java.io.Serializable {
                     {
                         db.deleteLastUser(d);
                         dropLastUser=false;
-                    }
-                    if (currentUser == null||currentUser.userName.isEmpty()||currentUser.userName.equals("")||true)
-                    {
-
-                       /* try {
-                          //  System.out.println(currentUser.checksum(currentUser));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (NoSuchAlgorithmException e) {
-                            e.printStackTrace();
-                        }
-                        */
-
-                            //t.start();
-                        /*try {
-                            System.out.println(currentUser.toJSON().toString(4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
                     }
                     sleepThread = true;
                     while (sleepThread && currentUser !=null && !currentUser.saveUser) {

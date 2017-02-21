@@ -45,7 +45,6 @@ public class BackgroundThread extends Thread {
             ourRunnablesToAdd.clear();
         }
     }
-
     public static void addOurRunnable(OurRunnable runnable){
         if(backgroundThread==null||!backgroundThread.isAlive()){
             backgroundThread=new BackgroundThread();
@@ -61,9 +60,10 @@ public class BackgroundThread extends Thread {
             ourRunnablesToAdd=new ArrayList<>();
         }
         ourRunnablesToAdd.add(runnable);
+        runnable.backgroundThread=this;
         wake();
     }
-    private void wake(){
+    public void wake(){
         backgroundThread.notify();
     }
 
