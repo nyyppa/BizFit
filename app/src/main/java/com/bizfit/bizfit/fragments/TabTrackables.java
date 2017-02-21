@@ -129,7 +129,7 @@ public class TabTrackables extends Fragment implements User.UserLoadedListener {
                 trackers[adapter.getPosition()].remove();
                 adapter.notifyDataSetChanged();
                 trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
-               // adapter.notifyItemRemoved(adapter.getPosition());
+                adapter.notifyItemRemoved(adapter.getPosition());
 
 
 

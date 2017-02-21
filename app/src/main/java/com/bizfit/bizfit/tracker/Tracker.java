@@ -1,7 +1,13 @@
 package com.bizfit.bizfit.tracker;
 
+import android.support.v7.widget.RecyclerView;
+import android.widget.Adapter;
+
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterMessages;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
@@ -764,10 +770,15 @@ public class Tracker implements java.io.Serializable {
         removeSharedTrackers(user);
 
     }
-    //Deleting trackers shared to you by jariJ 7.2.17
+    //Deleting trackers shared to you by jariJ 20.2.17
     private void removeSharedTrackers(User user)
     {
         List<SharedTracker> removableTrackers = new ArrayList<>();
+        Conversation conversation;
+        RecyclerViewAdapterMessages rvaMsg=null;
+
+
+
         if(user.getSharedTrackerList()!=null&& user.getSharedTrackerList().size()>0)
         {
             List<Tracker> removableTrackers2 = user.getTrackersSharedWithMeList();
@@ -782,6 +793,9 @@ public class Tracker implements java.io.Serializable {
                     current.removeFromNet();
                     iterator.remove();
                     user.save();
+                    DebugPrinter.Debug("Poiston jälkeen; " + user.getTrackersSharedWithMeList().size() + " " + user.getTrackersSharedWithMeList());
+                    DebugPrinter.Debug("Poiston jälkeen2; " + user.getSharedTrackerList().size() + " " + user.getSharedTrackerList());
+
                     break;
                 }
             }
@@ -792,6 +806,8 @@ public class Tracker implements java.io.Serializable {
                 {
                     iterator2.remove();
                     user.save();
+                    DebugPrinter.Debug("Poiston jälkeen3; " + user.getTrackersSharedWithMeList().size() + " " + user.getTrackersSharedWithMeList());
+                    DebugPrinter.Debug("Poiston jälkeen4; " + user.getSharedTrackerList().size() + " " + user.getSharedTrackerList());
                     break;
                 }
 

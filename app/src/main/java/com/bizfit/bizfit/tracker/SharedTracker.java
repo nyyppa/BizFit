@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.tracker;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -34,9 +35,9 @@ public class SharedTracker implements java.io.Serializable{
             if (jsonObject.has(Constants.UUID)){
                 uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
             }
-            if(jsonObject.has("trackerName"))
+            if(jsonObject.has(Constants.shared_tracker_name))
             {
-                trackerName=jsonObject.getString("trackerName");
+                trackerName=jsonObject.getString(Constants.shared_tracker_name);
             }
 
 
@@ -51,8 +52,8 @@ public class SharedTracker implements java.io.Serializable{
         try
         {
             jsonObject.put(Constants.job, "CancelTrackerSharing");
-            jsonObject.put("SharedTracker", this.toJSON());
-            jsonObject.put("TrackerName", trackerName);
+            jsonObject.put(Constants.shared_trackers, this.toJSON());
+            jsonObject.put(Constants.shared_tracker_name, trackerName);
         }
         catch (JSONException e)
         {
@@ -87,7 +88,7 @@ public class SharedTracker implements java.io.Serializable{
         try {
             jsonObject.put(Constants.getUser_Name(),userName);
             jsonObject.put(Constants.UUID,uuid);
-            jsonObject.put("TrackerName",trackerName);
+            jsonObject.put(Constants.shared_tracker_name,trackerName);
         } catch (JSONException e) {
             e.printStackTrace();
         }

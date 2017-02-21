@@ -192,6 +192,7 @@ public class User implements java.io.Serializable {
         }
         //TODO: Clean list when can't find sharedtrackers from server
         DebugPrinter.Debug("Koko lista: "+getSharedTrackerList().size());
+        DebugPrinter.Debug("Jaetut minulle lista" + getTrackersSharedWithMeList().size());
 
         if(informationUpdated){
             List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
