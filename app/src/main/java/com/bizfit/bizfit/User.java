@@ -26,15 +26,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
-
+import java.util.UUID;
 
 
 /**
  * Class that contains user information, calls local database when needed and holds user's trackers
  */
 
-public class User implements java.io.Serializable {
+public class User  {
     /**
      *
      */
@@ -572,17 +571,27 @@ public class User implements java.io.Serializable {
                 }
                 jsonObject.put(Constants.shared_trackers,sharedTrackers);
             }
+            /*
             try {
                 jsonObject.put(Constants.check_sum,checksum(this));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
-            }
+            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+    public Tracker getTrackerWithGivenUUID(UUID uuid){
+        Tracker[]trackers=getTrackers(TrackerSharedEnum.ALL);
+        for(int i=0;i<trackers.length;i++){
+            if(trackers[i].equals(uuid)){
+                return trackers [i];
+            }
+        }
+        return null;
     }
 
     /**

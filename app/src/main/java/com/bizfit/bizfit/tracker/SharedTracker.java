@@ -77,7 +77,7 @@ public class SharedTracker implements java.io.Serializable{
 
     public boolean equals(Tracker t)
     {
-        return t.uuid==this.uuid;
+        return t.uuid.equals(this.uuid);
     }
 
     public String getUserName(){

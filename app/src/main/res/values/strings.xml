@@ -66,6 +66,7 @@
     </string-array>
 
     <string-array name="tracker_name_suggestions">
+        <!--
         <item>Abkhazia</item>
         <item>Afghanistan</item>
         <item>Akrotiri and Dhekelia</item>
@@ -307,6 +308,7 @@
         <item>Wallis and Futuna</item>
         <item>Yemen</item>
         <item>Zambia</item>
+        -->
     </string-array>
     <string name="title_amount_to_add">Amount to add</string>
     <string name="action_confirm">OK</string>

@@ -44,7 +44,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
         ViewTrackerFragment fragment;
         Tracker[] trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
         for (int i = 0; i < trackers.length; i++) {
-            fragment = ViewTrackerFragment.newInstance(trackers[i]);
+            fragment = ViewTrackerFragment.newInstance(trackers[i].getUuid());
             adapter.addFragment(fragment, trackers[i].getName());
         }
 
@@ -77,7 +77,7 @@ public class ViewTracker extends AppCompatActivity implements User.UserLoadedLis
                 ViewTrackerFragment fragment;
                 Tracker[] trackers = user.getTrackers(User.TrackerSharedEnum.ALL);
                 for (int i = 0; i < trackers.length; i++) {
-                    fragment = ViewTrackerFragment.newInstance(trackers[i]);
+                    fragment = ViewTrackerFragment.newInstance(trackers[i].getUuid());
                     adapter.addFragment(fragment, trackers[i].getName());
                 }
 

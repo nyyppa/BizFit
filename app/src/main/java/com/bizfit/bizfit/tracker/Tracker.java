@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Atte on 17.11.2015.
  */
-public class Tracker implements java.io.Serializable {
+public class Tracker {
     /**
      *
      */
@@ -232,7 +232,12 @@ public class Tracker implements java.io.Serializable {
         }
         return false;
     }
-
+    public boolean equals(UUID uuid){
+        return uuid.equals(this.uuid);
+    }
+    public UUID getUuid(){
+        return uuid;
+    }
     //TODO tracker mergin
     public boolean equals(Tracker t){
         return this.uuid.equals(t.uuid);
@@ -773,7 +778,7 @@ public class Tracker implements java.io.Serializable {
     //Deleting trackers shared to you by jariJ 20.2.17
     private void removeSharedTrackers(User user)
     {
-        List<SharedTracker> removableTrackers = new ArrayList<>();
+        List<SharedTracker> removableTrackers =null;
         Conversation conversation;
         RecyclerViewAdapterMessages rvaMsg=null;
 

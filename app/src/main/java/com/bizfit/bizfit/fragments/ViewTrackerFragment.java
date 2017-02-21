@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.decorators.EndAndStartDayViewDecorator;
 import com.bizfit.bizfit.decorators.TodayDayViewDecorator;
@@ -25,6 +26,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 
 /**
  * Displays all the information associated with a tracker.
@@ -99,7 +101,7 @@ public class ViewTrackerFragment extends Fragment implements Tracker.DataChanged
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tracker = (Tracker) getArguments().getSerializable(TRACKER);
+        tracker = User.getLastUser(null,null,null).getTrackerWithGivenUUID((UUID)getArguments().getSerializable(TRACKER));
         tracker.setDataChangedListener(this);
     }
 
