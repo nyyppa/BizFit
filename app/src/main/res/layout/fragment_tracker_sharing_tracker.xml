@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<com.bizfit.bizfit.views.SquareFrameLayout
+    android:id="@+id/top_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_weight="0.44">
 
-    <com.bizfit.bizfit.views.SquareFrameLayout
-        android:id="@+id/top_content"
-        android:layout_width="0dp"
+    <ProgressBar
+        android:id="@+id/progressBar_circle"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/circle_progress_background"
+        android:indeterminate="false"
+        android:max="5000"
+        android:progress="65"
+        android:progressDrawable="@drawable/circle_progress_foreground" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="0.9">
+        android:layout_gravity="center">
 
-        <ProgressBar
-            android:id="@+id/progressBar_circle"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circle_progress_background"
-            android:indeterminate="false"
-            android:max="5000"
-            android:progress="65"
-            android:progressDrawable="@drawable/circle_progress_foreground" />
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/textView_daily_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_centerHorizontal="true"
+            android:text="700"
+            android:textColor="@color/black87"
+            android:textSize="34sp" />
 
-            <TextView
-                android:id="@+id/textView_daily_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="700"
-                android:textColor="@color/black87"
-                android:textSize="34sp" />
+        <TextView
+            android:id="@+id/textView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_daily_progress"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Marketing"
+            android:textColor="@color/black87"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/textView_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView_daily_progress"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:text="Marketing"
-                android:textColor="@color/black87"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-    </com.bizfit.bizfit.views.SquareFrameLayout>
-
+    </RelativeLayout>
+</com.bizfit.bizfit.views.SquareFrameLayout>
 </LinearLayout>

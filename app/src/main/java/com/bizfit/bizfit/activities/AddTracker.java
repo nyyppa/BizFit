@@ -77,17 +77,23 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
     private Button mView;
 
     /**
-     * Holds all EditText fields within the activity.
+     * Button for finishing tracker adding.
+     */
+    private Button mDone;
+
+    /**
+     * Container of activity.
      */
     private View mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_tracker);
+        setContentView(R.layout.activity_add_tracker_content_v2);
         name = (AutoCompleteTextView) findViewById(R.id.target_name);
         date = (EditText) findViewById(R.id.target_date);
         target = (EditText) findViewById(R.id.target_amount);
+        mContainer = (View) findViewById(R.id.create_tracker_container);
 
         dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         date.setOnClickListener(this);
@@ -130,7 +136,7 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         name.setThreshold(1);
 
         // Set's up custom elevated button to have on click behaviour
-        Button button = (Button) findViewById(R.id.button_done);
+        mDone = (Button) findViewById(R.id.button_done);
 
         // Applies touch animation to background CardViews.
         CardView mCardView1 = (CardView) findViewById(R.id.button_done_container);
@@ -138,7 +144,7 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
         CardView mCardView3 = (CardView) findViewById(R.id.container_target_date);
         CardView mCardView4 = (CardView) findViewById(R.id.container_target_name);
 
-        button.setOnTouchListener(new CardViewAnimator(mCardView1));
+        mDone.setOnTouchListener(new CardViewAnimator(mCardView1));
         target.setOnTouchListener(new CardViewAnimator(mCardView2));
         date.setOnTouchListener(new CardViewAnimator(mCardView3));
         name.setOnTouchListener(new CardViewAnimator(mCardView4));
@@ -146,11 +152,9 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
 
         mSelectedColor = getResources().getIntArray(R.array.trackable_view_alt_colors_integer_array)[0];
 
-        mView = (Button) findViewById(R.id.button_select_color);
-        mView.setTextColor(mSelectedColor);
-
-        mContainer = findViewById(R.id.text_view_container);
         mContainer.setBackgroundColor(mSelectedColor);
+        mDone.setBackgroundColor(mSelectedColor);
+        mView = (Button) findViewById(R.id.button_select_color);
 
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +173,7 @@ public class AddTracker extends AppCompatActivity implements View.OnClickListene
                         mSelectedColor = color;
                         mView.setTextColor(mSelectedColor);
                         mContainer.setBackgroundColor(mSelectedColor);
+                        mDone.setBackgroundColor(mSelectedColor);
                     }
                 });
 

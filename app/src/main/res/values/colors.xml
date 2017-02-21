@@ -60,6 +60,7 @@
 
     <!-- Collection of possible colors generated for the alternative trackable view-->
     <integer-array name="trackable_view_alt_colors_integer_array">
+        <item>@color/pink_600</item>
         <item>@color/purple_500</item>
         <item>@color/indigo_500</item>
         <item>@color/lightBlue_500</item>
@@ -70,7 +71,6 @@
         <item>@color/orange_500</item>
         <item>@color/deepOrange_500</item>
         <item>@color/red_500</item>
-        <item>@color/pink_600</item>
     </integer-array>
 
     <array name="trackable_view_alt_colors_array">

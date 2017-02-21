@@ -57,9 +57,11 @@
     <string name="terms_of_service">Käyttöehdot</string>
     <string name="order_call">Tilaa puhelu</string>
     <string name="btnAccept">Hyväksyn</string>
+    <string name="create_tracker">Luo tavoite</string>
+    <string name="create_tracker_done">Luo tavoite</string>
 
     <string-array name="random_job_title">
-        <item> Markkinointi </item>
+        <item>Markkinointi</item>
         <item>Myynti</item>
         <item>Kirjanpito</item>
         <item>Sosiaalinen media markkinointi</item>

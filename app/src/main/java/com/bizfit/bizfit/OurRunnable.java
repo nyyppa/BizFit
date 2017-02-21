@@ -10,6 +10,7 @@ public abstract class OurRunnable{
     Boolean repeat;
     long repeatInterval;
     private Long lastRun=0l;
+    public BackgroundThread backgroundThread;
     public OurRunnable(Boolean repeat,int repeatInterval){
         this.repeat=repeat;
         this.repeatInterval=repeatInterval;
@@ -29,4 +30,8 @@ public abstract class OurRunnable{
         return (lastRun+repeatInterval)-millis;
     }
     public abstract void run();
+
+    public void wake(){
+        backgroundThread.wake();
+    }
 }
