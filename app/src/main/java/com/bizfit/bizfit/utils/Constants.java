@@ -12,7 +12,7 @@ public class Constants
 	public static String getUser_Name(){
 		return "_id";
 	}
-	public static final int db_version = 69;
+	public static final int db_version = 70;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
     public static final String trackers = "trackers";
@@ -74,6 +74,7 @@ public class Constants
 	public static final String deleted_trackers = "DeletedTrackers";
 	public static final String shared_trackers = "SharedTrackers";
 	public static final String shared_tracker_name = "TrackerName";
+	public static final String shared_tracker_status = "SharedTrackerStatus";
 
 
 

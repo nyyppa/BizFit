@@ -23,11 +23,14 @@ public class SharedTracker implements java.io.Serializable{
     String userName;
     UUID uuid;
     String trackerName;
+    Status status;
+
     public SharedTracker (String userName,UUID uuid, String trackerName)
     {
         this.userName=userName;
         this.uuid=uuid;
         this.trackerName=trackerName;
+        status = Status.PENDING;
         //addToNet();
     }
 
@@ -43,8 +46,10 @@ public class SharedTracker implements java.io.Serializable{
             {
                 trackerName=jsonObject.getString(Constants.shared_tracker_name);
             }
-
-
+            if(jsonObject.has(Constants.shared_tracker_status))
+            {
+                status=Status.valueOf(jsonObject.getString(Constants.shared_tracker_status));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -124,10 +129,10 @@ public class SharedTracker implements java.io.Serializable{
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
-
             jsonObject.put(Constants.getUser_Name(),userName);
             jsonObject.put(Constants.UUID,uuid);
             jsonObject.put(Constants.shared_tracker_name,trackerName);
+            jsonObject.put(Constants.shared_tracker_status, status.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -154,5 +159,20 @@ public class SharedTracker implements java.io.Serializable{
             }
         }
         return false;
+
+    }
+    private Status getStatus()
+    {
+        return status;
+    }
+
+    private void setStatus(Status status)
+    {
+        this.status=status;
+    }
+
+    public enum Status
+    {
+        PENDING, ACCEPTED, CANCELLED, DELETED
     }
 }
