@@ -75,6 +75,7 @@ public class Constants
 	public static final String shared_trackers = "SharedTrackers";
 	public static final String shared_tracker_name = "TrackerName";
 	public static final String shared_tracker_status = "SharedTrackerStatus";
+	public static final String cancel_sharing = "ChangeTrackerSharingStatus";
 
 
 
