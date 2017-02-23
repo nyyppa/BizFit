@@ -19,18 +19,18 @@ import java.util.UUID;
  * Created by attey on 20/01/2017.
  */
 
-public class SharedTracker implements java.io.Serializable{
+public class SharedTracker implements java.io.Serializable,Message.MessageObject{
     String userName;
     UUID uuid;
     String trackerName;
-    Status status;
+    Message.Status status;
 
     public SharedTracker (String userName,UUID uuid, String trackerName)
     {
         this.userName=userName;
         this.uuid=uuid;
         this.trackerName=trackerName;
-        status = Status.PENDING;
+        status = Message.Status.PENDING;
         //addToNet();
     }
 
@@ -48,7 +48,7 @@ public class SharedTracker implements java.io.Serializable{
             }
             if(jsonObject.has(Constants.shared_tracker_status))
             {
-                status=Status.valueOf(jsonObject.getString(Constants.shared_tracker_status));
+                status= Message.Status.valueOf(jsonObject.getString(Constants.shared_tracker_status));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class SharedTracker implements java.io.Serializable{
         Network.addNetMessage(netMessage);
 
     }
-
+    //TODO change to change status inNet
     public void removeFromNet()
     {
         JSONObject jsonObject = new JSONObject();
@@ -161,18 +161,25 @@ public class SharedTracker implements java.io.Serializable{
         return false;
 
     }
-    private Status getStatus()
+
+    @Override
+    public void doStuff() {
+
+    }
+
+    public Message.Status getStatus()
     {
         return status;
     }
 
-    private void setStatus(Status status)
+    public void setStatus(Message.Status status)
     {
         this.status=status;
     }
 
-    public enum Status
-    {
-        PENDING, ACCEPTED, CANCELLED, DELETED
+    public String getText(){
+        return trackerName;
     }
+
+
 }
