@@ -54,7 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         }
         ContentValues values = new ContentValues();
-        values.put("user", user.toJSON().toString());
+        values.put("user", user.toJSON(false).toString());
         values.put("userName", user.userName);
         //System.out.println("user"+user.toJSON().toString());
 

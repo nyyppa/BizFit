@@ -28,7 +28,7 @@ public class SharedTracker implements java.io.Serializable{
         this.userName=userName;
         this.uuid=uuid;
         this.trackerName=trackerName;
-        addToNet();
+        //addToNet();
     }
 
     public SharedTracker(JSONObject jsonObject){
@@ -48,7 +48,9 @@ public class SharedTracker implements java.io.Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        addToNet();
+        if(!userName.equals(User.getLastUser(null,null,null))){
+            addToNet();
+        }
     }
 
     private void addToNet()
@@ -57,7 +59,7 @@ public class SharedTracker implements java.io.Serializable{
         try
         {
             jsonObject.put(Constants.job, "AddSharedTracker");
-            jsonObject.put(Constants.getUser_Name(),userName);
+            jsonObject.put(Constants.getUser_Name(),User.getLastUser(null,null,null).userName);
             jsonObject.put(Constants.shared_trackers, this.toJSON());
 
         }

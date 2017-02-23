@@ -536,7 +536,7 @@ public class User  {
      *
      * @return JSON containing user and it's dependensies
      */
-    public JSONObject toJSON() {
+    public JSONObject toJSON(boolean toNet) {
         JSONObject jsonObject = new JSONObject();
         JSONArray trackerArray = new JSONArray();
         JSONArray conversationArray=new JSONArray();
@@ -563,7 +563,7 @@ public class User  {
             }
             jsonObject.put(Constants.deleted_trackers,deletedTrackers);
 
-            if(getSharedTrackerList()!=null)
+            if(getSharedTrackerList()!=null&&!toNet)
             {
                 for(int i = 0; i < getSharedTrackerList().size(); i++)
                 {
@@ -751,7 +751,7 @@ public class User  {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.job, Constants.save);
-            jsonObject.put(Constants.user, currentUser.toJSON());
+            jsonObject.put(Constants.user, currentUser.toJSON(true));
         } catch (JSONException e) {
             e.printStackTrace();
         }
