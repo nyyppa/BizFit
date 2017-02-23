@@ -1,6 +1,9 @@
 package com.bizfit.bizfit.tracker;
 
+import android.os.Debug;
+
 import com.bizfit.bizfit.DebugPrinter;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -54,6 +57,7 @@ public class SharedTracker implements java.io.Serializable{
             jsonObject.put(Constants.job, "CancelTrackerSharing");
             jsonObject.put(Constants.shared_trackers, this.toJSON());
             jsonObject.put(Constants.shared_tracker_name, trackerName);
+            jsonObject.put(Constants.getUser_Name(), User.getLastUser(null,null,null).userName);
         }
         catch (JSONException e)
         {
@@ -77,6 +81,10 @@ public class SharedTracker implements java.io.Serializable{
 
     public boolean equals(Tracker t)
     {
+        DebugPrinter.Debug("täällä ollaan");
+        DebugPrinter.Debug("UUID: "+t.uuid.toString());
+        DebugPrinter.Debug("UUID: "+this.uuid.toString());
+        DebugPrinter.Debug("UUID: "+t.uuid.equals(this.uuid));
         return t.uuid.equals(this.uuid);
     }
 

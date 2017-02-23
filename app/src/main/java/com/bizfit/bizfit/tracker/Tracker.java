@@ -793,8 +793,9 @@ public class Tracker {
             while(iterator.hasNext())
             {
                 SharedTracker current = iterator.next();
-                if(current.equals(this));
+                if(current.equals(this))
                 {
+                    DebugPrinter.Debug("UUID: ");
                     current.removeFromNet();
                     iterator.remove();
                     user.save();
@@ -807,7 +808,7 @@ public class Tracker {
             while(iterator2.hasNext())
             {
                 Tracker current = iterator2.next();
-                if(current.equals(this));
+                if(current.equals(this))
                 {
                     iterator2.remove();
                     user.save();
