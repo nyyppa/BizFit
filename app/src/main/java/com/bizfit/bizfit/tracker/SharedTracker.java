@@ -1,6 +1,8 @@
 package com.bizfit.bizfit.tracker;
 
 import com.bizfit.bizfit.DebugPrinter;
+import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -21,10 +23,12 @@ public class SharedTracker implements java.io.Serializable{
     String userName;
     UUID uuid;
     String trackerName;
-    public SharedTracker (String userName,UUID uuid, String trackerName){
+    public SharedTracker (String userName,UUID uuid, String trackerName)
+    {
         this.userName=userName;
         this.uuid=uuid;
         this.trackerName=trackerName;
+        addToNet();
     }
 
     public SharedTracker(JSONObject jsonObject){
@@ -44,6 +48,38 @@ public class SharedTracker implements java.io.Serializable{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        addToNet();
+    }
+
+    private void addToNet()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put(Constants.job, "AddSharedTracker");
+            jsonObject.put(Constants.getUser_Name(),userName);
+            jsonObject.put(Constants.shared_trackers, this.toJSON());
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        NetMessage netMessage = new NetMessage(null, new NetworkReturn()
+        {
+            @Override
+            //TODO error handling
+            public void returnMessage(String message)
+            {
+                if(message.equals(Constants.networkconn_failed))
+                {
+                    addToNet();
+                }
+
+            }
+        }, jsonObject);
+        Network.addNetMessage(netMessage);
+
     }
 
     public void removeFromNet()
@@ -86,6 +122,7 @@ public class SharedTracker implements java.io.Serializable{
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
+
             jsonObject.put(Constants.getUser_Name(),userName);
             jsonObject.put(Constants.UUID,uuid);
             jsonObject.put(Constants.shared_tracker_name,trackerName);

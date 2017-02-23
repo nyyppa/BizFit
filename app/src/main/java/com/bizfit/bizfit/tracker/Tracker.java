@@ -778,11 +778,7 @@ public class Tracker {
     //Deleting trackers shared to you by jariJ 20.2.17
     private void removeSharedTrackers(User user)
     {
-        List<SharedTracker> removableTrackers =null;
-        Conversation conversation;
-        RecyclerViewAdapterMessages rvaMsg=null;
-
-
+        List<SharedTracker> removableTrackers = new ArrayList<>();
 
         if(user.getSharedTrackerList()!=null&& user.getSharedTrackerList().size()>0)
         {
