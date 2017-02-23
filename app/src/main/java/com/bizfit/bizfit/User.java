@@ -295,6 +295,7 @@ public class User  {
 
             //TODO updatedInformationCall
         }
+        sharedTracker.setStatus(Message.Status.ACCEPTED);
         getTrackersSharedWithMe();
     }
     public void getTrackersSharedWithMe(){

@@ -118,7 +118,6 @@ public class Message implements NetworkReturn, Serializable {
                 messageObject=sharedTracker;
                 if(job==Job.INCOMING&&!hasBeenSeen){
                     User.getLastUser(null,null,null).addSharedTracker(sharedTracker);
-                    messageObject.setStatus(Status.ACCEPTED);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

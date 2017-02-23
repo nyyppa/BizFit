@@ -792,7 +792,6 @@ public class Tracker {
                 SharedTracker current = iterator.next();
                 if(current.equals(this))
                 {
-                    DebugPrinter.Debug("UUID: ");
                     current.setStatus(Message.Status.DELETED);
                     current.removeFromNet();
                     //iterator.remove();
