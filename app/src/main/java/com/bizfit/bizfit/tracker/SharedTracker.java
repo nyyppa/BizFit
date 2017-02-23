@@ -94,7 +94,7 @@ public class SharedTracker implements java.io.Serializable,Message.MessageObject
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put(Constants.job, "CancelTrackerSharing");
+            jsonObject.put(Constants.job, Constants.cancel_sharing);
             jsonObject.put(Constants.shared_trackers, this.toJSON());
             jsonObject.put(Constants.shared_tracker_name, trackerName);
         }
