@@ -116,7 +116,7 @@ public class Message implements NetworkReturn, Serializable {
                 SharedTracker sharedTracker=new SharedTracker(new JSONObject(message.replace("code share_tracker","")));
                 messageObject=sharedTracker;
                 if(job==Job.INCOMING&&!hasBeenSeen){
-                    User.getLastUser(null,null,null).addSharedTracker(sharedTracker);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

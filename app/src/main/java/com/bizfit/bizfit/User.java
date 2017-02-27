@@ -45,16 +45,11 @@ public class User  {
     private transient static User currentUser;
     public String userName;
     public boolean saveUser = false;
-    List<Tracker> trackers;
-    static boolean userLoaded=false;
     List<Conversation> conversations;
     private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
-    private List<Long> deletedTrackers=new ArrayList<>(0);
     private static boolean dropLastUser=false;
-    private List<SharedTracker> sharedTrackerList;
-    private List<Tracker> trackersSharedWithMe=new ArrayList<>();
 
 
     private User(){
@@ -67,10 +62,6 @@ public class User  {
      */
     public User(String userName) {
         this.userName = userName;
-
-        if (trackers == null) {
-            trackers = new ArrayList<>(0);
-        }
     }
     /**
      * Constructs user and it's dependencies from given JSONObject
@@ -82,16 +73,6 @@ public class User  {
         JSONArray trackerArray=null;
         try
         {
-            trackers = new ArrayList<>(0);
-            if(jsonObject.has(Constants.trackers))
-            {
-                trackerArray = jsonObject.getJSONArray(Constants.trackers);
-                for (int i = 0; i < trackerArray.length(); i++) {
-                    Tracker t = new Tracker(trackerArray.getJSONObject(i));
-                    trackers.add(t);
-                    t.addParentUser(this);
-                }
-            }
             if(jsonObject.has(Constants.getUser_Name()))
             {
                 userName = jsonObject.getString(Constants.getUser_Name());
@@ -104,21 +85,6 @@ public class User  {
                     addConversation(new Conversation(conversationArray.getJSONObject(i),this));
                 }
             }
-            if(this.deletedTrackers==null){
-                deletedTrackers=new ArrayList<>();
-            }
-            if(jsonObject.has("DeletedTrackers")){
-                JSONArray deletedTrackers=jsonObject.getJSONArray("DeletedTrackers");
-                for(int i=0;i<deletedTrackers.length();i++){
-                    this.deletedTrackers.add(deletedTrackers.getLong(i));
-                }
-            }
-            if(jsonObject.has("SharedTrackers")){
-                JSONArray sharedTrackers=jsonObject.getJSONArray("SharedTrackers");
-                for(int i=0;i<sharedTrackers.length();i++){
-                    getSharedTrackerList().add(new SharedTracker(sharedTrackers.getJSONObject(i)));
-                }
-            }
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -129,35 +95,6 @@ public class User  {
             conversations=new ArrayList<>();
         }
         return conversations;
-    }
-    public List<SharedTracker> getSharedTrackerList(){
-        if (sharedTrackerList==null){
-            sharedTrackerList=new ArrayList<>();
-        }
-        return sharedTrackerList;
-    }
-    public void getSharedTrackersFromNet(){
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put(Constants.job,"getSharedTrackers");
-            JSONArray jsonArray=new JSONArray();
-            for(int i=0;i<getSharedTrackerList().size();i++){
-                jsonArray.put(getSharedTrackerList().get(i).toJSON());
-            }
-            jsonObject.put("list",jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
-            @Override
-            public void returnMessage(String message) {
-                if(message.equals(Constants.networkconn_failed)){
-
-                }else{
-
-                }
-            }
-        },jsonObject));
     }
 
     private void updateInformation(User user){
@@ -172,27 +109,10 @@ public class User  {
         else {
             this.userName=user.userName;
         }
-        DebugPrinter.Debug("jaetut trackerit: "+user.getSharedTrackerList().size());
-        getTrackersSharedWithMe();
-        boolean informationUpdated=updateTrackers(user.getTrackerlist());
-        if(informationUpdated)
-        {
-            updateConversations(user.getConversations());
-            DebugPrinter.Debug("tallennuksessa conversationit;" + this.getConversations());
-        }else
-        {
-            informationUpdated= updateConversations(user.getConversations());
-        }
-        if(informationUpdated){
-            SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
-            DebugPrinter.Debug("tallennuksessa jaetut trackerit;" + this.getSharedTrackerList().size());
-        }else{
-            informationUpdated=SharedTracker.combineLists(getSharedTrackerList(),user.getSharedTrackerList());
-            DebugPrinter.Debug("tallennuksessa jaetut trackerit2;" + this.getSharedTrackerList().size());
-        }
+        boolean informationUpdated= updateConversations(user.getConversations());
+
         //TODO: Clean list when can't find sharedtrackers from server
-        DebugPrinter.Debug("Koko lista: "+getSharedTrackerList().size());
-        DebugPrinter.Debug("Jaetut minulle lista" + getTrackersSharedWithMeList().size());
+
 
         if(informationUpdated){
             List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
@@ -218,23 +138,6 @@ public class User  {
         return this.getConversations().addAll(newConversations);
     }
 
-    private boolean updateTrackers(List<Tracker> list){
-
-        List<Tracker> newTrackers=new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-           Tracker t=list.get(i);
-           if(!t.isTHisInList(getTrackerlist())&&!t.hasThisBeenRemoved(deletedTrackers)){
-               newTrackers.add(t);
-           }else{
-           }
-        }
-        return getTrackerlist().addAll(newTrackers);
-    }
-
-
-
-
-
     /**
      * Runs update for every tracker to keep their internal time moving
      *
@@ -259,11 +162,6 @@ public class User  {
             user.getConversations().get(i).getNewMessagesAndSendOldOnes();
         }
 
-        List<Tracker> trackers = user.getTrackerlist();
-        for (int i = 0; i < trackers.size(); i++)
-        {
-            trackers.get(i).update();
-        }
         Network.onExit();
         Network network = Network.getNetwork();
         /*
@@ -283,80 +181,9 @@ public class User  {
 
     }
 
-    public void addSharedTracker(SharedTracker sharedTracker){
-        List<SharedTracker> list=getSharedTrackerList();
-        if(sharedTracker.getUserName()!=null&&sharedTracker.getUserName().equals(userName)){
-            return;
-        }
-
-        if(!sharedTracker.alreadyInList(list)){
-            list.add(sharedTracker);
 
 
-            //TODO updatedInformationCall
-        }
-        sharedTracker.setStatus(Message.Status.ACCEPTED);
-        getTrackersSharedWithMe();
-    }
-    public void getTrackersSharedWithMe(){
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put(Constants.job,"getSharedTrackers");
-            JSONArray jsonArray=new JSONArray();
-            for(int i=0;i<getSharedTrackerList().size()&&getSharedTrackerList().get(i).getStatus()== Message.Status.ACCEPTED;i++){
-                jsonArray.put(getSharedTrackerList().get(i).toJSON());
-            }
-            jsonObject.put("list",jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
-            @Override
-            public void returnMessage(String message) {
-                if(!message.equals(Constants.networkconn_failed)){
-                    try {
-                        JSONArray jsonArray=new JSONArray(message);
-                        boolean informationUpdated=false;
-                        for(int i=0;i<jsonArray.length();i++){
-                            Tracker t=new Tracker(new JSONObject(jsonArray.getString(i)));
-                            if(!t.updateInList(trackersSharedWithMe)){
-                                trackersSharedWithMe.add(t);
-                                informationUpdated=true;
-                            }
-                        }
-                        List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
-                        for(int i=0;i<listenersForInformationUpdated.size()&&informationUpdated;i++){
-                            if(listenersForInformationUpdated.get(i)!=null){
-                                listenersForInformationUpdated.get(i).informationUpdated();
-                            }
-                            DebugPrinter.Debug("time"+System.currentTimeMillis());
-                            DebugPrinter.Debug("ListenersSize"+listenersForInformationUpdated.size());
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        },jsonObject);
-        Network.addNetMessage(netMessage);
-    }
 
-    public List<Tracker> getTrackersSharedWithMeList()
-    {
-        if(trackersSharedWithMe==null)
-        {
-            trackersSharedWithMe=new ArrayList<>();
-        }
-        return trackersSharedWithMe;
-    }
-    private List<Tracker> getTrackerlist()
-    {
-        if(trackers==null)
-        {
-            trackers = new ArrayList<>();
-        }
-        return trackers;
-    }
     /**
      * Returns Users current Context
      *
@@ -523,15 +350,7 @@ public class User  {
 
 
 
-    /**
-     * returs tracker with given index
-     *
-     * @param index
-     * @return
-     */
-    public Tracker getTrackerByIndex(int index) {
-        return trackers.get(index);
-    }
+
 
     /**
      * converts user and all of it's dependensies to JSON
@@ -546,13 +365,7 @@ public class User  {
         JSONArray sharedTrackers = new JSONArray();
         try {
             jsonObject.put(Constants.getUser_Name(), userName);
-            if(trackers!=null)
-            {
-                for (int i = 0; i < trackers.size(); i++)
-                {
-                    trackerArray.put(trackers.get(i).toJSON());
-                }
-            }
+
             jsonObject.put(Constants.trackers, trackerArray);
 
             for(int i=0;conversations!=null && i<conversations.size();i++){
@@ -560,19 +373,10 @@ public class User  {
             }
             jsonObject.put(Constants.conversations,conversationArray);
 
-            for(int i=0;this.deletedTrackers!=null&&i<this.deletedTrackers.size();i++){
-                deletedTrackers.put(this.deletedTrackers.get(i).longValue());
-            }
+
             jsonObject.put(Constants.deleted_trackers,deletedTrackers);
 
-            if(getSharedTrackerList()!=null&&!toNet)
-            {
-                for(int i = 0; i < getSharedTrackerList().size(); i++)
-                {
-                    sharedTrackers.put(getSharedTrackerList().get(i).toJSON());
-                }
-                jsonObject.put(Constants.shared_trackers,sharedTrackers);
-            }
+
             /*
             try {
                 jsonObject.put(Constants.check_sum,checksum(this));
@@ -586,121 +390,21 @@ public class User  {
         }
         return jsonObject;
     }
-    public Tracker getTrackerWithGivenUUID(UUID uuid){
-        Tracker[]trackers=getTrackers(TrackerSharedEnum.ALL);
-        for(int i=0;i<trackers.length;i++){
-            if(trackers[i].equals(uuid)){
-                return trackers [i];
-            }
-        }
-        return null;
-    }
 
-    /**
-     * Checks if userName has already Tracker with given NAME
-     *
-     * @param name NAME to check
-     * @return true if tracker is found and false if tracker is not found
-     */
-    public boolean isTrackerNameAlreadyInUse(String name) {
-        for (int i = 0; i < trackers.size(); i++) {
-            if (name.equals(trackers.get(i).getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    /**
-     * Sorts Tracker's according to remaining time and splits them to expired and ongoing groups
-     *
-     * @param ascending
-     * @return
-     */
-    public SortedTrackers getTimeRemainingSortedTrackers(boolean ascending) {
-        final int asc = ascending ? 1 : -1;
-        SortedTrackers sorted = new SortedTrackers();
-        Comparator<Tracker> t = new Comparator<Tracker>() {
-            @Override
-            public int compare(Tracker lhs, Tracker rhs) {
-                return asc * (lhs.getRemainingTimeMillis() - rhs.getRemainingTimeMillis());
-            }
-        };
-        Collections.sort(sorted.currentTrackers, t);
-        Collections.sort(sorted.expiredTrackers, t);
-        return sorted;
-    }
 
-    public SortedTrackers getProgressComparedToTimeSortedTrackers(boolean ascending) {
-        final int asc = ascending ? 1 : -1;
-        SortedTrackers sorted = new SortedTrackers();
-        Comparator<Tracker> t = new Comparator<Tracker>() {
-            @Override
-            public int compare(Tracker lhs, Tracker rhs) {
-                return asc * ((int) (lhs.getProgressComperedToTime() * 100) - (int) (rhs.getProgressComperedToTime() * 100));
-            }
-        };
-        Collections.sort(sorted.currentTrackers, t);
-        Collections.sort(sorted.expiredTrackers, t);
-        return sorted;
-    }
 
-    public SortedTrackers getAlpapheticalSortedTrackers(boolean ascending) {
-        final int asc = ascending ? 1 : -1;
-        SortedTrackers sorted = new SortedTrackers();
-        Comparator<Tracker> t = new Comparator<Tracker>() {
-            @Override
-            public int compare(Tracker lhs, Tracker rhs) {
-                return asc * (lhs.getName().compareToIgnoreCase(rhs.getName()));
-            }
-        };
-        Collections.sort(sorted.currentTrackers, t);
-        Collections.sort(sorted.expiredTrackers, t);
-        return sorted;
-    }
 
-    /**
-     * Adds tracker to users information and then saves everything to the memory
-     *
-     * @param t Tracker to add for user
-     */
-    public void addTracker(Tracker t) {
-        if (trackers == null) {
-            trackers = new ArrayList<>(0);
-        }
-        trackers.add(t);
-        t.addParentUser(this);
-        updateIndexes();
-        save(t);
 
-    }
 
-    public void updateIndexes() {
-        for (int i = 0; i < trackers.size(); i++) {
-            trackers.get(i).index = i;
-        }
-    }
 
-    /**
-     * @return Returns all the users trackers
-     */
-    public Tracker[] getTrackers(TrackerSharedEnum trackerSharedEnum)
-    {
-        if(trackers==null)
-        {
-            trackers = new ArrayList<>();
-        }
-        Tracker[] t = new Tracker[getTrackerlist().size()];
-        getTrackerlist().toArray(t);
-        Tracker[] p=new Tracker[trackersSharedWithMe.size()];
-        trackersSharedWithMe.toArray(p);
-        if (trackerSharedEnum==TrackerSharedEnum.SHARED){
-            return p;
-        }else if(trackerSharedEnum==TrackerSharedEnum.OWN){
-            return t;
-        }
-        return concat(t,p);
-    }
+
+
+
+
+
+
+
     public static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
@@ -711,31 +415,8 @@ public class User  {
 
     }
 
-    public int getAmoutOfTrackes() {
-        return trackers.size();
-    }
 
-    /**
-     * Removes Tracker from users infromation and then saves everything
-     *
-     * @param t Tracker to remove
-     * @return ArrayList containing all of the users Trackers
-     */
-    public void removeTracker(Tracker t) {
-        Iterator<Tracker> iterator = trackers.iterator();
-        while (iterator.hasNext()) {
-            Tracker current = iterator.next();
-            if (current.equals(t)) {
-                iterator.remove();
-                deletedTrackers.add(t.creationTime);
-                //trackersToDelete.add(t);
-                save();
-                break;
-            }
-        }
 
-        updateIndexes();
-    }
 
     /**
      * Saves users current information
@@ -895,20 +576,7 @@ public class User  {
     }
 
 
-    public class SortedTrackers {
-        public List<Tracker> currentTrackers = new ArrayList<Tracker>(0);
-        public List<Tracker> expiredTrackers = new ArrayList<Tracker>(0);
 
-        SortedTrackers() {
-            for (int i = 0; i < trackers.size(); i++) {
-                if (trackers.get(i).completed) {
-                    expiredTrackers.add(trackers.get(i));
-                } else {
-                    currentTrackers.add(trackers.get(i));
-                }
-            }
-        }
-    }
 
     public Conversation addConversation(final Conversation conversation){
         if(GetMessagesThread==null||!GetMessagesThread.isAlive()){

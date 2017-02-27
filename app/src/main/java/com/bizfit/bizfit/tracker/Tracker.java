@@ -772,7 +772,7 @@ public class Tracker {
     {
         User user = User.getLastUser(null, null, null);
 
-        user.removeTracker(this);
+
         removeSharedTrackers(user);
 
     }
@@ -780,43 +780,6 @@ public class Tracker {
     private void removeSharedTrackers(User user)
     {
         List<SharedTracker> removableTrackers = new ArrayList<>();
-
-        if(user.getSharedTrackerList()!=null&& user.getSharedTrackerList().size()>0)
-        {
-            List<Tracker> removableTrackers2 = user.getTrackersSharedWithMeList();
-            removableTrackers = user.getSharedTrackerList();
-            Iterator<SharedTracker> iterator = removableTrackers.iterator();
-            Iterator<Tracker> iterator2 = removableTrackers2.iterator();
-            while(iterator.hasNext())
-            {
-                SharedTracker current = iterator.next();
-                if(current.equals(this))
-                {
-                    current.setStatus(Message.Status.DELETED);
-                    current.removeFromNet();
-                    //iterator.remove();
-                    user.save();
-                    DebugPrinter.Debug("Poiston jälkeen; " + user.getTrackersSharedWithMeList().size() + " " + user.getTrackersSharedWithMeList());
-                    DebugPrinter.Debug("Poiston jälkeen2; " + user.getSharedTrackerList().size() + " " + user.getSharedTrackerList());
-
-                    break;
-                }
-            }
-            while(iterator2.hasNext())
-            {
-                Tracker current = iterator2.next();
-                if(current.equals(this))
-                {
-                    iterator2.remove();
-                    user.save();
-                    DebugPrinter.Debug("Poiston jälkeen3; " + user.getTrackersSharedWithMeList().size() + " " + user.getTrackersSharedWithMeList());
-                    DebugPrinter.Debug("Poiston jälkeen4; " + user.getSharedTrackerList().size() + " " + user.getSharedTrackerList());
-                    break;
-                }
-
-            }
-        }
-
     }
 
     public JSONObject shareTracker(String owner,String other){

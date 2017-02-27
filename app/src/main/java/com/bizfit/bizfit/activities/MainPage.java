@@ -28,9 +28,8 @@ import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
 import com.bizfit.bizfit.fragments.TabConversationList;
-import com.bizfit.bizfit.fragments.TabTrackables;
+
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterStoreRow;
-import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterTrackers;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
@@ -42,7 +41,6 @@ import java.util.concurrent.TimeUnit;
  * Displays the content of home screen.
  */
 public class MainPage extends AppCompatActivity implements
-        RecyclerViewAdapterTrackers.RecyclerViewItemClicked,
         RecyclerViewAdapterStoreRow.StoreItemClicked {
 
     /**
@@ -69,17 +67,7 @@ public class MainPage extends AppCompatActivity implements
         viewPager.setCurrentItem(1);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide(); //because tab is not switched, activated in onPageSelected
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i = 0; i < getSupportFragmentManager().getFragments().size(); i++){
-                    if(getSupportFragmentManager().getFragments().get(i) instanceof TabTrackables){
-                        ((TabTrackables) getSupportFragmentManager().getFragments().get(i)).launchAddTrackerActivity();
-                        break;
-                    }
-                }
-            }
-        });
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -176,7 +164,6 @@ public class MainPage extends AppCompatActivity implements
      */
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabTrackables(), getResources().getString(R.string.title_tab_my_trackers));
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         viewPager.setAdapter(adapter);
@@ -186,19 +173,7 @@ public class MainPage extends AppCompatActivity implements
             ((ViewPagerNoSwipes) viewPager).setPagingEnabled(false);
     }
 
-    @Override
-    public void onItemClick(RecyclerView.ViewHolder vh) {
-        if (vh instanceof RecyclerViewAdapterTrackers.ViewHolderTracker) {
-            List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
-            for(int i=0;i<fragments.size();i++){
-                if(fragments.get(i) instanceof  TabTrackables){
-                    ((TabTrackables) fragments.get(i)).launchViewTrackerActivity(vh);
-                    break;
-                }
-            }
-        }
-    }
 
     @Override
     public void itemClicked(StoreRow.StoreItem data) {

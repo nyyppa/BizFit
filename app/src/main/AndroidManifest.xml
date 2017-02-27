@@ -63,11 +63,6 @@
             android:windowSoftInputMode="adjustPan|stateVisible" />
 
         <!-- Single tracker info -->
-        <activity
-            android:name=".activities.ViewTracker"
-            android:label=""
-            android:screenOrientation="user"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Store page -->
         <activity android:name=".activities.CoachPage" />
