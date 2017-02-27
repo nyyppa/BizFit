@@ -96,5 +96,5 @@ public class Constants
 
 	//Generic
 	public static final String UUID="UUID";
-	public static final String version="02.23";
+	public static final String version="02.27";
 }
