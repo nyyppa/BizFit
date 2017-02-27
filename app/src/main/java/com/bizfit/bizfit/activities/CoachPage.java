@@ -23,6 +23,8 @@ import com.bizfit.bizfit.utils.Constants;
 
 import org.w3c.dom.Text;
 
+import java.util.Random;
+
 /**
  * Fetches and displays an overview of hireable coaches.
  */
@@ -62,15 +64,16 @@ public class CoachPage extends AppCompatActivity {
         String[] callPrices = getResources().getStringArray(R.array.random_price_call);
         tVpriceCall.setText(callPrices[(int) (Math.random() * callPrices.length - 1)]);
         */
-
+        Random rng=new Random();
         TextView textView=(TextView)findViewById(R.id.order_price_chat_call);
+        textView.setText(""+(rng.nextInt(100)+100)+"€");
         String callPrice=textView.getText()+"";
         textView=(TextView)findViewById(R.id.order_per_time_call);
         String callTime=textView.getText()+"";
         textView=(TextView) findViewById(R.id.order_price_minute);
         float f=getFloatFromString(callPrice)/getFloatFromString(callTime);
         double newKB = Math.round(f*100.0)/100.0;
-        textView.setText(newKB+"");
+        textView.setText(newKB+"€");
 
         // 7.12.2016 jariJ Making a new popup window when terms of service button is clicked
 
