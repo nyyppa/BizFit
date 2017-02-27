@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.icu.text.DecimalFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.utils.Constants;
+
+import org.w3c.dom.Text;
 
 /**
  * Fetches and displays an overview of hireable coaches.
@@ -54,11 +57,20 @@ public class CoachPage extends AppCompatActivity {
         TextView tVpriceChat = (TextView) findViewById(R.id.order_price_chat);
         String[] chatPrices = getResources().getStringArray(R.array.random_price_chat);
         tVpriceChat.setText(chatPrices[(int) (Math.random() * chatPrices.length - 1)]);
-
+        /*
         TextView tVpriceCall = (TextView) findViewById(R.id.order_price_call);
         String[] callPrices = getResources().getStringArray(R.array.random_price_call);
         tVpriceCall.setText(callPrices[(int) (Math.random() * callPrices.length - 1)]);
+        */
 
+        TextView textView=(TextView)findViewById(R.id.order_price_chat_call);
+        String callPrice=textView.getText()+"";
+        textView=(TextView)findViewById(R.id.order_per_time_call);
+        String callTime=textView.getText()+"";
+        textView=(TextView) findViewById(R.id.order_price_minute);
+        float f=getFloatFromString(callPrice)/getFloatFromString(callTime);
+        double newKB = Math.round(f*100.0)/100.0;
+        textView.setText(newKB+"");
 
         // 7.12.2016 jariJ Making a new popup window when terms of service button is clicked
 
@@ -158,6 +170,10 @@ public class CoachPage extends AppCompatActivity {
 
     public void call(){
 
+    }
+
+    public float getFloatFromString(String string){
+        return Float.parseFloat(string.replaceAll("[^\\d.,]",""));
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,

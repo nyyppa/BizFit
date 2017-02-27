@@ -58,7 +58,7 @@
             android:text="59€"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/order_price_chat"
+            android:id="@+id/order_price_chat_call"
             android:textSize="50dp"
             android:layout_weight="1"
             android:textColor="@color/colorPrimary"/>
@@ -67,7 +67,7 @@
             android:text=" / 90 min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/order_per_time"
+            android:id="@+id/order_per_time_call"
             android:textSize="@dimen/text_subheading"
             android:textColor="@color/colorPrimary"
             android:layout_weight="1" />
