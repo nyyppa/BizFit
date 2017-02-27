@@ -61,18 +61,12 @@
     <string name="create_tracker_done">Luo tavoite</string>
 
     <string-array name="random_job_title">
-        <item>Markkinointi</item>
         <item>Myynti</item>
-        <item>Kirjanpito</item>
-        <item>Sosiaalinen media markkinointi</item>
-        <item>Venäjän markkinointi</item>
-        <item>Kylmä puhelut</item>
-        <item>Työturvallisuus</item>
-        <item>Työ Onnellisuus</item>
-        <item>Työ Tyytyväisyys</item>
-        <item>Saksan tuonti</item>
-        <item>Venäjän vienti</item>
+        <item>Markkinointi</item>
+        <item>Talous</item>
+        <item>Johtaminen</item>
     </string-array>
+
     <string-array name="random_country_and_city">
         <item>Suomi, Tampere</item>
         <item>Saksa, Frankfurt</item>
@@ -91,17 +85,17 @@
     </string-array>
 
     <string-array name="random_price_chat">
-        <item>9,99e/viikko</item>
-        <item>19,99e/viikko</item>
-        <item>2,50e/viikko</item>
-        <item>4,99e/viikko</item>
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>2,50€</item>
+        <item>4,99€</item>
     </string-array>
 
     <string-array name="random_price_call">
-        <item>9,99e/tunti</item>
-        <item>19,99e/tunti</item>
-        <item>49,99e/tunti</item>
-        <item>29,99e/tunti</item>
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>49,99€</item>
+        <item>29,99€</item>
     </string-array>
 
 </resources>

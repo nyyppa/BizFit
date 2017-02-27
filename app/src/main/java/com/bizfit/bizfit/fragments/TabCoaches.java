@@ -62,7 +62,7 @@ public class TabCoaches extends Fragment {
         final TypedArray worksIds = getResources().obtainTypedArray(R.array.work_imgs);
 
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < jobTitles.length; i++)
         {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
             if(i==0)

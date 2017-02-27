@@ -37,36 +37,32 @@ public class CoachPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_page);
-        RelativeLayout relative = (RelativeLayout) findViewById(R.id.rLforCoachName);
-        ViewGroup.LayoutParams params = relative.getLayoutParams();
-        params.height = (int) (getResources().getConfiguration().fontScale * params.height);
-        TextView tvIntro = (TextView) findViewById(R.id.tVIntro)
-                .findViewById(R.id.tVIntro);
 
         //random coach information assignments
-        TextView tVfieldOfExpertise = (TextView) findViewById(R.id.tVExpertise);
+        TextView tVfieldOfExpertise = (TextView) findViewById(R.id.coach_categories);
         String[] jobTitles = getResources().getStringArray(R.array.random_job_title);
         tVfieldOfExpertise.setText(jobTitles[(int) (Math.random() * jobTitles.length - 1)]);
 
-        TextView tVplaceofResidence = (TextView) findViewById(R.id.tVPlaceOfResidence);
+        TextView tVplaceofResidence = (TextView) findViewById(R.id.coach_residence);
         String[] countriesAndCities = getResources().getStringArray(R.array.random_country_and_city);
         tVplaceofResidence.setText(countriesAndCities[(int) (Math.random() * countriesAndCities.length - 1)]);
 
-        TextView tVSalesPitch = (TextView) findViewById(R.id.tVSalesPitch);
+        TextView tVSalesPitch = (TextView) findViewById(R.id.coach_sales_pitch);
         String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
         tVSalesPitch.setText(pitches[(int) (Math.random() * pitches.length - 1)]);
 
-        TextView tVpriceChat = (TextView) findViewById(R.id.tVChatPrice);
+        TextView tVpriceChat = (TextView) findViewById(R.id.order_price_chat);
         String[] chatPrices = getResources().getStringArray(R.array.random_price_chat);
         tVpriceChat.setText(chatPrices[(int) (Math.random() * chatPrices.length - 1)]);
 
-        TextView tVpriceCall = (TextView) findViewById(R.id.tVCallPrice);
+        TextView tVpriceCall = (TextView) findViewById(R.id.order_price_call);
         String[] callPrices = getResources().getStringArray(R.array.random_price_call);
         tVpriceCall.setText(callPrices[(int) (Math.random() * callPrices.length - 1)]);
 
 
         // 7.12.2016 jariJ Making a new popup window when terms of service button is clicked
 
+        /*
         Button btnTos = (Button) findViewById(R.id.btnTOS);
         btnTos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,12 +92,12 @@ public class CoachPage extends AppCompatActivity {
             }
 
         });
+        */
 
        /*  */
 
 
         // TODO Content should be fetched from the server. API specific resource reference.
-        tvIntro.setText(getString(R.string.dummy));
         Intent intent = getIntent();
 
         if (intent != null) {
@@ -118,10 +114,10 @@ public class CoachPage extends AppCompatActivity {
              // ((ImageView) findViewById(R.id.coach_banner_image)).setImageDrawable(getResources().getDrawable(imgId));
              */
             if (name != null)
-                ((TextView) findViewById(R.id.tVName)).setText(name);
+                ((TextView) findViewById(R.id.coach_name)).setText(name);
         }
 
-        Button btnOrderChat = (Button) findViewById(R.id.btnOrderChat);
+        Button btnOrderChat = (Button) findViewById(R.id.order_chat);
         btnOrderChat.setOnClickListener(new View.OnClickListener()
                 // TODO: order chat-> välitä käyttäjä tunnus chatille -> avaa chat
                 //TODO: do method for getting username
@@ -135,7 +131,7 @@ public class CoachPage extends AppCompatActivity {
                 }
             }
         });
-        Button btnOrderCall = (Button) findViewById(R.id.btnOrderCall);
+        Button btnOrderCall = (Button) findViewById(R.id.order_call);
         btnOrderCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

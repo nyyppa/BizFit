@@ -313,7 +313,7 @@
     <string name="title_amount_to_add">Amount to add</string>
     <string name="action_confirm">OK</string>
     <string name="action_cancel">Cancel</string>
-    <string name="title_days_target">Todays target</string>
+    <string name="title_days_target">Today\'s target</string>
     <string name="title_progress">Progress</string>
     <string name="hint_search_hint">Search for something</string>
     <string name="hint_message_field">Message...</string>
@@ -332,16 +332,10 @@
     <string name="order_call">Order call</string>
     <string name="btnAccept">I accept</string>
     <string-array name="random_job_title">
+        <item>Sales</item>
         <item>Marketing</item>
-        <item>Accounting</item>
-        <item>Social Media</item>
-        <item>Russian Marketing</item>
-        <item>Cold Calls</item>
-        <item>Work Safety</item>
-        <item>Work Happines</item>
-        <item>Work Satisfaction</item>
-        <item>German importing</item>
-        <item>Russian exports</item>
+        <item>Finance</item>
+        <item>Management</item>
     </string-array>
     <string-array name="random_first_name">
         <item>JAMES</item>
@@ -392,17 +386,17 @@
     </string-array>
 
     <string-array name="random_price_chat">
-        <item>9,99e/week</item>
-        <item>19,99e/week</item>
-        <item>2,50e/week</item>
-        <item>4,99e/week</item>
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>2,50€</item>
+        <item>4,99€</item>
     </string-array>
 
     <string-array name="random_price_call">
-        <item>9,99e/hour</item>
-        <item>19,99e/hour</item>
-        <item>49,99e/hour</item>
-        <item>29,99e/hour</item>
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>49,99€</item>
+        <item>29,99€</item>
     </string-array>
     <string name="title_activity_login">Sign in</string>
 
