@@ -246,7 +246,7 @@ public class User  {
         SQLiteDatabase d;
         db = new DBHelper(c, "database1", null, Constants.db_version);
         d = db.getWritableDatabase();
-        User user=db.readUser(d,"default");
+        User user=db.readUser("default");
 
         User.getLastUser(null,c,null);
         DebugPrinter.Debug("userAlarm"+user.userName);
@@ -775,7 +775,6 @@ public class User  {
     }
     private class DBT extends OurRunnable{
         DBHelper dbHelper;
-        SQLiteDatabase database;
         Context context;
         private DBT(Context context){
             super(true,10000);
@@ -786,26 +785,22 @@ public class User  {
             if(dbHelper==null&&context!=null){
                 dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
             }
-            if(database==null&&dbHelper!=null){
-                database=dbHelper.getWritableDatabase();
-            }
             if(currentUser!=null&&currentUser.saveUser){
-                dbHelper.saveUser(database,currentUser);
+                dbHelper.saveUser(currentUser);
                 currentUser.saveUser=false;
             }
             else if (currentUser!=null)
             {
-                currentUser.updateInformation( dbHelper.readUser(database,userNameForLogin));
+                currentUser.updateInformation( dbHelper.readUser(userNameForLogin));
                 loadUserFromNet(currentUser.userName);
             }
             if(dropLastUser)
             {
-                dbHelper.deleteLastUser(database);
+                dbHelper.deleteLastUser();
                 dropLastUser=false;
             }
             if (currentUser == null ) {
                 dbHelper.close();
-                database.close();
                 repeat=false;
             }
         }
@@ -813,7 +808,6 @@ public class User  {
     //TODO make this better
     private static class DataBaseThread extends Thread {
         DBHelper db;
-        SQLiteDatabase d;
         boolean sleepThread;
         boolean exit = false;
         Context context;
@@ -836,18 +830,15 @@ public class User  {
                     {
                         db = new DBHelper(context, "database1", null, Constants.db_version);
                     }
-                    if (d == null && db!=null) {
-                        d = db.getWritableDatabase();
-                    }
 
                     if (currentUser!=null && currentUser.saveUser) {
-                        db.saveUser(d, currentUser);
+                        db.saveUser(currentUser);
                         currentUser.saveUser = false;
                     }
                     else if (currentUser!=null)
                     {
                         if(firstTime){
-                            currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                            currentUser.updateInformation( db.readUser(userNameForLogin));
                             firstTime=false;
                             DebugPrinter.Debug("höhööööö");
                         }
@@ -855,7 +846,7 @@ public class User  {
                     }
                     if(dropLastUser)
                     {
-                        db.deleteLastUser(d);
+                        db.deleteLastUser();
                         dropLastUser=false;
                     }
                     sleepThread = true;
@@ -870,7 +861,6 @@ public class User  {
                     }
                     if (exit || currentUser == null ) {
                         db.close();
-                        d.close();
                         return;
                     }
                 }
