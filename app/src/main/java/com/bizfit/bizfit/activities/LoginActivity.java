@@ -76,13 +76,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         // [END customize_button]
     }
-    long startTime;
-    boolean waiting=true;
+
 
     @Override
     public void onStart() {
         super.onStart();
-        startTime=System.currentTimeMillis();
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -93,31 +91,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             handleSignInResult(result);
 
         } else {
-            /*
-            final Timer timer=new Timer();
-            TimerTask timerTask =new TimerTask() {
-                final long waitTime=5000;
-                @Override
-                public void run() {
-                    System.out.println("waiting");
-                    if(startTime+waitTime<System.currentTimeMillis()&&waiting){
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent=new Intent(LoginActivity.this,MainPage.class);
-                                intent.putExtra("userName","default");
-                                startActivity(intent);
-                                timer.purge();
-                                timer.cancel();
-                            }
-                        });
-
-                        return;
-                    }
-                }
-            };
-            timer.schedule(timerTask,0,1000);
-            */
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
@@ -125,7 +98,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    waiting=false;
                     hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }

@@ -4,6 +4,7 @@ package com.bizfit.bizfit;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -168,10 +169,10 @@ public class User  {
         {
             return;
         }
-
         else {
             this.userName=user.userName;
         }
+        DebugPrinter.Debug("jaetut trackerit: "+user.getSharedTrackerList().size());
         getTrackersSharedWithMe();
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated)
@@ -245,7 +246,7 @@ public class User  {
         SQLiteDatabase d;
         db = new DBHelper(c, "database1", null, Constants.db_version);
         d = db.getWritableDatabase();
-        User user=db.readUser(d,"default");
+        User user=db.readUser("default");
 
         User.getLastUser(null,c,null);
         DebugPrinter.Debug("userAlarm"+user.userName);
@@ -294,6 +295,7 @@ public class User  {
 
             //TODO updatedInformationCall
         }
+        sharedTracker.setStatus(Message.Status.ACCEPTED);
         getTrackersSharedWithMe();
     }
     public void getTrackersSharedWithMe(){
@@ -301,7 +303,7 @@ public class User  {
         try {
             jsonObject.put(Constants.job,"getSharedTrackers");
             JSONArray jsonArray=new JSONArray();
-            for(int i=0;i<getSharedTrackerList().size();i++){
+            for(int i=0;i<getSharedTrackerList().size()&&getSharedTrackerList().get(i).getStatus()== Message.Status.ACCEPTED;i++){
                 jsonArray.put(getSharedTrackerList().get(i).toJSON());
             }
             jsonObject.put("list",jsonArray);
@@ -536,7 +538,7 @@ public class User  {
      *
      * @return JSON containing user and it's dependensies
      */
-    public JSONObject toJSON() {
+    public JSONObject toJSON(boolean toNet) {
         JSONObject jsonObject = new JSONObject();
         JSONArray trackerArray = new JSONArray();
         JSONArray conversationArray=new JSONArray();
@@ -563,7 +565,7 @@ public class User  {
             }
             jsonObject.put(Constants.deleted_trackers,deletedTrackers);
 
-            if(getSharedTrackerList()!=null)
+            if(getSharedTrackerList()!=null&&!toNet)
             {
                 for(int i = 0; i < getSharedTrackerList().size(); i++)
                 {
@@ -751,7 +753,7 @@ public class User  {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.job, Constants.save);
-            jsonObject.put(Constants.user, currentUser.toJSON());
+            jsonObject.put(Constants.user, currentUser.toJSON(true));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -773,7 +775,6 @@ public class User  {
     }
     private class DBT extends OurRunnable{
         DBHelper dbHelper;
-        SQLiteDatabase database;
         Context context;
         private DBT(Context context){
             super(true,10000);
@@ -784,26 +785,22 @@ public class User  {
             if(dbHelper==null&&context!=null){
                 dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
             }
-            if(database==null&&dbHelper!=null){
-                database=dbHelper.getWritableDatabase();
-            }
             if(currentUser!=null&&currentUser.saveUser){
-                dbHelper.saveUser(database,currentUser);
+                dbHelper.saveUser(currentUser);
                 currentUser.saveUser=false;
             }
             else if (currentUser!=null)
             {
-                currentUser.updateInformation( dbHelper.readUser(database,userNameForLogin));
+                currentUser.updateInformation( dbHelper.readUser(userNameForLogin));
                 loadUserFromNet(currentUser.userName);
             }
             if(dropLastUser)
             {
-                dbHelper.deleteLastUser(database);
+                dbHelper.deleteLastUser();
                 dropLastUser=false;
             }
             if (currentUser == null ) {
                 dbHelper.close();
-                database.close();
                 repeat=false;
             }
         }
@@ -811,10 +808,10 @@ public class User  {
     //TODO make this better
     private static class DataBaseThread extends Thread {
         DBHelper db;
-        SQLiteDatabase d;
         boolean sleepThread;
         boolean exit = false;
         Context context;
+        boolean firstTime=true;
 
         DataBaseThread(Context c) {
             super();
@@ -833,22 +830,23 @@ public class User  {
                     {
                         db = new DBHelper(context, "database1", null, Constants.db_version);
                     }
-                    if (d == null && db!=null) {
-                        d = db.getWritableDatabase();
-                    }
 
                     if (currentUser!=null && currentUser.saveUser) {
-                        db.saveUser(d, currentUser);
+                        db.saveUser(currentUser);
                         currentUser.saveUser = false;
                     }
                     else if (currentUser!=null)
                     {
-                        currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                        if(firstTime){
+                            currentUser.updateInformation( db.readUser(userNameForLogin));
+                            firstTime=false;
+                            DebugPrinter.Debug("höhööööö");
+                        }
                         loadUserFromNet(currentUser.userName);
                     }
                     if(dropLastUser)
                     {
-                        db.deleteLastUser(d);
+                        db.deleteLastUser();
                         dropLastUser=false;
                     }
                     sleepThread = true;
@@ -863,7 +861,6 @@ public class User  {
                     }
                     if (exit || currentUser == null ) {
                         db.close();
-                        d.close();
                         return;
                     }
                 }

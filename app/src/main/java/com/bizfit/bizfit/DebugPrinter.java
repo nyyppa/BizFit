@@ -9,4 +9,10 @@ public class DebugPrinter {
     public  static void Debug(Object message){
         System.out.println(message);
     }
+    public static void Debug(Object message,boolean dumpStackTrace){
+        Debug(message);
+        if(dumpStackTrace){
+            Thread.currentThread().dumpStack();
+        }
+    }
 }
