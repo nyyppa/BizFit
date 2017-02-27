@@ -146,11 +146,8 @@ public class User  {
     public static void update(Context c)
     {
         DBHelper db;
-        SQLiteDatabase d;
         db = new DBHelper(c, "database1", null, Constants.db_version);
-        d = db.getWritableDatabase();
         User user=db.readUser("default");
-
         User.getLastUser(null,c,null);
         DebugPrinter.Debug("userAlarm"+user.userName);
 
@@ -161,9 +158,9 @@ public class User  {
         {
             user.getConversations().get(i).getNewMessagesAndSendOldOnes();
         }
+        db.close();
 
         Network.onExit();
-        Network network = Network.getNetwork();
         /*
         try
         {

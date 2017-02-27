@@ -64,7 +64,7 @@ public class MainPage extends AppCompatActivity implements
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide(); //because tab is not switched, activated in onPageSelected
 

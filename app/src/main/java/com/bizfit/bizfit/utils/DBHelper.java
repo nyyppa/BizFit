@@ -28,6 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+
+
     private void saveLastUser(SQLiteDatabase db, String user) {
         if (!isTableExists(db, lastUser)) {
             db.execSQL("CREATE TABLE " + lastUser + " (id INTEGER PRIMARY KEY AUTOINCREMENT, " + lastUser + " TEXT)");
@@ -65,7 +67,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onOpen(SQLiteDatabase db) {
 
-
     }
 
     /**
@@ -96,6 +97,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    public SQLiteDatabase getWritableDatabase(){
+        return super.getWritableDatabase();
+    }
     /**
      * reads user from given database or if it's not possible creates new one from google account
      *
@@ -124,11 +128,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.close();
 
             } catch (JSONException e) {
-
                 e.printStackTrace();
             }
             cursor.close();
         } else {
+            db.close();
             return new User(username);
         }
         db.close();
@@ -161,6 +165,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqlDb.close();
     }
 
-
-
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
 }
