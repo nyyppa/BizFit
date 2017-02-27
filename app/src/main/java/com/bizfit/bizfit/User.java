@@ -4,6 +4,7 @@ package com.bizfit.bizfit;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -294,6 +295,7 @@ public class User  {
 
             //TODO updatedInformationCall
         }
+        sharedTracker.setStatus(Message.Status.ACCEPTED);
         getTrackersSharedWithMe();
     }
     public void getTrackersSharedWithMe(){
@@ -301,7 +303,7 @@ public class User  {
         try {
             jsonObject.put(Constants.job,"getSharedTrackers");
             JSONArray jsonArray=new JSONArray();
-            for(int i=0;i<getSharedTrackerList().size();i++){
+            for(int i=0;i<getSharedTrackerList().size()&&getSharedTrackerList().get(i).getStatus()== Message.Status.ACCEPTED;i++){
                 jsonArray.put(getSharedTrackerList().get(i).toJSON());
             }
             jsonObject.put("list",jsonArray);

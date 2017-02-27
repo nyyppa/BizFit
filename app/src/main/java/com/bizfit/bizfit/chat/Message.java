@@ -30,6 +30,7 @@ public class Message implements NetworkReturn, Serializable {
     private Job job;
     private boolean hasBeenSeen=false;
     UUID uuid;
+    MessageObject messageObject;
 
 
     public Message(JSONObject jsonObject, Conversation conversation){
@@ -110,9 +111,13 @@ public class Message implements NetworkReturn, Serializable {
         return hasBeenSeen;
     }
     private void codeCheck(){
-        if(message.startsWith("code share_tracker")&&getJob()==Job.INCOMING && !hasBeenSeen){
+        if(message.startsWith("code share_tracker")){
             try {
-                User.getLastUser(null,null,null).addSharedTracker(new SharedTracker(new JSONObject(message.replace("code share_tracker",""))));
+                SharedTracker sharedTracker=new SharedTracker(new JSONObject(message.replace("code share_tracker","")));
+                messageObject=sharedTracker;
+                if(job==Job.INCOMING&&!hasBeenSeen){
+                    User.getLastUser(null,null,null).addSharedTracker(sharedTracker);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -133,16 +138,8 @@ public class Message implements NetworkReturn, Serializable {
         if(message==null){
             return "";
         }
-        if(message.startsWith("code share_tracker")){
-            try {
-                JSONObject jsonObject=new JSONObject(message.replace("code share_tracker",""));
-                if(jsonObject.has("TrackerName")){
-                    return "tracker shared: "+jsonObject.getString("TrackerName");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return "tracker shared";
+        if(messageObject!=null){
+            return messageObject.getText();
         }
         return message;
     }
@@ -212,6 +209,15 @@ public class Message implements NetworkReturn, Serializable {
 
     public enum Job{
         OUTGOING, INCOMING;
+    }
+    public interface MessageObject{
+        public void doStuff();
+        public Status getStatus();
+        public void setStatus(Status status);
+        public String getText();
+    }
+    public enum Status{
+        PENDING, ACCEPTED, CANCELLED, DELETED
     }
 }
 

@@ -8,6 +8,7 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterMessages;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.chat.Conversation;
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONArray;
@@ -791,9 +792,9 @@ public class Tracker {
                 SharedTracker current = iterator.next();
                 if(current.equals(this))
                 {
-                    DebugPrinter.Debug("UUID: ");
+                    current.setStatus(Message.Status.DELETED);
                     current.removeFromNet();
-                    iterator.remove();
+                    //iterator.remove();
                     user.save();
                     DebugPrinter.Debug("Poiston jälkeen; " + user.getTrackersSharedWithMeList().size() + " " + user.getTrackersSharedWithMeList());
                     DebugPrinter.Debug("Poiston jälkeen2; " + user.getSharedTrackerList().size() + " " + user.getSharedTrackerList());

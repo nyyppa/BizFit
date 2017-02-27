@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.tracker;
 
+import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.json.JSONException;
