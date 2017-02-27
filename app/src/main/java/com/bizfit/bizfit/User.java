@@ -168,10 +168,10 @@ public class User  {
         {
             return;
         }
-
         else {
             this.userName=user.userName;
         }
+        DebugPrinter.Debug("jaetut trackerit: "+user.getSharedTrackerList().size());
         getTrackersSharedWithMe();
         boolean informationUpdated=updateTrackers(user.getTrackerlist());
         if(informationUpdated)
@@ -815,6 +815,7 @@ public class User  {
         boolean sleepThread;
         boolean exit = false;
         Context context;
+        boolean firstTime=true;
 
         DataBaseThread(Context c) {
             super();
@@ -843,7 +844,11 @@ public class User  {
                     }
                     else if (currentUser!=null)
                     {
-                        currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                        if(firstTime){
+                            currentUser.updateInformation( db.readUser(d,userNameForLogin));
+                            firstTime=false;
+                            DebugPrinter.Debug("höhööööö");
+                        }
                         loadUserFromNet(currentUser.userName);
                     }
                     if(dropLastUser)

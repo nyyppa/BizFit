@@ -105,7 +105,6 @@ public class Message implements NetworkReturn, Serializable {
         }else{
             job=Job.INCOMING;
         }
-
     }
     public boolean getHasBeenSeen(){
         return hasBeenSeen;

@@ -50,11 +50,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void saveUser(SQLiteDatabase db, User user) {
         if (!isTableExists(db, "user")) {
             db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
-
-
         }
         ContentValues values = new ContentValues();
-        values.put("user", user.toJSON(false).toString());
+        values.put("user", user.toJSON(true).toString());
         values.put("userName", user.userName);
         //System.out.println("user"+user.toJSON().toString());
 

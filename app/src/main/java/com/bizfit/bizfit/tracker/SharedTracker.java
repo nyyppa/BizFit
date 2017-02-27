@@ -55,6 +55,8 @@ public class SharedTracker implements java.io.Serializable{
 
     private void addToNet()
     {
+        DebugPrinter.Debug("Prööt");
+        Thread.currentThread().dumpStack();
         JSONObject jsonObject = new JSONObject();
         try
         {
