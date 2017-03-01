@@ -65,16 +65,12 @@
             android:layout_marginLeft="32dp"
             android:layout_height="1dp" />
 
-        <TextView
-            android:text="City, Country"
-            android:textAllCaps="true"
-            android:drawableLeft="@drawable/twitter"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimary"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/coach_residence"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/coach_residence_container"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
@@ -82,71 +78,135 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="16dp"
             app:layout_constraintTop_toBottomOf="@+id/separator_1"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp">
 
-        <TextView
-            android:text="Category 1, Category 2"
-            android:textAllCaps="true"
-            android:drawableLeft="@drawable/twitter"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimary"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/twitter"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="City, Country"
+                android:textAllCaps="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/coach_residence" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/coach_categories"
-            app:layout_constraintTop_toBottomOf="@+id/coach_residence"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/coach_categories_container"
+            app:layout_constraintTop_toBottomOf="@+id/coach_residence_container"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp">
 
-        <TextView
-            android:text="English, Suomi"
-            android:textAllCaps="true"
-            android:drawableLeft="@drawable/twitter"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimary"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/twitter"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="Category 1, Category 2"
+                android:textAllCaps="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/coach_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/coach_languages"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/coach_languages_container"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/coach_categories"
+            app:layout_constraintTop_toBottomOf="@+id/coach_categories_container"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="16dp">
 
-        <TextView
-            android:text="Coached since 2003"
-            android:id="@+id/coach_experience"
-            android:textAllCaps="true"
-            android:drawableLeft="@drawable/twitter"
-            android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimary"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/twitter"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="English, Suomi"
+                android:textAllCaps="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/coach_languages"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/coach_experience_container"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/coach_languages"
+            app:layout_constraintTop_toBottomOf="@+id/coach_languages_container"
             android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/twitter"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="Coached since 2003"
+                android:id="@+id/coach_experience"
+                android:textAllCaps="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
 
         <View
             android:id="@+id/separator_2"
             android:layout_width="0dp"
             android:background="@color/colorAccent"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/coach_experience"
+            app:layout_constraintTop_toBottomOf="@id/coach_experience_container"
             android:layout_marginEnd="32dp"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="32dp"
