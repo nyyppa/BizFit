@@ -81,7 +81,7 @@ public class MainPage extends AppCompatActivity implements
                 fab.clearAnimation();
                 switch (position) {
                     case 0:
-                        fab.show();
+                        //fab.show();
                         ((AppBarLayout) (findViewById(R.id.app_bar_main))).setExpanded(true);
                         break;
 

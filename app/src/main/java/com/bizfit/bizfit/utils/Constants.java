@@ -87,7 +87,7 @@ public class Constants
     //NetMessage
 	private static final String debug_address="http://bizfit-nyyppa.c9users.io";
 	private static final String deployment_address ="http://51.15.37.28:8080";
-	public static final String connection_address = debug_address;
+	public static final String connection_address = deployment_address;
 
     //CoachPage
 	public static final String coach_id = "coachID";
@@ -96,5 +96,5 @@ public class Constants
 
 	//Generic
 	public static final String UUID="UUID";
-	public static final String version="02.27.2";
+	public static final String version="03.02";
 }
