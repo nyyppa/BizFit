@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.DecimalFormat;
@@ -18,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bizfit.bizfit.ChatRequest;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.utils.Constants;
 
 import org.w3c.dom.Text;
@@ -143,6 +146,7 @@ public class CoachPage extends AppCompatActivity {
                 if (COACH_ID != null) {
                     //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
                     MessageActivity.startChat(view, COACH_ID);
+                    new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
                 }
             }
         });
