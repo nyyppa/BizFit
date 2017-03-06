@@ -143,41 +143,38 @@ public class User  {
      *
      * @param c Context for sending notifications and loading user from internal database
      */
-    public static void update(Context c)
+    public static void update(final Context c)
     {
-        DBHelper db;
-        db = new DBHelper(c, "database1", null, Constants.db_version);
-        User user=null;
-        if(currentUser!=null){
-            user=currentUser;
-        }else{
-            db.readUser("default");
-        }
-        //JariJ 1.2.17
-        //Checking users conversations and calling getNewMessagesAndSendOldOnes
-        //Because notifications should show even when app is inactive
-        for(int i=0; i < user.getConversations().size();i++)
+        OurRunnable runnable = new OurRunnable()
         {
-            user.getConversations().get(i).getNewMessagesAndSendOldOnes();
-        }
-        db.close();
-
-        Network.onExit();
-        /*
-        try
-        {
-            if(network!=null)
+            @Override
+            public void run()
             {
-                Network.getNetwork().join();
+                DBHelper db;
+                db = new DBHelper(c, "database1", null, Constants.db_version);
+                User user = null;
+                if (currentUser != null) {
+                    user = currentUser;
+                } else {
+                    user = db.readUser("default");
+                }
+                //JariJ 1.2.17
+                //Checking users conversations and calling getNewMessagesAndSendOldOnes
+                //Because notifications should show even when app is inactive
+                for (int i = 0; i < user.getConversations().size(); i++) {
+                    user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+                }
+                db.close();
+
+                if(currentUser==null)
+                {
+                    Network.onExit();
+                }
+
             }
+        };
 
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }*/
-
-
+        BackgroundThread.addOurRunnable(runnable);
     }
 
 
