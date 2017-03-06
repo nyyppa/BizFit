@@ -147,10 +147,12 @@ public class User  {
     {
         DBHelper db;
         db = new DBHelper(c, "database1", null, Constants.db_version);
-        User user=db.readUser("default");
-        User.getLastUser(null,c,null);
-        DebugPrinter.Debug("userAlarm"+user.userName);
-
+        User user=null;
+        if(currentUser!=null){
+            user=currentUser;
+        }else{
+            db.readUser("default");
+        }
         //JariJ 1.2.17
         //Checking users conversations and calling getNewMessagesAndSendOldOnes
         //Because notifications should show even when app is inactive
