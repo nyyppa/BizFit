@@ -8,6 +8,8 @@ import com.bizfit.bizfit.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 /**
  * Created by attey on 06/03/2017.
  */
@@ -16,12 +18,18 @@ public class ChatRequest {
     String costomer;
     String expert;
     String message;
+    UUID uuid;
+    private ChatRequest(){
+        uuid=UUID.randomUUID();
+    }
     public ChatRequest(String costomer,String expert){
+        this();
         this.costomer=costomer;
         this.expert=expert;
         message="no message";
     }
     public ChatRequest(String costomer,String expert,String message){
+        this();
         this.costomer=costomer;
         this.expert=expert;
         if(message!=null){
@@ -38,6 +46,7 @@ public class ChatRequest {
             jsonObject.put("expert",expert);
             jsonObject.put("message",message);
             jsonObject.put(Constants.job,"ChatRequest");
+            jsonObject.put(Constants.UUID,uuid.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
