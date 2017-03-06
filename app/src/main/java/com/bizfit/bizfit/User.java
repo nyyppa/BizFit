@@ -42,14 +42,13 @@ public class User  {
      */
     private static final long serialVersionUID = 8425799364006222365L;
 
-    private transient static DataBaseThread thread;
+    private transient static DBT DBthread;
     private transient static Context context;
     private transient static User currentUser;
     private transient static GMT conversationRunnable;
     public String userName;
     public boolean saveUser = false;
     List<Conversation> conversations;
-    private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
@@ -234,19 +233,16 @@ public class User  {
     {
         if(context!=null)
         {
-            if (thread == null) {
-                thread = new DataBaseThread(context);
-                thread.start();
+            if (DBthread == null) {
+
+                DBthread = new DBT(context);
+                BackgroundThread.addOurRunnable(DBthread);
             }
-            if (!thread.isAlive()) {
-                thread = new DataBaseThread(context);
-                thread.start();
+            else
+            {
+                DBthread.wake();
             }
-            synchronized (thread) {
-                thread.setName("DatabaseThread");
-                thread.notify();
-                thread.sleepThread = false;
-            }
+
         }
     }
 
@@ -453,12 +449,14 @@ public class User  {
     {
         void informationUpdated();
     }
-    private class DBT extends OurRunnable{
+    private static class DBT extends OurRunnable
+    {
         DBHelper dbHelper;
         Context context;
-        private DBT(Context context){
+        private DBT(Context context)
+        {
             super(true,10000);
-            this.context=context;
+            DBT.this.context=context;
         }
         @Override
         public void run() {
@@ -486,7 +484,7 @@ public class User  {
         }
     }
     //TODO make this better
-    private static class DataBaseThread extends Thread {
+   /* private static class DataBaseThread extends Thread {
         DBHelper db;
         boolean sleepThread;
         boolean exit = false;
@@ -564,15 +562,16 @@ public class User  {
                     }
                 }
                 */
+   /*
 
         }
-
         @Override
         protected void finalize() throws Throwable {
             super.finalize();
             DebugPrinter.Debug("threadi tuhottu");
         }
     }
+    */
     //GetMessagesThread by jariJ 6.3.17
     private class GMT extends OurRunnable
     {
@@ -676,6 +675,11 @@ public class User  {
 
     public enum TrackerSharedEnum{
         ALL,OWN,SHARED;
+    }
+
+    public DBT getDBthread(Context context)
+    {
+        return new DBT(context);
     }
 
     @Override
