@@ -21,6 +21,7 @@ import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +29,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static com.bizfit.bizfit.utils.Constants.conversation;
 
@@ -46,13 +48,14 @@ public class User  {
     private transient static Context context;
     private transient static User currentUser;
     private transient static GMT conversationRunnable;
+    private transient static GetPendingChatRequestsThread getPendingChatRequestsThread;
     public String userName;
     public boolean saveUser = false;
     List<Conversation> conversations;
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
-
+    private List<ChatRequest> requestsForMe;
 
     private User(){
         userName="";
@@ -233,6 +236,10 @@ public class User  {
     {
         if(context!=null)
         {
+            if(getPendingChatRequestsThread==null){
+                getPendingChatRequestsThread=new GetPendingChatRequestsThread(context);
+                BackgroundThread.addOurRunnable(getPendingChatRequestsThread);
+            }
             if (DBthread == null) {
 
                 DBthread = new DBT(context);
@@ -480,6 +487,7 @@ public class User  {
             if (currentUser == null ) {
                 dbHelper.close();
                 repeat=false;
+                DBthread=null;
             }
         }
     }
@@ -587,7 +595,8 @@ public class User  {
         {
             boolean alreadyUpdatedLastUpdateTime=false;
             if(Conversation.isOnline(getContext()) && currentUser !=null ){
-                List<Conversation> conversations=currentUser.getConversations();
+                User user=currentUser;
+                List<Conversation> conversations=user.getConversations();
                 for(int i=0;i<conversations.size();i++)
                 {
                     Conversation conversation1=conversations.get(i);
@@ -605,11 +614,51 @@ public class User  {
             if(currentUser == null)
             {
                 repeat=false;
+                conversationRunnable=null;
             }
         }
-
     }
 
+    private static class GetPendingChatRequestsThread extends OurRunnable{
+        Context context;
+        private GetPendingChatRequestsThread(Context context){
+            super(true, 10000);
+            this.context=context;
+        }
+        @Override
+        public void run() {
+            if(currentUser!=null){
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put(Constants.job,"GetChatRequests");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+                    @Override
+                    public void returnMessage(String message) {
+                        if(!message.equals("no pendingChatRequests found")&&!message.equals("failed")){
+                            try {
+                                JSONObject jsonObject1=new JSONObject(message);
+                                JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
+                                if(currentUser.requestsForMe==null){
+                                    currentUser.requestsForMe=new ArrayList<ChatRequest>();
+                                }
+                                for(int i=0;i<jsonArray.length();i++){
+                                    currentUser.requestsForMe.add(new ChatRequest(jsonArray.getJSONObject(i)));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                },jsonObject));
+            }else{
+                repeat=false;
+                getPendingChatRequestsThread=null;
+            }
+        }
+    }
 
 
 

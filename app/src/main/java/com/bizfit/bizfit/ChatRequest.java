@@ -22,6 +22,26 @@ public class ChatRequest {
     private ChatRequest(){
         uuid=UUID.randomUUID();
     }
+    public ChatRequest(JSONObject jsonObject){
+
+            try {
+                if(jsonObject.has("costomer")) {
+                    costomer=jsonObject.getString("costomer");
+                }
+                if(jsonObject.has("exper")){
+                    expert=jsonObject.getString("expert");
+                }
+                if(jsonObject.has("message")){
+                    message=jsonObject.getString("message");
+                }
+                if(jsonObject.has(Constants.UUID)){
+                    uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+    }
     public ChatRequest(String costomer,String expert){
         this();
         this.costomer=costomer;
