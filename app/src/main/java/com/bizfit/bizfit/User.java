@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static com.bizfit.bizfit.utils.Constants.conversation;
+
 
 /**
  * Class that contains user information, calls local database when needed and holds user's trackers
@@ -43,6 +45,7 @@ public class User  {
     private transient static DataBaseThread thread;
     private transient static Context context;
     private transient static User currentUser;
+    private transient static GMT conversationRunnable;
     public String userName;
     public boolean saveUser = false;
     List<Conversation> conversations;
@@ -570,54 +573,55 @@ public class User  {
             DebugPrinter.Debug("threadi tuhottu");
         }
     }
+    //GetMessagesThread by jariJ 6.3.17
+    private class GMT extends OurRunnable
+    {
+        long waitTime=10000;
+        long lastUpdateTime=0;
 
-
-
-
-    public Conversation addConversation(final Conversation conversation){
-        if(GetMessagesThread==null||!GetMessagesThread.isAlive()){
-            GetMessagesThread=new Thread(new Runnable() {
-                long waitTime=10000;
-                long lastUpdateTime=0;
-                @Override
-                public void run() {
-                    while (true)
-                    {
-                        boolean alreadyUpdatedLastUpdateTime=false;
-                        if(conversation.isOnline(getContext()) && currentUser !=null ){
-                            List<Conversation> conversations=currentUser.getConversations();
-                            for(int i=0;i<conversations.size();i++)
-                            {
-                                Conversation conversation1=conversations.get(i);
-                                if(conversation1.isActive()){
-                                    conversations.get(i).getNewMessagesAndSendOldOnes();
-                                }else if(lastUpdateTime+waitTime<System.currentTimeMillis()||alreadyUpdatedLastUpdateTime){
-                                    if (!alreadyUpdatedLastUpdateTime){
-                                        alreadyUpdatedLastUpdateTime=true;
-                                        lastUpdateTime=System.currentTimeMillis();
-                                    }
-                                    conversation1.getNewMessagesAndSendOldOnes();
-                                }
-                            }
+        public GMT ()
+        {
+            super(true, 1000);
+        }
+        @Override
+        public void run()
+        {
+            boolean alreadyUpdatedLastUpdateTime=false;
+            if(Conversation.isOnline(getContext()) && currentUser !=null ){
+                List<Conversation> conversations=currentUser.getConversations();
+                for(int i=0;i<conversations.size();i++)
+                {
+                    Conversation conversation1=conversations.get(i);
+                    if(conversation1.isActive()){
+                        conversations.get(i).getNewMessagesAndSendOldOnes();
+                    }else if(lastUpdateTime+waitTime<System.currentTimeMillis()||alreadyUpdatedLastUpdateTime){
+                        if (!alreadyUpdatedLastUpdateTime){
+                            alreadyUpdatedLastUpdateTime=true;
+                            lastUpdateTime=System.currentTimeMillis();
                         }
-                        synchronized (GetMessagesThread){
-                            //DebugPrinter.Debug("pää");
-                            try {
-                                GetMessagesThread.wait(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        if(currentUser == null)
-                        {
-                            return;
-                        }
+                        conversation1.getNewMessagesAndSendOldOnes();
                     }
                 }
-            });
-            GetMessagesThread.setName("MessageThread");
-            GetMessagesThread.start();
+            }
+            if(currentUser == null)
+            {
+                repeat=false;
+            }
         }
+
+    }
+
+
+
+
+    public Conversation addConversation(final Conversation conversation)
+    {
+        if(conversationRunnable==null)
+        {
+            conversationRunnable = new GMT();
+            BackgroundThread.addOurRunnable(conversationRunnable);
+        }
+
         List<Conversation> conversations=getConversations();
         for(int i=0;i<conversations.size();i++){
             if(conversations.get(i).getOwner().equals(conversation.getOwner())&&conversations.get(i).getOther().equals(conversation.getOther())){
