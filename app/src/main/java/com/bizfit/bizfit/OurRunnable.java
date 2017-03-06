@@ -32,6 +32,7 @@ public abstract class OurRunnable{
     public abstract void run();
 
     public void wake(){
+        lastRun=0l;
         backgroundThread.wake();
     }
 }
