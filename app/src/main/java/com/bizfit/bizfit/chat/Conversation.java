@@ -208,7 +208,7 @@ public class Conversation implements NetworkReturn,Serializable{
     }
 
     // By JariJ 21.12.16 Solution taken from http://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out?page=2&tab=votes#tab-top
-    public boolean isOnline(Context c)
+    public static boolean isOnline(Context c)
     {
         if(c==null){
             return false;
