@@ -64,7 +64,9 @@ public class BackgroundThread extends Thread {
         wake();
     }
     public void wake(){
-        backgroundThread.notify();
+        synchronized (this){
+            backgroundThread.notify();
+        }
     }
 
 }
