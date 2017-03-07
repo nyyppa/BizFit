@@ -97,4 +97,10 @@ public class Constants
 	//Generic
 	public static final String UUID="UUID";
 	public static final String version="03.02";
+
+    //ChatRequest
+    public static final String customer = "customer";
+    public static final String coach = "coach";
+    public static final String message_ChatRequest = "message";
+
 }

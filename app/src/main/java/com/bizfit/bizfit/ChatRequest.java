@@ -15,8 +15,8 @@ import java.util.UUID;
  */
 
 public class ChatRequest {
-    String costomer;
-    String expert;
+    String customer;
+    String coach;
     String message;
     UUID uuid;
     private ChatRequest(){
@@ -25,33 +25,34 @@ public class ChatRequest {
     public ChatRequest(JSONObject jsonObject){
 
             try {
-                if(jsonObject.has("costomer")) {
-                    costomer=jsonObject.getString("costomer");
+                if(jsonObject.has(Constants.customer)) {
+                    customer =jsonObject.getString(Constants.customer);
                 }
-                if(jsonObject.has("exper")){
-                    expert=jsonObject.getString("expert");
+                if(jsonObject.has(Constants.coach)){
+                    coach =jsonObject.getString(Constants.coach);
                 }
-                if(jsonObject.has("message")){
-                    message=jsonObject.getString("message");
+                if(jsonObject.has(Constants.message_ChatRequest)){
+                    message=jsonObject.getString(Constants.message_ChatRequest);
                 }
                 if(jsonObject.has(Constants.UUID)){
                     uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
     }
-    public ChatRequest(String costomer,String expert){
+    public ChatRequest(String customer, String coach){
         this();
-        this.costomer=costomer;
-        this.expert=expert;
+        this.customer = customer;
+        this.coach = coach;
         message="no message";
     }
-    public ChatRequest(String costomer,String expert,String message){
+    public ChatRequest(String customer, String coach, String message){
         this();
-        this.costomer=costomer;
-        this.expert=expert;
+        this.customer = customer;
+        this.coach = coach;
         if(message!=null){
             this.message=message;
         }else{
@@ -62,9 +63,9 @@ public class ChatRequest {
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("costomer",costomer);
-            jsonObject.put("expert",expert);
-            jsonObject.put("message",message);
+            jsonObject.put(Constants.customer, customer);
+            jsonObject.put(Constants.coach, coach);
+            jsonObject.put(Constants.message_ChatRequest,message);
             jsonObject.put(Constants.job,"ChatRequest");
             jsonObject.put(Constants.UUID,uuid.toString());
         } catch (JSONException e) {
