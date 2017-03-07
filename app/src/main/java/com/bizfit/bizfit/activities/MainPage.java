@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.AlarmManager;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bizfit.bizfit.AcceptChatRequestDialog;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
@@ -59,6 +61,8 @@ public class MainPage extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         toolbar.setTitle("Bizfit v."+ Constants.version);
         setSupportActionBar(toolbar);
+
+
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);

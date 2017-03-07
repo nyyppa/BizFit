@@ -1,8 +1,13 @@
 package com.bizfit.bizfit;
 
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
@@ -734,6 +739,8 @@ public class User  {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        currentUser.save();
+        if(currentUser!=null){
+            currentUser.save();
+        }
     }
 }
