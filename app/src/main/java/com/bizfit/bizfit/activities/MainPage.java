@@ -1,6 +1,7 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.AlarmManager;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bizfit.bizfit.AcceptChatRequestDialog;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
@@ -60,6 +62,8 @@ public class MainPage extends AppCompatActivity implements
         toolbar.setTitle("Bizfit v."+ Constants.version);
         setSupportActionBar(toolbar);
 
+
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -81,7 +85,7 @@ public class MainPage extends AppCompatActivity implements
                 fab.clearAnimation();
                 switch (position) {
                     case 0:
-                        fab.show();
+                        //fab.show();
                         ((AppBarLayout) (findViewById(R.id.app_bar_main))).setExpanded(true);
                         break;
 

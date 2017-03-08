@@ -1,8 +1,13 @@
 package com.bizfit.bizfit;
 
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.network.NetMessage;
@@ -21,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +34,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static com.bizfit.bizfit.utils.Constants.conversation;
 
 
 /**
@@ -40,17 +49,18 @@ public class User  {
      */
     private static final long serialVersionUID = 8425799364006222365L;
 
-    private transient static DataBaseThread thread;
+    private transient static DBT DBthread;
     private transient static Context context;
     private transient static User currentUser;
+    private transient static GMT conversationRunnable;
+    private transient static GetPendingChatRequestsThread getPendingChatRequestsThread;
     public String userName;
     public boolean saveUser = false;
     List<Conversation> conversations;
-    private transient static Thread GetMessagesThread;
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
-
+    private List<ChatRequest> requestsForMe;
 
     private User(){
         userName="";
@@ -143,39 +153,38 @@ public class User  {
      *
      * @param c Context for sending notifications and loading user from internal database
      */
-    public static void update(Context c)
+    public static void update(final Context c)
     {
-        DBHelper db;
-        db = new DBHelper(c, "database1", null, Constants.db_version);
-        User user=db.readUser("default");
-        User.getLastUser(null,c,null);
-        DebugPrinter.Debug("userAlarm"+user.userName);
-
-        //JariJ 1.2.17
-        //Checking users conversations and calling getNewMessagesAndSendOldOnes
-        //Because notifications should show even when app is inactive
-        for(int i=0; i < user.getConversations().size();i++)
+        OurRunnable runnable = new OurRunnable()
         {
-            user.getConversations().get(i).getNewMessagesAndSendOldOnes();
-        }
-        db.close();
-
-        Network.onExit();
-        /*
-        try
-        {
-            if(network!=null)
+            @Override
+            public void run()
             {
-                Network.getNetwork().join();
+                DBHelper db;
+                db = new DBHelper(c, "database1", null, Constants.db_version);
+                User user = null;
+                if (currentUser != null) {
+                    user = currentUser;
+                } else {
+                    user = db.readUser("default");
+                }
+                //JariJ 1.2.17
+                //Checking users conversations and calling getNewMessagesAndSendOldOnes
+                //Because notifications should show even when app is inactive
+                for (int i = 0; i < user.getConversations().size(); i++) {
+                    user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+                }
+                db.close();
+
+                if(currentUser==null)
+                {
+                    Network.onExit();
+                }
+
             }
+        };
 
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }*/
-
-
+        BackgroundThread.addOurRunnable(runnable);
     }
 
 
@@ -232,19 +241,20 @@ public class User  {
     {
         if(context!=null)
         {
-            if (thread == null) {
-                thread = new DataBaseThread(context);
-                thread.start();
+            if(getPendingChatRequestsThread==null){
+                getPendingChatRequestsThread=new GetPendingChatRequestsThread(context);
+                BackgroundThread.addOurRunnable(getPendingChatRequestsThread);
             }
-            if (!thread.isAlive()) {
-                thread = new DataBaseThread(context);
-                thread.start();
+            if (DBthread == null) {
+
+                DBthread = new DBT(context);
+                BackgroundThread.addOurRunnable(DBthread);
             }
-            synchronized (thread) {
-                thread.setName("DatabaseThread");
-                thread.notify();
-                thread.sleepThread = false;
+            else
+            {
+                DBthread.wake();
             }
+
         }
     }
 
@@ -451,12 +461,14 @@ public class User  {
     {
         void informationUpdated();
     }
-    private class DBT extends OurRunnable{
+    private static class DBT extends OurRunnable
+    {
         DBHelper dbHelper;
         Context context;
-        private DBT(Context context){
+        private DBT(Context context)
+        {
             super(true,10000);
-            this.context=context;
+            DBT.this.context=context;
         }
         @Override
         public void run() {
@@ -480,11 +492,12 @@ public class User  {
             if (currentUser == null ) {
                 dbHelper.close();
                 repeat=false;
+                DBthread=null;
             }
         }
     }
     //TODO make this better
-    private static class DataBaseThread extends Thread {
+   /* private static class DataBaseThread extends Thread {
         DBHelper db;
         boolean sleepThread;
         boolean exit = false;
@@ -562,63 +575,106 @@ public class User  {
                     }
                 }
                 */
+   /*
 
         }
-
         @Override
         protected void finalize() throws Throwable {
             super.finalize();
             DebugPrinter.Debug("threadi tuhottu");
         }
     }
+    */
+    //GetMessagesThread by jariJ 6.3.17
+    private class GMT extends OurRunnable
+    {
+        long waitTime=10000;
+        long lastUpdateTime=0;
 
-
-
-
-    public Conversation addConversation(final Conversation conversation){
-        if(GetMessagesThread==null||!GetMessagesThread.isAlive()){
-            GetMessagesThread=new Thread(new Runnable() {
-                long waitTime=10000;
-                long lastUpdateTime=0;
-                @Override
-                public void run() {
-                    while (true)
-                    {
-                        boolean alreadyUpdatedLastUpdateTime=false;
-                        if(conversation.isOnline(getContext()) && currentUser !=null ){
-                            List<Conversation> conversations=currentUser.getConversations();
-                            for(int i=0;i<conversations.size();i++)
-                            {
-                                Conversation conversation1=conversations.get(i);
-                                if(conversation1.isActive()){
-                                    conversations.get(i).getNewMessagesAndSendOldOnes();
-                                }else if(lastUpdateTime+waitTime<System.currentTimeMillis()||alreadyUpdatedLastUpdateTime){
-                                    if (!alreadyUpdatedLastUpdateTime){
-                                        alreadyUpdatedLastUpdateTime=true;
-                                        lastUpdateTime=System.currentTimeMillis();
-                                    }
-                                    conversation1.getNewMessagesAndSendOldOnes();
-                                }
-                            }
+        public GMT ()
+        {
+            super(true, 1000);
+        }
+        @Override
+        public void run()
+        {
+            boolean alreadyUpdatedLastUpdateTime=false;
+            if(Conversation.isOnline(getContext()) && currentUser !=null ){
+                User user=currentUser;
+                List<Conversation> conversations=user.getConversations();
+                for(int i=0;i<conversations.size();i++)
+                {
+                    Conversation conversation1=conversations.get(i);
+                    if(conversation1.isActive()){
+                        conversations.get(i).getNewMessagesAndSendOldOnes();
+                    }else if(lastUpdateTime+waitTime<System.currentTimeMillis()||alreadyUpdatedLastUpdateTime){
+                        if (!alreadyUpdatedLastUpdateTime){
+                            alreadyUpdatedLastUpdateTime=true;
+                            lastUpdateTime=System.currentTimeMillis();
                         }
-                        synchronized (GetMessagesThread){
-                            //DebugPrinter.Debug("pää");
+                        conversation1.getNewMessagesAndSendOldOnes();
+                    }
+                }
+            }
+            if(currentUser == null)
+            {
+                repeat=false;
+                conversationRunnable=null;
+            }
+        }
+    }
+
+    private static class GetPendingChatRequestsThread extends OurRunnable{
+        Context context;
+        private GetPendingChatRequestsThread(Context context){
+            super(true, 10000);
+            this.context=context;
+        }
+        @Override
+        public void run() {
+            if(currentUser!=null){
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    jsonObject.put(Constants.job,"GetChatRequests");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+                    @Override
+                    public void returnMessage(String message) {
+                        if(!message.equals("no pendingChatRequests found")&&!message.equals("failed")){
                             try {
-                                GetMessagesThread.wait(1000);
-                            } catch (InterruptedException e) {
+                                JSONObject jsonObject1=new JSONObject(message);
+                                JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
+                                if(currentUser.requestsForMe==null){
+                                    currentUser.requestsForMe=new ArrayList<ChatRequest>();
+                                }
+                                for(int i=0;i<jsonArray.length();i++){
+                                    currentUser.requestsForMe.add(new ChatRequest(jsonArray.getJSONObject(i)));
+                                }
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        if(currentUser == null)
-                        {
-                            return;
-                        }
                     }
-                }
-            });
-            GetMessagesThread.setName("MessageThread");
-            GetMessagesThread.start();
+                },jsonObject));
+            }else{
+                repeat=false;
+                getPendingChatRequestsThread=null;
+            }
         }
+    }
+
+
+
+    public Conversation addConversation(final Conversation conversation)
+    {
+        if(conversationRunnable==null)
+        {
+            conversationRunnable = new GMT();
+            BackgroundThread.addOurRunnable(conversationRunnable);
+        }
+
         List<Conversation> conversations=getConversations();
         for(int i=0;i<conversations.size();i++){
             if(conversations.get(i).getOwner().equals(conversation.getOwner())&&conversations.get(i).getOther().equals(conversation.getOther())){
@@ -675,9 +731,16 @@ public class User  {
         ALL,OWN,SHARED;
     }
 
+    public DBT getDBthread(Context context)
+    {
+        return new DBT(context);
+    }
+
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        currentUser.save();
+        if(currentUser!=null){
+            currentUser.save();
+        }
     }
 }

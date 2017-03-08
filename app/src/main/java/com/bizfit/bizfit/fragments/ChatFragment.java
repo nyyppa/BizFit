@@ -83,7 +83,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         noTrackersShared = Snackbar.make(v, "No trackers were shared", Snackbar.LENGTH_LONG);
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
-        v.findViewById(R.id.shareTracker).setOnClickListener(this);
+
         input = (TextView) v.findViewById(R.id.message);
         return v;
     }
@@ -105,11 +105,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
 
                 mAdapter.getConversation().getNewMessagesAndSendOldOnes();
-
-
-                break;
-            case R.id.shareTracker:
-
 
 
                 break;

@@ -112,14 +112,28 @@ public class Message implements NetworkReturn, Serializable {
     }
     private void codeCheck(){
         if(message.startsWith("code share_tracker")){
-            try {
-                SharedTracker sharedTracker=new SharedTracker(new JSONObject(message.replace("code share_tracker","")));
-                messageObject=sharedTracker;
-                if(job==Job.INCOMING&&!hasBeenSeen){
+            if(messageObject==null){
+                messageObject=new MessageObject() {
+                    @Override
+                    public void doStuff() {
 
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    }
+
+                    @Override
+                    public Status getStatus() {
+                        return null;
+                    }
+
+                    @Override
+                    public void setStatus(Status status) {
+
+                    }
+
+                    @Override
+                    public String getText() {
+                        return "Shared Tracker";
+                    }
+                };
             }
         }
     }
