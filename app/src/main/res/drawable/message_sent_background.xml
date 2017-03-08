@@ -4,5 +4,9 @@
 
     <!-- TODO Better flexibility -->
     <solid android:color="@color/colorAccent"/>
-    <corners android:radius="4dp" />
+    <corners android:radius="24dp" />
+    <padding android:bottom="12dp"
+        android:left="14dp"
+        android:right="14dp"
+        android:top="12dp"/>
 </shape>
