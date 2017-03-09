@@ -1,35 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ids for buttons created in code -->
-
-    <!-- order chat ids -->
-
-    <!-- phase 1: coaching category -->
-    <item name="order_chat_phase_1_option_a" type="id"/>
-    <item name="order_chat_phase_1_option_b" type="id"/>
-    <item name="order_chat_phase_1_option_c" type="id"/>
-    <item name="order_chat_phase_1_option_d" type="id"/>
-    <item name="order_chat_phase_1_option_e" type="id"/>
-    <item name="order_chat_phase_1_option_f" type="id"/>
-    <item name="order_chat_phase_1_option_g" type="id"/>
-    <item name="order_chat_phase_1_option_h" type="id"/>
-    <item name="order_chat_phase_1_option_i" type="id"/>
-    <item name="order_chat_phase_1_option_j" type="id"/>
-
-    <!-- phase 2: coaching need -->
-    <item name="order_chat_phase_2_option_a" type="id"/>
-    <item name="order_chat_phase_2_option_b" type="id"/>
-
-    <!-- phase 3: level in coaching area -->
-    <item name="order_chat_phase_3_option_a" type="id"/>
-    <item name="order_chat_phase_3_option_b" type="id"/>
-    <item name="order_chat_phase_3_option_c" type="id"/>
-
-    <!-- phase 5: sessions per week -->
-    <item name="order_chat_phase_5" type="id"/>
-
-    <!-- phase 6: minutes per session -->
-    <item name="order_chat_phase_6" type="id"/>
-
 </resources>
