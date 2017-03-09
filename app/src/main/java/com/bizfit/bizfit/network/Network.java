@@ -60,6 +60,7 @@ public class Network extends Thread{
                     int len = 500;
 
                     try {
+                        DebugPrinter.Debug(netMessage.message);
                         URL url = new URL(netMessage.getConnectionAddress());
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setReadTimeout(10000 /* milliseconds */);

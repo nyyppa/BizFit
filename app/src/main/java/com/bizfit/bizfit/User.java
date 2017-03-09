@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Debug;
 
 import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.chat.Conversation;
@@ -636,14 +637,16 @@ public class User  {
                 JSONObject jsonObject=new JSONObject();
                 try {
                     jsonObject.put(Constants.job,"GetChatRequests");
+                    jsonObject.put(Constants.user_name,currentUser.userName);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                     @Override
                     public void returnMessage(String message) {
-                        if(!message.equals("no pendingChatRequests found")&&!message.equals("failed")){
+                        if(!message.startsWith("no pendingChatRequests found") && !message.equals("failed")){
                             try {
+                                DebugPrinter.Debug(message);
                                 JSONObject jsonObject1=new JSONObject(message);
                                 JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
                                 if(currentUser.requestsForMe==null){
