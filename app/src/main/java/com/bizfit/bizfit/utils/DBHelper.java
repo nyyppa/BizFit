@@ -154,6 +154,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         for (String tableName : tables) {
+            DebugPrinter.Debug(tableName);
             db.execSQL("DROP TABLE IF EXISTS " + tableName);
         }
     }
