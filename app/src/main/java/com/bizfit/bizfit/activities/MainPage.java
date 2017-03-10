@@ -1,7 +1,6 @@
 package com.bizfit.bizfit.activities;
 
 import android.app.AlarmManager;
-import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
@@ -11,18 +10,14 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.bizfit.bizfit.AcceptChatRequestDialog;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
@@ -36,7 +31,6 @@ import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
