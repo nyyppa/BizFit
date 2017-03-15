@@ -694,17 +694,18 @@ public class User  {
 
     public void save(Object obj)
     {
-        //save();
+        save();
 
         /**
          * Instead of saving the whole user, we check what is needed to save at the moment(obj)
          * by JariJ 15.3.17
          */
 
-        if(obj instanceof Conversation)
+        if(obj!=null && obj instanceof Conversation)
         {
             JSONObject jsonObject = new JSONObject();
             Conversation conversation = (Conversation) obj;
+            DebugPrinter.Debug("Conversation: " + conversation);
             try
             {
                 jsonObject.put(Constants.job, Constants.save_conversation);
@@ -721,7 +722,7 @@ public class User  {
                 {
                     if(message.equals(Constants.networkconn_failed))
                     {
-                        save();
+                        //save();
                     }
                 }
             }, null);
@@ -729,7 +730,7 @@ public class User  {
         }
         else
         {
-            save();
+            //save();
         }
 
         /*

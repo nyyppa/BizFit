@@ -225,7 +225,7 @@ public class Conversation implements NetworkReturn,Serializable{
                 valuesChanged=true;
             }
         }
-        if(valuesChanged){
+        if(valuesChanged && getUser()!=null){
             getUser().save(this);
         }
     }
@@ -263,8 +263,10 @@ public class Conversation implements NetworkReturn,Serializable{
             messageList =new ArrayList<>();
         }
         messageList.add(0,myNewAndBetterMessage);
-        getUser().save(this);
-
+        if(getUser()!=null)
+        {
+            getUser().save(this);
+        }
     }
     public boolean isActive(){
         return chatFragment!=null&&chatFragment.getActivity()!=null;
@@ -331,7 +333,7 @@ public class Conversation implements NetworkReturn,Serializable{
                     }
                     sortConversation();
                 }
-                if(messagesReceived && message1!=null)
+                if(messagesReceived && message1!=null && getUser()!=null)
                 {
                     getUser().save(this);
                 }
