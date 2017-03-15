@@ -431,11 +431,15 @@ public class User  {
      */
     public void save()
     {
-        saveUser = true;
-        WakeThread();
+        saveLocal();
         saveToNet();
 
 
+    }
+
+    private void saveLocal(){
+        saveUser = true;
+        WakeThread();
     }
 
     public void saveToNet(){
