@@ -28,7 +28,7 @@ public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
     public View getView(int position, View convertView, ViewGroup parent){
         ChatRequest chatRequest=getItem(position);
         if(convertView==null){
-            convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_chat_requests,parent,false);
+            convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request,parent,false);
         }
         TextView textView=(TextView)convertView.findViewById(R.id.textView);
         textView.setText(chatRequest.message);

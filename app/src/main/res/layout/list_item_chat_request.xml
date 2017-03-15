@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
-            android:text="Button"
+            android:text="Accept"
             tools:text="Accept" />
 
         <Button
@@ -35,7 +35,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/textView"
-            android:text="Button"
+            android:text="Cancel"
             tools:text="Cancel" />
     </RelativeLayout>
 </LinearLayout>

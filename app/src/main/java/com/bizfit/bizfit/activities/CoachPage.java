@@ -145,9 +145,9 @@ public class CoachPage extends AppCompatActivity {
             public void onClick(View view) {
                 if (COACH_ID != null) {
                     //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
-                    //MessageActivity.startChat(view, COACH_ID);
-                    //new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
-                    view.getContext().startActivity(new Intent(view.getContext(), OrderChat.class));
+                    MessageActivity.startChat(view, COACH_ID);
+                    new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
+                    //view.getContext().startActivity(new Intent(view.getContext(), OrderChat.class));
                 }
             }
         });

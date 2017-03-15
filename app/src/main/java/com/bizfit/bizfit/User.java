@@ -657,7 +657,15 @@ public class User  {
                                     currentUser.requestsForMe=new ArrayList<ChatRequest>();
                                 }
                                 for(int i=0;i<jsonArray.length();i++){
-                                    currentUser.requestsForMe.add(new ChatRequest(jsonArray.getJSONObject(i)));
+                                    ChatRequest.addToList(currentUser.getRequestsForMe(),new ChatRequest(jsonArray.getJSONObject(i)));
+                                }
+                                DebugPrinter.Debug(currentUser.requestsForMe.size()+"koko");
+                                List<UserLoadedListener>listenersForInformationUpdated=getListenersForInformationUpdated();
+                                for(int i=0;i<listenersForInformationUpdated.size();i++){
+                                    if(listenersForInformationUpdated.get(i)!=null){
+                                        listenersForInformationUpdated.get(i).informationUpdated();
+                                        DebugPrinter.Debug("tallennuksessa listenerit;" + listenersForInformationUpdated.get(i).toString());
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -772,15 +780,12 @@ public class User  {
         return userName;
     }
 
-    public enum TrackerSharedEnum{
-        ALL,OWN,SHARED;
+    public List<ChatRequest> getRequestsForMe(){
+        if(requestsForMe==null){
+            requestsForMe=new ArrayList<>();
+        }
+        return requestsForMe;
     }
-
-    public DBT getDBthread(Context context)
-    {
-        return new DBT(context);
-    }
-
     @Override
     protected void finalize() throws Throwable {
         super.finalize();

@@ -8,6 +8,7 @@ import com.bizfit.bizfit.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -81,5 +82,19 @@ public class ChatRequest {
 
             }
         },this.toJSON()));
+    }
+
+    public static void addToList(List<ChatRequest> list,ChatRequest chatRequest){
+        if(!chatRequest.allReadyInList(list)){
+            list.add(chatRequest);
+        }
+    }
+    public boolean allReadyInList(List<ChatRequest>list){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).uuid.equals(this.uuid)){
+                return true;
+            }
+        }
+        return false;
     }
 }

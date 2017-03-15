@@ -50,8 +50,6 @@ public class TabConversationList extends Fragment{
             }
         }, null, null);
         ListView listView= (ListView) view.findViewById(R.id.lista);
-
         listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
-
     }
 }
