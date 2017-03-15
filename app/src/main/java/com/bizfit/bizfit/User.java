@@ -694,7 +694,44 @@ public class User  {
 
     public void save(Object obj)
     {
-        save();
+        //save();
+
+        /**
+         * Instead of saving the whole user, we check what is needed to save at the moment(obj)
+         * by JariJ 15.3.17
+         */
+
+        if(obj instanceof Conversation)
+        {
+            JSONObject jsonObject = new JSONObject();
+            Conversation conversation = (Conversation) obj;
+            try
+            {
+                jsonObject.put(Constants.job, Constants.save_conversation);
+                jsonObject.put(Constants.conversation, conversation.toJSon());
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            NetMessage netMessage = new NetMessage(null, new NetworkReturn()
+            {
+                @Override
+                public void returnMessage(String message)
+                {
+                    if(message.equals(Constants.networkconn_failed))
+                    {
+                        save();
+                    }
+                }
+            }, null);
+            Network.addNetMessage(new NetMessage(null, null, jsonObject));
+        }
+        else
+        {
+            save();
+        }
+
         /*
         saveUser = true;
         WakeThread();
