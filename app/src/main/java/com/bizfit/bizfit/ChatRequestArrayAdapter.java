@@ -26,24 +26,25 @@ public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
-        ChatRequest chatRequest=getItem(position);
+        final ChatRequest chatRequest=getItem(position);
         if(convertView==null){
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request,parent,false);
         }
         TextView textView=(TextView)convertView.findViewById(R.id.textView);
         textView.setText(chatRequest.message);
+
         Button button=(Button) convertView.findViewById(R.id.accept);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new ChatRequestResponse(chatRequest,true).sentResponse();
             }
         });
         button=(Button)convertView.findViewById(R.id.cancel);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new ChatRequestResponse(chatRequest,false).sentResponse();
             }
         });
         return convertView;

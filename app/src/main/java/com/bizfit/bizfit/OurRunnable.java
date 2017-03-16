@@ -20,7 +20,7 @@ public abstract class OurRunnable{
         repeatInterval=-1;
     }
     protected long timeToNextRunAndRun(long millis){
-        if(repeatInterval<0){
+        if(repeatInterval<=0){
             repeatInterval= TimeUnit.SECONDS.toMillis(60);
         }
         if(lastRun+repeatInterval<=millis){
