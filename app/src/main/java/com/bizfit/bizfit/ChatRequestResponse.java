@@ -14,15 +14,16 @@ import java.util.UUID;
  * Created by attey on 16/03/2017.
  */
 
-public class ChatRequestResponse {
+public class ChatRequestResponse
+{
     boolean response;
     boolean hasBeenSent;
-    String costomer;
+    String customer;
     String coach;
     String message="";
     UUID uuid;
     public ChatRequestResponse(ChatRequest chatRequest,boolean response){
-        this.costomer=chatRequest.customer;
+        this.customer =chatRequest.customer;
         this.coach=chatRequest.coach;
         hasBeenSent=false;
         this.response=response;
@@ -32,7 +33,7 @@ public class ChatRequestResponse {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("response",response);
-            jsonObject.put("costomer",costomer);
+            jsonObject.put("customer", customer);
             jsonObject.put("coach",coach);
             jsonObject.put("message",message);
             jsonObject.put(Constants.UUID,uuid.toString());
@@ -49,8 +50,8 @@ public class ChatRequestResponse {
     private void sentToNet(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put(Constants.job,"HandleRequest");
-            jsonObject.put("ChatRequestResponse",this.toJSON());
+            jsonObject.put(Constants.job,"handleChatRequest");
+            jsonObject.put("chatRequestResponse",this.toJSON());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -58,7 +59,7 @@ public class ChatRequestResponse {
             Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                 @Override
                 public void returnMessage(String message) {
-                    if(message.equals("failed")){
+                    if(message.equals(Constants.networkconn_failed)){
                         checkToResend();
                     }else{
                         ChatRequestResponse.this.hasBeenSent=true;

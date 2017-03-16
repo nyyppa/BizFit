@@ -103,4 +103,8 @@ public class Constants
     public static final String coach = "coach";
     public static final String message_ChatRequest = "message";
 
+	//ChatRequestArrayAdapter
+	public static final String handle_chat_request="handleChatRequest";
+	public static final String resultChat = "resultChat";
+
 }
