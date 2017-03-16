@@ -702,7 +702,7 @@ public class User  {
 
     public void save(Object obj)
     {
-        save();
+        saveLocal();
 
         /**
          * Instead of saving the whole user, we check what is needed to save at the moment(obj)
@@ -738,7 +738,7 @@ public class User  {
         }
         else
         {
-            //save();
+            save();
         }
 
         /*
