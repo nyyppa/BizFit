@@ -793,4 +793,39 @@ public class User  {
             currentUser.save();
         }
     }
+
+    private class GetChatRequestResponses extends OurRunnable{
+
+        GetChatRequestResponses(){
+            super(true,60*1000);
+        }
+        @Override
+        public void run() {
+            JSONObject jsonObject=new JSONObject();
+            try {
+                jsonObject.put(Constants.job,"getChatResponses");
+                jsonObject.put(Constants.id,currentUser.userName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+                @Override
+                public void returnMessage(String message) {
+                    if(!message.equals(Constants.networkconn_failed)){
+                        JSONObject jsonObject1= null;
+                        try {
+                            jsonObject1 = new JSONObject(message);
+                            JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
+                            for(int i=0;i<jsonArray.length();i++){
+                                new ChatRequestResponse(jsonArray.getJSONObject(i));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            },jsonObject));
+        }
+    }
 }

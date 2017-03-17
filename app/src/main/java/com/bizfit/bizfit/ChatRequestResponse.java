@@ -29,6 +29,28 @@ public class ChatRequestResponse
         this.response=response;
         this.uuid=chatRequest.uuid;
     }
+    public ChatRequestResponse(JSONObject jsonObject){
+        try {
+            if(jsonObject.has("response")) {
+                this.response = jsonObject.getBoolean("response");
+            }
+            if(jsonObject.has("customer")){
+                this.customer=jsonObject.getString("customer");
+            }
+            if(jsonObject.has("coach")){
+                this.coach=jsonObject.getString("coach");
+            }
+            if(jsonObject.has("message")){
+                this.message=jsonObject.getString("message");
+            }
+            if(jsonObject.has(Constants.UUID)){
+                this.uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
