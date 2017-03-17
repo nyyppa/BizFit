@@ -817,7 +817,7 @@ public class User  {
                             jsonObject1 = new JSONObject(message);
                             JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
                             for(int i=0;i<jsonArray.length();i++){
-                                new ChatRequestResponse(jsonArray.getJSONObject(i));
+                                new ChatRequestResponse(jsonArray.getJSONObject(i)).showChatResponse(context);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

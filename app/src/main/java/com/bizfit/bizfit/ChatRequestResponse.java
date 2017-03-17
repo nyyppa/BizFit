@@ -1,5 +1,8 @@
 package com.bizfit.bizfit;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
@@ -59,7 +62,8 @@ public class ChatRequestResponse
             jsonObject.put("coach",coach);
             jsonObject.put("message",message);
             jsonObject.put(Constants.UUID,uuid.toString());
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
         }
         return jsonObject;
@@ -90,7 +94,8 @@ public class ChatRequestResponse
             },jsonObject));
         }
     }
-    public void sentResponse(){
+    public void sentResponse()
+    {
         BackgroundThread.addOurRunnable(new OurRunnable(true,1000*60) {
             @Override
             public void run() {
@@ -100,5 +105,26 @@ public class ChatRequestResponse
                 }
             }
         });
+    }
+
+    /**
+     * Using a toast to show the user the result of the chat, is it accepted or declined
+     * by jarij 17.3.17
+     */
+    public void showChatResponse(Context context)
+    {
+        String text="";
+        if(response)
+        {
+            text = "Your chat request with" + coach + "is accepted";
+        }
+        else
+        {
+            text = "Your chat request with" + coach + "is declined";
+        }
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
