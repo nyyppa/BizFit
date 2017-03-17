@@ -234,7 +234,7 @@ public class User  {
     }
 
 
-
+    static GetChatRequestResponses getPendingChatRequestResponses;
     /**
      * wakes or creates new thread for local database
      */
@@ -245,6 +245,10 @@ public class User  {
             if(getPendingChatRequestsThread==null){
                 getPendingChatRequestsThread=new GetPendingChatRequestsThread(context);
                 BackgroundThread.addOurRunnable(getPendingChatRequestsThread);
+            }
+            if(getPendingChatRequestResponses==null){
+                getPendingChatRequestResponses=new GetChatRequestResponses();
+                BackgroundThread.addOurRunnable(getPendingChatRequestResponses);
             }
             if (DBthread == null) {
 
@@ -794,7 +798,7 @@ public class User  {
         }
     }
 
-    private class GetChatRequestResponses extends OurRunnable{
+    private static class GetChatRequestResponses extends OurRunnable{
 
         GetChatRequestResponses(){
             super(true,60*1000);

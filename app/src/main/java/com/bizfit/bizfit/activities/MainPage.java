@@ -190,7 +190,7 @@ public class MainPage extends AppCompatActivity implements
         if(getIntent().hasExtra("userName"))
         {
             User.getLastUser(null, this, getIntent().getStringExtra("userName"));
-            if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com")){
+            if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com+UAHUARGAYGEYAGEHAGDASDHJKA")){
                 MediaPlayer mediaPlayer=MediaPlayer.create(this,R.raw.good_morning_vietnam);
                 mediaPlayer.start();
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -198,14 +198,12 @@ public class MainPage extends AppCompatActivity implements
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         mediaPlayer.stop();
                         mediaPlayer.release();
-                        DebugPrinter.Debug("media lopetti");
                         System.gc();
                     }
 
                     @Override
                     protected void finalize() throws Throwable {
                         super.finalize();
-                        DebugPrinter.Debug("media lopetti2");
                     }
                 });
             }
