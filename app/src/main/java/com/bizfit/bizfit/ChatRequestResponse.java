@@ -108,7 +108,7 @@ public class ChatRequestResponse
     }
 
     /**
-     * Using a toast to show the user the result of the chat, is it accepted or declined
+     * Using a toast to show the user the result of the chat, accepted or declined
      * by jarij 17.3.17
      */
     public void showChatResponse(Context context)

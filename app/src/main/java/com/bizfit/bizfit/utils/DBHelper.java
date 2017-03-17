@@ -49,7 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
      * @param user user to save
      */
-    public void saveUser( User user) {
+    public void saveUser( User user)
+    {
         SQLiteDatabase db=getWritableDatabase();
         if (!isTableExists(db, "user")) {
             db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
@@ -61,6 +62,62 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         saveLastUser(db, user.userName);
+        db.close();
+    }
+
+    /**
+     * Creating a new local SQL database
+     * by JariJ 17.3.17
+     *
+     * (validated with SQLFiddle, missing foreign keys)
+     * CREATE TABLE User
+     (
+     userID INTEGER NOT NULL PRIMARY KEY,
+     name text NOT NULL,
+     type int NOT NULL
+     );
+
+     CREATE TABLE Conversation
+     (
+     conversationID INTEGER NOT NULL PRIMARY KEY,
+     owner text NOT NULL,
+     other int NOT NULL
+     );
+
+     CREATE TABLE Pending_request
+     (
+     pendingRequestID INTEGER NOT NULL PRIMARY KEY,
+     type INTEGER NOT NULL,
+     message TEXT NOT NULL
+     );
+
+     CREATE TABLE Conversations
+     (
+     conversationsID INTEGER NOT NULL PRIMARY KEY
+     );
+
+     CREATE TABLE Messages
+     (
+     messagesID INTEGER NOT NULL PRIMARY KEY,
+     message text NOT NULL,
+     sender text NOT NULL,
+     resipient text NOT NULL,
+     creationTime int NOT NULL,
+     hasBeenSeen bool,
+     hasBeenSent bool
+     );
+
+     */
+    public void initDB() {
+        SQLiteDatabase db=getWritableDatabase();
+        if (!isTableExists(db, "user"))
+        {
+            db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
+        }
+        ContentValues values = new ContentValues();
+        //values.put("user", user.toJSON(true).toString());
+       //values.put("userName", user.userName);
+        //System.out.println("user"+user.toJSON().toString());
         db.close();
     }
 
