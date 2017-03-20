@@ -67,21 +67,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Creating a new local SQL database
-     * by JariJ 17.3.17
+     * by JariJ 20.3.17
      *
-     * (validated with SQLFiddle, missing foreign keys)
-     * CREATE TABLE User
+     * (validated with SQLFiddle, added foreign keys)
+     * CREATE TABLE Conversations
      (
-     userID INTEGER NOT NULL PRIMARY KEY,
-     name text NOT NULL,
-     type int NOT NULL
+     conversationsID INTEGER NOT NULL PRIMARY KEY,
+     conversationID INTEGER NOT NULL
      );
 
      CREATE TABLE Conversation
      (
      conversationID INTEGER NOT NULL PRIMARY KEY,
      owner text NOT NULL,
-     other int NOT NULL
+     other int NOT NULL,
+     conversationsID INTEGER NOT NULL,
+     messagesID INTEGER NOT NULL,
+     FOREIGN KEY(conversationsID) REFERENCES Conversations(conversationsID)
+     FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)
      );
 
      CREATE TABLE Pending_request
@@ -91,11 +94,16 @@ public class DBHelper extends SQLiteOpenHelper {
      message TEXT NOT NULL
      );
 
-     CREATE TABLE Conversations
+     CREATE TABLE User
      (
-     conversationsID INTEGER NOT NULL PRIMARY KEY
+     userID INTEGER NOT NULL PRIMARY KEY,
+     name text NOT NULL,
+     type int NOT NULL,
+     conversationID INTEGER NOT NULL,
+     pendingRequestID INTEGER NOT NULL,
+     FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)
+     FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)
      );
-
      CREATE TABLE Messages
      (
      messagesID INTEGER NOT NULL PRIMARY KEY,
