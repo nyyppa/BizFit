@@ -1,12 +1,14 @@
 package com.bizfit.bizfit;
 
 import android.content.Context;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
 import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.utils.NotificationSender;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,15 +118,15 @@ public class ChatRequestResponse
         String text="";
         if(response)
         {
-            text = "Your chat request with" + coach + "is accepted";
+            text = "Your chat request with " + coach + " is accepted";
         }
         else
         {
-            text = "Your chat request with" + coach + "is declined";
+            text = "Your chat request with " + coach + " is declined";
         }
         int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        NotificationSender.sendNotification(context,"Chat Request",text);
+        //Toast toast = Toast.makeText(context, text, duration);
+        //toast.show();
     }
 }
