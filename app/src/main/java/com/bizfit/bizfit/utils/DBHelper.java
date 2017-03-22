@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bizfit.bizfit.DebugPrinter;
+import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
 
@@ -16,6 +17,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static com.bizfit.bizfit.utils.Constants.user;
 
 /**
  * Created by Atte Ylivrronen on 28.3.2016.
@@ -23,6 +27,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     final String lastUser = "lastUser";
+
 
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -44,89 +49,155 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Modified by JariJ 22.3.17
      * Saves user and all of it's dependands to give database
      *
 
      * @param user user to save
+     *
      */
-    public void saveUser( User user)
+    public void saveUser(User user)
     {
         SQLiteDatabase db=getWritableDatabase();
-        if (!isTableExists(db, "user")) {
-            db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
-        }
-        ContentValues values = new ContentValues();
-        values.put("user", user.toJSON(true).toString());
-        values.put("userName", user.userName);
-        //System.out.println("user"+user.toJSON().toString());
+        initDB();
 
-        db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        //User
+        ContentValues userValues = new ContentValues();
+        userValues.put("UUID", user.uuid.toString());
+        userValues.put("name", user.userName);
+        //System.out.println("user"+user.toJSON().toString());
+        db.insertWithOnConflict("User", null, userValues, SQLiteDatabase.CONFLICT_REPLACE);
         saveLastUser(db, user.userName);
+
+        //Conversations
+        ContentValues conversationsValues = new ContentValues();
+        conversationsValues.put("conversations", user.getConversations().toString());
+        db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
+
+       // if (!isTableExists(db, "User")) {
+       //     db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
+       // }
     }
 
     /**
      * Creating a new local SQL database
-     * by JariJ 20.3.17
+     * by JariJ 22.3.17
      *
      * (validated with SQLFiddle, added foreign keys)
+     * Not using this table atm
      * CREATE TABLE Conversations
      (
-     conversationsID INTEGER NOT NULL PRIMARY KEY,
-     conversationID INTEGER NOT NULL
+         conversationsID INTEGER NOT NULL PRIMARY KEY,
+         conversationID INTEGER NOT NULL
      );
 
      CREATE TABLE Conversation
      (
-     conversationID INTEGER NOT NULL PRIMARY KEY,
-     owner text NOT NULL,
-     other int NOT NULL,
-     conversationsID INTEGER NOT NULL,
-     messagesID INTEGER NOT NULL,
-     FOREIGN KEY(conversationsID) REFERENCES Conversations(conversationsID)
-     FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)
+         conversationID INTEGER NOT NULL PRIMARY KEY,
+         owner text NOT NULL,
+         other int NOT NULL,
+         conversationsID INTEGER NOT NULL,
+         messagesID INTEGER NOT NULL,
+         FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)
      );
 
      CREATE TABLE Pending_request
      (
-     pendingRequestID INTEGER NOT NULL PRIMARY KEY,
-     type INTEGER NOT NULL,
-     message TEXT NOT NULL
+         pendingRequestID INTEGER NOT NULL PRIMARY KEY,
+         type INTEGER NOT NULL,
+         message TEXT NOT NULL
      );
 
      CREATE TABLE User
      (
-     userID INTEGER NOT NULL PRIMARY KEY,
-     name text NOT NULL,
-     type int NOT NULL,
-     conversationID INTEGER NOT NULL,
-     pendingRequestID INTEGER NOT NULL,
-     FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)
-     FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)
+         userID INTEGER NOT NULL PRIMARY KEY,
+         name text NOT NULL,
+         type int NOT NULL,
+         UUID text NOT NULL,
+         conversationID INTEGER NOT NULL,
+         pendingRequestID INTEGER NOT NULL,
+         FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)
+         FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)
      );
+
      CREATE TABLE Messages
      (
-     messagesID INTEGER NOT NULL PRIMARY KEY,
-     message text NOT NULL,
-     sender text NOT NULL,
-     resipient text NOT NULL,
-     creationTime int NOT NULL,
-     hasBeenSeen bool,
-     hasBeenSent bool
+         messagesID INTEGER NOT NULL PRIMARY KEY,
+         message text NOT NULL,
+         sender text NOT NULL,
+         resipient text NOT NULL,
+         creationTime int NOT NULL,
+         hasBeenSeen bool,
+         hasBeenSent bool
      );
 
      */
-    public void initDB() {
+    public void initDB()
+    {
         SQLiteDatabase db=getWritableDatabase();
-        if (!isTableExists(db, "user"))
+        db.execSQL("PRAGMA foreign_keys=ON;");
+       /* if (!isTableExists(db, "Conversations"))
         {
-            db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
+            db.execSQL(
+                    "CREATE TABLE Conversations\n" +
+                    "                (\n" +
+                    "    conversationsID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "    conversationID INTEGER NOT NULL\n" +
+                    "                " +
+                    ");");
         }
-        ContentValues values = new ContentValues();
-        //values.put("user", user.toJSON(true).toString());
-       //values.put("userName", user.userName);
-        //System.out.println("user"+user.toJSON().toString());
-        db.close();
+        */
+        if(!isTableExists(db, "Conversation"))
+        {
+            db.execSQL("CREATE TABLE Conversation\n" +
+                    "     (\n" +
+                    "         conversationID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         owner text NOT NULL,\n" +
+                    "         other int NOT NULL,\n" +
+                    "         messagesID INTEGER NOT NULL,\n" +
+                    "         FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)\n" +
+                    "     );");
+        }
+        if(!isTableExists(db, "Pending_request"))
+        {
+            db.execSQL(" CREATE TABLE Pending_request\n" +
+                    "     (\n" +
+                    "         pendingRequestID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         type INTEGER NOT NULL,\n" +
+                    "         message TEXT NOT NULL\n" +
+                    "     );");
+        }
+        if(!isTableExists(db, "User" ))
+        {
+            db.execSQL("  CREATE TABLE User\n" +
+                    "     (\n" +
+                    "         userID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         name text NOT NULL,\n" +
+                    "         type int NOT NULL,\n" +
+                    "         UUID text NOT NULL,\n" +
+                    "         conversationID INTEGER NOT NULL,\n" +
+                    "         pendingRequestID INTEGER NOT NULL,\n" +
+                    "         FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)\n" +
+                    "         FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)\n" +
+                    "     );");
+        }
+        if(!isTableExists(db, "Messages"))
+        {
+            db.execSQL(" CREATE TABLE Messages\n" +
+                    "     (\n" +
+                    "         messagesID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         message text NOT NULL,\n" +
+                    "         sender text NOT NULL,\n" +
+                    "         resipient text NOT NULL,\n" +
+                    "         creationTime int NOT NULL,\n" +
+                    "         hasBeenSeen bool,\n" +
+                    "         hasBeenSent bool\n" +
+                    "     );");
+        }
+
+
+
     }
 
     @Override
@@ -158,7 +229,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
+
 
     }
 

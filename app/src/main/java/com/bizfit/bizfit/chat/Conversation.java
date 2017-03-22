@@ -30,7 +30,8 @@ import java.util.List;
  */
 
 //todo prevent android from cloning thisw
-public class Conversation implements NetworkReturn,Serializable{
+public class Conversation implements NetworkReturn,Serializable
+{
 
     private String owner="";
     private String other="";

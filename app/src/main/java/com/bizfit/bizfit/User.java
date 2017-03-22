@@ -62,6 +62,7 @@ public class User  {
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
     private List<ChatRequest> requestsForMe;
+    public UUID uuid;
 
     private User(){
         userName="";
@@ -95,6 +96,11 @@ public class User  {
                 {
                     addConversation(new Conversation(conversationArray.getJSONObject(i),this));
                 }
+            }
+            if(jsonObject.has(Constants.UUID)){
+                uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+            }else{
+                uuid=UUID.randomUUID();
             }
         }
         catch (JSONException e) {
@@ -388,6 +394,12 @@ public class User  {
 
             jsonObject.put(Constants.deleted_trackers,deletedTrackers);
 
+            jsonObject.put(Constants.UUID, uuid);
+
+
+
+
+
 
             /*
             try {
@@ -484,7 +496,7 @@ public class User  {
             if(dbHelper==null&&context!=null){
                 dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
             }
-            if(currentUser!=null&&currentUser.saveUser){
+            if(currentUser!=null&&currentUser.saveUser && currentUser.uuid!=null){
                 dbHelper.saveUser(currentUser);
                 currentUser.saveUser=false;
             }
