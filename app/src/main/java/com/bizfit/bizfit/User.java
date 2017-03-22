@@ -652,11 +652,10 @@ public class User  {
                 Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                     @Override
                     public void returnMessage(String message) {
-                        if(!message.startsWith("no pendingChatRequests found") && !message.equals("failed")){
+                        if(!message.startsWith("no requests found") && !message.equals("failed")){
                             try {
                                 DebugPrinter.Debug(message);
-                                JSONObject jsonObject1=new JSONObject(message);
-                                JSONArray jsonArray=jsonObject1.getJSONArray("pendingChatRequests");
+                                JSONArray jsonArray=new JSONArray(message);
                                 if(currentUser.requestsForMe==null){
                                     currentUser.requestsForMe=new ArrayList<ChatRequest>();
                                 }
