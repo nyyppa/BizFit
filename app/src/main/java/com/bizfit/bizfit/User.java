@@ -826,7 +826,7 @@ public class User  {
             Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                 @Override
                 public void returnMessage(String message) {
-                    if(!message.equals(Constants.networkconn_failed)){
+                    if(!message.equals(Constants.networkconn_failed)&&!message.startsWith("no responses found")){
                         JSONObject jsonObject1= null;
                         try {
 
