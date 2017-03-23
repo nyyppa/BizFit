@@ -86,7 +86,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activities.OrderChat"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan"></activity>
 
     </application>
 
