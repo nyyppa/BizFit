@@ -20,11 +20,12 @@ public class ChatRequest {
     String coach;
     String message;
     UUID uuid;
+
     private ChatRequest(){
         uuid=UUID.randomUUID();
     }
     public ChatRequest(JSONObject jsonObject){
-
+            this();
             try {
                 if(jsonObject.has(Constants.customer)) {
                     customer =jsonObject.getString(Constants.customer);
