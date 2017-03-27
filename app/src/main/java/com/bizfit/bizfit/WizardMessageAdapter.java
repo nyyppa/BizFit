@@ -144,7 +144,6 @@ public class WizardMessageAdapter extends BaseAdapter {
         }
 
         private void removeItems(String phase, String answer, int pos) {
-            // TODO: check phase, check answer, remove from data
 
             if(phase.equals("WELCOME")) {
                 if(answer.equals("YES")) {

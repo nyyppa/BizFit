@@ -18,6 +18,8 @@ import java.util.UUID;
 public class ChatRequest {
     String customer;
     String coach;
+    Need need;
+    Skill skill;
     String message;
     UUID uuid;
 
@@ -50,11 +52,29 @@ public class ChatRequest {
         this.customer = customer;
         this.coach = coach;
         message="no message";
+        need = Need.UNDEFINED;
+        skill = skill.UNDEFINED;
     }
+
     public ChatRequest(String customer, String coach, String message){
         this();
         this.customer = customer;
         this.coach = coach;
+        if(message!=null){
+            this.message=message;
+        }else{
+            this.message="no message";
+        }
+        need = Need.UNDEFINED;
+        skill = Skill.UNDEFINED;
+    }
+
+    public ChatRequest(String customer, String coach, String need, String skill, String message) {
+        this();
+        this.customer = customer;
+        this.coach = coach;
+        this.need = Need.valueOf(need);
+        this.skill = Skill.valueOf(skill);
         if(message!=null){
             this.message=message;
         }else{
@@ -83,6 +103,7 @@ public class ChatRequest {
 
             }
         },this.toJSON()));
+        User.getLastUser(null,null,null).addChatRquestFromMe(this);
     }
 
     public static void addToList(List<ChatRequest> list,ChatRequest chatRequest){
@@ -97,5 +118,13 @@ public class ChatRequest {
             }
         }
         return false;
+    }
+
+    enum Need {
+        UNDEFINED, PROBLEM, LEARN
+    }
+
+    enum Skill {
+        UNDEFINED, BEGINNER, INTERMEDIATE, EXPERT
     }
 }
