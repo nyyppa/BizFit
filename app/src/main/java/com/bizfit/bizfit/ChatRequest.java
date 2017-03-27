@@ -83,6 +83,7 @@ public class ChatRequest {
 
             }
         },this.toJSON()));
+        User.getLastUser(null,null,null).addChatRquestFromMe(this);
     }
 
     public static void addToList(List<ChatRequest> list,ChatRequest chatRequest){

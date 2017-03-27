@@ -63,6 +63,7 @@ public class User  {
     private static boolean dropLastUser=false;
     private List<ChatRequest> requestsForMe;
     public UUID uuid;
+    private List<ChatRequest> requestsFromMe=new ArrayList<>();
 
     private User(){
         userName="";
@@ -842,5 +843,11 @@ public class User  {
                 }
             },jsonObject));
         }
+    }
+    public void addChatRquestFromMe(ChatRequest chatRequest){
+        requestsFromMe.add(chatRequest);
+    }
+    public List<ChatRequest> getMySentChatRequests(){
+        return requestsFromMe;
     }
 }
