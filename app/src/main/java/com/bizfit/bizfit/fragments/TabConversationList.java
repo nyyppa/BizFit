@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.bizfit.bizfit.ConversationArrayAdapter;
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 
@@ -44,6 +45,7 @@ public class TabConversationList extends Fragment{
                             user2=User.getLastUser(null,null,null);
                             ListView listView= (ListView) view2.findViewById(R.id.lista);
                             listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
+                            DebugPrinter.Debug("conversationit:" + user2.getConversations());
                         }
                     });
                 }

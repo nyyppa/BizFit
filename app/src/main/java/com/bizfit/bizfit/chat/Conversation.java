@@ -76,6 +76,11 @@ public class Conversation implements NetworkReturn,Serializable
         this.user=user;
     }
 
+    public Conversation()
+    {
+
+    }
+
 
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();

@@ -243,6 +243,39 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @return Created user
      */
+    public List<Conversation> readConversation(String username)
+    {
+        SQLiteDatabase db=getWritableDatabase();
+        List<Conversation> conversationsList=new ArrayList<>();
+
+        /*
+        List<Conversation> getConversations(String username){
+        List<Conversation> list=new ArrayList<>();
+        Cursor cursor=db.rawQuerty("STUFF");
+        while(cursor.moveToNext()){
+            Conversation conversation=new Conversation();
+
+            list.add(conversation);
+        }
+        return list;
+    }
+         */
+        if (isTableExists(db, "Conversation"))
+        {
+            Cursor cursor = db.rawQuery("SELECT * FROM Conversation WHERE userName = \'" +
+                    username + "\'", null);
+            while(cursor.moveToNext())
+            {
+                Conversation conversation = new Conversation();
+
+                conversationsList.add(conversation);
+            }
+
+        }
+        db.close();
+        return conversationsList ;
+    }
+
     public User readUser (String username) {
         SQLiteDatabase db=getWritableDatabase();
         User user = null;
@@ -253,9 +286,12 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
             saveLastUser(db, username);
         }
-        if (isTableExists(db, "user")) {
+        if (isTableExists(db, "User"))
+        {
             Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'" + username + "\'", null);
-            if (!cursor.moveToFirst()) {
+            readConversation(username);
+            if (!cursor.moveToFirst())
+            {
                 cursor.close();
                 db.close();
                 return new User(username);
