@@ -12,8 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.bizfit.bizfit.ChatRequest;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.WizardMessageAdapter;
+import com.bizfit.bizfit.utils.Constants;
 
 /**
  * Created by iipa on 16.3.2017.
@@ -29,6 +32,7 @@ public class OrderChat extends ListActivity {
     private boolean proceed;
     private boolean optionsShown;
 
+    private String COACH_ID;
     private Need need;
     private Skill skill;
     private String details;
@@ -37,6 +41,8 @@ public class OrderChat extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_chat_wizard);
+
+        COACH_ID = getIntent().getStringExtra(Constants.coach_id);
 
         listView = (ListView) findViewById(android.R.id.list);
         mAdapter = new WizardMessageAdapter(listView, this);
@@ -94,7 +100,9 @@ public class OrderChat extends ListActivity {
                 break;
             case END:
                 // TODO: go to payment
-                // TODO: before payment things send request
+                // before payment is created, send request and go to chat window
+                new ChatRequest(User.getLastUser(null,null,null).userName, COACH_ID, need.toString(), skill.toString(), details).sendToNet();
+                MessageActivity.startChat(listView, COACH_ID);
                 break;
         }
     }
@@ -663,7 +671,7 @@ public class OrderChat extends ListActivity {
         final String message2 = "My work here is done.";
         final String message3 = "I'll give you the button to continue to payment and your request will be sent!";
         final String message4 = "Bye for now, have a great day!";
-        final String message5 = "Bye bye! (Move to payment)";
+        final String message5 = "Bye bye! (Exit wizard)";
 
         new CountDownTimer(12000, 1000) {
 
@@ -703,7 +711,7 @@ public class OrderChat extends ListActivity {
         final String message2 = "My work here is done.";
         final String message3 = "I'll give you the button to continue to payment and your request will be sent!";
         final String message4 = "Bye for now, have a great day!";
-        final String message5 = "Bye bye! (Move to payment)";
+        final String message5 = "Bye bye! (Exit wizard)";
 
         mAdapter.addWizardMessage(message1);
         mAdapter.addWizardMessage(message2);

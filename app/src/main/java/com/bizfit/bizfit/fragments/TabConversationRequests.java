@@ -1,6 +1,8 @@
 package com.bizfit.bizfit.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,31 +19,22 @@ import java.util.ArrayList;
  */
 
 public class TabConversationRequests extends Fragment {
-    View view;
-    public TabConversationRequests(){
+    // Fragment TabHost as mTabHost
+    private FragmentTabHost mTabHost;
 
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.list_chat_requests, container, false);
+        return inflater.inflate(R.layout.tab_fragment_requests, container, false);
     }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        this.view=view;
-        User user=User.getLastUser(new User.UserLoadedListener() {
-            @Override
-            public void informationUpdated() {
-                if(getActivity()!=null){
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ListView listView= (ListView) TabConversationRequests.this.view.findViewById(R.id.chat_request_lista);
-                            listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)User.getLastUser(null,null,null).getRequestsForMe()));
-                        }
-                    });
-                }
-            }
-        }, null, null);
-        ListView listView= (ListView) view.findViewById(R.id.chat_request_lista);
-        listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)user.getRequestsForMe()));
+        mTabHost = (FragmentTabHost) getActivity().findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity().getApplicationContext(), getActivity().getSupportFragmentManager(), R.id.realtabcontent);
+
+        mTabHost.addTab(mTabHost.newTabSpec("tabSent").setIndicator("Sent requests"),
+                TabRequestSent.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("tabReceived").setIndicator("Received requests"),
+                TabRequestReceived.class, null);
     }
 }
