@@ -2,12 +2,14 @@ package com.bizfit.bizfit.activities;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -16,6 +18,7 @@ import com.bizfit.bizfit.ChatRequest;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.WizardMessageAdapter;
+import com.bizfit.bizfit.fragments.TabConversationRequests;
 import com.bizfit.bizfit.utils.Constants;
 
 /**
@@ -66,6 +69,18 @@ public class OrderChat extends ListActivity {
             skill = Skill.UNDEFINED;
             details = "";
         }
+
+        Button skip = (Button) findViewById(R.id.skipWizard);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ChatRequest(User.getLastUser(null,null,null).userName, COACH_ID, need.LEARN.toString(), skill.INTERMEDIATE.toString(), "Many details").sendToNet();
+                Intent intent = new Intent(OrderChat.this, MainPage.class);
+                intent.putExtra("goToTab", 2);
+                startActivity(intent);
+
+            }
+        });
 
         restorePhase();
     }
