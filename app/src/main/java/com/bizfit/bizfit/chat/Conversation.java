@@ -41,6 +41,11 @@ public class Conversation implements NetworkReturn,Serializable
     private transient ChatFragment chatFragment;
     private NetworkInfo netinfo;
 
+    public Conversation()
+    {
+
+    }
+
     public Conversation(JSONObject jsonObject, User user){
         JSONArray jsonArray=null;
         this.user=user;
@@ -76,12 +81,6 @@ public class Conversation implements NetworkReturn,Serializable
         this.user=user;
     }
 
-    public Conversation()
-    {
-
-    }
-
-
     private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         user.addClonedMyNewAndBetterConversation(this);
@@ -90,6 +89,21 @@ public class Conversation implements NetworkReturn,Serializable
 
     public User getUser(){
         return user;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner=owner;
+    }
+
+    public void setOther(String other)
+    {
+        this.other=other;
+    }
+
+    public void setMessages(List<Message> messageList)
+    {
+        this.messageList=messageList;
     }
     public List<Message> getMessages()
     {

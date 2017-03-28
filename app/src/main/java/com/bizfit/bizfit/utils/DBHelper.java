@@ -262,7 +262,7 @@ public class DBHelper extends SQLiteOpenHelper {
          */
         if (isTableExists(db, "Conversation"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM Conversation WHERE userName = \'" +
+            Cursor cursor = db.rawQuery("SELECT * FROM Conversation WHERE owner = \'" +
                     username + "\'", null);
             while(cursor.moveToNext())
             {
@@ -272,7 +272,6 @@ public class DBHelper extends SQLiteOpenHelper {
             }
 
         }
-        db.close();
         return conversationsList ;
     }
 
@@ -288,7 +287,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (isTableExists(db, "User"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE userName = \'" + username + "\'", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE name = \'" + username + "\'", null);
             readConversation(username);
             if (!cursor.moveToFirst())
             {
@@ -298,7 +297,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }
 
             try {
-                user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("user"))));
+                user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("User"))));
                 cursor.close();
 
             } catch (JSONException e) {
