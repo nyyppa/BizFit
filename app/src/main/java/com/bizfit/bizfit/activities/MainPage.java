@@ -58,15 +58,13 @@ public class MainPage extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
 
-
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(getIntent().getIntExtra("goToTab", 0));
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide(); //because tab is not switched, activated in onPageSelected
-
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

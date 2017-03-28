@@ -497,7 +497,7 @@ public class User  {
             if(dbHelper==null&&context!=null){
                 dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
             }
-            if(currentUser!=null&&currentUser.saveUser && currentUser.uuid!=null){
+            if(currentUser!=null&&currentUser.saveUser){
                 dbHelper.saveUser(currentUser);
                 currentUser.saveUser=false;
             }
