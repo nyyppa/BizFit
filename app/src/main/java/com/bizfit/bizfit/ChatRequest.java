@@ -128,8 +128,17 @@ public class ChatRequest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+        Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
 
+            }
+        },jsonObject));
+    }
+    public boolean ownChatRequest()
+    {
+        return User.getLastUser(null,null,null).userName.equals(customer);
+    }
     enum Need {
         UNDEFINED, PROBLEM, LEARN
     }
