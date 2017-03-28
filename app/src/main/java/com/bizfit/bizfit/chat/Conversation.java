@@ -35,7 +35,7 @@ public class Conversation implements NetworkReturn,Serializable
 
     private String owner="";
     private String other="";
-    private List<Message> messageList;
+    public List<Message> messageList;
 
     private User user;
     private transient ChatFragment chatFragment;

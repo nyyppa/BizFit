@@ -9,17 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.chat.Conversation;
-import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.chat.Message;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import static com.bizfit.bizfit.utils.Constants.user;
 
 /**
  * Created by Atte Ylivrronen on 28.3.2016.
@@ -50,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Modified by JariJ 22.3.17
-     * Saves user and all of it's dependands to give database
+     * Saves user and all of it's dependands to given database
      *
 
      * @param user user to save
@@ -68,16 +65,52 @@ public class DBHelper extends SQLiteOpenHelper {
         //System.out.println("user"+user.toJSON().toString());
         db.insertWithOnConflict("User", null, userValues, SQLiteDatabase.CONFLICT_REPLACE);
         saveLastUser(db, user.userName);
+        saveConversation(user, db);
 
-        //Conversations
-        ContentValues conversationsValues = new ContentValues();
-        conversationsValues.put("conversations", user.getConversations().toString());
-        db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
+
         db.close();
+
+
 
        // if (!isTableExists(db, "User")) {
        //     db.execSQL("CREATE TABLE user (userName TEXT PRIMARY KEY,user TEXT)");
        // }
+    }
+
+    /**
+     * Made by JariJ 28.3.17
+     * Saves Message and all of it's dependands to give database
+     * @param user
+     * @param db
+     */
+    public void saveConversation(User user, SQLiteDatabase db)
+    {
+        ContentValues messagesValues = new ContentValues();
+        for(int i=0; i < user.getConversations().size(); i++)
+        {
+            for(int j=0;j<user.getConversations().get(i).getMessages().size();j++)
+            {
+                saveMessage(user.getConversations().get(i).getMessages().get(j),db);
+            }
+
+            ContentValues conversationsValues = new ContentValues();
+            conversationsValues.put("other",user.getConversations().get(i).getOther());
+            conversationsValues.put("owner",user.getConversations().get(i).getOwner());
+            db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
+        }
+
+    }
+    private void saveMessage(Message message,SQLiteDatabase db)
+    {
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("message",message.getMessage());
+        contentValues.put("sender", message.getSender());
+        contentValues.put("resipient", message.getSender());
+        contentValues.put("creationTime", message.getCreationTime());
+        contentValues.put("hasBeenSeen", message.getHasBeenSeen());
+
+        db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+
     }
 
     /**
@@ -94,10 +127,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
      CREATE TABLE Conversation
      (
-         conversationID INTEGER NOT NULL PRIMARY KEY,
+         conversationID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
          owner text NOT NULL,
          other int NOT NULL,
-         conversationsID INTEGER NOT NULL,
          messagesID INTEGER NOT NULL,
          FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)
      );
@@ -111,8 +143,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
      CREATE TABLE User
      (
-         userID INTEGER NOT NULL PRIMARY KEY,
-         name text NOT NULL,
+         name text NOT NULL PRIMARY KEY,
          type int NOT NULL,
          UUID text NOT NULL,
          conversationID INTEGER NOT NULL,
@@ -239,13 +270,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return super.getWritableDatabase();
     }
     /**
-     * reads user from given database or if it's not possible creates new one from google account
+     * Made by JariJ 28.3.17
+     * reads conversations from given database from currentUser (username)
      *
-     * @return Created user
+     * @return users own conversations
      */
-    public List<Conversation> readConversation(String username)
+    public List<Conversation> readConversations(String username, SQLiteDatabase db)
     {
-        SQLiteDatabase db=getWritableDatabase();
         List<Conversation> conversationsList=new ArrayList<>();
 
         /*
@@ -267,12 +298,55 @@ public class DBHelper extends SQLiteOpenHelper {
             while(cursor.moveToNext())
             {
                 Conversation conversation = new Conversation();
+                conversation.setOwner(username);
+                conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
+                conversation.messageList = readMessages(username, conversation.getOther(), db);
+
 
                 conversationsList.add(conversation);
             }
 
         }
         return conversationsList ;
+    }
+
+    /**
+     * Made by JariJ 28.3.17
+     * @param resipient user who receives the message
+     * @param sender user who sends the message
+     * @param db local SQL-db
+     * @return
+     */
+    private List<Message> readMessages(String resipient, String sender, SQLiteDatabase db)
+    {
+        List<Message> messagesList = new ArrayList<>();
+
+        if (isTableExists(db, "Message"))
+        {
+            Cursor cursor = db.rawQuery("SELECT * FROM Message WHERE resipient = \'" +
+                    resipient + "\'" + " AND sender = \'" + sender + "\'", null);
+            while(cursor.moveToNext())
+            {
+                Message message = new Message();
+                message.resipient = cursor.getString(cursor.getColumnIndex("resipient"));
+                message.sender = cursor.getString(cursor.getColumnIndex("sender"));
+
+
+                messagesList.add(message);
+            }
+            cursor = db.rawQuery("SELECT * FROM Message WHERE sender = \'" +
+                    sender + "\'" + " AND sender = \'" + sender + "\'", null);
+            while(cursor.moveToNext())
+            {
+                Message message = new Message();
+
+
+                messagesList.add(message);
+            }
+
+        }
+        return messagesList ;
+
     }
 
     public User readUser (String username) {
@@ -287,13 +361,17 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if (isTableExists(db, "User"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM user WHERE name = \'" + username + "\'", null);
-            readConversation(username);
+            Cursor cursor = db.rawQuery("SELECT * FROM User WHERE name = \'" + username + "\'", null);
             if (!cursor.moveToFirst())
             {
                 cursor.close();
                 db.close();
                 return new User(username);
+            }
+            else
+            {
+                user=new User(username);
+                user.conversations = readConversations(username, db);
             }
 
             try {

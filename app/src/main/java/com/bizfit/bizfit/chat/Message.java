@@ -21,8 +21,8 @@ import java.util.UUID;
 
 public class Message implements NetworkReturn, Serializable {
 
-    private String resipient="";
-    private String sender="";
+    public String resipient="";
+    public String sender="";
     private String message="";
     private long creationTime=0;
     private boolean hasBeenSent=false;
@@ -85,6 +85,12 @@ public class Message implements NetworkReturn, Serializable {
         setJob();
         codeCheck();
     }
+
+    public Message()
+    {
+
+    }
+
     public boolean updateHasBeenSeen(boolean newValue)
     {
         DebugPrinter.Debug("hasbeenseen job:" + job);

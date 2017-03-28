@@ -57,7 +57,7 @@ public class User  {
     private transient static GetPendingChatRequestsThread getPendingChatRequestsThread;
     public String userName;
     public boolean saveUser = false;
-    List<Conversation> conversations;
+    public List<Conversation> conversations;
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
