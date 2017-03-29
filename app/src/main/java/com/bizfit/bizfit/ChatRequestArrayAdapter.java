@@ -2,6 +2,8 @@ package com.bizfit.bizfit;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +32,6 @@ public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
         if(convertView==null){
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request,parent,false);
         }
-        TextView textView=(TextView)convertView.findViewById(R.id.textView);
-        textView.setText(chatRequest.message);
 
         Button button=(Button) convertView.findViewById(R.id.accept);
         button.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +45,69 @@ public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
             @Override
             public void onClick(View v) {
                 new ChatRequestResponse(chatRequest,false).sentResponse();
+            }
+        });
+
+        final TextView tvNeed = (TextView) convertView.findViewById(R.id.chat_request_need);
+        if(chatRequest.need == ChatRequest.Need.PROBLEM) {
+            tvNeed.setText("I have a problem I want to solve.");
+        } else {
+            tvNeed.setText("I want to learn from coach's area of expertise.");
+        }
+        tvNeed.setVisibility(View.GONE);
+
+        final TextView tvSkill = (TextView) convertView.findViewById(R.id.chat_request_skill);
+        switch(chatRequest.skill) {
+            case BEGINNER:
+                tvSkill.setText("My skill level is currently BEGINNER");
+                break;
+            case INTERMEDIATE:
+                tvSkill.setText("My skill level is currently INTERMEDIATE");
+                break;
+            case EXPERT:
+                tvSkill.setText("My skill level is currently EXPERT");
+                break;
+            case UNDEFINED:
+                tvSkill.setText("UNDEFINED");
+                break;
+        }
+        tvSkill.setVisibility(View.GONE);
+
+        final TextView tvDetails = (TextView)convertView.findViewById(R.id.chat_request_details);
+        tvDetails.setText(chatRequest.message);
+        tvDetails.setVisibility(View.GONE);
+
+        final View separator = convertView.findViewById(R.id.separator_1);
+        separator.setVisibility(View.GONE);
+
+        final Drawable more = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_show_more);
+        final Drawable less = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_show_less);
+
+        button = (Button) convertView.findViewById(R.id.chat_request_show);
+        button.setOnClickListener(new View.OnClickListener() {
+            boolean shown = false;
+
+            @Override
+            public void onClick(View v) {
+                if(shown) {
+                    shown = false;
+                    tvNeed.setVisibility(View.GONE);
+                    tvDetails.setVisibility(View.GONE);
+                    tvSkill.setVisibility(View.GONE);
+                    separator.setVisibility(View.GONE);
+                    Button b = (Button) v;
+                    b.setText("Show Details");
+                } else {
+                    shown = true;
+                    separator.setVisibility(View.VISIBLE);
+                    tvNeed.setVisibility(View.VISIBLE);
+                    tvDetails.setVisibility(View.VISIBLE);
+                    if(!tvSkill.getText().equals("UNDEFINED")) {
+                        tvSkill.setVisibility(View.VISIBLE);
+                    }
+                    Button b = (Button) v;
+                    b.setText("Hide Details");
+                }
             }
         });
         return convertView;
