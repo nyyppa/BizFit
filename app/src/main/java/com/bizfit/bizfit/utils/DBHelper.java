@@ -55,6 +55,8 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveUser(User user)
     {
+        return;
+        /*
         SQLiteDatabase db=getWritableDatabase();
         initDB();
 
@@ -69,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         db.close();
-
+        */
 
 
        // if (!isTableExists(db, "User")) {
