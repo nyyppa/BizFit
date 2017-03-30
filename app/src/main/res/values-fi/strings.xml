@@ -61,9 +61,9 @@
     <string name="create_tracker_done">Luo tavoite</string>
 
     <string-array name="random_job_title">
-        <item>Myynti</item>
         <item>Markkinointi</item>
         <item>Talous</item>
+        <item>Myynti</item>
         <item>Johtaminen</item>
     </string-array>
 

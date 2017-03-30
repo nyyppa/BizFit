@@ -65,14 +65,14 @@ public class TabCoaches extends Fragment {
         for (int i = 0; i < jobTitles.length; i++)
         {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
-            if(i==0)
+            if(i==2)
             {
                 for(int j = 0; j < 4; j++)
                 {
-                    Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
+                    Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
                     Drawable pasi = (ContextCompat.getDrawable(this.getContext(), R.drawable.pasi));
                     Drawable atte = (ContextCompat.getDrawable(this.getContext(), R.drawable.atte));
-                    Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
+                    Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
                     int imageID = worksIds.getResourceId(j, -1);
                     if(imageID==-1)
                     {
@@ -80,7 +80,7 @@ public class TabCoaches extends Fragment {
                     }
                     if(j==0)
                     {
-                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com","0447358220"));
+                        items.add(new StoreRow.StoreItem("Jari Järvenpää", jari,imageID,(int) (Math.random()*400),"jari.k4rita@gmail.com",null));
                     }
                    if(j==1)
                     {
@@ -92,7 +92,7 @@ public class TabCoaches extends Fragment {
                     }
                     if(j==3)
                     {
-                        items.add(new StoreRow.StoreItem("Jari Järvenpää", jari,imageID,(int) (Math.random()*400),"jari.k4rita@gmail.com",null));
+                        items.add(new StoreRow.StoreItem("Jari Myllymäki", mylly,imageID,(int) (Math.random()*400),"jari.myllymaki@gmail.com","0447358220"));
                     }
 
                 }
