@@ -257,7 +257,12 @@ public class OrderChat extends ListActivity {
                         break;
                 }
                 tick++;
-                scrollDown();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollDown();
+                    }
+                });
             }
 
             @Override
