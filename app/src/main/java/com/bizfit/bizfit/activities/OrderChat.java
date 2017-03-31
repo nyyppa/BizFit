@@ -258,6 +258,12 @@ public class OrderChat extends ListActivity {
                 tick++;
                 scrollDown();
             }
+
+            @Override
+            public void wake(){
+                super.wake();
+                tick++;
+            }
         };
         BackgroundThread.addOurRunnable(ourRunnable);
 
