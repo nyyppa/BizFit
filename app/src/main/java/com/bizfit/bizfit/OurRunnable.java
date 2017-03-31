@@ -30,6 +30,10 @@ public abstract class OurRunnable{
         return (lastRun+repeatInterval)-millis;
     }
     public abstract void run();
+    public void stop()
+    {
+        repeat=false;
+    }
 
     public void wake()
     {

@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Atte Ylivrronen on 28.3.2016.
@@ -55,23 +56,22 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveUser(User user)
     {
-        return;
-        /*
         SQLiteDatabase db=getWritableDatabase();
         initDB();
 
         //User
         ContentValues userValues = new ContentValues();
-        userValues.put("UUID", user.uuid.toString());
         userValues.put("name", user.userName);
+        userValues.put("type",1);
         //System.out.println("user"+user.toJSON().toString());
         db.insertWithOnConflict("User", null, userValues, SQLiteDatabase.CONFLICT_REPLACE);
+
         saveLastUser(db, user.userName);
         saveConversation(user, db);
 
 
         db.close();
-        */
+
 
 
        // if (!isTableExists(db, "User")) {
@@ -94,10 +94,12 @@ public class DBHelper extends SQLiteOpenHelper {
             {
                 saveMessage(user.getConversations().get(i).getMessages().get(j),db);
             }
-
             ContentValues conversationsValues = new ContentValues();
             conversationsValues.put("other",user.getConversations().get(i).getOther());
             conversationsValues.put("owner",user.getConversations().get(i).getOwner());
+            if(user.getConversations().get(i).ConversationID>-1){
+                conversationsValues.put("conversationID",user.getConversations().get(i).ConversationID);
+            }
             db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
         }
 
@@ -110,7 +112,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("resipient", message.getSender());
         contentValues.put("creationTime", message.getCreationTime());
         contentValues.put("hasBeenSeen", message.getHasBeenSeen());
-
+        contentValues.put("hasBeenSent",message.getHasBeenSent());
+        contentValues.put("UUID",message.getUUID().toString());
         db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
     }
@@ -181,15 +184,13 @@ public class DBHelper extends SQLiteOpenHelper {
                     ");");
         }
         */
-        if(!isTableExists(db, "Conversation"))
+        if(!isTableExists(db, "Conversations"))
         {
-            db.execSQL("CREATE TABLE Conversation\n" +
+            db.execSQL("CREATE TABLE Conversations\n" +
                     "     (\n" +
-                    "         conversationID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         conversationID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                     "         owner text NOT NULL,\n" +
-                    "         other int NOT NULL,\n" +
-                    "         messagesID INTEGER NOT NULL,\n" +
-                    "         FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)\n" +
+                    "         other text NOT NULL\n" +
                     "     );");
         }
         if(!isTableExists(db, "Pending_request"))
@@ -205,21 +206,15 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             db.execSQL("  CREATE TABLE User\n" +
                     "     (\n" +
-                    "         userID INTEGER NOT NULL PRIMARY KEY,\n" +
-                    "         name text NOT NULL,\n" +
-                    "         type int NOT NULL,\n" +
-                    "         UUID text NOT NULL,\n" +
-                    "         conversationID INTEGER NOT NULL,\n" +
-                    "         pendingRequestID INTEGER NOT NULL,\n" +
-                    "         FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)\n" +
-                    "         FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)\n" +
+                    "         name text NOT NULL PRIMARY KEY,\n" +
+                    "         type int NOT NULL\n" +
                     "     );");
         }
         if(!isTableExists(db, "Messages"))
         {
             db.execSQL(" CREATE TABLE Messages\n" +
                     "     (\n" +
-                    "         messagesID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         UUID text NOT NULL PRIMARY KEY,\n" +
                     "         message text NOT NULL,\n" +
                     "         sender text NOT NULL,\n" +
                     "         resipient text NOT NULL,\n" +
@@ -293,18 +288,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
          */
-        if (isTableExists(db, "Conversation"))
+        if (isTableExists(db, "Conversations"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM Conversation WHERE owner = \'" +
+            Cursor cursor = db.rawQuery("SELECT * FROM Conversations WHERE owner = \'" +
                     username + "\'", null);
             while(cursor.moveToNext())
             {
                 Conversation conversation = new Conversation();
                 conversation.setOwner(username);
                 conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
+                conversation.ConversationID=cursor.getInt(cursor.getColumnIndex("conversationID"));
                 conversation.messageList = readMessages(username, conversation.getOther(), db);
-
-
                 conversationsList.add(conversation);
             }
 
@@ -329,26 +323,40 @@ public class DBHelper extends SQLiteOpenHelper {
                     resipient + "\'" + " AND sender = \'" + sender + "\'", null);
             while(cursor.moveToNext())
             {
-                Message message = new Message();
-                message.resipient = cursor.getString(cursor.getColumnIndex("resipient"));
-                message.sender = cursor.getString(cursor.getColumnIndex("sender"));
-
-
-                messagesList.add(message);
+                messagesList.add(readMessage(cursor));
             }
             cursor = db.rawQuery("SELECT * FROM Message WHERE sender = \'" +
                     sender + "\'" + " AND sender = \'" + sender + "\'", null);
             while(cursor.moveToNext())
             {
-                Message message = new Message();
-
-
-                messagesList.add(message);
+                messagesList.add(readMessage(cursor));
             }
 
         }
         return messagesList ;
 
+    }
+    private Message readMessage(Cursor cursor)
+    {
+        Message message = new Message();
+        message.resipient = cursor.getString(cursor.getColumnIndex("resipient"));
+        message.sender = cursor.getString(cursor.getColumnIndex("sender"));
+        message.uuid= UUID.fromString(cursor.getString(cursor.getColumnIndex("UUID")));
+        message.message=cursor.getString(cursor.getColumnIndex("message"));
+        message.hasBeenSeen=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSeen")));
+        message.hasBeenSent=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSent")));
+        message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
+        return message;
+    }
+    private static boolean intToBoolean(int i){
+        if(i==0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public User readUser (String username) {
@@ -374,16 +382,10 @@ public class DBHelper extends SQLiteOpenHelper {
             {
                 user=new User(username);
                 user.conversations = readConversations(username, db);
-            }
-
-            try {
-                user = new User(new JSONObject(cursor.getString(cursor.getColumnIndex("User"))));
                 cursor.close();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-            cursor.close();
+
+
         } else {
             db.close();
             return new User(username);

@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.bizfit.bizfit.BackgroundThread;
 import com.bizfit.bizfit.ChatRequest;
+import com.bizfit.bizfit.OurRunnable;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.WizardMessageAdapter;
@@ -220,6 +222,44 @@ public class OrderChat extends ListActivity {
         final String message4 = "Shall we begin?";
         final String message5 = "Yes, please!";
         final String message6 = "No thanks, I changed my mind.";
+
+
+        OurRunnable ourRunnable= new OurRunnable(true, 1000) {
+            int tick=0;
+            @Override
+            public void run() {
+                switch (tick) {
+                    case 1:
+                        mAdapter.addWizardMessage(message1);
+                        break;
+
+                    case 2:
+                        mAdapter.addWizardMessage(message2);
+                        break;
+
+                    case 4:
+                        mAdapter.addWizardMessage(message3);
+                        break;
+
+                    case 6:
+                        mAdapter.addWizardMessage(message4);
+                        break;
+
+                    case 8:
+                        mAdapter.addButton(message5, "WELCOME", "YES");
+                        optionsShown = true;
+                        break;
+
+                    case 9:
+                        mAdapter.addButton(message6, "WELCOME", "NO");
+                        stop();
+                        break;
+                }
+                tick++;
+                scrollDown();
+            }
+        };
+        BackgroundThread.addOurRunnable(ourRunnable);
 
         new CountDownTimer(11000, 1000) {
 

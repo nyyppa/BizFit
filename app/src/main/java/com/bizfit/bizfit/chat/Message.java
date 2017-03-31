@@ -23,13 +23,13 @@ public class Message implements NetworkReturn, Serializable {
 
     public String resipient="";
     public String sender="";
-    private String message="";
-    private long creationTime=0;
-    private boolean hasBeenSent=false;
-    private Conversation conversation;
-    private Job job;
-    private boolean hasBeenSeen=false;
-    UUID uuid;
+    public String message="";
+    public long creationTime=0;
+    public boolean hasBeenSent=false;
+    public Conversation conversation;
+    public Job job;
+    public boolean hasBeenSeen=false;
+    public UUID uuid;
     MessageObject messageObject;
 
 
@@ -90,7 +90,10 @@ public class Message implements NetworkReturn, Serializable {
     {
 
     }
-
+    public UUID getUUID()
+    {
+        return uuid;
+    }
     public boolean updateHasBeenSeen(boolean newValue)
     {
         DebugPrinter.Debug("hasbeenseen job:" + job);
