@@ -34,6 +34,9 @@ public abstract class OurRunnable{
     {
         repeat=false;
     }
+    protected void setRepeatInterval(Long interval){
+        this.repeatInterval=interval;
+    }
 
     public void wake()
     {

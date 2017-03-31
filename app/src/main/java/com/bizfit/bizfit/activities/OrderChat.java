@@ -235,6 +235,7 @@ public class OrderChat extends ListActivity {
 
                     case 2:
                         mAdapter.addWizardMessage(message2);
+                        setRepeatInterval(2000l);
                         break;
 
                     case 4:
@@ -262,7 +263,6 @@ public class OrderChat extends ListActivity {
             @Override
             public void wake(){
                 super.wake();
-                tick++;
             }
         };
         BackgroundThread.addOurRunnable(ourRunnable);
