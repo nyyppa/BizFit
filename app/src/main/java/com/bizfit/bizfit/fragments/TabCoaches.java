@@ -69,10 +69,10 @@ public class TabCoaches extends Fragment {
             {
                 for(int j = 0; j < 4; j++)
                 {
-                    Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
+                    Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.jartsa));
                     Drawable pasi = (ContextCompat.getDrawable(this.getContext(), R.drawable.pasi));
                     Drawable atte = (ContextCompat.getDrawable(this.getContext(), R.drawable.atte));
-                    Drawable jari = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
+                    Drawable mylly = (ContextCompat.getDrawable(this.getContext(), R.drawable.mylly));
                     int imageID = worksIds.getResourceId(j, -1);
                     if(imageID==-1)
                     {
