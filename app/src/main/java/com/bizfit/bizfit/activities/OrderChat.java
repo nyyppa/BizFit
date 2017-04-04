@@ -213,6 +213,7 @@ public class OrderChat extends ListActivity {
         }
     }
 
+
     public void phaseWelcome() {
         currentPhase = Phase.WELCOME;
 
@@ -272,48 +273,6 @@ public class OrderChat extends ListActivity {
         };
         BackgroundThread.addOurRunnable(ourRunnable);
 
-        new CountDownTimer(11000, 1000) {
-
-            int tick = 0;
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                switch (tick) {
-                    case 1:
-                        mAdapter.addWizardMessage(message1);
-                        break;
-
-                    case 2:
-                        mAdapter.addWizardMessage(message2);
-                        break;
-
-                    case 4:
-                        mAdapter.addWizardMessage(message3);
-                        break;
-
-                    case 6:
-                        mAdapter.addWizardMessage(message4);
-                        break;
-
-                    case 8:
-                        mAdapter.addButton(message5, "WELCOME", "YES");
-                        optionsShown = true;
-                        break;
-
-                    case 9:
-                        mAdapter.addButton(message6, "WELCOME", "NO");
-                        break;
-                }
-
-                tick++;
-                scrollDown();
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
     }
 
     public void restorePhaseWelcome() {
