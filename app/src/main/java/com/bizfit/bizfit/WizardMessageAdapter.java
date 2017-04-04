@@ -1,5 +1,6 @@
 package com.bizfit.bizfit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,14 @@ public class WizardMessageAdapter extends BaseAdapter {
             mMessageWizardSet.add(mData.size() - 1);
             mPhaseTagData.add("wizmsg");
             mAnswerTagData.add("wizmsg");
-            notifyDataSetChanged();
+            wizard.runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    notifyDataSetChanged();
+                }
+            });
+
         }
 
         public void addUserMessage(final String item) {
@@ -58,14 +66,26 @@ public class WizardMessageAdapter extends BaseAdapter {
             mMessageUserSet.add(mData.size() - 1);
             mPhaseTagData.add("usrmsg");
             mAnswerTagData.add("usrmsg");
-            notifyDataSetChanged();
+            wizard.runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    notifyDataSetChanged();
+                }
+            });
         }
         public void addButton(final String item, final String phaseTag, final String answerTag) {
             mData.add(item);
             mButtonSet.add(mData.size() - 1);
             mPhaseTagData.add(phaseTag);
             mAnswerTagData.add(answerTag);
-            notifyDataSetChanged();
+            wizard.runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         @Override
@@ -261,8 +281,13 @@ public class WizardMessageAdapter extends BaseAdapter {
                     mAnswerTagData.remove(pos);
                 }
             }
-
-            notifyDataSetChanged();
+            wizard.runOnUiThread(new Runnable() {
+                @Override
+                public void run()
+                {
+                    notifyDataSetChanged();
+                }
+            });
         }
 
     public static class ViewHolder {
