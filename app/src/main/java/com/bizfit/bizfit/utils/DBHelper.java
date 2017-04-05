@@ -120,16 +120,17 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     private void saveMessage(Message message,SQLiteDatabase db)
     {
+        DebugPrinter.Debug("messageSQL "+message.toJson());
         ContentValues contentValues=new ContentValues();
         contentValues.put("message",message.getMessage());
         contentValues.put("sender", message.getSender());
-        contentValues.put("resipient", message.getSender());
+        contentValues.put("resipient", message.getResipient());
         contentValues.put("creationTime", message.getCreationTime());
         contentValues.put("hasBeenSeen", message.getHasBeenSeen());
         contentValues.put("hasBeenSent",message.getHasBeenSent());
         contentValues.put("UUID",message.getUUID().toString());
-        db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
 
+        db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     /**
@@ -314,6 +315,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 conversation.ConversationID=cursor.getInt(cursor.getColumnIndex("conversationID"));
                 conversation.messageList = readMessages(username, conversation.getOther(), db);
                 conversationsList.add(conversation);
+                for(int i=0;i<conversation.getMessages().size();i++)
+                {
+                    conversation.getMessages().get(i).conversation=conversation;
+                    conversation.getMessages().get(i).setJob();
+                }
             }
 
         }
@@ -331,20 +337,27 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         List<Message> messagesList = new ArrayList<>();
 
-        if (isTableExists(db, "Message"))
+        if (isTableExists(db, "Messages"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM Message WHERE resipient = \'" +
-                    resipient + "\'" + " AND sender = \'" + sender + "\'", null);
+
+            Cursor cursor = db.rawQuery("SELECT * FROM Messages WHERE resipient = ? AND sender = ?", new String[]{resipient,sender});
             while(cursor.moveToNext())
             {
                 messagesList.add(readMessage(cursor));
             }
-            cursor = db.rawQuery("SELECT * FROM Message WHERE sender = \'" +
-                    sender + "\'" + " AND sender = \'" + sender + "\'", null);
+            DebugPrinter.Debug("messageSQL "+cursor.getCount());
+            cursor = db.rawQuery("SELECT * FROM Messages WHERE resipient = ? AND sender = ?", new String[]{sender,resipient});
+            DebugPrinter.Debug("messageSQL "+cursor.getCount());
             while(cursor.moveToNext())
             {
                 messagesList.add(readMessage(cursor));
             }
+            cursor=db.rawQuery("SELECT * FROM Messages",null);
+            DebugPrinter.Debug("messageSQL "+cursor.getCount());
+            cursor.moveToFirst();
+            DebugPrinter.Debug("messageSQL "+resipient+" "+cursor.getString(cursor.getColumnIndex("resipient")));
+            DebugPrinter.Debug("messageSQL "+sender+" "+cursor.getString(cursor.getColumnIndex("sender")));
+
 
         }
         return messagesList ;
@@ -360,6 +373,7 @@ public class DBHelper extends SQLiteOpenHelper {
         message.hasBeenSeen=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSeen")));
         message.hasBeenSent=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSent")));
         message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
+        DebugPrinter.Debug("messageSQL" + message.toJson().toString());
         return message;
     }
     private static boolean intToBoolean(int i){
