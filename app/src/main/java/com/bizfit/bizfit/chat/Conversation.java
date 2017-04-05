@@ -283,9 +283,6 @@ public class Conversation implements NetworkReturn,Serializable
             messageList =new ArrayList<>();
         }
         messageList.add(0,myNewAndBetterMessage);
-        ////TODO remove after test
-        Message message1=new Message(this,getOwner(),getOther(),"Hyvä kysymys!");
-        messageList.add(0,message1);
         if(getUser()!=null)
         {
             getUser().save(this);

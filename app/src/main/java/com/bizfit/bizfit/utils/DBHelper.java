@@ -97,10 +97,24 @@ public class DBHelper extends SQLiteOpenHelper {
             ContentValues conversationsValues = new ContentValues();
             conversationsValues.put("other",user.getConversations().get(i).getOther());
             conversationsValues.put("owner",user.getConversations().get(i).getOwner());
-            if(user.getConversations().get(i).ConversationID>-1){
+            if(user.getConversations().get(i).ConversationID>-1)
+            {
                 conversationsValues.put("conversationID",user.getConversations().get(i).ConversationID);
             }
             db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
+            if(user.getConversations().get(i).ConversationID<0)
+            {
+                Cursor cursor=db.rawQuery("SELECT MAX(conversationID) FROM Conversations", null);
+                if(cursor.moveToFirst())
+                {
+                    String  names[]=cursor.getColumnNames();
+                    for(String name:names)
+                    {
+                        DebugPrinter.Debug(name);
+                    }
+                    user.getConversations().get(i).ConversationID=cursor.getInt(cursor.getColumnIndex("conversationID"));
+                }
+            }
         }
 
     }
