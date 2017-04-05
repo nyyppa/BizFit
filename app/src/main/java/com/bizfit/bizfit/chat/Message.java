@@ -109,7 +109,7 @@ public class Message implements NetworkReturn, Serializable {
     public boolean equals(Message message){
         return this.uuid.equals(message.uuid);
     }
-    private void setJob(){
+    public void setJob(){
         if(conversation.getOwner().equals(getSender())){
             job=Job.OUTGOING;
         }else{
