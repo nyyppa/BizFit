@@ -37,7 +37,9 @@ public class TabConversationList extends Fragment{
         view2=view;
         user2= User.getLastUser(new User.UserLoadedListener() {
             @Override
-            public void informationUpdated() {
+            public void informationUpdated()
+            {
+
                 if(getActivity()!=null){
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -45,9 +47,9 @@ public class TabConversationList extends Fragment{
                             user2=User.getLastUser(null,null,null);
                             ListView listView= (ListView) view2.findViewById(R.id.lista);
                             listView.setAdapter(new ConversationArrayAdapter(getContext(),(ArrayList)user2.getConversations()));
-                            DebugPrinter.Debug("conversationit:" + user2.getConversations());
                         }
                     });
+
                 }
             }
         }, null, null);

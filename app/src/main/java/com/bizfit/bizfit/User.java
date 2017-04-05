@@ -61,9 +61,9 @@ public class User  {
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
-    private List<ChatRequest> requestsForMe;
+    public List<ChatRequest> requestsForMe;
     public UUID uuid;
-    private List<ChatRequest> requestsFromMe=new ArrayList<>();
+    public List<ChatRequest> requestsFromMe=new ArrayList<>();
 
     private User(){
         userName="";
@@ -729,7 +729,7 @@ public class User  {
         {
             JSONObject jsonObject = new JSONObject();
             Conversation conversation = (Conversation) obj;
-            DebugPrinter.Debug("Conversation: " + conversation);
+            //DebugPrinter.Debug("Conversation: " + conversation);
             try
             {
                 jsonObject.put(Constants.job, Constants.save_conversation);

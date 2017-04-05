@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.bizfit.bizfit.ChatRequest;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.User;
@@ -59,7 +60,6 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=getWritableDatabase();
         initDB();
 
-        //User
         ContentValues userValues = new ContentValues();
         userValues.put("name", user.userName);
         userValues.put("type",1);
@@ -68,6 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         saveLastUser(db, user.userName);
         saveConversation(user, db);
+        saveChatRequest(user, readChatRequest(null), db);
 
 
         db.close();
@@ -81,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Made by JariJ 28.3.17
-     * Saves Message and all of it's dependands to give database
+     * Saves Message and all of it's dependands to given database
      * @param user
      * @param db
      */
@@ -115,75 +116,30 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("hasBeenSent",message.getHasBeenSent());
         contentValues.put("UUID",message.getUUID().toString());
         db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
-
     }
 
+    private void saveChatRequest(User user, ChatRequest chatRequest, SQLiteDatabase db)
+    {
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("customer",chatRequest.customer;
+        contentValues.put("coach", chatRequest.coach
+        contentValues.put("need", chatRequest.need;
+        contentValues.put("skill", chatRequest.skill;
+        contentValues.put("message", chatRequest.message;
+        contentValues.put("UUID", chatRequest.uuid;
+        db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+    }
     /**
      * Creating a new local SQL database
-     * by JariJ 22.3.17
+     * by JariJ 5.4.17
      *
-     * (validated with SQLFiddle, added foreign keys)
-     * Not using this table atm
-     * CREATE TABLE Conversations
-     (
-         conversationsID INTEGER NOT NULL PRIMARY KEY,
-         conversationID INTEGER NOT NULL
-     );
-
-     CREATE TABLE Conversation
-     (
-         conversationID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-         owner text NOT NULL,
-         other int NOT NULL,
-         messagesID INTEGER NOT NULL,
-         FOREIGN KEY(messagesID) REFERENCES Messages(messagesID)
-     );
-
-     CREATE TABLE Pending_request
-     (
-         pendingRequestID INTEGER NOT NULL PRIMARY KEY,
-         type INTEGER NOT NULL,
-         message TEXT NOT NULL
-     );
-
-     CREATE TABLE User
-     (
-         name text NOT NULL PRIMARY KEY,
-         type int NOT NULL,
-         UUID text NOT NULL,
-         conversationID INTEGER NOT NULL,
-         pendingRequestID INTEGER NOT NULL,
-         FOREIGN KEY(conversationID) REFERENCES Conversation(conversationID)
-         FOREIGN KEY(pendingRequestID) REFERENCES Pending_request(pendingRequestID)
-     );
-
-     CREATE TABLE Messages
-     (
-         messagesID INTEGER NOT NULL PRIMARY KEY,
-         message text NOT NULL,
-         sender text NOT NULL,
-         resipient text NOT NULL,
-         creationTime int NOT NULL,
-         hasBeenSeen bool,
-         hasBeenSent bool
-     );
-
      */
     public void initDB()
     {
         SQLiteDatabase db=getWritableDatabase();
-        db.execSQL("PRAGMA foreign_keys=ON;");
-       /* if (!isTableExists(db, "Conversations"))
-        {
-            db.execSQL(
-                    "CREATE TABLE Conversations\n" +
-                    "                (\n" +
-                    "    conversationsID INTEGER NOT NULL PRIMARY KEY,\n" +
-                    "    conversationID INTEGER NOT NULL\n" +
-                    "                " +
-                    ");");
-        }
-        */
+        //db.execSQL("PRAGMA foreign_keys=ON;");
+
         if(!isTableExists(db, "Conversations"))
         {
             db.execSQL("CREATE TABLE Conversations\n" +
@@ -198,8 +154,13 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(" CREATE TABLE Pending_request\n" +
                     "     (\n" +
                     "         pendingRequestID INTEGER NOT NULL PRIMARY KEY,\n" +
+                    "         customer TEXT NOT NULL,\n" +
+                    "         coach TEXT NOT NULL,\n" +
+                    "         need TEXT NOT NULL,\n" +
+                    "         skill TEXT NOT NULL,\n" +
                     "         type INTEGER NOT NULL,\n" +
                     "         message TEXT NOT NULL\n" +
+                    "         UUID text NOT NULL,\n" +
                     "     );");
         }
         if(!isTableExists(db, "User" ))
@@ -348,7 +309,60 @@ public class DBHelper extends SQLiteOpenHelper {
         message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
         return message;
     }
-    private static boolean intToBoolean(int i){
+
+    /**
+     * Made by JariJ 5.4.17
+     * Reading chatRequests from given database
+     * @param coach
+     * @param customer
+     * @param db
+     * @return
+     */
+    private List<ChatRequest> readChatRequests(String coach, String customer, SQLiteDatabase db)
+    {
+        List<ChatRequest> chatRequestList = new ArrayList<>();
+
+        if(isTableExists(db, "Pending_request"))
+        {
+            Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE coach = \" " +
+                  coach + "\'" + " AND customer = \'" + customer + "\'", null );
+            while(cursor.moveToNext())
+            {
+                chatRequestList.add(readChatRequest(cursor));
+            }
+
+            cursor = db.rawQuery("SELECT * FROM Pending_request WHERE customer = \" " +
+                    customer + "\'" + " AND coach = \'" + coach + "\'", null );
+            while(cursor.moveToNext())
+            {
+                chatRequestList.add(readChatRequest(cursor));
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Made by JariJ 5.4.17
+     * Reading one chatRequest and adding its data to the list on readChatRequests()
+     * @param cursor
+     * @return
+     */
+    private ChatRequest readChatRequest(Cursor cursor)
+    {
+        ChatRequest chatRequest = new ChatRequest();
+
+        chatRequest.customer = cursor.getString(cursor.getColumnIndex("customer"));
+        chatRequest.coach = cursor.getString(cursor.getColumnIndex("coach"));
+        chatRequest.need = ChatRequest.Need.valueOf(cursor.getString(cursor.getColumnIndex("need")));
+        chatRequest.skill = ChatRequest.Skill.valueOf(cursor.getString(cursor.getColumnIndex("skill")));
+        chatRequest.message = cursor.getString(cursor.getColumnIndex("message"));
+        chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
+
+        return chatRequest;
+    }
+    private static boolean intToBoolean(int i)
+    {
         if(i==0)
         {
             return false;
@@ -382,6 +396,8 @@ public class DBHelper extends SQLiteOpenHelper {
             {
                 user=new User(username);
                 user.conversations = readConversations(username, db);
+
+                user.requestsForMe = readChatRequests(ChatRequest.getCoach(), ChatRequest.getCustomer(), db);
                 cursor.close();
             }
 

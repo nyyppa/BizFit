@@ -15,15 +15,16 @@ import java.util.UUID;
  * Created by attey on 06/03/2017.
  */
 
-public class ChatRequest {
-    String customer;
-    String coach;
-    Need need;
-    Skill skill;
-    String message;
-    UUID uuid;
+public class ChatRequest
+{
+    public String customer;
+    public String coach;
+    public Need need;
+    public Skill skill;
+    public String message;
+    public UUID uuid;
 
-    private ChatRequest(){
+    public ChatRequest(){
         uuid=UUID.randomUUID();
     }
     public ChatRequest(JSONObject jsonObject){
@@ -82,6 +83,7 @@ public class ChatRequest {
         }
     }
 
+
     public JSONObject toJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
@@ -139,11 +141,21 @@ public class ChatRequest {
     {
         return User.getLastUser(null,null,null).userName.equals(customer);
     }
-    enum Need {
+    public enum Need {
         UNDEFINED, PROBLEM, LEARN
     }
 
-    enum Skill {
+    public enum Skill {
         UNDEFINED, BEGINNER, INTERMEDIATE, EXPERT
     }
+
+    public String getCustomer()
+    {
+        return customer;
+    }
+    public String getCoach()
+    {
+        return coach;
+    }
+
 }
