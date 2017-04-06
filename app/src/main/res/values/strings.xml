@@ -420,5 +420,6 @@
     <string name="disconnect">Disconnect</string>
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="server_client_id">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
+    <string name="crash_toast_text">Crash!</string>
 
 </resources>
