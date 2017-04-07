@@ -61,7 +61,7 @@ public class User  {
     private static String userNameForLogin;
     private transient static List<UserLoadedListener> listenersForInformationUpdated;
     private static boolean dropLastUser=false;
-    public List<ChatRequest> requestsForMe;
+    public List<ChatRequest> requestsForMe=new ArrayList<>();
     public UUID uuid;
     public List<ChatRequest> requestsFromMe=new ArrayList<>();
 

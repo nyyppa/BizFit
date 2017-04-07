@@ -12,7 +12,7 @@ public class Constants
 	public static String getUser_Name(){
 		return "_id";
 	}
-	public static final int db_version = 83;
+	public static final int db_version = 84;
     public static final String conversations = "conversations";
     public static final String check_sum = "checkSum";
     public static final String trackers = "trackers";

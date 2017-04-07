@@ -123,28 +123,36 @@ public class DBHelper extends SQLiteOpenHelper {
     {
         ContentValues contentValues=new ContentValues();
 
-        for(int i=0; i < user.getRequestsForMe().size(); i++)
+        if(user!=null &&user.getRequestsForMe()!=null && user.getRequestsForMe().size()>0)
         {
-            contentValues.put("customer", user.getRequestsForMe().get(i).getCustomer());
-            contentValues.put("coach", user.getRequestsForMe().get(i).getCoach());
-            contentValues.put("need", user.getRequestsForMe().get(i).getNeed());
-            contentValues.put("skill", user.getRequestsForMe().get(i).getSkill());
-            contentValues.put("message", user.getRequestsForMe().get(i).getMessage());
-            contentValues.put("UUID", user.getRequestsForMe().get(i).getUUID());
+            for(int i=0; i < user.getRequestsForMe().size(); i++)
+            {
+                contentValues.put("customer", user.getRequestsForMe().get(i).getCustomer());
+                contentValues.put("coach", user.getRequestsForMe().get(i).getCoach());
+                contentValues.put("need", user.getRequestsForMe().get(i).getNeed());
+                contentValues.put("skill", user.getRequestsForMe().get(i).getSkill());
+                contentValues.put("message", user.getRequestsForMe().get(i).getMessage());
+                contentValues.put("UUID", user.getRequestsForMe().get(i).getUUID());
 
-            db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+                db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            }
         }
-        for(int i=0; i < user.getMySentChatRequests().size(); i++)
+        if(user!=null &&user.getMySentChatRequests()!=null && user.getMySentChatRequests().size()>-0)
         {
-            contentValues.put("customer", user.getMySentChatRequests().get(i).getCustomer());
-            contentValues.put("coach", user.getMySentChatRequests().get(i).getCoach());
-            contentValues.put("need", user.getMySentChatRequests().get(i).getNeed());
-            contentValues.put("skill", user.getMySentChatRequests().get(i).getSkill());
-            contentValues.put("message", user.getMySentChatRequests().get(i).getMessage());
-            contentValues.put("UUID", user.getMySentChatRequests().get(i).getUUID());
+            for(int i=0; i < user.getMySentChatRequests().size(); i++)
+            {
+                contentValues.put("customer", user.getMySentChatRequests().get(i).getCustomer());
+                contentValues.put("coach", user.getMySentChatRequests().get(i).getCoach());
+                contentValues.put("need", user.getMySentChatRequests().get(i).getNeed());
+                contentValues.put("skill", user.getMySentChatRequests().get(i).getSkill());
+                contentValues.put("message", user.getMySentChatRequests().get(i).getMessage());
+                contentValues.put("UUID", user.getMySentChatRequests().get(i).getUUID());
 
-            db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+                db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            }
+
         }
+
 
     }
     /**
@@ -177,7 +185,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         skill TEXT NOT NULL,\n" +
                     "         type INTEGER NOT NULL,\n" +
                     "         message TEXT NOT NULL,\n" +
-                    "         UUID text NOT NULL\n" +
+                    "         UUID text\n" +
                     "     );");
         }
         if(!isTableExists(db, "User" ))
