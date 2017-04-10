@@ -11,7 +11,7 @@ import org.acra.annotation.*;
  */
 
 @ReportsCrashes(
-        mailTo = "atte.yliverronen@gmail.com",
+        mailTo = "Bizfitcrashreport@gmail.com",
         mode = ReportingInteractionMode.DIALOG,
         resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
         resDialogText = R.string.crash_dialog_text,
