@@ -68,7 +68,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         saveLastUser(db, user.userName);
         saveConversation(user, db);
-        saveChatRequest(user, readChatRequest(null), db);
+        saveChatRequest(user, db);
+
 
 
         db.close();
@@ -118,17 +119,41 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    private void saveChatRequest(User user, ChatRequest chatRequest, SQLiteDatabase db)
+    private void saveChatRequest(User user,  SQLiteDatabase db)
     {
-
         ContentValues contentValues=new ContentValues();
-        contentValues.put("customer",chatRequest.customer;
-        contentValues.put("coach", chatRequest.coach
-        contentValues.put("need", chatRequest.need;
-        contentValues.put("skill", chatRequest.skill;
-        contentValues.put("message", chatRequest.message;
-        contentValues.put("UUID", chatRequest.uuid;
-        db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+
+        if(user!=null &&user.getRequestsForMe()!=null && user.getRequestsForMe().size()>0)
+        {
+            for(int i=0; i < user.getRequestsForMe().size(); i++)
+            {
+                contentValues.put("customer", user.getRequestsForMe().get(i).getCustomer());
+                contentValues.put("coach", user.getRequestsForMe().get(i).getCoach());
+                contentValues.put("need", user.getRequestsForMe().get(i).getNeed());
+                contentValues.put("skill", user.getRequestsForMe().get(i).getSkill());
+                contentValues.put("message", user.getRequestsForMe().get(i).getMessage());
+                contentValues.put("UUID", user.getRequestsForMe().get(i).getUUID());
+
+                db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            }
+        }
+        if(user!=null &&user.getMySentChatRequests()!=null && user.getMySentChatRequests().size()>-0)
+        {
+            for(int i=0; i < user.getMySentChatRequests().size(); i++)
+            {
+                contentValues.put("customer", user.getMySentChatRequests().get(i).getCustomer());
+                contentValues.put("coach", user.getMySentChatRequests().get(i).getCoach());
+                contentValues.put("need", user.getMySentChatRequests().get(i).getNeed());
+                contentValues.put("skill", user.getMySentChatRequests().get(i).getSkill());
+                contentValues.put("message", user.getMySentChatRequests().get(i).getMessage());
+                contentValues.put("UUID", user.getMySentChatRequests().get(i).getUUID());
+
+                db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+            }
+
+        }
+
+
     }
     /**
      * Creating a new local SQL database
@@ -159,8 +184,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         need TEXT NOT NULL,\n" +
                     "         skill TEXT NOT NULL,\n" +
                     "         type INTEGER NOT NULL,\n" +
-                    "         message TEXT NOT NULL\n" +
-                    "         UUID text NOT NULL,\n" +
+                    "         message TEXT NOT NULL,\n" +
+                    "         UUID text\n" +
                     "     );");
         }
         if(!isTableExists(db, "User" ))
@@ -312,43 +337,68 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * Made by JariJ 5.4.17
+     * Modified last 7.4.17
      * Reading chatRequests from given database
-     * @param coach
-     * @param customer
+     * @param username
      * @param db
      * @return
      */
-    private List<ChatRequest> readChatRequests(String coach, String customer, SQLiteDatabase db)
+    private List<ChatRequest> readChatRequestsForMe(String username, SQLiteDatabase db)
     {
-        List<ChatRequest> chatRequestList = new ArrayList<>();
+        List<ChatRequest> chatRequestForMeList = new ArrayList<>();
 
         if(isTableExists(db, "Pending_request"))
         {
-            Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE coach = \" " +
-                  coach + "\'" + " AND customer = \'" + customer + "\'", null );
+            Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE coach = \' " +
+                  username + "\'" + " OR customer = \'" + username + "\'", null );
             while(cursor.moveToNext())
             {
-                chatRequestList.add(readChatRequest(cursor));
-            }
+                ChatRequest chatRequest = new ChatRequest();
 
-            cursor = db.rawQuery("SELECT * FROM Pending_request WHERE customer = \" " +
-                    customer + "\'" + " AND coach = \'" + coach + "\'", null );
-            while(cursor.moveToNext())
-            {
-                chatRequestList.add(readChatRequest(cursor));
+                chatRequest.customer = cursor.getString(cursor.getColumnIndex("customer"));
+                chatRequest.coach = cursor.getString(cursor.getColumnIndex("coach"));
+                chatRequest.need = ChatRequest.Need.valueOf(cursor.getString(cursor.getColumnIndex("need")));
+                chatRequest.skill = ChatRequest.Skill.valueOf(cursor.getString(cursor.getColumnIndex("skill")));
+                chatRequest.message = cursor.getString(cursor.getColumnIndex("message"));
+                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
+                chatRequestForMeList.add(chatRequest);
             }
         }
 
-        return null;
+        return chatRequestForMeList;
+    }
+    private List<ChatRequest> readChatRequestsFromMe(String username, SQLiteDatabase db)
+    {
+        List<ChatRequest> chatRequestFromMeList = new ArrayList<>();
+
+        if(isTableExists(db, "Pending_request"))
+        {
+            Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE customer = \' " +
+                    username + "\'" + " OR coach = \'" + username + "\'", null);
+            while (cursor.moveToNext())
+            {
+                ChatRequest chatRequest = new ChatRequest();
+
+                chatRequest.customer = cursor.getString(cursor.getColumnIndex("customer"));
+                chatRequest.coach = cursor.getString(cursor.getColumnIndex("coach"));
+                chatRequest.need = ChatRequest.Need.valueOf(cursor.getString(cursor.getColumnIndex("need")));
+                chatRequest.skill = ChatRequest.Skill.valueOf(cursor.getString(cursor.getColumnIndex("skill")));
+                chatRequest.message = cursor.getString(cursor.getColumnIndex("message"));
+                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
+
+                chatRequestFromMeList.add(chatRequest);
+            }
+        }
+        return chatRequestFromMeList;
     }
 
     /**
      * Made by JariJ 5.4.17
      * Reading one chatRequest and adding its data to the list on readChatRequests()
-     * @param cursor
+     //* @param cursor
      * @return
      */
-    private ChatRequest readChatRequest(Cursor cursor)
+    /* private ChatRequest readChatRequest(Cursor cursor)
     {
         ChatRequest chatRequest = new ChatRequest();
 
@@ -361,6 +411,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return chatRequest;
     }
+    */
     private static boolean intToBoolean(int i)
     {
         if(i==0)
@@ -396,8 +447,8 @@ public class DBHelper extends SQLiteOpenHelper {
             {
                 user=new User(username);
                 user.conversations = readConversations(username, db);
-
-                user.requestsForMe = readChatRequests(ChatRequest.getCoach(), ChatRequest.getCustomer(), db);
+                user.requestsForMe = readChatRequestsForMe(username, db);
+                user.requestsFromMe = readChatRequestsFromMe(username, db);
                 cursor.close();
             }
 
