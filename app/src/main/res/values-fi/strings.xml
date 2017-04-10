@@ -67,6 +67,46 @@
         <item>Johtaminen</item>
     </string-array>
 
+    <string-array name="dummy_conversation">
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</item>
+        <item>Donec ut tortor pharetra, auctor purus ut, sollicitudin felis. Cras rutrum, neque et accumsan malesuada, arcu justo pretium mi, eu bibendum ex magna vel ante.</item>
+        <item>Duis blandit bibendum ex nec cursus.</item>
+        <item>Donec ornare, eros et rhoncus volutpat, orci leo lobortis nunc, ac dapibus nulla velit ac ante.</item>
+        <item>Proin dignissim maximus eleifend.</item>
+        <item>Sed ut varius elit.</item>
+    </string-array>
+
+    <string-array name="random_first_name">
+        <item>JAMES</item>
+        <item>JOHN</item>
+        <item>ROBERT</item>
+        <item>MICHAEL </item>
+        <item>WILLIAM </item>
+        <item>DAVID</item>
+        <item>RICHARD</item>
+        <item>CHARLES</item>
+        <item>JOSEPH</item>
+        <item>THOMAS</item>
+        <item>CHRISTOPHER</item>
+        <item>DANIEL</item>
+        <item>PAUL</item>
+        <item>MARK</item>
+        <item>DONALD</item>
+    </string-array>
+
+    <string-array name="random_last_name">
+        <item>SMITH</item>
+        <item>WILLIAMS</item>
+        <item>JONES</item>
+        <item>BROWN</item>
+        <item>JOHNSON</item>
+        <item>DAVIS</item>
+        <item>MILLER</item>
+        <item>WILSON</item>
+        <item>MOORE</item>
+        <item>TAYLOR</item>
+    </string-array>
+
     <string-array name="random_country_and_city">
         <item>Suomi, Tampere</item>
         <item>Saksa, Frankfurt</item>
@@ -97,5 +137,27 @@
         <item>49,99€</item>
         <item>29,99€</item>
     </string-array>
+    <string name="action_sign_in">Kirjaudu sisään tai rekisteröidy tästä</string>
+    <string name="action_sign_in_short">Kirjaudu sisään</string>
+    <string name="crash_dialog_comment_prompt">Voit halutessasi lisätä kuvauksen ongelmasta:</string>
+    <string name="crash_dialog_ok_toast">Kiitoksia!</string>
+    <string name="crash_dialog_text">Tapahtui odottamaton virhe, ohjelman on sulkeuduttava. Ole hyvä ja auta meitä lähettämällä virhetiedot. Sinun tarvitsee vain painaa \"OK\", kiitoksia!</string>
+    <string name="crash_dialog_title">CrashTest on kaatunut</string>
+    <string name="crash_toast_text">Hupsista! Kaaduin, mutta ongelmasta on lähetetty reportti kehittäjille, jotka saavat varmasti asian kuntoon!</string>
+    <string name="desc_google_icon">Googlen Logo</string>
+    <string name="disconnect">Katkaise yhteys</string>
+    <string name="error_field_required">Tämä kenttä ei saa olla tyhjä</string>
+    <string name="error_incorrect_password">Salasana on väärä</string>
+    <string name="error_invalid_email">Sähköpostiosoite on väärä</string>
+    <string name="error_invalid_password">Tämä salasana on liian lyhyt</string>
+    <string name="loading">Pieni hetki...</string>
+    <string name="permission_rationale">\"Tarvitsemme luvan käyttää (puhelimen) yhteystietoja, jotta sähköpostiosoitteita voidaan ehdottaa</string>
+    <string name="prompt_email">Sähköposti</string>
+    <string name="prompt_password">Salasana (ei pakollinen)</string>
+    <string name="sign_out">Kirjaudu ulos</string>
+    <string name="signed_in_fmt">Kirjauduttu osoitteella: %s</string>
+    <string name="signed_out">Kirjauduttu ulos</string>
+    <string name="title_activity_login">Kirjaudu sisään</string>
+    <string name="title_text">Googlen pikakirjautuminen</string>
 
 </resources>

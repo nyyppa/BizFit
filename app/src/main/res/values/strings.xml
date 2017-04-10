@@ -320,7 +320,7 @@
     <string name="list_item_store_row_regular_more_button">more</string>
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
-    <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_message" translatable="false">MessageActivity</string>
     <string name="Coach_page_content_introduction_title">Introduction:</string>
     <string name="sales_pitch">Sales pitch:</string>
     <string name="social_media">Social media:</string>
@@ -419,7 +419,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="disconnect">Disconnect</string>
     <string name="signed_in_fmt">Signed in as: %s</string>
-    <string name="server_client_id">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
     <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue !</string>
 
     <string name="crash_dialog_title">CrashTest has crashed</string>
