@@ -88,7 +88,14 @@ public class Conversation implements NetworkReturn,Serializable
     }
 
     public User getUser(){
+        if(user==null){
+            return User.getLastUser(null,null,null);
+        }
         return user;
+    }
+    public void setUser(User user)
+    {
+        this.user=user;
     }
 
     public void setOwner(String owner)

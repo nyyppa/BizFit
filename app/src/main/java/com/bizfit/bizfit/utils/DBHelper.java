@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         saveLastUser(db, user.userName);
         saveConversation(user, db);
-        saveChatRequest(user, db);
+        //saveChatRequest(user, db);
 
 
 
@@ -174,6 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         other text NOT NULL\n" +
                     "     );");
         }
+        /*
         if(!isTableExists(db, "Pending_request"))
         {
             db.execSQL(" CREATE TABLE Pending_request\n" +
@@ -188,6 +189,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         UUID text\n" +
                     "     );");
         }
+        */
         if(!isTableExists(db, "User" ))
         {
             db.execSQL("  CREATE TABLE User\n" +
@@ -258,7 +260,7 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @return users own conversations
      */
-    public List<Conversation> readConversations(String username, SQLiteDatabase db)
+    public List<Conversation> readConversations(User user, SQLiteDatabase db)
     {
         List<Conversation> conversationsList=new ArrayList<>();
 
@@ -277,14 +279,15 @@ public class DBHelper extends SQLiteOpenHelper {
         if (isTableExists(db, "Conversations"))
         {
             Cursor cursor = db.rawQuery("SELECT * FROM Conversations WHERE owner = \'" +
-                    username + "\'", null);
+                    user.userName + "\'", null);
             while(cursor.moveToNext())
             {
                 Conversation conversation = new Conversation();
-                conversation.setOwner(username);
+                conversation.setOwner(user.userName);
                 conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
                 conversation.ConversationID=cursor.getInt(cursor.getColumnIndex("conversationID"));
-                conversation.messageList = readMessages(username, conversation.getOther(), db);
+                conversation.messageList = readMessages(user.userName, conversation.getOther(), db);
+                conversation.setUser(user);
                 conversationsList.add(conversation);
             }
 
@@ -446,9 +449,9 @@ public class DBHelper extends SQLiteOpenHelper {
             else
             {
                 user=new User(username);
-                user.conversations = readConversations(username, db);
-                user.requestsForMe = readChatRequestsForMe(username, db);
-                user.requestsFromMe = readChatRequestsFromMe(username, db);
+                user.conversations = readConversations(user, db);
+                //user.requestsForMe = readChatRequestsForMe(username, db);
+                //user.requestsFromMe = readChatRequestsFromMe(username, db);
                 cursor.close();
             }
 
