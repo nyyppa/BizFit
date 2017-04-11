@@ -137,6 +137,10 @@
         <item>49,99€</item>
         <item>29,99€</item>
     </string-array>
+
+    <string name="activity_login_title_google">Kirjaudu sisään Google-käyttäjällä</string>
+    <string name="title_activity_login">Kirjaudu sisään</string>
+
     <string name="action_sign_in">Kirjaudu sisään tai rekisteröidy tästä</string>
     <string name="action_sign_in_short">Kirjaudu sisään</string>
     <string name="crash_dialog_comment_prompt">Voit halutessasi lisätä kuvauksen ongelmasta:</string>
@@ -157,7 +161,6 @@
     <string name="sign_out">Kirjaudu ulos</string>
     <string name="signed_in_fmt">Kirjauduttu osoitteella: %s</string>
     <string name="signed_out">Kirjauduttu ulos</string>
-    <string name="title_activity_login">Kirjaudu sisään</string>
     <string name="title_text">Googlen pikakirjautuminen</string>
 
 </resources>

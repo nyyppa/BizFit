@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/cardView"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.333">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:id="@+id/chat_request_headline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Chat Request"
+                android:textAllCaps="true"
+                android:textSize="@dimen/text_subheading"
+                tools:layout_constraintTop_creator="1"
+                tools:layout_constraintRight_creator="1"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="16dp"
+                tools:layout_constraintLeft_creator="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <TextView
+                android:id="@+id/chat_request_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Firstname Surname"
+                android:textAllCaps="true"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_headline" />
+
+            <Button
+                android:id="@+id/chat_request_show"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Show Details"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_name"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <View
+                android:id="@+id/separator_1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/colorAccent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_show" />
+
+            <TextView
+                android:id="@+id/chat_request_need"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="I have a problem I want to solve"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_show" />
+
+            <TextView
+                android:id="@+id/chat_request_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ornare ullamcorper urna et posuere."
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_skill"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/chat_request_skill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="My current skill level is BEGINNER"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/chat_request_need" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/cancel"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/ic_action_decline"
+        android:drawablePadding="8dp"
+        android:text="Cancel Request"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_conversion_absoluteWidth="88dp"
+        tools:layout_conversion_absoluteX="323dp"
+        tools:layout_conversion_absoluteY="16dp"
+        tools:text="Cancel Request" />
+
+</android.support.constraint.ConstraintLayout>

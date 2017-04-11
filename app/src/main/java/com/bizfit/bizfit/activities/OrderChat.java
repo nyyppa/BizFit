@@ -5,10 +5,12 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.constraint.ConstraintLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +31,7 @@ import com.bizfit.bizfit.utils.Constants;
 
 public class OrderChat extends ListActivity {
 
+    private ConstraintLayout constraintLayout;
     private ListView listView;
     private WizardMessageAdapter mAdapter;
     private View inputView;
@@ -49,6 +52,7 @@ public class OrderChat extends ListActivity {
 
         COACH_ID = getIntent().getStringExtra(Constants.coach_id);
 
+        constraintLayout = (ConstraintLayout) findViewById(R.id.order_chat_wizard_constraintlayout);
         listView = (ListView) findViewById(android.R.id.list);
         mAdapter = new WizardMessageAdapter(listView, this);
         setListAdapter(mAdapter);
@@ -213,7 +217,6 @@ public class OrderChat extends ListActivity {
         }
     }
 
-
     public void phaseWelcome() {
         currentPhase = Phase.WELCOME;
 
@@ -225,35 +228,38 @@ public class OrderChat extends ListActivity {
         final String message6 = "No thanks, I changed my mind.";
 
 
-        OurRunnable ourRunnable= new OurRunnable(true, 1000) {
-            int tick=0;
+        final OurRunnable ourRunnable = new OurRunnable(true, 1000) {
+
+            int tick = 0;
+
             @Override
             public void run() {
                 switch (tick) {
                     case 1:
-                        mAdapter.addWizardMessage(message1);
+                        addWizardMessage(message1);
                         break;
 
                     case 2:
-                        mAdapter.addWizardMessage(message2);
+                        addWizardMessage(message2);
                         setRepeatInterval(2000l);
                         break;
 
+                    case 3:
+                        addWizardMessage(message3);
+                        break;
+
                     case 4:
-                        mAdapter.addWizardMessage(message3);
+                        addWizardMessage(message4);
+                        break;
+
+                    case 5:
+                        addButton(message5, "WELCOME", "YES");
+                        optionsShown = true;
+                        setRepeatInterval(1000l);
                         break;
 
                     case 6:
-                        mAdapter.addWizardMessage(message4);
-                        break;
-
-                    case 8:
-                        mAdapter.addButton(message5, "WELCOME", "YES");
-                        optionsShown = true;
-                        break;
-
-                    case 9:
-                        mAdapter.addButton(message6, "WELCOME", "NO");
+                        addButton(message6, "WELCOME", "NO");
                         stop();
                         break;
                 }
@@ -271,7 +277,18 @@ public class OrderChat extends ListActivity {
                 super.wake();
             }
         };
+
         BackgroundThread.addOurRunnable(ourRunnable);
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ourRunnable.wake();
+            }
+
+        });
+
 
     }
 
@@ -325,7 +342,6 @@ public class OrderChat extends ListActivity {
             }
         }.start();
 
-
     }
 
     public void restorePhaseProceed() {
@@ -375,6 +391,23 @@ public class OrderChat extends ListActivity {
             public void onFinish() { }
 
         }.start();
+
+        final OurRunnable ourRunnable= new OurRunnable(true, 1000) {
+            int tick = 0;
+
+            @Override
+            public void run() {
+
+            }
+
+            @Override
+            public void wake(){
+                super.wake();
+            }
+
+        };
+
+        BackgroundThread.addOurRunnable(ourRunnable);
     }
 
     public void restorePhaseNeed() {
@@ -743,6 +776,33 @@ public class OrderChat extends ListActivity {
         mAdapter.addWizardMessage(message3);
         mAdapter.addWizardMessage(message4);
         mAdapter.addButton(message5, "END", "BYE");
+    }
+
+    public void addWizardMessage(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addWizardMessage(message);
+            }
+        });
+    }
+
+    public void addUserMessage(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addUserMessage(message);
+            }
+        });
+    }
+
+    public void addButton(final String message, final String phaseTag, final String answerTag) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addButton(message, phaseTag, answerTag);
+            }
+        });
     }
 
     public void handleAnswer(String answer) {
