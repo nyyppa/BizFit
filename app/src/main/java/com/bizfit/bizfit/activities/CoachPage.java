@@ -146,10 +146,13 @@ public class CoachPage extends AppCompatActivity {
                 if (COACH_ID != null) {
                     view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
                     MessageActivity.startChat(view, COACH_ID);
-                    new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
-                    Intent intent = new Intent(view.getContext(), OrderChat.class);
-                    intent.putExtra(Constants.coach_id, COACH_ID);
-                    view.getContext().startActivity(intent);
+
+                    // wizard and requests not needed in uusyrityskeskus build
+
+                    //new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
+                    //Intent intent = new Intent(view.getContext(), OrderChat.class);
+                    //intent.putExtra(Constants.coach_id, COACH_ID);
+                    //view.getContext().startActivity(intent);
                 }
             }
         });

@@ -11,11 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -23,30 +25,63 @@ import java.util.ArrayList;
  */
 
 public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
+
+    private boolean ownRequest = false;
+    private ArrayList<ChatRequest> requestList;
+
     public ChatRequestArrayAdapter(Context context, ArrayList<ChatRequest> chatRequests) {
         super(context, 0, chatRequests);
+        requestList = chatRequests;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent){
+    public ChatRequestArrayAdapter(Context context, ArrayList<ChatRequest> chatRequests, boolean own) {
+        super(context, 0, chatRequests);
+        ownRequest = own;
+        requestList = chatRequests;
+    }
+
+    public void removeItem(int position) {
+        requestList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public View getView(final int position, View convertView, ViewGroup parent){
         final ChatRequest chatRequest=getItem(position);
         if(convertView==null){
-            convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request,parent,false);
+            if(ownRequest) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request_own,parent,false);
+            } else {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_chat_request, parent, false);
+            }
         }
 
-        Button button=(Button) convertView.findViewById(R.id.accept);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ChatRequestResponse(chatRequest,true).sentResponse();
-            }
-        });
-        button=(Button)convertView.findViewById(R.id.cancel);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ChatRequestResponse(chatRequest,false).sentResponse();
-            }
-        });
+        Button button = (Button) convertView.findViewById(R.id.cancel);
+
+        if(ownRequest) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chatRequest.cancelRequest();
+                    removeItem(position);
+                    Toast.makeText(getContext(), "Request canceled", Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ChatRequestResponse(chatRequest, false).sentResponse();
+                }
+            });
+
+            button = (Button) convertView.findViewById(R.id.accept);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ChatRequestResponse(chatRequest, true).sentResponse();
+                }
+            });
+        }
 
         final TextView tvNeed = (TextView) convertView.findViewById(R.id.chat_request_need);
         if(chatRequest.need == ChatRequest.Need.PROBLEM) {
@@ -79,9 +114,6 @@ public class ChatRequestArrayAdapter extends ArrayAdapter<ChatRequest> {
 
         final View separator = convertView.findViewById(R.id.separator_1);
         separator.setVisibility(View.GONE);
-
-        final Drawable more = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_show_more);
-        final Drawable less = ContextCompat.getDrawable(getContext(), R.drawable.ic_action_show_less);
 
         button = (Button) convertView.findViewById(R.id.chat_request_show);
         button.setOnClickListener(new View.OnClickListener() {

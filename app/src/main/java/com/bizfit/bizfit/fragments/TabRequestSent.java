@@ -40,13 +40,13 @@ public class TabRequestSent extends Fragment {
                         @Override
                         public void run() {
                             ListView listView= (ListView) TabRequestSent.this.view.findViewById(R.id.chat_request_lista);
-                            listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)User.getLastUser(null,null,null).getMySentChatRequests()));
+                            listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)User.getLastUser(null,null,null).getMySentChatRequests(), true));
                         }
                     });
                 }
             }
         }, null, null);
         ListView listView= (ListView) view.findViewById(R.id.chat_request_lista);
-        listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)user.getMySentChatRequests()));
+        listView.setAdapter(new ChatRequestArrayAdapter(getContext(),(ArrayList)user.getMySentChatRequests(), true));
     }
 }
