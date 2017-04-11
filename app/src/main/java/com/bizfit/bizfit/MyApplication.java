@@ -5,13 +5,22 @@ import android.content.Context;
 
 import org.acra.*;
 import org.acra.annotation.*;
+import org.acra.sender.HttpSender;
 
 /**
  * Created by attey on 06/04/2017.
  */
 
-@ReportsCrashes(
-        mailTo = "Bizfitcrashreport@gmail.com",
+
+
+@ReportsCrashes
+(
+        httpMethod = HttpSender.Method.PUT,
+
+        reportType = HttpSender.Type.JSON,
+        formUri = "http://51.15.37.28:5984/acra-myapp/_design/acra-storage/_update/report",
+        formUriBasicAuthLogin = "CrashReport1",
+        formUriBasicAuthPassword = "Crash1",
         mode = ReportingInteractionMode.DIALOG,
         resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
         resDialogText = R.string.crash_dialog_text,
