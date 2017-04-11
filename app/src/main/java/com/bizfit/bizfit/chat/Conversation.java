@@ -89,7 +89,7 @@ public class Conversation implements NetworkReturn,Serializable
 
     public User getUser(){
         if(user==null){
-            return User.getLastUser(null,null,null);
+            this.user= User.getLastUser(null,null,null);
         }
         return user;
     }
