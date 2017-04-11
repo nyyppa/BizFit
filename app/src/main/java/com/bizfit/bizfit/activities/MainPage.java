@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,12 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
@@ -32,6 +39,7 @@ import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,6 +54,7 @@ public class MainPage extends AppCompatActivity implements
     private static final int CACHED_PAGE_LIMIT = 3;
     public static long lastOpen;
     public static long lastMessageTime;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,7 @@ public class MainPage extends AppCompatActivity implements
         findUser();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
-        toolbar.setTitle("Bizfit v."+ Constants.version);
+        toolbar.setTitle("Bizfit "+ Constants.version);
         setSupportActionBar(toolbar);
 
 
@@ -129,12 +138,17 @@ public class MainPage extends AppCompatActivity implements
         //SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
+        // search hidden until works
+        /*
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+        */
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -148,7 +162,9 @@ public class MainPage extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toolbar_settings:
-                startActivity(new Intent(this, Settings.class));
+                PopupWindow popUp = popupWindowsort();
+                popUp.showAsDropDown(findViewById(R.id.toolbar_settings), 0, 0); // show popup like dropdown list
+                System.out.println("pop!");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -163,7 +179,7 @@ public class MainPage extends AppCompatActivity implements
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
-        adapter.addFragment(new TabConversationRequests(),"Requests");
+        //adapter.addFragment(new TabConversationRequests(),"Requests");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 
@@ -209,6 +225,58 @@ public class MainPage extends AppCompatActivity implements
         else
         {
             User.getLastUser(null, this, "default");
+        }
+    }
+
+    /**
+     * show popup window method reuturn PopupWindow
+     */
+    private PopupWindow popupWindowsort() {
+
+        // initialize a pop up window type
+        popupWindow = new PopupWindow(this);
+
+        ArrayList<String> sortList = new ArrayList<String>();
+        sortList.add("Log out");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
+                sortList);
+        // the drop down list is a list view
+        ListView listViewSort = new ListView(this);
+
+        // set our adapter and pass our pop up window contents
+        listViewSort.setAdapter(adapter);
+
+        // set on item selected
+        listViewSort.setOnItemClickListener(onItemClickListener());
+
+        // some other visual settings for popup window
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(300);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // set the listview as popup content
+        popupWindow.setContentView(listViewSort);
+
+        return popupWindow;
+    }
+
+    private AdapterView.OnItemClickListener onItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                if (position == 0) {
+                    User.signOut();
+                }
+                dismissPopup();
+            }
+        };
+    }
+
+    private void dismissPopup() {
+        if (popupWindow != null) {
+            popupWindow.dismiss();
         }
     }
 }

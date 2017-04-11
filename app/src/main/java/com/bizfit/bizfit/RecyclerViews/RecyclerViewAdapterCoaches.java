@@ -76,8 +76,11 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements 
 
         return vh;
     }
+
     //// TODO: 2.1.2017  vaihda smoothscrolll?
     public void onClick(View view){
+
+        /*
         switch (view.getId()){
             case R.id.promotion_button_1:
                 parent.scrollToPosition(1);
@@ -89,6 +92,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements 
                 parent.scrollToPosition(3);
                 break;
         }
+        */
     }
 
     @Override

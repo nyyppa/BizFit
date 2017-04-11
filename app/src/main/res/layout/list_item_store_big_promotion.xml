@@ -4,40 +4,4 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/promotion_button_1"
-        android:background="@drawable/gradient"
-        android:tag="ballText"
-        android:padding="10dp"
-        android:layout_margin="10dp"/>
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/promotion_button_2"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/promotion_button_1"
-        android:layout_toEndOf="@+id/promotion_button_1"
-        android:background="@drawable/gradient"
-        android:tag="ballText"
-        android:padding="10dp"
-        android:layout_margin="10dp"/>
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/promotion_button_3"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/promotion_button_2"
-        android:layout_toEndOf="@+id/promotion_button_2"
-        android:background="@drawable/gradient"
-        android:tag="ballText"
-        android:padding="10dp"
-        android:layout_margin="10dp"/>
-
 </RelativeLayout>
