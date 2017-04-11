@@ -18,6 +18,11 @@ import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -320,14 +325,24 @@ public class User  {
         Network.addNetMessage(netMessage);
     }
 
+    public static GoogleApiClient mGoogleApiClient;
     public static void signOut()
     {
+        if(mGoogleApiClient!=null)
+        {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // [START_EXCLUDE]
+                            // [END_EXCLUDE]
+                        }
+                    });
+        }
         currentUser=null;
         dropLastUser=true;
         Network.onExit();
         WakeThread();
-
-
     }
 
     /**

@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
+            continueToCoachPage();
 
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
@@ -233,13 +234,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivity(intent);
                 break;
             case R.id.continue_button:{
-                Intent intent2=new Intent(LoginActivity.this,MainPage.class);
-                intent2.putExtra("userName",acct.getEmail());
-                intent2.putExtra("loggedIn", true);
-                startActivity(intent2);
+                continueToCoachPage();
                 break;
             }
         }
+    }
+
+    public void continueToCoachPage(){
+        Intent intent2=new Intent(LoginActivity.this,MainPage.class);
+        intent2.putExtra("userName",acct.getEmail());
+        intent2.putExtra("loggedIn", true);
+        User.mGoogleApiClient=mGoogleApiClient;
+        startActivity(intent2);
     }
 
 
