@@ -6,7 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.os.Debug;
+import android.support.annotation.Nullable;
 
 import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.chat.Conversation;
@@ -19,7 +21,10 @@ import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
@@ -328,17 +333,12 @@ public class User  {
     public static GoogleApiClient mGoogleApiClient;
     public static void signOut()
     {
-        if(mGoogleApiClient!=null)
-        {
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status status) {
-                            // [START_EXCLUDE]
-                            // [END_EXCLUDE]
-                        }
-                    });
+
+        if(mGoogleApiClient!=null){
+            LogOutClass logOutClass=new LogOutClass();
+            logOutClass.logout();
         }
+
         currentUser=null;
         dropLastUser=true;
         Network.onExit();
@@ -832,6 +832,10 @@ public class User  {
         }
         @Override
         public void run() {
+            if(true)
+            {
+                return;
+            }
             JSONObject jsonObject=new JSONObject();
             try {
                 jsonObject.put(Constants.job,"getChatResponses");
@@ -864,5 +868,31 @@ public class User  {
     }
     public List<ChatRequest> getMySentChatRequests(){
         return requestsFromMe;
+    }
+
+    private static class LogOutClass {
+        public void logout() {
+            mGoogleApiClient.connect();
+            mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+
+                    if (mGoogleApiClient.isConnected()) {
+                        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                if (status.isSuccess()) {
+
+                                }
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onConnectionSuspended(int i) {
+                }
+            });
+        }
     }
 }
