@@ -254,6 +254,7 @@ public class MainPage extends AppCompatActivity implements
         popupWindow.setFocusable(true);
         popupWindow.setWidth(300);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.dialog_holo_light_frame));
 
         // set the listview as popup content
         popupWindow.setContentView(listViewSort);

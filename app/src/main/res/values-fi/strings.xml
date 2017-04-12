@@ -61,10 +61,8 @@
     <string name="create_tracker_done">Luo tavoite</string>
 
     <string-array name="random_job_title">
-        <item>Markkinointi</item>
-        <item>Talous</item>
-        <item>Myynti</item>
-        <item>Johtaminen</item>
+        <item>Asiantuntijat</item>
+        <item>Palaute ja ehdotukset</item>
     </string-array>
 
     <string-array name="dummy_conversation">

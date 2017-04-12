@@ -65,7 +65,7 @@ public class TabCoaches extends Fragment {
         for (int i = 0; i < jobTitles.length; i++)
         {
             LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
-            if(i==2)
+            if(i==1)
             {
                 for(int j = 0; j < 4; j++)
                 {
@@ -99,7 +99,7 @@ public class TabCoaches extends Fragment {
             }
             else
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     // Assign a random name and image.
                     // TODO Parse info from server

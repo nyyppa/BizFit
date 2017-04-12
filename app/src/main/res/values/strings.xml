@@ -332,10 +332,8 @@
     <string name="order_call">Order call</string>
     <string name="btnAccept">I accept</string>
     <string-array name="random_job_title">
-        <item>Marketing</item>
-        <item>Finance</item>
-        <item>Sales</item>
-        <item>Management</item>
+        <item>Coaches</item>
+        <item>Feedback and suggestions</item>
     </string-array>
     <string-array name="random_first_name">
         <item>JAMES</item>
