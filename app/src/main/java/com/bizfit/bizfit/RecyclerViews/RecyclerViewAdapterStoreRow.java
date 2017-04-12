@@ -2,6 +2,7 @@ package com.bizfit.bizfit.RecyclerViews;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,7 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         /**
          * Is a placeholder TextView to test functionality.
          */
-        private TextView title;
+        private TextView name;
         private ImageView image;
         private int index;
         private TextView testimonials;
@@ -104,12 +105,13 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         public ViewHolderStoreItem(View itemView)
         {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.textView9);
+            name = (TextView) itemView.findViewById(R.id.coach_item_name);
             image = (ImageView) itemView.findViewById(R.id.iVCoach);
-            testimonials = (TextView) itemView.findViewById(R.id.tVTestimonials);
-            RelativeLayout layout=(RelativeLayout)itemView.findViewById(R.id.store_item_layout);
+            //testimonials = (TextView) itemView.findViewById(R.id.tVTestimonials);
+            //RelativeLayout layout=(RelativeLayout)itemView.findViewById(R.id.store_item_layout);
+            ConstraintLayout layout = (ConstraintLayout) itemView.findViewById(R.id.store_item_layout);
             ViewGroup.LayoutParams params=layout.getLayoutParams();
-            params.height=(int)(itemView.getResources().getConfiguration().fontScale*params.height);
+            params.height = (int)(itemView.getResources().getConfiguration().fontScale*params.height);
             itemView.setOnClickListener(this);
         }
 
@@ -121,13 +123,13 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         protected void prepForDisplay(StoreRow.StoreItem item, int index)
         {
             this.index = index;
-            title.setText(item.name);
+            name.setText(item.name);
             image.setImageDrawable(item.image);
-            testimonials.setText(item.testimonials +"");
+            //testimonials.setText(item.testimonials +"");
         }
 
         public String getName() {
-            return ((String) title.getText());
+            return ((String) name.getText());
         }
 
         public Drawable getImage() {
