@@ -271,7 +271,7 @@ public class MainPage extends AppCompatActivity implements
                     User.signOut();
                 }
                 dismissPopup();
-                Intent intent2=new Intent(MainPage.this,LoginActivity.class);
+                Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
                 startActivity(intent2);
             }
         };
