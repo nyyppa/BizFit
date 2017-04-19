@@ -65,7 +65,7 @@ public class OurDateTime extends GregorianCalendar {
 
     public String getFullDisplayName()
     {
-        DateFormat formatter=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, MyApplication.getCurrentLocale());
+        DateFormat formatter=DateFormat.getDateInstance(DateFormat.DEFAULT,MyApplication.getCurrentLocale());
         return formatter.format(getTime());
     }
 
