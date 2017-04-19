@@ -20,7 +20,6 @@ import java.util.Locale;
 @ReportsCrashes
 (
         httpMethod = HttpSender.Method.PUT,
-
         reportType = HttpSender.Type.JSON,
         formUri = "http://51.15.37.28:5984/acra-myapp/_design/acra-storage/_update/report",
         formUriBasicAuthLogin = "CrashReport1",

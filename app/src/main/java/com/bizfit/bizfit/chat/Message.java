@@ -7,6 +7,7 @@ import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.utils.OurDateTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +32,7 @@ public class Message implements NetworkReturn, Serializable {
     public boolean hasBeenSeen=false;
     public UUID uuid;
     MessageObject messageObject;
+    OurDateTime timestamp;
 
 
     public Message(JSONObject jsonObject, Conversation conversation){
@@ -53,6 +55,7 @@ public class Message implements NetworkReturn, Serializable {
             if(jsonObject.has(Constants.creationTime))
             {
                 creationTime=jsonObject.getLong(Constants.creationTime);
+                timestamp = new OurDateTime(creationTime);
             }
             if(jsonObject.has(Constants.hasBeenSent))
             {
@@ -81,9 +84,11 @@ public class Message implements NetworkReturn, Serializable {
         this.sender=sender;
         this.message=message;
         creationTime= GregorianCalendar.getInstance().getTimeInMillis();
+        timestamp = new OurDateTime(creationTime);
         uuid=UUID.randomUUID();
         setJob();
         codeCheck();
+
     }
 
     public Message()
@@ -151,6 +156,30 @@ public class Message implements NetworkReturn, Serializable {
     }
     public String getResipient() {
         return resipient;
+    }
+
+
+    /**
+     * Made by JariJ 19.4.17
+     * @return time - Preferred time to display on chat
+     */
+    public String getTimestamp()
+    {
+        String time="";
+        if(timestamp.isToday())
+        {
+            time = timestamp.getHour()+":" + timestamp.getMinute() ;
+        }
+        else if(timestamp.isThisYear())
+        {
+            time = timestamp.getDay() + "-" + timestamp.getMonthDisplayName();
+        }
+        else
+        {
+            time = timestamp.getFullDisplayName();
+        }
+        return time;
+
     }
 
     public String getSender() {
