@@ -37,6 +37,15 @@ public class OurDateTime extends GregorianCalendar {
         return this.get(DAY_OF_MONTH);
     }
 
+    public int getHour(){return this.get(HOUR);}
+
+    public int getMinute(){ return this.get(MINUTE) ;}
+
+    public boolean isToday(){
+        return true;
+        //return date.getDay() == this.getDay() && date.getMonth() == this.getMonth() && date.getYear() == this.getYear();
+    }
+
     /**
      * checks if two OurDateTime's hold same date
      *
