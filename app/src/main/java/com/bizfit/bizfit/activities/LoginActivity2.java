@@ -49,8 +49,7 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
             // and the GoogleSignInResult will be available instantly.
 
             GoogleSignInResult result = opr.get();
-            acct = result.getSignInAccount();
-            continueToCoachPage();
+            handleSignInResult(result);
 
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
@@ -59,7 +58,7 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    handleSignInResult(googleSignInResult);
+                    //handleSignInResult(googleSignInResult);
 
                 }
             });
@@ -68,9 +67,10 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
     private void handleSignInResult(GoogleSignInResult result) {
 
         if (result.isSuccess()) {
-            findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
+            //findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
             // Signed in successfully, show authenticated UI.
             acct = result.getSignInAccount();
+            continueToCoachPage();
 
 
 
@@ -94,6 +94,15 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
 
     public void continueToCoachPage(){

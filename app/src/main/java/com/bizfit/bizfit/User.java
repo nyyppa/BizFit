@@ -331,6 +331,19 @@ public class User  {
     }
 
     public static GoogleApiClient mGoogleApiClient;
+    public static void signOut(Intent intent, Context context)
+    {
+
+        if(mGoogleApiClient!=null){
+            LogOutClass logOutClass=new LogOutClass(intent,context);
+            logOutClass.logout();
+        }
+
+        currentUser=null;
+        dropLastUser=true;
+        Network.onExit();
+        WakeThread();
+    }
     public static void signOut()
     {
 
@@ -871,6 +884,16 @@ public class User  {
     }
 
     private static class LogOutClass {
+        Intent intent;
+        Context context;
+        public LogOutClass(){
+            super();
+        }
+        public LogOutClass(Intent intent,Context context)
+        {
+            this.intent=intent;
+            this.context=context;
+        }
         public void logout() {
             mGoogleApiClient.connect();
             mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -882,7 +905,10 @@ public class User  {
                             @Override
                             public void onResult(Status status) {
                                 if (status.isSuccess()) {
-
+                                    if(context!=null&&intent!=null)
+                                    {
+                                        context.startActivity(intent);
+                                    }
                                 }
                             }
                         });

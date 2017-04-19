@@ -268,11 +268,10 @@ public class MainPage extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 if (position == 0) {
-                    User.signOut();
+                    Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
+                    User.signOut(intent2,MainPage.this);
                 }
                 dismissPopup();
-                Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
-                startActivity(intent2);
             }
         };
     }
