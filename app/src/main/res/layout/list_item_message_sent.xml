@@ -14,4 +14,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         style="@style/MessageSent" />
+
+    <TextView
+        android:id="@+id/tVtimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/message"
+        android:layout_alignRight="@+id/message"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+        android:text="time" />
 </RelativeLayout>

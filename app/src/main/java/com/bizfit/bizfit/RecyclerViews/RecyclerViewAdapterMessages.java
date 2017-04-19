@@ -14,6 +14,7 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
 import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.utils.OurDateTime;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     Conversation conversation;
     ChatFragment chatFragment;
     Intent intent=null;
+
+
     //private ArrayList<Message> messages;
 
     protected float messageHorizontalMarginSmall;
@@ -153,15 +156,24 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
          * Displays message's payload.
          */
         private TextView message;
+        private TextView tVtimestamp;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.message);
+            tVtimestamp = (TextView) itemView.findViewById(R.id.tVtimestamp);
         }
 
-        public void prepareToDisplay(Message message, MarginSize mSize) {
+        public void prepareToDisplay(Message message, MarginSize mSize)
+        {
             // TODO Check previous layout param state used for this particular item.
+
             this.message.setText(message.getMessage());
+            if(tVtimestamp!=null)
+            {
+                this.tVtimestamp.setText(message.getTimestamp());
+            }
             if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) this.message.getLayoutParams();
 

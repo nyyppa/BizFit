@@ -43,8 +43,11 @@ public class Constants
 	public static final String hasBeenSent = "hasBeenSent";
 	public static final String send_message = "send_message";
 	public static final String hasBeenSeen="hasBeenSeen";
+    public static final String timestamp="timestamp";
 
-	//Tracker
+
+
+    //Tracker
 	public static final String start_date = "startDate";
 	public static final String end_date = "endDate";
 	public static final String end_progress = "endProgress";

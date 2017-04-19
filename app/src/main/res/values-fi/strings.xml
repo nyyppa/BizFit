@@ -137,9 +137,12 @@
     </string-array>
 
     <string name="currently_unavailable">Ei tällä hetkellä saatavilla</string>
+    <string name="in_cooperation">Yhteistyössä</string>
 
     <string name="activity_login_title_google">Kirjaudu sisään Google-käyttäjällä</string>
     <string name="title_activity_login">Kirjaudu sisään</string>
+
+    <string name="select_coach">Valitse valmentaja</string>
 
     <string name="action_sign_in">Kirjaudu sisään tai rekisteröidy tästä</string>
     <string name="action_sign_in_short">Kirjaudu sisään</string>
