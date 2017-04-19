@@ -397,6 +397,8 @@
         <item>29,99€</item>
     </string-array>
 
+    <string name="currently_unavailable">Currently unavailable</string>
+
     <string name="title_activity_login">Log in</string>
     <string name="activity_login_title_google">Log in with Google</string>
 
