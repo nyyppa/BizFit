@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.utils;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -42,8 +43,14 @@ public class OurDateTime extends GregorianCalendar {
     public int getMinute(){ return this.get(MINUTE) ;}
 
     public boolean isToday(){
-        return true;
-        //return date.getDay() == this.getDay() && date.getMonth() == this.getMonth() && date.getYear() == this.getYear();
+        Calendar calendar=GregorianCalendar.getInstance();
+        return calendar.get(DAY_OF_MONTH) == this.getDay() && calendar.get(MONTH) == this.getMonth() && calendar.get(YEAR) == this.getYear();
+    }
+
+    public boolean isThisYear()
+    {
+        Calendar calendar=GregorianCalendar.getInstance();
+        return calendar.get(YEAR) == this.getYear();
     }
 
     /**
