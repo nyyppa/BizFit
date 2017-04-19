@@ -136,6 +136,8 @@
         <item>29,99€</item>
     </string-array>
 
+    <string name="currently_unavailable">Ei tällä hetkellä saatavilla</string>
+
     <string name="activity_login_title_google">Kirjaudu sisään Google-käyttäjällä</string>
     <string name="title_activity_login">Kirjaudu sisään</string>
 

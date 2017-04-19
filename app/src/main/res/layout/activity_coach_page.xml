@@ -8,5 +8,5 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/activity_coach_page_content_2" />
+        layout="@layout/activity_coach_page_content_3" />
 </ScrollView>

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.icu.text.DecimalFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,22 +52,29 @@ public class CoachPage extends AppCompatActivity {
         String[] jobTitles = getResources().getStringArray(R.array.random_job_title);
         tVfieldOfExpertise.setText(jobTitles[(int) (Math.random() * jobTitles.length - 1)]);
 
+        /*
         TextView tVplaceofResidence = (TextView) findViewById(R.id.coach_residence);
         String[] countriesAndCities = getResources().getStringArray(R.array.random_country_and_city);
         tVplaceofResidence.setText(countriesAndCities[(int) (Math.random() * countriesAndCities.length - 1)]);
+        */
 
         TextView tVSalesPitch = (TextView) findViewById(R.id.coach_sales_pitch);
         String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
         tVSalesPitch.setText(pitches[(int) (Math.random() * pitches.length - 1)]);
 
+        /*
         TextView tVpriceChat = (TextView) findViewById(R.id.order_price_chat);
         String[] chatPrices = getResources().getStringArray(R.array.random_price_chat);
         tVpriceChat.setText(chatPrices[(int) (Math.random() * chatPrices.length - 1)]);
+        */
+
         /*
         TextView tVpriceCall = (TextView) findViewById(R.id.order_price_call);
         String[] callPrices = getResources().getStringArray(R.array.random_price_call);
         tVpriceCall.setText(callPrices[(int) (Math.random() * callPrices.length - 1)]);
         */
+
+        /*
         Random rng=new Random();
         TextView textView=(TextView)findViewById(R.id.order_price_chat_call);
         textView.setText(""+(rng.nextInt(100)+100)+"€");
@@ -77,6 +85,7 @@ public class CoachPage extends AppCompatActivity {
         float f=getFloatFromString(callPrice)/getFloatFromString(callTime);
         double newKB = Math.round(f*100.0)/100.0;
         textView.setText(newKB+"€");
+        */
 
         // 7.12.2016 jariJ Making a new popup window when terms of service button is clicked
 
@@ -135,7 +144,8 @@ public class CoachPage extends AppCompatActivity {
                 ((TextView) findViewById(R.id.coach_name)).setText(name);
         }
 
-        Button btnOrderChat = (Button) findViewById(R.id.order_chat);
+        //Button btnOrderChat = (Button) findViewById(R.id.order_chat);
+        ConstraintLayout btnOrderChat = (ConstraintLayout) findViewById(R.id.order_chat);
         btnOrderChat.setOnClickListener(new View.OnClickListener()
                 // TODO: order chat-> välitä käyttäjä tunnus chatille -> avaa chat
                 //TODO: do method for getting username
@@ -144,7 +154,7 @@ public class CoachPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (COACH_ID != null) {
-                    view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
+                    //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
                     MessageActivity.startChat(view, COACH_ID);
 
                     // wizard and requests not needed in uusyrityskeskus build
@@ -156,7 +166,10 @@ public class CoachPage extends AppCompatActivity {
                 }
             }
         });
-        Button btnOrderCall = (Button) findViewById(R.id.order_call);
+
+        //Button btnOrderCall = (Button) findViewById(R.id.order_call);
+        /*
+        ConstraintLayout btnOrderCall = (ConstraintLayout) findViewById(R.id.order_call);
         btnOrderCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +191,7 @@ public class CoachPage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        */
 
     }
 
