@@ -1,7 +1,10 @@
 package com.bizfit.bizfit.utils;
 
+import com.bizfit.bizfit.MyApplication;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Atte Ylivrronen on 29.1.2016.
@@ -51,6 +54,11 @@ public class OurDateTime extends GregorianCalendar {
     {
         Calendar calendar=GregorianCalendar.getInstance();
         return calendar.get(YEAR) == this.getYear();
+    }
+
+    public String getMonthDisplayName()
+    {
+        return getDisplayName(Calendar.MONTH, Calendar.LONG, MyApplication.getCurrentLocale());
     }
 
     /**

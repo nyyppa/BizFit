@@ -1,11 +1,15 @@
 package com.bizfit.bizfit;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 
 import org.acra.*;
 import org.acra.annotation.*;
 import org.acra.sender.HttpSender;
+
+import java.util.Locale;
 
 /**
  * Created by attey on 06/04/2017.
@@ -30,11 +34,22 @@ import org.acra.sender.HttpSender;
         resDialogOkToast = R.string.crash_dialog_ok_toast // optional. displays a Toast message when the user accepts to send a report.
 )
 public class MyApplication extends Application {
+    static Context baseContext;
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
+        baseContext=base;
         // The following line triggers the initialization of ACRA
         ACRA.init(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public static Locale getCurrentLocale(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return baseContext.getResources().getConfiguration().getLocales().get(0);
+        } else{
+            //noinspection deprecation
+            return baseContext.getResources().getConfiguration().locale;
+        }
     }
 }
