@@ -2,7 +2,9 @@ package com.bizfit.bizfit.utils;
 
 import com.bizfit.bizfit.MyApplication;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -59,6 +61,12 @@ public class OurDateTime extends GregorianCalendar {
     public String getMonthDisplayName()
     {
         return getDisplayName(Calendar.MONTH, Calendar.LONG, MyApplication.getCurrentLocale());
+    }
+
+    public String getFullDisplayName()
+    {
+        DateFormat formatter=DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, MyApplication.getCurrentLocale());
+        return formatter.format(getTime());
     }
 
     /**
