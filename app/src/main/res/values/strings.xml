@@ -1,32 +1,75 @@
 <resources>
     <string name="app_name">Bizfit</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_new_goal">New goal</string>
-    <string name="hint_target_date">Date</string>
-    <string name="hint_target_name">Name</string>
-    <string name="hint_target_amount">Amount</string>
-    <string name="title_view_tracker_target">Target</string>
-    <string name="title_view_tracker_target_date">By date</string>
-    <string name="error_insufficent_data">You haven\'t added any progress yet</string>
-    <string name="unit_time_days">days</string>
-    <string name="unit_time_days_one">day</string>
-    <string name="unit_time_months">months</string>
-    <string name="unit_time_months_one">month</string>
-    <string name="title_tab_my_trackers">My Trackers</string>
+
     <string name="title_tab_coaches">Coaches</string>
     <string name="title_tab_messages">Messages</string>
-    <string name="title_time_left">Time left</string>
-    <string name="action_add_progress">add progress</string>
-    <string name="title_target">Target</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_delete">Delete</string>
-    <string name="message_remove_successful">Removed</string>
-    <string name="error_empty_field">Empty field</string>
-    <string name="message_tracker_not_saved">Goal was not saved</string>
-    <string name="action_calendar_today">Today</string>
-    <string name="action_select_a_color">Select a color</string>
-    <string name="create_tracker">Create Tracker</string>
-    <string name="create_tracker_done">Create Tracker</string>
+
+    <string name="action_confirm">OK</string>
+    <string name="action_cancel">Cancel</string>
+
+    <string name="logout">Log Out</string>
+    <string name="support">Support</string>
+    <string name="security">Security</string>
+
+    <string name="hint_search_hint">Search for something</string>
+    <string name="hint_message_field">Message...</string>
+
+    <string name="list_item_store_row_regular_more_button">more</string>
+
+    <string name="Coach_page_content_introduction_title">Introduction:</string>
+    <string name="sales_pitch">Sales pitch:</string>
+    <string name="social_media">Social media:</string>
+    <string name="field_of_expertise">Field of expertise:</string>
+    <string name="place_of_residence">Place of Residence:</string>
+    <string name="btnOrder_chat">Order chat</string>
+    <string name="prices">Prices:</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="order_call">Order call</string>
+    <string name="btnAccept">I accept</string>
+
+    <string name="title_activity_login">Log in</string>
+    <string name="activity_login_title_google">Log in with Google</string>
+    <string name="in_cooperation">In cooperation with</string>
+
+    <string name="select_coach">Select a coach</string>
+
+    <string name="services">Services</string>
+    <string name="service_chat">Chat</string>
+    <string name="service_call">Call</string>
+    <string name="service_doc">Document</string>
+    <string name="currently_unavailable">Currently unavailable</string>
+
+
+    <!-- Strings related to login -->
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- string related to crash report -->
+
+    <string name="crash_toast_text">Oops, I crashed! A report has been sent to my developer to help fix the issue!</string>
+    <string name="crash_dialog_title">CrashTest has crashed</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the
+    application to stop. Please help us fix this by sending us error data,
+    all you have to do is click OK.</string>
+    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">Thank you!</string>
+
+    <!-- untranslatables -->
+
+    <string name="title_activity_message" translatable="false">MessageActivity</string>
+    <string name="server_client_id" translatable="false">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
+
+    <!-- months -->
 
     <string name="month_january">January</string>
     <string name="month_february">February</string>
@@ -56,6 +99,75 @@
         <item>@string/month_december</item>
     </array>
 
+    <!-- randoms and dummies -->
+
+    <string-array name="random_job_title">
+        <item>Coaches</item>
+        <item>Feedback and suggestions</item>
+    </string-array>
+
+    <string-array name="random_first_name">
+        <item>JAMES</item>
+        <item>JOHN</item>
+        <item>ROBERT</item>
+        <item>MICHAEL </item>
+        <item>WILLIAM </item>
+        <item>DAVID</item>
+        <item>RICHARD</item>
+        <item>CHARLES</item>
+        <item>JOSEPH</item>
+        <item>THOMAS</item>
+        <item>CHRISTOPHER</item>
+        <item>DANIEL</item>
+        <item>PAUL</item>
+        <item>MARK</item>
+        <item>DONALD</item>
+    </string-array>
+
+    <string-array name="random_last_name">
+        <item>SMITH</item>
+        <item>WILLIAMS</item>
+        <item>JONES</item>
+        <item>BROWN</item>
+        <item>JOHNSON</item>
+        <item>DAVIS</item>
+        <item>MILLER</item>
+        <item>WILSON</item>
+        <item>MOORE</item>
+        <item>TAYLOR</item>
+    </string-array>
+
+    <string-array name="random_country_and_city">
+        <item>Tampere, Finland</item>
+        <item>Frankfurt, Germany</item>
+        <item>Moscow, Russia</item>
+        <item>Paris, France</item>
+        <item>Oslo, Norway</item>
+    </string-array>
+
+    <string-array name="random_sales_pitch">
+        <item>"I'll make you rich! or at least more rich than you're now"</item>
+        <item>"I'll boost your sales up to a 100%!'"</item>
+        <item>"If you ever need any help concerning marketing, I'm your guy, contact me!"</item>
+        <item>"Don't you just hate to keep up with all the bills? I can help you with that"</item>
+        <item>"Want your enterprise to go worldwide? Maybe we should discuss about exporting?"</item>
+        <item>"You want easy, efficient and cost-effective marketing? Social is the today's word!</item>
+    </string-array>
+
+    <string-array name="random_price_chat">
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>2,50€</item>
+        <item>4,99€</item>
+    </string-array>
+
+    <string-array name="random_price_call">
+        <item>9,99€</item>
+        <item>19,99€</item>
+        <item>49,99€</item>
+        <item>29,99€</item>
+    </string-array>
+
     <string-array name="dummy_conversation">
         <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</item>
         <item>Donec ut tortor pharetra, auctor purus ut, sollicitudin felis. Cras rutrum, neque et accumsan malesuada, arcu justo pretium mi, eu bibendum ex magna vel ante.</item>
@@ -64,6 +176,52 @@
         <item>Proin dignissim maximus eleifend.</item>
         <item>Sed ut varius elit.</item>
     </string-array>
+
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+    <!-- OLD STRINGS -->
+
+    <!-- old login strings -->
+
+    <string name="loading">Loading…</string>
+    <string name="desc_google_icon">Google Logo</string>
+    <string name="title_text">Google Sign-In\nQuickstart</string>
+    <string name="signed_out">Signed out</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+
+    <!-- tracker strings-->
+
+    <string name="action_settings">Settings</string>
+    <string name="title_new_goal">New goal</string>
+    <string name="hint_target_date">Date</string>
+    <string name="hint_target_name">Name</string>
+    <string name="hint_target_amount">Amount</string>
+    <string name="title_view_tracker_target">Target</string>
+    <string name="title_view_tracker_target_date">By date</string>
+    <string name="error_insufficent_data">You haven\'t added any progress yet</string>
+    <string name="unit_time_days">days</string>
+    <string name="unit_time_days_one">day</string>
+    <string name="unit_time_months">months</string>
+    <string name="unit_time_months_one">month</string>
+    <string name="title_tab_my_trackers">My Trackers</string>
+    <string name="title_time_left">Time left</string>
+    <string name="action_add_progress">add progress</string>
+    <string name="title_target">Target</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="message_remove_successful">Removed</string>
+    <string name="error_empty_field">Empty field</string>
+    <string name="message_tracker_not_saved">Goal was not saved</string>
+    <string name="action_calendar_today">Today</string>
+    <string name="action_select_a_color">Select a color</string>
+    <string name="create_tracker">Create Tracker</string>
+    <string name="create_tracker_done">Create Tracker</string>
+
+    <string name="title_amount_to_add">Amount to add</string>
+    <string name="title_days_target">Today\'s target</string>
+    <string name="title_progress">Progress</string>
 
     <string-array name="tracker_name_suggestions">
         <!--
@@ -310,127 +468,7 @@
         <item>Zambia</item>
         -->
     </string-array>
-    <string name="title_amount_to_add">Amount to add</string>
-    <string name="action_confirm">OK</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="title_days_target">Today\'s target</string>
-    <string name="title_progress">Progress</string>
-    <string name="hint_search_hint">Search for something</string>
-    <string name="hint_message_field">Message...</string>
-    <string name="list_item_store_row_regular_more_button">more</string>
-    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
-    <string name="title_activity_message" translatable="false">MessageActivity</string>
-    <string name="Coach_page_content_introduction_title">Introduction:</string>
-    <string name="sales_pitch">Sales pitch:</string>
-    <string name="social_media">Social media:</string>
-    <string name="field_of_expertise">Field of expertise:</string>
-    <string name="place_of_residence">Place of Residence:</string>
-    <string name="btnOrder_chat">Order chat</string>
-    <string name="prices">Prices:</string>
-    <string name="terms_of_service">Terms of service</string>
-    <string name="order_call">Order call</string>
-    <string name="btnAccept">I accept</string>
-    <string-array name="random_job_title">
-        <item>Coaches</item>
-        <item>Feedback and suggestions</item>
-    </string-array>
-    <string-array name="random_first_name">
-        <item>JAMES</item>
-        <item>JOHN</item>
-        <item>ROBERT</item>
-        <item>MICHAEL </item>
-        <item>WILLIAM </item>
-        <item>DAVID</item>
-        <item>RICHARD</item>
-        <item>CHARLES</item>
-        <item>JOSEPH</item>
-        <item>THOMAS</item>
-        <item>CHRISTOPHER</item>
-        <item>DANIEL</item>
-        <item>PAUL</item>
-        <item>MARK</item>
-        <item>DONALD</item>
-    </string-array>
-
-    <string-array name="random_last_name">
-        <item>SMITH</item>
-        <item>WILLIAMS</item>
-        <item>JONES</item>
-        <item>BROWN</item>
-        <item>JOHNSON</item>
-        <item>DAVIS</item>
-        <item>MILLER</item>
-        <item>WILSON</item>
-        <item>MOORE</item>
-        <item>TAYLOR</item>
-    </string-array>
-
-    <string-array name="random_country_and_city">
-        <item>Finland, Tampere</item>
-        <item>Germany, Frankfurt</item>
-        <item>Russia, Moscow</item>
-        <item>France, Paris</item>
-        <item>Norway, Oslo</item>
-    </string-array>
-
-    <string-array name="random_sales_pitch">
-        <item>"I'll make you rich! or at least more rich than you're now"</item>
-        <item>"I'll boost your sales up to a 100%!'"</item>
-        <item>"If you ever need any help concerning marketing, I'm your guy, contact me!"</item>
-        <item>"Don't you just hate to keep up with all the bills? I can help you with that"</item>
-        <item>"Want your enterprise to go worldwide? Maybe we should discuss about exporting?"</item>
-        <item>"You want easy, efficient and cost-effective marketing? Social is the today's word!</item>
-    </string-array>
-
-    <string-array name="random_price_chat">
-        <item>9,99€</item>
-        <item>19,99€</item>
-        <item>2,50€</item>
-        <item>4,99€</item>
-    </string-array>
-
-    <string-array name="random_price_call">
-        <item>9,99€</item>
-        <item>19,99€</item>
-        <item>49,99€</item>
-        <item>29,99€</item>
-    </string-array>
-
-    <string name="currently_unavailable">Currently unavailable</string>
-    <string name="in_cooperation">In cooperation with</string>
-
-    <string name="title_activity_login">Log in</string>
-    <string name="activity_login_title_google">Log in with Google</string>
-
-    <string name="select_coach">Select a coach</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="loading">Loading…</string>
-    <string name="desc_google_icon">Google Logo</string>
-    <string name="title_text">Google Sign-In\nQuickstart</string>
-    <string name="signed_out">Signed out</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="signed_in_fmt">Signed in as: %s</string>
-    <string name="server_client_id" translatable="false">781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com</string>
-    <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue !</string>
-
-    <string name="crash_dialog_title">CrashTest has crashed</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the
-    application to stop. Please help us fix this by sending us error data,
-    all you have to do is click OK.</string>
-    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
-    <string name="crash_dialog_ok_toast">Thank you !</string>
 </resources>
+
+<!-- END OF FILE -->

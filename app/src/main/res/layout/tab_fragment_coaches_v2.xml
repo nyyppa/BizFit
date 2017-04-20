@@ -5,20 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_coach"
-        android:textSize="@dimen/text_headline"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp" />
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,16 +12,16 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
         android:id="@+id/constraintLayout"
-        app:layout_constraintHorizontal_bias="0.444">
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp">
 
         <include
             layout="@layout/list_item_store_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/include"
+            android:id="@+id/include1"
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,10 +31,11 @@
 
         <include
             layout="@layout/list_item_store_item"
+            android:id="@+id/include2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            app:layout_constraintLeft_toRightOf="@+id/include"
+            app:layout_constraintLeft_toRightOf="@+id/include1"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
@@ -75,7 +62,7 @@
             layout="@layout/list_item_store_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/include"
+            android:id="@+id/include3"
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -85,10 +72,11 @@
 
         <include
             layout="@layout/list_item_store_item"
+            android:id="@+id/include4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            app:layout_constraintLeft_toRightOf="@+id/include"
+            app:layout_constraintLeft_toRightOf="@+id/include3"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"

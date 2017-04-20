@@ -25,12 +25,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.bizfit.bizfit.Coach;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.PagerAdapter;
 import com.bizfit.bizfit.fragments.TabCoaches;
+import com.bizfit.bizfit.fragments.TabCoaches2;
 import com.bizfit.bizfit.fragments.TabConversationList;
 
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterStoreRow;
@@ -177,7 +179,7 @@ public class MainPage extends AppCompatActivity implements
      */
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
+        adapter.addFragment(new TabCoaches2(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         //adapter.addFragment(new TabConversationRequests(),"Requests");
         viewPager.setAdapter(adapter);
@@ -193,6 +195,12 @@ public class MainPage extends AppCompatActivity implements
     public void itemClicked(StoreRow.StoreItem data) {
         Intent intent = new Intent(this, CoachPage.class);
         data.fillIntent(intent);
+        startActivity(intent);
+    }
+
+    public void coachSelected(Coach coach) {
+        Intent intent = new Intent(this, CoachPage.class);
+        coach.fillIntent(intent);
         startActivity(intent);
     }
 
@@ -267,10 +275,25 @@ public class MainPage extends AppCompatActivity implements
 
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                if (position == 0) {
-                    Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
-                    User.signOut(intent2,MainPage.this);
+
+                switch (position) {
+                    // logout
+                    case 0:
+                        Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
+                        User.signOut(intent2,MainPage.this);
+                        break;
+
+                    // support
+                    case 1:
+                        // TODO: open support activity
+                        break;
+
+                    // security
+                    case 2:
+                        // TODO: open security information
+                        break;
                 }
+
                 dismissPopup();
             }
         };
