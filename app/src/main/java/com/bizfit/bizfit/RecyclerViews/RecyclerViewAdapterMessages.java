@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.chat.Conversation;
@@ -18,6 +19,8 @@ import com.bizfit.bizfit.utils.OurDateTime;
 
 import java.util.List;
 
+import static android.support.constraint.R.id.parent;
+
 /**
  *
  */
@@ -26,6 +29,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     Conversation conversation;
     ChatFragment chatFragment;
     Intent intent=null;
+    ViewGroup parent;
 
 
     //private ArrayList<Message> messages;
@@ -103,6 +107,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = null;
+        this.parent = parent;
 
         if (viewType == Message.Job.INCOMING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
@@ -185,6 +190,8 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 p.setMargins(p.leftMargin, top, p.rightMargin, p.bottomMargin);
                 this.message.requestLayout();
             }
+
+            this.message.setMaxWidth((parent.getWidth()/4) * 3);
         }
     }
 

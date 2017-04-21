@@ -49,20 +49,26 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        Conversation conversation=getItem(position);
-        if(convertView==null){
-            convertView= LayoutInflater.from(getContext()).inflate(R.layout.list_item_message_tab_preview,parent,false);
+        Conversation conversation = getItem(position);
+
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_message_tab_preview,parent,false);
         }
-        TextView textView=(TextView)convertView.findViewById(R.id.tVName);
+
+        TextView textView = (TextView)convertView.findViewById(R.id.tVName);
         textView.setText(conversation.getOther());
-        textView=(TextView)convertView.findViewById(R.id.tVPreview);
-        Message message=conversation.getLastRecievedMessage();
-        if (message!=null){
+
+        textView = (TextView)convertView.findViewById(R.id.tVPreview);
+
+        Message message = conversation.getLastRecievedMessage();
+
+        if (message != null){
             textView.setText(message.getMessage());
         }
 
-        ImageView imageView=(ImageView)convertView.findViewById(R.id.iVRecipient);
+        ImageView imageView = (ImageView)convertView.findViewById(R.id.iVRecipient);
         imageView.setImageDrawable(findDrawable(conversation.getOther()));
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +76,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
                 MessageActivity.startChat(v,textView1.getText()+"");
             }
         });
+
         return convertView;
     }
 }
