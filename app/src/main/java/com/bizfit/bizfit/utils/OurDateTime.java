@@ -69,6 +69,12 @@ public class OurDateTime extends GregorianCalendar {
         return formatter.format(getTime());
     }
 
+    public String getClockDisplayName()
+    {
+        DateFormat timeFormatter =DateFormat.getTimeInstance(DateFormat.SHORT, MyApplication.getCurrentLocale());
+        return timeFormatter.format(getTime());
+    }
+
     /**
      * checks if two OurDateTime's hold same date
      *
