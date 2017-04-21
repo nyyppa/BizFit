@@ -99,9 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ContentValues conversationsValues = new ContentValues();
             conversationsValues.put("other",user.getConversations().get(i).getOther());
             conversationsValues.put("owner",user.getConversations().get(i).getOwner());
-            if(user.getConversations().get(i).ConversationID>-1){
-                conversationsValues.put("conversationID",user.getConversations().get(i).ConversationID);
-            }
+            conversationsValues.put("conversationID",user.getConversations().get(i).getOwner()+"+"+user.getConversations().get(i).getOther());
             db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
         }
 
@@ -169,7 +167,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             db.execSQL("CREATE TABLE Conversations\n" +
                     "     (\n" +
-                    "         conversationID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                    "         conversationID text NOT NULL PRIMARY KEY,\n" +
                     "         owner text NOT NULL,\n" +
                     "         other text NOT NULL\n" +
                     "     );");
@@ -285,7 +283,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 Conversation conversation = new Conversation();
                 conversation.setOwner(user.userName);
                 conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
-                conversation.ConversationID=cursor.getInt(cursor.getColumnIndex("conversationID"));
                 conversation.messageList = readMessages(user.userName, conversation.getOther(), db);
                 conversation.setUser(user);
                 conversationsList.add(conversation);

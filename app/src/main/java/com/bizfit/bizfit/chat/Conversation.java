@@ -40,7 +40,6 @@ public class Conversation implements NetworkReturn,Serializable
     private User user;
     private transient ChatFragment chatFragment;
     private NetworkInfo netinfo;
-    public int ConversationID=-1;
     public Conversation()
     {
 
