@@ -20,6 +20,16 @@ public class MessageActivity extends AppCompatActivity {
         intent.putExtra("coachID",coachID);
         v.getContext().startActivity(intent);
     }
+    public static void startChat(View v, Intent intent2){
+        Intent intent=new Intent(v.getContext(),MessageActivity.class);
+        intent.putExtras(intent2);
+        v.getContext().startActivity(intent);
+    }
+    public static void startChat(View v, Bundle bundle){
+        Intent intent=new Intent(v.getContext(),MessageActivity.class);
+        intent.putExtras(bundle);
+        v.getContext().startActivity(intent);
+    }
 
 
 }
