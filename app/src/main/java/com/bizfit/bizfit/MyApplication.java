@@ -51,4 +51,8 @@ public class MyApplication extends Application {
             return baseContext.getResources().getConfiguration().locale;
         }
     }
+    public static Context getContext()
+    {
+        return baseContext;
+    }
 }
