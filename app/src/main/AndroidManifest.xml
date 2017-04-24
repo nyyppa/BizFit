@@ -48,9 +48,7 @@
         <activity
             android:name=".activities.LoginActivity2"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true"
-            android:excludeFromRecents="true" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- Settings -->
         <activity
             android:name=".activities.Settings"
