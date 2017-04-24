@@ -304,4 +304,10 @@ public class MainPage extends AppCompatActivity implements
             popupWindow.dismiss();
         }
     }
+
+    public void onBackPressed() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
 }
