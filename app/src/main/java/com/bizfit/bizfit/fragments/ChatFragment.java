@@ -26,12 +26,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfit.R;
 
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterMessages;
-
+import com.bizfit.bizfit.utils.Utils;
 
 
 /**
@@ -79,6 +80,13 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
+        ImageView imageView=(ImageView)v.findViewById(R.id.coach_image);
+
+        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
+        TextView textView=(TextView)v.findViewById(R.id.coach_name);
+        textView.setText(Utils.getCouchName(mAdapter.getConversation().getOther()));
+
+
 
         input = (EditText) v.findViewById(R.id.message);
 

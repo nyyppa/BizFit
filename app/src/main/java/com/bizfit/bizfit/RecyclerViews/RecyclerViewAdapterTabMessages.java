@@ -16,6 +16,7 @@ import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
+import com.bizfit.bizfit.utils.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 {
+    //CURRENTLY NOT IN USE
     private Conversation conversation=null;
     private String recipient =null;
     private ImageView iVRecipient;
@@ -52,30 +54,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
         return new ViewHolder(v);
     }
-    private int getDrawableID(String coach)
-    {
-        int id=-1;
-        switch (coach)
-        {
-            case Constants.atte_email:
-                id=R.drawable.atte;
-                break;
-            case Constants.jariM_email:
-                id=R.drawable.mylly;
-                break;
-            case Constants.pasi_email:
-                id=R.drawable.pasi;
-                break;
-            case Constants.jari_email:
-                id=R.drawable.jartsa;
-                break;
-            default:
-                id=R.drawable.tmp2;
-                break;
 
-        }
-        return id;
-    }
     // jariJ 20.1.17
     private void showConversationInfo(View v, ViewGroup parent)
     {
@@ -90,7 +69,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
                 conversation = conversations.get(i);
                 recipient = conversation.getOther();
-                items.add(new StoreRow.StoreItem(recipient, null, getDrawableID(recipient), (int) (Math.random()*400), null, null));
+                items.add(new StoreRow.StoreItem(recipient, null, Utils.getDrawableID(recipient), (int) (Math.random()*400), null, null));
 
 
                 //iVResipient.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), getDrawableID(recipient)));

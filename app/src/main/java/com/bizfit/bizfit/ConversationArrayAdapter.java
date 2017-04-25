@@ -14,6 +14,7 @@ import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.utils.Constants;
+import com.bizfit.bizfit.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -24,29 +25,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
     public ConversationArrayAdapter(Context context, ArrayList<Conversation> conversations) {
         super(context, 0, conversations);
     }
-    private Drawable findDrawable(String coach){
-        int id=-1;
-        switch (coach)
-        {
-            case Constants.atte_email:
-                id=R.drawable.atte;
-                break;
-            case Constants.jariM_email:
-                id=R.drawable.mylly;
-                break;
-            case Constants.pasi_email:
-                id=R.drawable.pasi;
-                break;
-            case Constants.jari_email:
-                id=R.drawable.jartsa;
-                break;
-            default:
-                id=R.drawable.tmp2;
-                break;
 
-        }
-        return ContextCompat.getDrawable(getContext(),id);
-    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         Conversation conversation = getItem(position);
@@ -67,7 +46,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         }
 
         ImageView imageView = (ImageView)convertView.findViewById(R.id.iVRecipient);
-        imageView.setImageDrawable(findDrawable(conversation.getOther()));
+        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(conversation.getOther())));
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
