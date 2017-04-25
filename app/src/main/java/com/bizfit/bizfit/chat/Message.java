@@ -271,6 +271,11 @@ public class Message implements NetworkReturn, Serializable {
     public enum Status{
         PENDING, ACCEPTED, CANCELLED, DELETED
     }
+    @Override
+    public String toString()
+    {
+        return super.toString()+" "+message;
+    }
 }
 
 
