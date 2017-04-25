@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.utils;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -60,6 +61,7 @@ public class NotificationSender {
         mNotificationManager.notify(mId, mBuilder.build());
     }
     */
+    /*
     public static void sendNotification(Context a, String title, String message) {
         Builder mBuilder =
                 (Builder) new Builder(a)
@@ -93,7 +95,7 @@ public class NotificationSender {
         int mId = 1;
         mNotificationManager.notify(mId, mBuilder.build());
     }
-
+    */
     public static void sendNotification(Context a, String title, String message,String coach) {
         Builder mBuilder =
                 (Builder) new Builder(a)
@@ -102,6 +104,7 @@ public class NotificationSender {
                         .setContentText(message);
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(a, MessageActivity.class);
+        DebugPrinter.Debug("notification" + coach);
         resultIntent.putExtra("coachID",coach);
 
         // The stack builder object will contain an artificial back stack for the

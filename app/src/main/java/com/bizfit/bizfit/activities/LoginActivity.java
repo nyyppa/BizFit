@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -144,11 +146,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
+    @Nullable
     GoogleSignInAccount acct;
     // [END onActivityResult]
 
     // [START handleSignInResult]
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(@NonNull GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.getStatus());
 
         if (result.isSuccess()) {
@@ -242,7 +245,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();

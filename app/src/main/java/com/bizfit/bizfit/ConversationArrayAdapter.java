@@ -34,25 +34,25 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_message_tab_preview,parent,false);
         }
 
-        TextView textView = (TextView)convertView.findViewById(R.id.tVName);
-        textView.setText(conversation.getOther());
+        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVName);
+        tVpreview.setText(conversation.getOther());
 
-        textView = (TextView)convertView.findViewById(R.id.tVPreview);
+        tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
+        Message previewMessage = conversation.getLastRecievedMessage();
 
-        Message message = conversation.getLastRecievedMessage();
-
-        if (message != null){
-            textView.setText(message.getMessage());
+        if (previewMessage != null)
+        {
+            tVpreview.setText(previewMessage.getMessage()+"");
         }
 
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.iVRecipient);
-        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(conversation.getOther())));
+        ImageView iVrecipient = (ImageView)convertView.findViewById(R.id.iVRecipient);
+        iVrecipient.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(conversation.getOther())));
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView textView1=(TextView)v.findViewById(R.id.tVName);
-                MessageActivity.startChat(v,textView1.getText()+"");
+                TextView tVname=(TextView)v.findViewById(R.id.tVName);
+                MessageActivity.startChat(v,tVname.getText()+"");
             }
         });
 

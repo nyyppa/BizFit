@@ -125,7 +125,7 @@ public class ChatRequestResponse
             text = "Your chat request with " + coach + " is declined";
         }
         int duration = Toast.LENGTH_SHORT;
-        NotificationSender.sendNotification(context,"Chat Request",text);
+       // NotificationSender.sendNotification(context,"Chat Request",text);
         //Toast toast = Toast.makeText(context, text, duration);
         //toast.show();
     }
