@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.utils;
 
+import com.bizfit.bizfit.Coach;
 import com.bizfit.bizfit.R;
 
 /**
@@ -55,5 +56,31 @@ public class Utils {
 
         }
         return id;
+    }
+
+    static public String getCouchID(String name)
+    {
+        String couachID=null;
+        switch (name)
+        {
+            case "Atte Yliverronen":
+                couachID=Constants.atte_email;
+                break;
+            case "Jari Myllymäki":
+                couachID=Constants.jariM_email;
+                break;
+            case "Pasi Ojanen":
+                couachID=Constants.pasi_email;
+                break;
+            case "Jari Järvenpää":
+                couachID=Constants.jari_email;
+                break;
+            default:
+                name="default";
+                couachID="default";
+                break;
+
+        }
+        return couachID;
     }
 }
