@@ -2,6 +2,7 @@ package com.bizfit.bizfit;
 
 
 import android.app.ActivityManager;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.tracker.Tracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
+import com.bizfit.bizfit.utils.NotificationSender;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -894,6 +896,10 @@ public class User  {
             this.intent=intent;
             this.context=context;
         }
+
+        /**
+         * last updated 25.4.17 jariJ
+         */
         public void logout() {
             mGoogleApiClient.connect();
             mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -908,6 +914,8 @@ public class User  {
                                     if(context!=null&&intent!=null)
                                     {
                                         context.startActivity(intent);
+                                        NotificationManager nManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+                                        nManager.cancelAll();
                                     }
                                 }
                             }
