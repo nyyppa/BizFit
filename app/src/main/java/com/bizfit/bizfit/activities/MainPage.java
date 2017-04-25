@@ -166,7 +166,6 @@ public class MainPage extends AppCompatActivity implements
             case R.id.toolbar_settings:
                 PopupWindow popUp = popupWindowsort();
                 popUp.showAsDropDown(findViewById(R.id.toolbar_settings), 0, 0); // show popup like dropdown list
-                System.out.println("pop!");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -245,7 +244,9 @@ public class MainPage extends AppCompatActivity implements
         popupWindow = new PopupWindow(this);
 
         ArrayList<String> sortList = new ArrayList<String>();
-        sortList.add("Log out");
+        sortList.add(getString(R.string.logout));
+        sortList.add(getString(R.string.support));
+        sortList.add(getString(R.string.security));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,
                 sortList);
@@ -260,7 +261,7 @@ public class MainPage extends AppCompatActivity implements
 
         // some other visual settings for popup window
         popupWindow.setFocusable(true);
-        popupWindow.setWidth(300);
+        popupWindow.setWidth(500);
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), android.R.drawable.dialog_holo_light_frame));
 

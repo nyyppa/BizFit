@@ -150,7 +150,11 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
         @Override
         public void onClick(View v) {
-            v.getContext().startActivity(new Intent(v.getContext(), MessageActivity.class));
+            Intent intent = new Intent();
+            intent.putExtra("coachID", "atte.yliverronen@gmail.com");
+            intent.putExtra("coachName", "Pentti Holappa");
+            intent.putExtra("imgID", getDrawableID(recipient));
+            MessageActivity.startChat(v, intent);
         }
     }
 }

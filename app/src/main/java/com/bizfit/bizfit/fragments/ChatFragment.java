@@ -58,8 +58,16 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        Bundle extras = getActivity().getIntent().getExtras();
+
+        if (extras != null) {
             // Set values from the bundle package if needed.
+            String name = extras.getString("coachName", "ei loutunut");
+            String id = extras.getString("coachID", "noup");
+            System.out.println("NAME: " + name + "ID: " + id);
+            System.out.println("NAME: " + name + "ID: " + id);
+            System.out.println("NAME: " + name + "ID: " + id);
         }
     }
 
@@ -91,7 +99,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         input = (EditText) v.findViewById(R.id.message);
 
         if(mAdapter.getItemCount() == 0) {
-            input.setHint("Start messaging with " + "coach" + " by sending a message");
+            input.setHint(getString(R.string.hint_message_field, "Pekka"));
         }
 
         return v;
