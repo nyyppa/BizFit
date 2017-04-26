@@ -68,6 +68,9 @@
         <!-- Store page -->
         <activity android:name=".activities.CoachPage" />
 
+        <!-- Support page -->
+        <activity android:name=".activities.Support" />
+
         <!-- Displays search results -->
         <activity android:name=".activities.Search">
             <intent-filter>

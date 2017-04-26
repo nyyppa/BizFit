@@ -6,6 +6,7 @@
 
     <string name="action_confirm">OK</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_send">Send</string>
 
     <string name="logout">Log Out</string>
     <string name="support">Support</string>
@@ -30,6 +31,12 @@
     <string name="title_activity_login">Log in</string>
     <string name="activity_login_title_google">Log in with Google</string>
     <string name="in_cooperation">In cooperation with</string>
+
+    <string name="title_support">Do you want to give feedback or report an issue?</string>
+    <string name="desc_support">Tell us your thoughts down below!</string>
+    <string name="hint_support">Write here!</string>
+    <string name="checked_support">I want to be contacted regarding my message</string>
+    <string name="desc_checked_support">We will respond to your Google account email.</string>
 
     <string name="select_coach">Select a coach</string>
 

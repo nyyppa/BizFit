@@ -286,7 +286,8 @@ public class MainPage extends AppCompatActivity implements
 
                     // support
                     case 1:
-                        // TODO: open support activity
+                        Intent intent = new Intent(MainPage.this, Support.class);
+                        startActivity(intent);
                         break;
 
                     // security
