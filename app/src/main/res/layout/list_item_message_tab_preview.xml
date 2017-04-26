@@ -36,7 +36,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black87" />
 
-        <TextView
+        <com.bizfit.bizfit.views.ConversationTabView
             android:id="@+id/tVPreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

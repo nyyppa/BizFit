@@ -15,6 +15,7 @@ import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
+import com.bizfit.bizfit.views.ConversationTabView;
 
 import java.util.ArrayList;
 
@@ -37,12 +38,13 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         TextView tVpreview = (TextView)convertView.findViewById(R.id.tVName);
         tVpreview.setText(conversation.getOther());
 
-        tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
+        ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
+        conversation.setNewMessageRecievedListener(conversationTabView);
         Message previewMessage = conversation.getLastRecievedMessage();
 
         if (previewMessage != null)
         {
-            tVpreview.setText(previewMessage.getMessage()+"");
+            conversationTabView.setText(previewMessage.getMessage()+"");
         }
 
         ImageView iVrecipient = (ImageView)convertView.findViewById(R.id.iVRecipient);

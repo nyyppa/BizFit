@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 //todo prevent android from cloning thisw
-public class Conversation implements NetworkReturn,Serializable
+public class Conversation implements NetworkReturn
 {
 
     private String owner="";
@@ -40,9 +40,16 @@ public class Conversation implements NetworkReturn,Serializable
     private User user;
     private transient ChatFragment chatFragment;
     private NetworkInfo netinfo;
+
+    private NewMessageRecievedListener newMessageRecievedListener;
     public Conversation()
     {
 
+    }
+
+    public void setNewMessageRecievedListener(NewMessageRecievedListener newMessageRecievedListener)
+    {
+        this.newMessageRecievedListener=newMessageRecievedListener;
     }
 
     public Conversation(JSONObject jsonObject, User user){
@@ -363,6 +370,11 @@ public class Conversation implements NetworkReturn,Serializable
                 {
                     getUser().save(this);
                 }
+                if(messagesReceived&&message1!=null&&newMessageRecievedListener!=null)
+                {
+                    Message message2=getLastRecievedMessage();
+                    newMessageRecievedListener.newMessageRecieved(message2);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -391,4 +403,9 @@ public class Conversation implements NetworkReturn,Serializable
         return this.getOwner().equals(conversation.getOwner())&&this.getOther().equals(conversation.getOther());
     }
 
+
+    public interface NewMessageRecievedListener
+    {
+        public void newMessageRecieved(Message message);
+    }
 }
