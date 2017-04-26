@@ -3,6 +3,7 @@ package com.bizfit.bizfit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.android.gms.common.api.ResultCallback;
 public class LoginActivity2  extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    @Nullable
     GoogleSignInAccount acct;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
             });
         }
     }
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(@NonNull GoogleSignInResult result) {
 
         if (result.isSuccess()) {
             //findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
@@ -81,7 +83,7 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(@NonNull View v) {
         switch (v.getId())
         {
             case R.id.sign_in_button:

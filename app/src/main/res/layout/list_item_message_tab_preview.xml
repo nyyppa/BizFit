@@ -32,7 +32,6 @@
             android:layout_alignBottom="@+id/iVRecipient"
             android:layout_toEndOf="@+id/iVRecipient"
             android:layout_toRightOf="@+id/iVRecipient"
-            android:singleLine="true"
             android:text="ROBERT WILSON"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black87" />
@@ -41,10 +40,10 @@
             android:id="@+id/tVPreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="false"
             android:ellipsize="end"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:maxEms="15"
             android:maxLines="1"
-            android:maxEms="15" />
+            android:text="No messages"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 </RelativeLayout>

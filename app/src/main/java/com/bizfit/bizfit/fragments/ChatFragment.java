@@ -58,16 +58,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        Bundle extras = getActivity().getIntent().getExtras();
-
-        if (extras != null) {
+        if (getArguments() != null) {
             // Set values from the bundle package if needed.
-            String name = extras.getString("coachName", "ei loutunut");
-            String id = extras.getString("coachID", "noup");
-            System.out.println("NAME: " + name + "ID: " + id);
-            System.out.println("NAME: " + name + "ID: " + id);
-            System.out.println("NAME: " + name + "ID: " + id);
         }
     }
 
@@ -88,18 +80,18 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
-        ImageView imageView=(ImageView)v.findViewById(R.id.coach_image);
+        ImageView iVcoach=(ImageView)v.findViewById(R.id.coach_image);
 
-        imageView.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
-        TextView textView=(TextView)v.findViewById(R.id.coach_name);
-        textView.setText(Utils.getCouchName(mAdapter.getConversation().getOther()));
+        iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
+        TextView tVname=(TextView)v.findViewById(R.id.coach_name);
+        tVname.setText(Utils.getCouchName(mAdapter.getConversation().getOther()));
 
 
 
         input = (EditText) v.findViewById(R.id.message);
 
         if(mAdapter.getItemCount() == 0) {
-            input.setHint(getString(R.string.hint_message_field, "Pekka"));
+            input.setHint("Start messaging with " + tVname.getText() + " by sending a message");
         }
 
         return v;
