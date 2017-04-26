@@ -12,6 +12,7 @@ import com.bizfit.bizfit.network.NetworkReturn;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.fragments.ChatFragment;
 import com.bizfit.bizfit.utils.NotificationSender;
+import com.bizfit.bizfit.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -355,7 +356,7 @@ public class Conversation implements NetworkReturn,Serializable
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     Message message2=getLastRecievedMessage();
                     if(message2!=null && User.getContext()!=null && chatFragment==null) {
-                        NotificationSender.sendNotification(User.getContext(),getOther(),message2.getMessage(),getOther());
+                        NotificationSender.sendNotification(User.getContext(), getOther(),message2.getMessage(),getOther());
                     }
                     sortConversation();
                 }

@@ -34,10 +34,10 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_message_tab_preview,parent,false);
         }
 
-        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVName);
-        tVpreview.setText(conversation.getOther());
+        TextView tVname = (TextView)convertView.findViewById(R.id.tVName);
+        tVname.setText(Utils.getCouchName(conversation.getOther()));
 
-        tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
+        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
         Message previewMessage = conversation.getLastRecievedMessage();
 
         if (previewMessage != null)
@@ -53,6 +53,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
             public void onClick(View v) {
                 TextView tVname=(TextView)v.findViewById(R.id.tVName);
                 MessageActivity.startChat(v,tVname.getText()+"");
+                DebugPrinter.Debug("Mitä vittua!!!!!!!!!! " + tVname.getText());
             }
         });
 
