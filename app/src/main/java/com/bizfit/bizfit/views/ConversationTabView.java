@@ -34,6 +34,10 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
     @Override
     public void newMessageRecieved(Message message) {
         Activity activity=getActivity();
+        if(message==null||message.getMessage()==null)
+        {
+            return;
+        }
         final String text=message.getMessage();
         if(activity!=null)
         {
