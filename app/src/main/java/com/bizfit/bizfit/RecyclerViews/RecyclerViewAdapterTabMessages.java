@@ -21,6 +21,8 @@ import com.bizfit.bizfit.utils.Utils;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.bizfit.bizfit.utils.Utils.getDrawableID;
+
 /**
  *
  */
@@ -69,7 +71,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
                 conversation = conversations.get(i);
                 recipient = conversation.getOther();
-                items.add(new StoreRow.StoreItem(recipient, null, Utils.getDrawableID(recipient), (int) (Math.random()*400), null, null));
+                items.add(new StoreRow.StoreItem(recipient, null, getDrawableID(recipient), (int) (Math.random()*400), null, null));
 
 
                 //iVResipient.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), getDrawableID(recipient)));
@@ -150,7 +152,11 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
 
         @Override
         public void onClick(View v) {
-            v.getContext().startActivity(new Intent(v.getContext(), MessageActivity.class));
+            Intent intent = new Intent();
+            intent.putExtra("coachID", "atte.yliverronen@gmail.com");
+            intent.putExtra("coachName", "Pentti Holappa");
+            intent.putExtra("imgID", getDrawableID(recipient));
+            MessageActivity.startChat(v, intent);
         }
     }
 }
