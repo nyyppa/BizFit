@@ -26,6 +26,9 @@ public class Utils {
             case Constants.jari_email:
                 name="Jari Järvenpää";
                 break;
+            case Constants.support_email:
+                name = "Customer Support";
+                break;
             default:
                 name="default";
                 break;
