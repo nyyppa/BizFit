@@ -37,6 +37,7 @@
     <string name="hint_support">Write here!</string>
     <string name="checked_support">I want to be contacted regarding my message</string>
     <string name="desc_checked_support">We will respond to your Google account email.</string>
+    <string name="toast_support_sent">Feedback sent succesfully!</string>
 
     <string name="select_coach">Select a coach</string>
 

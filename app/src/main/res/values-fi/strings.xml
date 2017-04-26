@@ -26,6 +26,7 @@
     <string name="hint_support">Kirjoita tähän!</string>
     <string name="checked_support">Haluan, että minuun ollaan yhteydessä asiaan liittyen</string>
     <string name="desc_checked_support">Vastaamme sinulle Google-käyttäjääsi yhdistettyyn sähköpostiin.</string>
+    <string name="toast_support_sent">Palaute lähetetty onnistuneesti!</string>
 
     <!-- hints and descriptions -->
 
