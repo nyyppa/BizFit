@@ -6,13 +6,14 @@
 
     <string name="action_confirm">OK</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_send">Send</string>
 
     <string name="logout">Log Out</string>
     <string name="support">Support</string>
     <string name="security">Security</string>
 
     <string name="hint_search_hint">Search for something</string>
-    <string name="hint_message_field">Message...</string>
+    <string name="hint_message_field">Start chatting with %s by sending a message</string>
 
     <string name="list_item_store_row_regular_more_button">more</string>
 
@@ -31,12 +32,19 @@
     <string name="activity_login_title_google">Log in with Google</string>
     <string name="in_cooperation">In cooperation with</string>
 
+    <string name="title_support">Do you want to give feedback or report an issue?</string>
+    <string name="desc_support">Tell us your thoughts down below!</string>
+    <string name="hint_support">Write here!</string>
+    <string name="checked_support">I want to be contacted regarding my message</string>
+    <string name="desc_checked_support">We will respond to your Google account email.</string>
+
     <string name="select_coach">Select a coach</string>
 
     <string name="services">Services</string>
     <string name="service_chat">Chat</string>
     <string name="service_call">Call</string>
     <string name="service_doc">Document</string>
+    <string name="free">Free</string>
     <string name="currently_unavailable">Currently unavailable</string>
 
 

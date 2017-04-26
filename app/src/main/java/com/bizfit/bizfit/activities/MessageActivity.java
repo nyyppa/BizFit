@@ -31,5 +31,4 @@ public class MessageActivity extends AppCompatActivity {
         v.getContext().startActivity(intent);
     }
 
-
 }

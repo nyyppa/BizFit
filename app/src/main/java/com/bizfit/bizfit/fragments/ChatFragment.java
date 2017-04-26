@@ -81,17 +81,18 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
         ImageView iVcoach=(ImageView)v.findViewById(R.id.coach_image);
-
         iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
+
+        String coachName = Utils.getCouchName(mAdapter.getConversation().getOther());
+
         TextView tVname=(TextView)v.findViewById(R.id.coach_name);
-        tVname.setText(Utils.getCouchName(mAdapter.getConversation().getOther()));
+        tVname.setText(coachName);
 
-
+        String [] coachNameSplit = coachName.split(" ");
 
         input = (EditText) v.findViewById(R.id.message);
-
         if(mAdapter.getItemCount() == 0) {
-            input.setHint("Start messaging with " + tVname.getText() + " by sending a message");
+            input.setHint(getString(R.string.hint_message_field, coachNameSplit[0]));
         }
 
         return v;

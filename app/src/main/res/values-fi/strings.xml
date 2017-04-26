@@ -1,56 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_name">Bizfit</string>
+
+    <!-- tab titles -->
+
+    <string name="title_tab_messages">Viestit</string>
+    <string name="title_tab_coaches">Valmentajat</string>
+
+    <!-- actions -->
+
+    <string name="action_confirm">OK</string>
+    <string name="action_cancel">Peruuta</string>
+    <string name="action_send">Lähetä</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="action_sign_in">Kirjaudu sisään tai rekisteröidy tästä</string>
+    <string name="action_sign_in_short">Kirjaudu sisään</string>
+
     <string name="logout">Kirjaudu ulos</string>
     <string name="support">Tuki</string>
     <string name="security">Turvallisuus</string>
 
-    <string name="app_name">Bizfit</string>
-    <string name="action_settings">Asetukset</string>
-    <string name="error_insufficent_data">Et ole syöttänyt vielä edistystä</string>
-    <string name="title_new_goal">Uusi tavoite</string>
-    <string name="hint_target_amount">Määrä</string>
-    <string name="hint_target_date">Pvm.</string>
-    <string name="hint_target_name">Nimi</string>
-    <string name="title_view_tracker_target">Tavoite</string>
-    <string name="title_view_tracker_target_date">Tavoite pvm.</string>
-    <string name="unit_time_days">päivää</string>
-    <string name="unit_time_days_one">päivä</string>
-    <string name="unit_time_months">kuukautta</string>
-    <string name="unit_time_months_one">kuukausi</string>
-    <string name="title_tab_my_trackers">Seuranta</string>
-    <string name="title_time_left">Aikaa jäljellä</string>
-    <string name="title_tab_messages">Viestit</string>
-    <string name="title_tab_coaches">Valmentajat</string>
-    <string name="action_add_progress">lisää edistystä</string>
-    <string name="title_target">Tavoite</string>
-    <string name="action_edit">Muokkaa</string>
-    <string name="action_delete">Poista</string>
-    <string name="message_remove_successful">Poistettu</string>
-    <string name="error_empty_field">Tyhjä kenttä</string>
-    <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
-    <string name="month_april">Huhtikuu</string>
-    <string name="month_november">Marraskuu</string>
-    <string name="month_september">Syyskuu</string>
-    <string name="month_october">Lokakuu</string>
-    <string name="month_may">Toukokuu</string>
-    <string name="month_january">Tammikuu</string>
-    <string name="month_february">Helmikuu</string>
-    <string name="month_march">Maaliskuu</string>
-    <string name="month_june">Kesäkuu</string>
-    <string name="month_july">Heinäkuu</string>
-    <string name="month_december">Joulukuu</string>
-    <string name="month_august">Elokuu</string>
-    <string name="action_calendar_today">Tänään</string>
-    <string name="action_select_a_color">Valitse väri</string>
-    <string name="title_amount_to_add">Lisättävä määrä</string>
-    <string name="action_confirm">OK</string>
-    <string name="action_cancel">Peruuta</string>
-    <string name="title_days_target">Päivän tavoite</string>
-    <string name="title_progress">Edistys</string>
+    <string name="title_support">Haluatko antaa palautetta tai kertoa ongelmasta?</string>
+    <string name="desc_support">Kerro meille ajatuksesi alla olevaan kenttään!</string>
+    <string name="hint_support">Kirjoita tähän!</string>
+    <string name="checked_support">Haluan, että minuun ollaan yhteydessä asiaan liittyen</string>
+    <string name="desc_checked_support">Vastaamme sinulle Google-käyttäjääsi yhdistettyyn sähköpostiin.</string>
+
+    <!-- hints and descriptions -->
+
     <string name="hint_search_hint">Etsi jotain</string>
-    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
-    <string name="hint_message_field">Viesti...</string>
+    <string name="hint_message_field">Aloita keskustelu valmentajan %s kanssa lähettämällä viesti</string>
+
     <string name="list_item_store_row_regular_more_button">lisää</string>
     <string name="Coach_page_content_introduction_title">Esittely:</string>
     <string name="sales_pitch">Myyntipuhe:</string>
@@ -62,21 +43,57 @@
     <string name="terms_of_service">Käyttöehdot</string>
     <string name="order_call">Tilaa puhelu</string>
     <string name="btnAccept">Hyväksyn</string>
-    <string name="create_tracker">Luo tavoite</string>
-    <string name="create_tracker_done">Luo tavoite</string>
+
+    <string name="in_cooperation">Yhteistyössä</string>
+
+    <string name="activity_login_title_google">Kirjaudu sisään Google-käyttäjällä</string>
+    <string name="title_activity_login">Kirjaudu sisään</string>
+
+    <string name="select_coach">Valitse valmentaja</string>
+
+    <string name="services">Palvelut</string>
+    <string name="service_chat">Chat</string>
+    <string name="service_call">Puhelu</string>
+    <string name="service_doc">Dokumentti</string>
+    <string name="free">Ilmainen</string>
+    <string name="currently_unavailable">Ei tällä hetkellä saatavilla</string>
+
+    <string name="error_field_required">Tämä kenttä ei saa olla tyhjä</string>
+    <string name="error_incorrect_password">Salasana on väärä</string>
+    <string name="error_invalid_email">Sähköpostiosoite on väärä</string>
+    <string name="error_invalid_password">Tämä salasana on liian lyhyt</string>
+    <string name="permission_rationale">\"Tarvitsemme luvan käyttää (puhelimen) yhteystietoja, jotta sähköpostiosoitteita voidaan ehdottaa</string>
+    <string name="prompt_email">Sähköposti</string>
+    <string name="prompt_password">Salasana (ei pakollinen)</string>
+
+    <!-- strings related to crash report -->
+
+    <string name="crash_dialog_comment_prompt">Voit halutessasi lisätä kuvauksen ongelmasta:</string>
+    <string name="crash_dialog_ok_toast">Kiitoksia!</string>
+    <string name="crash_dialog_text">Tapahtui odottamaton virhe, ohjelman on sulkeuduttava. Ole hyvä ja auta meitä lähettämällä virhetiedot. Sinun tarvitsee vain painaa \"OK\", kiitoksia!</string>
+    <string name="crash_dialog_title">CrashTest on kaatunut</string>
+    <string name="crash_toast_text">Hupsista! Kaaduin, mutta ongelmasta on lähetetty reportti kehittäjille, jotka saavat varmasti asian kuntoon!</string>
+
+    <!-- months -->
+
+    <string name="month_january">Tammikuu</string>
+    <string name="month_february">Helmikuu</string>
+    <string name="month_march">Maaliskuu</string>
+    <string name="month_april">Huhtikuu</string>
+    <string name="month_may">Toukokuu</string>
+    <string name="month_june">Kesäkuu</string>
+    <string name="month_july">Heinäkuu</string>
+    <string name="month_august">Elokuu</string>
+    <string name="month_september">Syyskuu</string>
+    <string name="month_october">Lokakuu</string>
+    <string name="month_november">Marraskuu</string>
+    <string name="month_december">Joulukuu</string>
+
+    <!-- randoms and dummies -->
 
     <string-array name="random_job_title">
         <item>Asiantuntijat</item>
         <item>Palaute ja ehdotukset</item>
-    </string-array>
-
-    <string-array name="dummy_conversation">
-        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</item>
-        <item>Donec ut tortor pharetra, auctor purus ut, sollicitudin felis. Cras rutrum, neque et accumsan malesuada, arcu justo pretium mi, eu bibendum ex magna vel ante.</item>
-        <item>Duis blandit bibendum ex nec cursus.</item>
-        <item>Donec ornare, eros et rhoncus volutpat, orci leo lobortis nunc, ac dapibus nulla velit ac ante.</item>
-        <item>Proin dignissim maximus eleifend.</item>
-        <item>Sed ut varius elit.</item>
     </string-array>
 
     <string-array name="random_first_name">
@@ -111,11 +128,11 @@
     </string-array>
 
     <string-array name="random_country_and_city">
-        <item>Suomi, Tampere</item>
-        <item>Saksa, Frankfurt</item>
-        <item>Venäjä, Moscow</item>
-        <item>Ranska, Paris</item>
-        <item>Norja, Oslo</item>
+        <item>Tampere, Suomi</item>
+        <item>Frankfurt, Saksa</item>
+        <item>Moskova, Venäjä</item>
+        <item>Pariisi, Ranska</item>
+        <item>Oslo, Norja</item>
     </string-array>
 
     <string-array name="random_sales_pitch">
@@ -141,39 +158,63 @@
         <item>29,99€</item>
     </string-array>
 
-    <string name="in_cooperation">Yhteistyössä</string>
+    <string-array name="dummy_conversation">
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</item>
+        <item>Donec ut tortor pharetra, auctor purus ut, sollicitudin felis. Cras rutrum, neque et accumsan malesuada, arcu justo pretium mi, eu bibendum ex magna vel ante.</item>
+        <item>Duis blandit bibendum ex nec cursus.</item>
+        <item>Donec ornare, eros et rhoncus volutpat, orci leo lobortis nunc, ac dapibus nulla velit ac ante.</item>
+        <item>Proin dignissim maximus eleifend.</item>
+        <item>Sed ut varius elit.</item>
+    </string-array>
 
-    <string name="activity_login_title_google">Kirjaudu sisään Google-käyttäjällä</string>
-    <string name="title_activity_login">Kirjaudu sisään</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
 
-    <string name="select_coach">Valitse valmentaja</string>
+    <!-- OLD STRINGS -->
 
-    <string name="services">Palvelut</string>
-    <string name="service_chat">Chat</string>
-    <string name="service_call">Puhelu</string>
-    <string name="service_doc">Dokumentti</string>
-    <string name="currently_unavailable">Ei tällä hetkellä saatavilla</string>
+    <!-- old login strings -->
 
-    <string name="action_sign_in">Kirjaudu sisään tai rekisteröidy tästä</string>
-    <string name="action_sign_in_short">Kirjaudu sisään</string>
-    <string name="crash_dialog_comment_prompt">Voit halutessasi lisätä kuvauksen ongelmasta:</string>
-    <string name="crash_dialog_ok_toast">Kiitoksia!</string>
-    <string name="crash_dialog_text">Tapahtui odottamaton virhe, ohjelman on sulkeuduttava. Ole hyvä ja auta meitä lähettämällä virhetiedot. Sinun tarvitsee vain painaa \"OK\", kiitoksia!</string>
-    <string name="crash_dialog_title">CrashTest on kaatunut</string>
-    <string name="crash_toast_text">Hupsista! Kaaduin, mutta ongelmasta on lähetetty reportti kehittäjille, jotka saavat varmasti asian kuntoon!</string>
+    <string name="loading">Pieni hetki...</string>
     <string name="desc_google_icon">Googlen Logo</string>
     <string name="disconnect">Katkaise yhteys</string>
-    <string name="error_field_required">Tämä kenttä ei saa olla tyhjä</string>
-    <string name="error_incorrect_password">Salasana on väärä</string>
-    <string name="error_invalid_email">Sähköpostiosoite on väärä</string>
-    <string name="error_invalid_password">Tämä salasana on liian lyhyt</string>
-    <string name="loading">Pieni hetki...</string>
-    <string name="permission_rationale">\"Tarvitsemme luvan käyttää (puhelimen) yhteystietoja, jotta sähköpostiosoitteita voidaan ehdottaa</string>
-    <string name="prompt_email">Sähköposti</string>
-    <string name="prompt_password">Salasana (ei pakollinen)</string>
-    <string name="sign_out">Kirjaudu ulos</string>
     <string name="signed_in_fmt">Kirjauduttu osoitteella: %s</string>
     <string name="signed_out">Kirjauduttu ulos</string>
     <string name="title_text">Googlen pikakirjautuminen</string>
+    <string name="sign_out">Kirjaudu ulos</string>
+
+    <!-- tracker strings -->
+
+    <string name="action_calendar_today">Tänään</string>
+    <string name="action_select_a_color">Valitse väri</string>
+    <string name="action_edit">Muokkaa</string>
+    <string name="action_delete">Poista</string>
+    <string name="action_add_progress">lisää edistystä</string>
+
+    <string name="title_amount_to_add">Lisättävä määrä</string>
+    <string name="title_days_target">Päivän tavoite</string>
+    <string name="title_progress">Edistys</string>
+    <string name="title_tab_my_trackers">Seuranta</string>
+    <string name="title_time_left">Aikaa jäljellä</string>
+    <string name="title_target">Tavoite</string>
+    <string name="title_view_tracker_target">Tavoite</string>
+    <string name="title_view_tracker_target_date">Tavoite pvm.</string>
+    <string name="title_new_goal">Uusi tavoite</string>
+
+    <string name="hint_target_amount">Määrä</string>
+    <string name="hint_target_date">Pvm.</string>
+    <string name="hint_target_name">Nimi</string>
+
+    <string name="create_tracker">Luo tavoite</string>
+    <string name="create_tracker_done">Luo tavoite</string>
+
+    <string name="unit_time_days">päivää</string>
+    <string name="unit_time_days_one">päivä</string>
+    <string name="unit_time_months">kuukautta</string>
+    <string name="unit_time_months_one">kuukausi</string>
+
+    <string name="error_insufficent_data">Et ole syöttänyt vielä edistystä</string>
+    <string name="error_empty_field">Tyhjä kenttä</string>
+
+    <string name="message_remove_successful">Poistettu</string>
+    <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
 
 </resources>
