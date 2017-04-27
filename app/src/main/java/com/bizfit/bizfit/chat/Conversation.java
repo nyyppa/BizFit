@@ -382,6 +382,18 @@ public class Conversation implements NetworkReturn
 
         }
     }
+    public int getUnreadMessageNumber()
+    {
+        int unreadMessages=0;
+        for(int i=0;i<messageList.size();i++)
+        {
+            if(messageList.get(i).getHasBeenSeen())
+            {
+                unreadMessages++;
+            }
+        }
+        return unreadMessages;
+    }
 
     public void setChatFragment(ChatFragment chatFragment)
     {
