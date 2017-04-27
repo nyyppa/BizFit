@@ -50,7 +50,8 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
         }
 
     }
-    private Activity getActivity() {
+    private Activity getActivity()
+    {
         Context context = getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {

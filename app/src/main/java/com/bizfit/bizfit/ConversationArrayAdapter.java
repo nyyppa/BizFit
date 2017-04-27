@@ -37,10 +37,9 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
 
         TextView tVname = (TextView)convertView.findViewById(R.id.tVName);
         tVname.setText(Utils.getCouchName(conversation.getOther()));
-        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVName);
-        tVpreview.setText(Utils.getCouchName(conversation.getOther()));
 
-        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
+
+        //TextView tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);
         Message previewMessage = conversation.getLastRecievedMessage();
@@ -55,12 +54,11 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 TextView tVname=(TextView)v.findViewById(R.id.tVName);
-                MessageActivity.startChat(v,tVname.getText()+"");
-                DebugPrinter.Debug("Mitä vittua!!!!!!!!!! " + tVname.getText());
                 String coachID = Utils.getCouchID(tVname.getText()+"");
-                MessageActivity.startChat(v, coachID);
+                MessageActivity.startChat(v.getContext(), coachID);
             }
         });
 

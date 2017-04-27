@@ -11,6 +11,7 @@ import android.support.v7.app.NotificationCompat.Builder;
 
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.activities.LoginActivity2;
 import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.activities.MessageActivity;
 
@@ -103,7 +104,7 @@ public class NotificationSender {
                         .setContentTitle(title)
                         .setContentText(message);
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(a, MessageActivity.class);
+        Intent resultIntent = new Intent(a, LoginActivity2.class);
         DebugPrinter.Debug("notification" + coach);
         resultIntent.putExtra("coachID",coach);
 
@@ -113,7 +114,7 @@ public class NotificationSender {
         // your application to the Home screen.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(a);
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MessageActivity.class);
+        stackBuilder.addParentStack(LoginActivity2.class);
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =

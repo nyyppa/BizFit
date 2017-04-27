@@ -155,7 +155,7 @@ public class CoachPage extends AppCompatActivity {
             public void onClick(View view) {
                 if (COACH_ID != null) {
                     //view.getContext().startActivity(new Intent(view.getContext(), MessageActivity.class));
-                    MessageActivity.startChat(view, COACH_ID);
+                    MessageActivity.startChat(CoachPage.this, COACH_ID);
 
                     // wizard and requests not needed in uusyrityskeskus build
 

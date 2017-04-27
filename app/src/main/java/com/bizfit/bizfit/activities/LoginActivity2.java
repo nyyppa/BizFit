@@ -111,6 +111,12 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
         Intent intent2=new Intent(LoginActivity2.this,MainPage.class);
         intent2.putExtra("userName",acct.getEmail());
         intent2.putExtra("loggedIn", true);
+        Intent intent3 = getIntent();
+        if(intent3.hasExtra("coachID"))
+        {
+            intent2.putExtra("coachID", intent3.getStringExtra("coachID"));
+            intent3.removeExtra("coachID");
+        }
         User.mGoogleApiClient=mGoogleApiClient;
         startActivity(intent2);
     }

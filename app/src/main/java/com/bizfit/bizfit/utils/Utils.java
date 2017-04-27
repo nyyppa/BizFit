@@ -30,7 +30,7 @@ public class Utils {
                 name = "Customer Support";
                 break;
             default:
-                name="default";
+                name=coachId;
                 break;
 
         }
@@ -63,27 +63,27 @@ public class Utils {
 
     static public String getCouchID(String name)
     {
-        String couachID=null;
+        String couchID=null;
         switch (name)
         {
             case "Atte Yliverronen":
-                couachID=Constants.atte_email;
+                couchID=Constants.atte_email;
                 break;
             case "Jari Myllymäki":
-                couachID=Constants.jariM_email;
+                couchID=Constants.jariM_email;
                 break;
             case "Pasi Ojanen":
-                couachID=Constants.pasi_email;
+                couchID=Constants.pasi_email;
                 break;
             case "Jari Järvenpää":
-                couachID=Constants.jari_email;
+                couchID=Constants.jari_email;
                 break;
             default:
-                name="default";
-                couachID="default";
+                couchID="default";
+                couchID=name;
                 break;
 
         }
-        return couachID;
+        return couchID;
     }
 }

@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,20 +16,20 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
     }
 
-    public static void startChat(View v, String coachID){
-        Intent intent=new Intent(v.getContext(),MessageActivity.class);
+    public static void startChat(Context context, String coachID){
+        Intent intent=new Intent(context ,MessageActivity.class);
         intent.putExtra("coachID",coachID);
-        v.getContext().startActivity(intent);
+        context.startActivity(intent);
     }
-    public static void startChat(View v, Intent intent2){
-        Intent intent=new Intent(v.getContext(),MessageActivity.class);
+    public static void startChat(Context context, Intent intent2){
+        Intent intent=new Intent(context,MessageActivity.class);
         intent.putExtras(intent2);
-        v.getContext().startActivity(intent);
+        context.startActivity(intent);
     }
-    public static void startChat(View v, Bundle bundle){
-        Intent intent=new Intent(v.getContext(),MessageActivity.class);
+    public static void startChat(Context context, Bundle bundle){
+        Intent intent=new Intent(context ,MessageActivity.class);
         intent.putExtras(bundle);
-        v.getContext().startActivity(intent);
+        context.startActivity(intent);
     }
 
 }

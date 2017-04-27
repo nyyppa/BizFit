@@ -427,7 +427,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public User readUser (String username) {
         SQLiteDatabase db=getWritableDatabase();
         User user = null;
-        if (username.equals("default") && isTableExists(db, lastUser)) {
+        if (username==null && isTableExists(db, lastUser)) {
             Cursor cursor = db.rawQuery("SELECT * FROM " + lastUser, null);
             cursor.moveToFirst();
             username = cursor.getString(cursor.getColumnIndex(lastUser));

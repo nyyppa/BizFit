@@ -156,7 +156,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
             intent.putExtra("coachID", "atte.yliverronen@gmail.com");
             intent.putExtra("coachName", "Pentti Holappa");
             intent.putExtra("imgID", getDrawableID(recipient));
-            MessageActivity.startChat(v, intent);
+            MessageActivity.startChat(v.getContext(), intent);
         }
     }
 }

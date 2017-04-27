@@ -363,7 +363,7 @@ public class Conversation implements NetworkReturn
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     Message message2=getLastRecievedMessage();
                     if(message2!=null && User.getContext()!=null && chatFragment==null) {
-                        NotificationSender.sendNotification(User.getContext(), getOther(),message2.getMessage(),getOther());
+                        NotificationSender.sendNotification(User.getContext(), Utils.getCouchName(getOther()),message2.getMessage(),getOther());
                     }
                     sortConversation();
                 }

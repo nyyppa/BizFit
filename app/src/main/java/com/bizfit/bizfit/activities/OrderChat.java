@@ -123,7 +123,7 @@ public class OrderChat extends ListActivity {
                 // TODO: go to payment
                 // before payment is created, send request and go to chat window
                 new ChatRequest(User.getLastUser(null,null,null).userName, COACH_ID, need.toString(), skill.toString(), details).sendToNet();
-                MessageActivity.startChat(listView, COACH_ID);
+                MessageActivity.startChat(listView.getContext(), COACH_ID);
                 break;
         }
     }

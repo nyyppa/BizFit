@@ -124,6 +124,12 @@ public class MainPage extends AppCompatActivity implements
         lastOpen = System.currentTimeMillis();
         super.onStart();
         startBackGroundService();
+        if(getIntent().hasExtra("coachID"))
+        {
+            String s = getIntent().getStringExtra("coachID");
+            getIntent().removeExtra("coachID");
+            MessageActivity.startChat(this, s);
+        }
         /* DBHelper db=new DBHelper(this,"database1",null,5);
         SQLiteDatabase d=db.getWritableDatabase();
         db.saveUser(d, User.getLastUser());
@@ -229,10 +235,11 @@ public class MainPage extends AppCompatActivity implements
                 });
             }
         }
-        else
+        /*else
         {
             User.getLastUser(null, this, "default");
         }
+        */
     }
 
     /**

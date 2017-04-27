@@ -185,15 +185,21 @@ public class User  {
                 User user = null;
                 if (currentUser != null) {
                     user = currentUser;
-                } else {
+                } /*else {
                     user = db.readUser("default");
                 }
+                */
                 //JariJ 1.2.17
                 //Checking users conversations and calling getNewMessagesAndSendOldOnes
                 //Because notifications should show even when app is inactive
-                for (int i = 0; i < user.getConversations().size(); i++) {
-                    user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+                if(currentUser!=null)
+                {
+                    for (int i = 0; i < user.getConversations().size(); i++)
+                    {
+                        user.getConversations().get(i).getNewMessagesAndSendOldOnes();
+                    }
                 }
+
                 db.close();
 
                 if(currentUser==null)
@@ -227,9 +233,9 @@ public class User  {
     public static User getLastUser(UserLoadedListener listener, Context c, String userName) {
         if(userName!=null){
             userNameForLogin=userName;
-        }else if(userNameForLogin==null||userNameForLogin.isEmpty()){
+        }/*else if(userNameForLogin==null||userNameForLogin.isEmpty()){
             userNameForLogin="default";
-        }
+        }*/
         if(currentUser!=null&&userName!=null&&!currentUser.userName.equals(userName)){
             currentUser=null;
         }

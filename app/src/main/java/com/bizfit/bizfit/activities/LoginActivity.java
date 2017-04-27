@@ -256,12 +256,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
-            case R.id.skip_singin:
+            /*case R.id.skip_singin:
                 Intent intent=new Intent(LoginActivity.this,MainPage.class);
                 intent.putExtra("userName","default");
                 intent.putExtra("loggedIn", false);
                 startActivity(intent);
                 break;
+                */
             case R.id.continue_button:{
                 Intent intent2=new Intent(LoginActivity.this,MainPage.class);
                 intent2.putExtra("userName",acct.getEmail());
