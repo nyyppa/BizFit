@@ -18,6 +18,7 @@ import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.ConversationTabView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by attey on 01/02/2017.
@@ -37,10 +38,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
 
         TextView tVname = (TextView)convertView.findViewById(R.id.tVName);
         tVname.setText(Utils.getCouchName(conversation.getOther()));
-        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVName);
-        tVpreview.setText(Utils.getCouchName(conversation.getOther()));
 
-        TextView tVpreview = (TextView)convertView.findViewById(R.id.tVPreview);
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);
         Message previewMessage = conversation.getLastRecievedMessage();
@@ -65,5 +63,32 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         });
 
         return convertView;
+    }
+    @Override
+    public void notifyDataSetChanged() {
+        sort(new Comparator<Conversation>() {
+            @Override
+            public int compare(Conversation o1, Conversation o2) {
+                if(o1.getMessages()==null||o1.getMessages().get(0)==null)
+                {
+                    return -1;
+                }
+                if(o2.getMessages()==null||o2.getMessages().get(0)==null)
+                {
+                    return 1;
+                }
+                if(o1.getMessages().get(0).getCreationTime()<o2.getMessages().get(0).getCreationTime())
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+        });
+        //do your sorting here
+
+        super.notifyDataSetChanged();
     }
 }
