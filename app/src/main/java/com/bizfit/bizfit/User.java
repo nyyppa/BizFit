@@ -76,6 +76,7 @@ public class User  {
     public List<ChatRequest> requestsForMe=new ArrayList<>();
     public UUID uuid;
     public List<ChatRequest> requestsFromMe=new ArrayList<>();
+    Contact myContactInfo;
 
     private User(){
         userName="";
@@ -934,5 +935,9 @@ public class User  {
                 }
             });
         }
+    }
+    public void setMyContactInfo(Contact contact)
+    {
+        this.myContactInfo=contact;
     }
 }

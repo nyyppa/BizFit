@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.bizfit.bizfit.Coach;
+import com.bizfit.bizfit.Contact;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.MyAlarmService;
 import com.bizfit.bizfit.R;
@@ -216,7 +217,8 @@ public class MainPage extends AppCompatActivity implements
     {
         if(getIntent().hasExtra("userName"))
         {
-            User.getLastUser(null, this, getIntent().getStringExtra("userName"));
+            User user=User.getLastUser(null, this, getIntent().getStringExtra("userName"));
+            user.setMyContactInfo(new Contact(getIntent().getStringExtra("firstName"),getIntent().getStringExtra("lastName"),getIntent().getStringExtra("userName")));
             if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com+UAHUARGAYGEYAGEHAGDASDHJKA")){
                 MediaPlayer mediaPlayer=MediaPlayer.create(this,R.raw.good_morning_vietnam);
                 mediaPlayer.start();

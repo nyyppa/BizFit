@@ -110,6 +110,8 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
     public void continueToCoachPage(){
         Intent intent2=new Intent(LoginActivity2.this,MainPage.class);
         intent2.putExtra("userName",acct.getEmail());
+        intent2.putExtra("firstName",acct.getGivenName());
+        intent2.putExtra("lastName",acct.getFamilyName());
         intent2.putExtra("loggedIn", true);
         Intent intent3 = getIntent();
         if(intent3.hasExtra("coachID"))
