@@ -168,7 +168,7 @@ public class Message implements NetworkReturn, Serializable {
         String time="";
         if(timestamp.isToday())
         {
-            time = timestamp.getHour()+":" + timestamp.getMinute() ;
+            time = timestamp.getClockDisplayName();
         }
         else if(timestamp.isThisYear())
         {

@@ -75,7 +75,7 @@
             android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toTopOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/textView14"
