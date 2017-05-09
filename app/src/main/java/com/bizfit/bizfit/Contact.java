@@ -69,7 +69,7 @@ public class Contact {
         return displayName;
     }
 
-    private byte[] pictureToByteArray()
+    public byte[] pictureToByteArray()
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap bitmap = ((BitmapDrawable)picture).getBitmap();
@@ -78,10 +78,27 @@ public class Contact {
         return photo;
     }
 
+    public Drawable getPicture() {
+        return picture;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCoachID() {
+        return coachID;
+    }
+
     private void setPicture(byte[] picture)
     {
         Bitmap bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
         this.picture = new BitmapDrawable(MyApplication.getContext().getResources(), bmp);
+
     }
     public void setPicture(Drawable drawable)
     {
