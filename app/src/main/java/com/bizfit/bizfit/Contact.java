@@ -68,6 +68,21 @@ public class Contact {
         }
         return displayName;
     }
+
+    private byte[] pictureToByteArray()
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap bitmap = ((BitmapDrawable)picture).getBitmap();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] photo = baos.toByteArray();
+        return photo;
+    }
+
+    private void setPicture(byte[] picture)
+    {
+        Bitmap bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        this.picture = new BitmapDrawable(MyApplication.getContext().getResources(), bmp);
+    }
     public void setPicture(Drawable drawable)
     {
         picture=drawable;
@@ -83,11 +98,12 @@ public class Contact {
         return pictureString;
     }
 
-    public void stringToPicture(String string)
+    public Drawable stringToPicture(String string)
     {
         byte[] tmp2 = Base64.decode(string,Base64.DEFAULT);
         Bitmap bmp = BitmapFactory.decodeByteArray(tmp2, 0, tmp2.length);
         picture = new BitmapDrawable(MyApplication.getContext().getResources(), bmp);
+        return picture;
     }
 
     public JSONObject toJSON()
