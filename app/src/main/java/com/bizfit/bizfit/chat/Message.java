@@ -1,12 +1,15 @@
 package com.bizfit.bizfit.chat;
 
+import com.bizfit.bizfit.BackgroundThread;
 import com.bizfit.bizfit.DebugPrinter;
+import com.bizfit.bizfit.OurRunnable;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.tracker.SharedTracker;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.utils.DBHelper;
 import com.bizfit.bizfit.utils.OurDateTime;
 
 import org.json.JSONException;
@@ -108,7 +111,22 @@ public class Message implements NetworkReturn, Serializable {
         }
         boolean oldValue=hasBeenSeen;
         this.hasBeenSeen=newValue;
-        DebugPrinter.Debug("newValue: " + newValue + "oldValue: " + oldValue + "message: " + getMessage());
+        if(oldValue !=newValue)
+        {
+            BackgroundThread.addOurRunnable(new OurRunnable() {
+                @Override
+                public void run()
+                {
+                    DBHelper db = User.getDBHelper();
+                    if(db !=null)
+                    {
+
+                        db.saveMessage(Message.this, db.getWritableDatabase());
+                    }
+                }
+            });
+
+        }
         return oldValue!=newValue;
     }
     public boolean equals(Message message){
@@ -121,7 +139,12 @@ public class Message implements NetworkReturn, Serializable {
             job=Job.INCOMING;
         }
     }
-    public boolean getHasBeenSeen(){
+    public boolean getHasBeenSeen()
+    {
+        if(job==Job.OUTGOING)
+        {
+            return true;
+        }
         return hasBeenSeen;
     }
     private void codeCheck(){

@@ -520,6 +520,18 @@ public class User  {
     {
         void informationUpdated();
     }
+
+    public static DBHelper getDBHelper()
+    {
+        if(DBthread!=null)
+        {
+            return DBthread.dbHelper;
+        }
+        else
+        {
+            return null;
+        }
+    }
     private static class DBT extends OurRunnable
     {
         DBHelper dbHelper;

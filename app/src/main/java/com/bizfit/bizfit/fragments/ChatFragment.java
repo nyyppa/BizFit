@@ -1,29 +1,13 @@
 package com.bizfit.bizfit.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.Telephony;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -83,7 +67,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         ImageView iVcoach=(ImageView)v.findViewById(R.id.coach_image);
         iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
 
-        String coachName = Utils.getCouchName(mAdapter.getConversation().getOther());
+        String coachName = Utils.getCoachName(mAdapter.getConversation().getOther());
 
         TextView tVname=(TextView)v.findViewById(R.id.coach_name);
         tVname.setText(coachName);
