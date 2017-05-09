@@ -1,7 +1,6 @@
 package com.bizfit.bizfit;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
-import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.ConversationTabView;
 
@@ -37,7 +35,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         }
 
         TextView tVname = (TextView)convertView.findViewById(R.id.tVName);
-        tVname.setText(Utils.getCouchName(conversation.getOther()));
+        tVname.setText(Utils.getCoachName(conversation.getOther()));
 
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);

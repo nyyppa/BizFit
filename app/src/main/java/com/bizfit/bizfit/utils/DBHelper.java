@@ -104,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
     }
-    private void saveMessage(Message message,SQLiteDatabase db)
+    public void saveMessage(Message message,SQLiteDatabase db)
     {
         ContentValues contentValues=new ContentValues();
         contentValues.put("message",message.getMessage());
@@ -332,6 +332,7 @@ public class DBHelper extends SQLiteOpenHelper {
         message.hasBeenSeen=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSeen")));
         message.hasBeenSent=intToBoolean(cursor.getInt(cursor.getColumnIndex("hasBeenSent")));
         message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
+        message.setJob();
         return message;
     }
 

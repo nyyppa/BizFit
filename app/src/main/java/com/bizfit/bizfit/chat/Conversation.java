@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
@@ -19,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -362,8 +360,9 @@ public class Conversation implements NetworkReturn
                     });
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
                     Message message2=getLastRecievedMessage();
-                    if(message2!=null && User.getContext()!=null && chatFragment==null) {
-                        NotificationSender.sendNotification(User.getContext(), Utils.getCouchName(getOther()),message2.getMessage(),getOther());
+                    if(message2!=null && User.getContext()!=null && chatFragment==null)
+                    {
+                        NotificationSender.sendNotification(User.getContext(), Utils.getCoachName(getOther()),message2.getMessage(),getOther());
                     }
                     sortConversation();
                 }

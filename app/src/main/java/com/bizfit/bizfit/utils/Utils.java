@@ -9,7 +9,7 @@ import com.bizfit.bizfit.R;
 
 public class Utils {
 
-    public static String getCouchName(String coachId)
+    public static String getCoachName(String coachId)
     {
         String name=null;
         switch (coachId)
