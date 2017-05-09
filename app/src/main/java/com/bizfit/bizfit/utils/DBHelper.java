@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bizfit.bizfit.ChatRequest;
+import com.bizfit.bizfit.Contact;
 import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.User;
@@ -117,6 +118,25 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insertWithOnConflict("Messages", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
+    /** Made by JariJ
+     * Last modified 9.5.17 by JariJ
+     * @param contact
+     * @param db
+     */
+    public void saveContact(Contact contact, SQLiteDatabase db)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("userID", contact.getUserID());
+        byte[]byteArray = contact.pictureToByteArray();
+        if(byteArray !=null)
+        {
+            contentValues.put("picture", byteArray);
+        }
+        contentValues.put("firstName", contact.getFirstName());
+        contentValues.put("lastName", contact.getLastName());
+        db.insertWithOnConflict("Contact", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
     private void saveChatRequest(User user,  SQLiteDatabase db)
     {
         ContentValues contentValues=new ContentValues();
@@ -155,7 +175,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     /**
      * Creating a new local SQL database
-     * by JariJ 5.4.17
+     * Last modified by JariJ 9.5.17
      *
      */
     public void initDB()
@@ -207,6 +227,16 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         creationTime int NOT NULL,\n" +
                     "         hasBeenSeen bool,\n" +
                     "         hasBeenSent bool\n" +
+                    "     );");
+        }
+        if(!isTableExists(db, "Contact"))
+        {
+            db.execSQL("  CREATE TABLE Contact\n" +
+                    "     (\n" +
+                    "         userID text NOT NULL PRIMARY KEY,\n" +
+                    "         picture BLOB \n" +
+                    "         firstName text \n" +
+                    "         lastName text \n" +
                     "     );");
         }
 
@@ -334,6 +364,12 @@ public class DBHelper extends SQLiteOpenHelper {
         message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
         message.setJob();
         return message;
+    }
+    private Contact readContact(String ID, SQLiteDatabase db)
+    {
+        Contact contact = new Contact(db.rawQuery("SELECT * FROM Contact WHERE ID = \'" +
+                 ID + "\'" , null));
+        return contact;
     }
 
     /**

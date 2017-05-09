@@ -10,9 +10,13 @@ import android.view.View;
 import com.bizfit.bizfit.R;
 
 public class MessageActivity extends AppCompatActivity {
-
+    /** Last updated 9.5.17 by JariJ
+     * Canceling all notifications, when entering chat activity
+     * @param savedInstanceState
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         NotificationManager nManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

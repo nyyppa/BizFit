@@ -1,5 +1,6 @@
 package com.bizfit.bizfit;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,14 +20,37 @@ public class Contact {
     Drawable picture;
     String firstName;
     String lastName;
-    String coachID;
+    String userID;
 
-    public Contact (String firstName,String lastName,String coachID)
+    public Contact (String firstName,String lastName,String userID)
     {
         this.firstName=firstName;
         this.lastName=lastName;
-        this.coachID=coachID;
+        this.userID = userID;
     }
+
+    /** Made by JariJ
+     * Last modified by JariJ 9.5.17
+     * @param cursor reader of the data
+     */
+    public Contact(Cursor cursor)
+    {
+        cursor.moveToFirst();
+        userID = cursor.getString(cursor.getColumnIndex("userID"));
+        firstName = cursor.getString(cursor.getColumnIndex("firstName"));
+        lastName = cursor.getString(cursor.getColumnIndex("lastName"));
+        int columnIndex = cursor.getColumnIndex("picture");
+        if(columnIndex > -1)
+        {
+            byte[]byteArray = cursor.getBlob(columnIndex);
+            setPicture(byteArray);
+        }
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
     public Contact(JSONObject jsonObject)
     {
         try {
@@ -42,9 +66,9 @@ public class Contact {
             {
                 stringToPicture(jsonObject.getString("picture"));
             }
-            if(jsonObject.has("coachID"))
+            if(jsonObject.has("userID"))
             {
-                coachID=jsonObject.getString("coachID");
+                userID =jsonObject.getString("userID");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -64,7 +88,7 @@ public class Contact {
         }
         if(displayName.isEmpty())
         {
-            displayName=coachID;
+            displayName= userID;
         }
         return displayName;
     }
@@ -92,10 +116,6 @@ public class Contact {
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getCoachID() {
-        return coachID;
     }
 
     private void setPicture(byte[] picture)
@@ -139,7 +159,7 @@ public class Contact {
             {
                 jsonObject.put("firstName",firstName);
             }
-            jsonObject.put("coachID",coachID);
+            jsonObject.put("userID", userID);
             if(picture!=null)
             {
                 jsonObject.put("picture",pictureToString());
