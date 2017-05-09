@@ -71,6 +71,10 @@ public class Contact {
 
     public byte[] pictureToByteArray()
     {
+        if(picture==null)
+        {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap bitmap = ((BitmapDrawable)picture).getBitmap();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
