@@ -18,7 +18,7 @@ import com.bizfit.bizfit.chat.Message;
  */
 
 public class ConversationTabView extends android.support.v7.widget.AppCompatTextView implements Conversation.NewMessageRecievedListener {
-
+    TextView unreadMessages;
     public ConversationTabView(Context context) {
         super(context);
     }
@@ -29,6 +29,10 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
 
     public ConversationTabView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+    public void setUnreadMessages(TextView textView)
+    {
+        this.unreadMessages=textView;
     }
 
     @Override
@@ -50,6 +54,39 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
         }
 
     }
+
+    @Override
+    public void setUnreadMessageNumber(int number) {
+        Activity activity=getActivity();
+        if(unreadMessages==null)
+        {
+            return;
+        }
+        final int unreadMessageNumber=number;
+        if(activity!=null)
+        {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(unreadMessageNumber>99)
+                    {
+                        unreadMessages.setText(99+"+");
+                        unreadMessages.setVisibility(VISIBLE);
+                    }
+                    else if(unreadMessageNumber>0)
+                    {
+                        unreadMessages.setText(unreadMessageNumber+"");
+                        unreadMessages.setVisibility(VISIBLE);
+                    }
+                    else
+                    {
+                        unreadMessages.setVisibility(INVISIBLE);
+                    }
+                }
+            });
+        }
+    }
+
     private Activity getActivity()
     {
         Context context = getContext();

@@ -42,6 +42,24 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);
         Message previewMessage = conversation.getLastRecievedMessage();
+        int unreadMessageNumber=conversation.getUnreadMessageNumber();
+        TextView textView=(TextView)convertView.findViewById(R.id.unreadIcon);
+        conversationTabView.setUnreadMessages(textView);
+        if(unreadMessageNumber>0)
+        {
+            if(unreadMessageNumber>99)
+            {
+                textView.setText(99+"+");
+            }
+            else
+            {
+                textView.setText(unreadMessageNumber+"");
+            }
+        }
+        else
+        {
+            textView.setVisibility(View.INVISIBLE);
+        }
 
         if (previewMessage != null)
         {

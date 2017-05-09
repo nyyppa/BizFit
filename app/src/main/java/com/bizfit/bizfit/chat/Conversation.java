@@ -375,6 +375,7 @@ public class Conversation implements NetworkReturn
                 {
                     Message message2=getLastRecievedMessage();
                     newMessageRecievedListener.newMessageRecieved(message2);
+                    newMessageRecievedListener.setUnreadMessageNumber(getUnreadMessageNumber());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -387,7 +388,7 @@ public class Conversation implements NetworkReturn
         int unreadMessages=0;
         for(int i=0;i<messageList.size();i++)
         {
-            if(messageList.get(i).getHasBeenSeen())
+            if(!messageList.get(i).getHasBeenSeen())
             {
                 unreadMessages++;
             }
@@ -420,5 +421,6 @@ public class Conversation implements NetworkReturn
     public interface NewMessageRecievedListener
     {
         public void newMessageRecieved(Message message);
+        public void setUnreadMessageNumber(int number);
     }
 }
