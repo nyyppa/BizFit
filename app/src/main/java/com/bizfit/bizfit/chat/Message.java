@@ -113,6 +113,7 @@ public class Message implements NetworkReturn, Serializable {
         this.hasBeenSeen=newValue;
         if(oldValue !=newValue)
         {
+            updateHasBeenSeenToServer(newValue);
             BackgroundThread.addOurRunnable(new OurRunnable() {
                 @Override
                 public void run()
@@ -128,6 +129,33 @@ public class Message implements NetworkReturn, Serializable {
 
         }
         return oldValue!=newValue;
+    }
+
+    /** Made by JariJ
+     * Last updated 10.5.17 by JariJ
+     * @param newValue updated HasbeenSeen boolean
+     */
+    public void updateHasBeenSeenToServer(final boolean newValue)
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("UpdatedHasBeenSeen", newValue);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals(Constants.networkconn_failed))
+                {
+                    updateHasBeenSeenToServer(newValue);
+                }
+            }
+        },jsonObject);
+        Network.addNetMessage(netMessage);
     }
     public boolean equals(Message message){
         return this.uuid.equals(message.uuid);
