@@ -140,7 +140,9 @@ public class Message implements NetworkReturn, Serializable {
         JSONObject jsonObject = new JSONObject();
         try
         {
+            jsonObject.put(Constants.job,"updateHasBeenSeen");
             jsonObject.put("UpdatedHasBeenSeen", newValue);
+            jsonObject.put(Constants.UUID,uuid.toString());
         }
         catch (JSONException e)
         {
