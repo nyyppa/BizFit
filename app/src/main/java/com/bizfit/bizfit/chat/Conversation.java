@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.bizfit.bizfit.Contact;
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
@@ -38,7 +40,10 @@ public class Conversation implements NetworkReturn
 
     private User user;
     private transient ChatFragment chatFragment;
-    private NetworkInfo netinfo;
+
+
+
+    private Contact contact;
 
     private NewMessageRecievedListener newMessageRecievedListener;
     public Conversation()
@@ -421,5 +426,53 @@ public class Conversation implements NetworkReturn
     {
         public void newMessageRecieved(Message message);
         public void setUnreadMessageNumber(int number);
+    }
+    public Contact getContact() {
+        if(contact==null)
+        {
+            getContactFromNet();
+        }
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+        if(contact==null)
+        {
+            getContactFromNet();
+        }
+    }
+
+    private void getContactFromNet()
+    {
+        if(other!=null)
+        {
+            JSONObject jsonObject=new JSONObject();
+            try {
+                jsonObject.put(Constants.job,"loadContactInfo");
+                jsonObject.put("userID",other);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+                @Override
+                public void returnMessage(String message) {
+                    if(message.equals(Constants.networkconn_failed)||message.startsWith("no contact_info found "))
+                    {
+                        getContactFromNet();
+                    }
+                    else
+                    {
+                        try {
+                            JSONObject jsonObject1=new JSONObject(message);
+                            contact=new Contact(jsonObject1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            },jsonObject));
+        }
     }
 }

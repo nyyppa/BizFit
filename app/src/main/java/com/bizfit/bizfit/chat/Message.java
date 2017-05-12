@@ -104,7 +104,7 @@ public class Message implements NetworkReturn, Serializable {
     }
     public boolean updateHasBeenSeen(boolean newValue)
     {
-        DebugPrinter.Debug("hasbeenseen job:" + job);
+        DebugPrinter.Debug("hasbeenseen job:" + newValue+":"+hasBeenSeen);
         if(job==Job.OUTGOING)
         {
             return false;
@@ -140,7 +140,7 @@ public class Message implements NetworkReturn, Serializable {
         JSONObject jsonObject = new JSONObject();
         try
         {
-            jsonObject.put(Constants.job,"updateHasBeenSeen");
+            jsonObject.put(Constants.job,"updateMessageHasBeenSeen");
             jsonObject.put("UpdatedHasBeenSeen", newValue);
             jsonObject.put(Constants.UUID,uuid.toString());
         }

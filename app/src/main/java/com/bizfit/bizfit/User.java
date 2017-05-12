@@ -951,5 +951,21 @@ public class User  {
     public void setMyContactInfo(Contact contact)
     {
         this.myContactInfo=contact;
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put(Constants.job,"saveContactInfo");
+            jsonObject.put("contact_info",contact.toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals(Constants.networkconn_failed))
+                {
+
+                }
+            }
+        },jsonObject));
     }
 }

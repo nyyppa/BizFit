@@ -120,6 +120,10 @@ public class Contact {
 
     private void setPicture(byte[] picture)
     {
+        if(picture==null)
+        {
+            return;
+        }
         Bitmap bmp = BitmapFactory.decodeByteArray(picture, 0, picture.length);
         this.picture = new BitmapDrawable(MyApplication.getContext().getResources(), bmp);
 

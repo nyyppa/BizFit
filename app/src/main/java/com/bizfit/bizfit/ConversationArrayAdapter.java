@@ -35,7 +35,16 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         }
 
         TextView tVname = (TextView)convertView.findViewById(R.id.tVName);
-        tVname.setText(Utils.getCoachName(conversation.getOther()));
+        if(conversation.getContact()!=null)
+        {
+            tVname.setText(conversation.getContact().getDisplayName());
+        }
+        else
+        {
+            tVname.setText(conversation.getOther());
+            //tVname.setText(Utils.getCoachName(conversation.getOther()));
+        }
+
 
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);

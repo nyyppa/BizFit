@@ -28,7 +28,7 @@ import com.google.android.gms.common.api.Status;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, OnClickListener{
+public class LoginActivityOld extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, OnClickListener{
 
 
     private static final String TAG = "SignInActivity";
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent=new Intent(LoginActivity.this,MainPage.class);
+                                Intent intent=new Intent(LoginActivityOld.this,MainPage.class);
                                 intent.putExtra("userName","default");
                                 startActivity(intent);
                                 timer.purge();
@@ -257,14 +257,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 revokeAccess();
                 break;
             /*case R.id.skip_singin:
-                Intent intent=new Intent(LoginActivity.this,MainPage.class);
+                Intent intent=new Intent(LoginActivityOld.this,MainPage.class);
                 intent.putExtra("userName","default");
                 intent.putExtra("loggedIn", false);
                 startActivity(intent);
                 break;
                 */
             case R.id.continue_button:{
-                Intent intent2=new Intent(LoginActivity.this,MainPage.class);
+                Intent intent2=new Intent(LoginActivityOld.this,MainPage.class);
                 intent2.putExtra("userName",acct.getEmail());
                 intent2.putExtra("loggedIn", true);
                 startActivity(intent2);

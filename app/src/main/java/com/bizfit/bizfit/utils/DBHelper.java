@@ -90,7 +90,6 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveConversation(User user, SQLiteDatabase db)
     {
-        ContentValues messagesValues = new ContentValues();
         for(int i=0; i < user.getConversations().size(); i++)
         {
             for(int j=0;j<user.getConversations().get(i).getMessages().size();j++)
@@ -102,6 +101,7 @@ public class DBHelper extends SQLiteOpenHelper {
             conversationsValues.put("owner",user.getConversations().get(i).getOwner());
             conversationsValues.put("conversationID",user.getConversations().get(i).getOwner()+"+"+user.getConversations().get(i).getOther());
             db.insertWithOnConflict("Conversations", null, conversationsValues, SQLiteDatabase.CONFLICT_REPLACE);
+            saveContact(user.getConversations().get(i).getContact(),db);
         }
 
     }
@@ -125,6 +125,10 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void saveContact(Contact contact, SQLiteDatabase db)
     {
+        if(contact==null)
+        {
+            return;
+        }
         ContentValues contentValues = new ContentValues();
         contentValues.put("userID", contact.getUserID());
         byte[]byteArray = contact.pictureToByteArray();
@@ -234,8 +238,8 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL("  CREATE TABLE Contact\n" +
                     "     (\n" +
                     "         userID text NOT NULL PRIMARY KEY,\n" +
-                    "         picture BLOB \n" +
-                    "         firstName text \n" +
+                    "         picture BLOB, \n" +
+                    "         firstName text, \n" +
                     "         lastName text \n" +
                     "     );");
         }
@@ -315,6 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
                 conversation.messageList = readMessages(user.userName, conversation.getOther(), db);
                 conversation.setUser(user);
+                conversation.setContact(readContact(conversation.getOther(),db));
                 conversationsList.add(conversation);
             }
 
@@ -367,9 +372,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     private Contact readContact(String ID, SQLiteDatabase db)
     {
-        Contact contact = new Contact(db.rawQuery("SELECT * FROM Contact WHERE ID = \'" +
-                 ID + "\'" , null));
-        return contact;
+        Cursor cursor=db.rawQuery("SELECT * FROM Contact WHERE userID = \'" +
+                ID + "\'" , null);
+        if(cursor.moveToFirst())
+        {
+            Contact contact = new Contact(cursor);
+            return contact;
+        }
+        return null;
     }
 
     /**
