@@ -76,12 +76,12 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         ImageView iVrecipient = (ImageView)convertView.findViewById(R.id.iVRecipient);
         iVrecipient.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(conversation.getOther())));
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new ConversationOnClickListener(conversation.getOther()) {
+
             @Override
             public void onClick(View v) {
-                TextView tVname=(TextView)v.findViewById(R.id.tVName);
-                String coachID = Utils.getCouchID(tVname.getText()+"");
-                MessageActivity.startChat(v.getContext(), coachID);
+
+                MessageActivity.startChat(v.getContext(), userId);
             }
         });
 
@@ -113,5 +113,13 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         //do your sorting here
 
         super.notifyDataSetChanged();
+    }
+
+    public abstract class ConversationOnClickListener implements View.OnClickListener {
+        String userId;
+
+        public ConversationOnClickListener(String userID) {
+            this.userId = userID;
+        }
     }
 }
