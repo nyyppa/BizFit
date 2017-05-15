@@ -6,8 +6,13 @@ import android.content.ContextWrapper;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bizfit.bizfit.ConversationArrayAdapter;
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
@@ -43,11 +48,18 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
             return;
         }
         final String text=message.getMessage();
+        ;
+        DebugPrinter.Debug("ID:"+"");
+
+        //((ConversationArrayAdapter)((ListView)((LinearLayout)getParent()).findViewById(R.id.lista)).getAdapter()).notifyDataSetChanged();
+
+        //((ConversationArrayAdapter)((ListView)getParent()).getAdapter()).notifyDataSetChanged();
         if(activity!=null)
         {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    ((ConversationArrayAdapter)((ListView)((RelativeLayout)((LinearLayout)getParent()).getParent()).getParent()).getAdapter()).testi();
                     setText(text);
                 }
             });

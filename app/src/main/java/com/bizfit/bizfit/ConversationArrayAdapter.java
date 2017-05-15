@@ -87,30 +87,34 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
 
         return convertView;
     }
+
+    public void testi(){
+        if(getCount()>=2){
+            sort(new Comparator<Conversation>() {
+                @Override
+                public int compare(Conversation o1, Conversation o2) {
+                    if(o1.getMessages()==null||o1.getMessages().size()==0||o1.getMessages().get(0)==null)
+                    {
+                        return 1;
+                    }
+                    if(o2.getMessages()==null||o2.getMessages().size()==0||o2.getMessages().get(0)==null)
+                    {
+                        return -1;
+                    }
+                    if(o1.getMessages().get(0).getCreationTime()<o2.getMessages().get(0).getCreationTime())
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            });
+        }
+    }
     @Override
     public void notifyDataSetChanged() {
-        sort(new Comparator<Conversation>() {
-            @Override
-            public int compare(Conversation o1, Conversation o2) {
-                if(o1.getMessages()==null||o1.getMessages().get(0)==null)
-                {
-                    return -1;
-                }
-                if(o2.getMessages()==null||o2.getMessages().get(0)==null)
-                {
-                    return 1;
-                }
-                if(o1.getMessages().get(0).getCreationTime()<o2.getMessages().get(0).getCreationTime())
-                {
-                    return -1;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-        });
-        //do your sorting here
 
         super.notifyDataSetChanged();
     }
