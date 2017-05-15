@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 
 import org.acra.*;
 import org.acra.annotation.*;
@@ -38,6 +39,7 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         baseContext=base;
+        MultiDex.install(this);
         // The following line triggers the initialization of ACRA
         ACRA.init(this);
     }
