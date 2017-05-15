@@ -88,7 +88,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
         return convertView;
     }
 
-    public void testi(){
+    public void sortConversations(){
         if(getCount()>=2){
             sort(new Comparator<Conversation>() {
                 @Override

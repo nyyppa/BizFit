@@ -3,9 +3,7 @@ package com.bizfit.bizfit.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import com.bizfit.bizfit.ConversationArrayAdapter;
 import com.bizfit.bizfit.DebugPrinter;
-import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 
@@ -59,7 +56,7 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((ConversationArrayAdapter)((ListView)((RelativeLayout)((LinearLayout)getParent()).getParent()).getParent()).getAdapter()).testi();
+                    ((ConversationArrayAdapter)((ListView)((RelativeLayout)((LinearLayout)getParent()).getParent()).getParent()).getAdapter()).sortConversations();
                     setText(text);
                 }
             });
