@@ -122,4 +122,13 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
         User.mGoogleApiClient=mGoogleApiClient;
         startActivity(intent2);
     }
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        /*moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);*/
+    }
 }
