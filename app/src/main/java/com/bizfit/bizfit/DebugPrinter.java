@@ -7,6 +7,10 @@ import java.util.Objects;
  */
 public class DebugPrinter {
     public  static void Debug(Object message){
+        if(message==null)
+        {
+            Thread.currentThread().dumpStack();
+        }
         System.out.println(message);
     }
     public static void Debug(Object message,boolean dumpStackTrace){

@@ -139,7 +139,6 @@ public class Conversation implements NetworkReturn
                 jsonArray.put(messageList.get(i).toJson());
             }
             jsonObject.put(Constants.messages,jsonArray);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -437,6 +436,7 @@ public class Conversation implements NetworkReturn
 
     public void setContact(Contact contact) {
         this.contact = contact;
+        DebugPrinter.Debug("settContact : "+contact!=null?contact:contact.getDisplayName());
         if(contact==null)
         {
             getContactFromNet();
@@ -447,8 +447,10 @@ public class Conversation implements NetworkReturn
     {
         if(other!=null)
         {
+            DebugPrinter.Debug("settContact : "+contact!=null?contact:contact.getDisplayName());
             JSONObject jsonObject=new JSONObject();
             try {
+
                 jsonObject.put(Constants.job,"loadContactInfo");
                 jsonObject.put("userID",other);
             } catch (JSONException e) {
@@ -457,9 +459,13 @@ public class Conversation implements NetworkReturn
             Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                 @Override
                 public void returnMessage(String message) {
-                    if(message.equals(Constants.networkconn_failed)||message.startsWith("no contact_info found "))
+                    if(message.equals(Constants.networkconn_failed))
                     {
                         getContactFromNet();
+                    }
+                    else if(message.startsWith("no contact_info found "))
+                    {
+
                     }
                     else
                     {
