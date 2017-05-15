@@ -32,7 +32,7 @@ dependencies {
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.prolificinteractive:material-calendarview:1.2.0'
     compile 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
-    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services:10.2.4'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
