@@ -289,19 +289,20 @@ public class MainPage extends AppCompatActivity implements
                 switch (position) {
                     // logout
                     case 0:
-                        Intent intent2=new Intent(MainPage.this,LoginActivity2.class);
-                        User.signOut(intent2,MainPage.this);
+                        Intent intent = new Intent(MainPage.this,LoginActivity2.class);
+                        User.signOut(intent,MainPage.this);
                         break;
 
                     // support
                     case 1:
-                        Intent intent = new Intent(MainPage.this, Support.class);
-                        startActivity(intent);
+                        Intent intent2 = new Intent(MainPage.this, Support.class);
+                        startActivity(intent2);
                         break;
 
                     // security
                     case 2:
-                        // TODO: open security information
+                        Intent intent3 = new Intent(MainPage.this, Security.class);
+                        startActivity(intent3);
                         break;
                 }
 

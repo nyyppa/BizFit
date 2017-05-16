@@ -34,17 +34,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@+id/include2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/include4"
-        android:layout_marginTop="16dp" />
-
-    <include
-        android:id="@+id/include4"
-        layout="@layout/list_item_store_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@+id/include3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

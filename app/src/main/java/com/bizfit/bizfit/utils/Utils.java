@@ -54,7 +54,7 @@ public class Utils {
                 id=R.drawable.jartsa;
                 break;
             default:
-                id=R.drawable.tmp2;
+                id=R.drawable.general_profile;
                 break;
 
         }
