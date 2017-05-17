@@ -52,7 +52,7 @@ public class Support extends AppCompatActivity {
                 if(respond) {
                     email = User.getLastUser(null, null, null).userName;
                 }
-                sendEmail();
+                sendEmail(feedback);
                 // TODO: send information somewhere
 
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_support_sent), Toast.LENGTH_SHORT).show();
@@ -62,18 +62,18 @@ public class Support extends AppCompatActivity {
 
 
     }
-    protected void sendEmail() {
+    protected void sendEmail(String feedBack) {
         Log.i("Send email", "");
-        String[] TO = {"atte.yliverronen@gmail.com"};
-        String[] CC = {"atte.yliverronen@gmail.com"};
+        String[] TO = {"bizfithelp@gmail.com"};
+        String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setData(Uri.parse("mailto:atte.yliverronen@gmail.com"));
+        emailIntent.setData(Uri.parse("mailto:bizfithelp@gmail.com"));
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Viesti");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, feedBack);
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
