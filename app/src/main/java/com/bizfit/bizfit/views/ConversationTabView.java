@@ -56,7 +56,7 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((ConversationArrayAdapter)((ListView)((RelativeLayout)((LinearLayout)getParent()).getParent()).getParent()).getAdapter()).sortConversations();
+                    ((ConversationArrayAdapter)((ListView)ConversationTabView.this.getParent().getParent().getParent()).getAdapter()).sortConversations();
                     setText(text);
                 }
             });
