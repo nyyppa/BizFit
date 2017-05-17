@@ -21,12 +21,21 @@
     <string name="support">Tuki</string>
     <string name="security">Turvallisuus</string>
 
+    <!-- support activity strings -->
+
     <string name="title_support">Haluatko antaa palautetta tai kertoa ongelmasta?</string>
     <string name="desc_support">Kerro meille ajatuksesi alla olevaan kenttään!</string>
     <string name="hint_support">Kirjoita tähän!</string>
     <string name="checked_support">Haluan, että minuun ollaan yhteydessä asiaan liittyen</string>
     <string name="desc_checked_support">Vastaamme sinulle Google-käyttäjääsi yhdistettyyn sähköpostiin.</string>
     <string name="toast_support_sent">Palaute lähetetty onnistuneesti!</string>
+
+    <!-- security activity strings -->
+
+
+    <string name="security_publicity">Tämä on Bizfit-sovelluksen testiversio. Sovelluksen käyttäjiä ovat sovelluksen asentamiseen oikeuden saaneet henkilöt. Heitä ovat valmentajat sekä heidän asiakkaansa.</string>
+    <string name="security_profile">Valmentajaprofiilit näkyvät kaikille käyttäjille. Asiakkailla ei ole erillistä profiilia, mutta asiakkaan laittaessa viestiä valmentajalle, valmentaja näkee asiakkaan nimen sekä asiakkaan Google-profiilin profiilikuvan, mikäli sellainen on Google-tunnukseen lisätty.</string>
+    <string name="security_messages">Viestit valmentajien ja asiakkaiden välillä poistetaan tietokannastamme testauksen jälkeen.</string>
 
     <!-- hints and descriptions -->
 

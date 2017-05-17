@@ -71,6 +71,9 @@
         <!-- Support page -->
         <activity android:name=".activities.Support" />
 
+        <!-- Security information page -->
+        <activity android:name=".activities.Security" />
+
         <!-- Displays search results -->
         <activity android:name=".activities.Search">
             <intent-filter>

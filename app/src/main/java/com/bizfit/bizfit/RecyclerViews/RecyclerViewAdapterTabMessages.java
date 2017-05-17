@@ -63,6 +63,7 @@ public class RecyclerViewAdapterTabMessages extends RecyclerView.Adapter
         User user= User.getLastUser(null, null,null);
 
         List<Conversation> conversations= user.getConversations();
+
         for(int i=0; i < conversations.size();i++)
         {
             if(conversations!=null && conversations.size() > 0)

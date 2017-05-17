@@ -90,6 +90,8 @@ public class TabCoaches2 extends Fragment {
         info = (TextView) card.findViewById(R.id.coach_item_desc);
         info.setText(coach.getInfo());
 
+        /*
+
         coach = coaches.get(3);
 
         card = getActivity().findViewById(R.id.include4);
@@ -100,6 +102,8 @@ public class TabCoaches2 extends Fragment {
         image.setImageDrawable(coach.image);
         info = (TextView) card.findViewById(R.id.coach_item_desc);
         info.setText(coach.getInfo());
+
+        */
 
     }
 
@@ -151,7 +155,7 @@ public class TabCoaches2 extends Fragment {
                 View card1 = getActivity().findViewById(R.id.include1);
                 View card2 = getActivity().findViewById(R.id.include2);
                 View card3 = getActivity().findViewById(R.id.include3);
-                View card4 = getActivity().findViewById(R.id.include4);
+                //View card4 = getActivity().findViewById(R.id.include4);
 
                 MainPage mp = (MainPage) v.getContext();
 
@@ -161,9 +165,12 @@ public class TabCoaches2 extends Fragment {
                     mp.coachSelected(coaches.get(1));
                 } else if(v == card3) {
                     mp.coachSelected(coaches.get(2));
-                } else if(v == card4) {
+                }
+                /*
+                else if(v == card4) {
                     mp.coachSelected(coaches.get(3));
                 }
+                */
             }
         };
 
