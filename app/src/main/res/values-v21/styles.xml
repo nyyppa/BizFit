@@ -30,4 +30,12 @@
         <item NAME="android:datePickerStyle">@style/MyDatePickerStyle</item>
         -->
     </style>
+
+    <style name="ErrorDialogueTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

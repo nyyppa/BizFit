@@ -95,6 +95,13 @@
         <activity android:name=".activities.OrderChat"
             android:windowSoftInputMode="adjustPan"></activity>
 
+        <activity
+            android:name=".activities.CustomCrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/ErrorDialogueTheme" />
+
     </application>
 
 </manifest>

@@ -128,4 +128,11 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="ErrorDialogueTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

@@ -78,11 +78,11 @@
 
     <!-- strings related to crash report -->
 
-    <string name="crash_dialog_comment_prompt">Voit halutessasi lisätä kuvauksen ongelmasta:</string>
-    <string name="crash_dialog_ok_toast">Kiitoksia!</string>
-    <string name="crash_dialog_text">Tapahtui odottamaton virhe, ohjelman on sulkeuduttava. Ole hyvä ja auta meitä lähettämällä virhetiedot. Sinun tarvitsee vain painaa \"OK\", kiitoksia!</string>
-    <string name="crash_dialog_title">CrashTest on kaatunut</string>
-    <string name="crash_toast_text">Hupsista! Kaaduin, mutta ongelmasta on lähetetty reportti kehittäjille, jotka saavat varmasti asian kuntoon!</string>
+    <string name="crash_toast_text">Sovellus kaatui</string>
+    <string name="crash_dialog_title">Bizfit-sovellus kaatui</string>
+    <string name="crash_dialog_text">Odottamaton virhe kaatoi sovelluksen. Auta meitä ratkaisemaan ongelma lähettämällä virhetiedot. Sinun tarvitsee vain painaa Lähetä.</string>
+    <string name="crash_dialog_comment_prompt">Kertoisitko, mitä yritit tehdä ennen sovelluksen kaatumista?</string>
+    <string name="crash_dialog_ok_toast">Kiitos!</string>
 
     <!-- months -->
 
@@ -102,8 +102,7 @@
     <!-- randoms and dummies -->
 
     <string-array name="random_job_title">
-        <item>Asiantuntijat</item>
-        <item>Palaute ja ehdotukset</item>
+        <item>Yritysneuvoja</item>
     </string-array>
 
     <string-array name="random_first_name">

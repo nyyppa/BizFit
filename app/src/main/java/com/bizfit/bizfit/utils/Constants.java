@@ -30,6 +30,11 @@ public class Constants
 	public static final String support_email = "bizfithelp@gmail.com";
 
 
+	// ensimetri constants
+
+	public static final String kaj_email = "kaj.heinio@gmail.com";
+	public static final String taina_email = "tainanmaili@gmail.com";
+	public static final String tapani_email = "tapani.kaskela@gmail.com";
 
 	//Message
 	public static final String owner = "owner";
