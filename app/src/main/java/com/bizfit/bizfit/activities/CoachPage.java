@@ -62,6 +62,9 @@ public class CoachPage extends AppCompatActivity {
         String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
         tVSalesPitch.setText(pitches[(int) (Math.random() * pitches.length - 1)]);
 
+        TextView tv = (TextView) findViewById(R.id.action_send);
+        tv.setText("Erroorrr");
+
         /*
         TextView tVpriceChat = (TextView) findViewById(R.id.order_price_chat);
         String[] chatPrices = getResources().getStringArray(R.array.random_price_chat);
