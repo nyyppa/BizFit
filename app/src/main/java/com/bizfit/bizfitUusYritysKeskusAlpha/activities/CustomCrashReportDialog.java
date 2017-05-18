@@ -15,6 +15,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -86,6 +87,14 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         mDialog = dialogBuilder.create();
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
+
+        int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
+        View divider = mDialog.findViewById(dividerId);
+        divider.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+
+        int textViewId = mDialog.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
+        TextView tv = (TextView) mDialog.findViewById(textViewId);
+        tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
     }
 
     @NonNull
@@ -102,7 +111,7 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         // Add an optional prompt for user comments
         final View comment = getCommentLabel();
         if (comment != null) {
-            comment.setPadding(comment.getPaddingLeft(), PADDING, comment.getPaddingRight(), comment.getPaddingBottom());
+            comment.setPadding(comment.getPaddingLeft(), comment.getPaddingTop(), comment.getPaddingRight(), comment.getPaddingBottom());
             addViewToDialog(comment);
             String savedComment = null;
             if (savedInstanceState != null) {
@@ -122,6 +131,7 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
                 savedEmail = savedInstanceState.getString(STATE_EMAIL);
             }
             userEmailView = getEmailPrompt(savedEmail);
+
             addViewToDialog(userEmailView);
         }
         return root;
@@ -182,8 +192,9 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
         shape.getPaint().setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
         shape.getPaint().setStyle(Paint.Style.STROKE);
-        shape.getPaint().setStrokeWidth(3);
+        shape.getPaint().setStrokeWidth(5);
 
+        ViewCompat.setBackground(userCommentView, shape);
 
         if (savedComment != null) {
             userCommentView.setText(savedComment);
