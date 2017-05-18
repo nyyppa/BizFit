@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "781079134076",
-    "project_id": "bizfit"
+    "project_number": "101704415790",
+    "project_id": "bizfit-ab15c"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:781079134076:android:11113095dc0c662f",
+        "mobilesdk_app_id": "1:101704415790:android:c35d6e5efe925ae0",
         "android_client_info": {
-          "package_name": "com.bizfit.bizfit"
+          "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha"
         }
       },
       "oauth_client": [
         {
-          "client_id": "781079134076-lof1ksldnc0u49rnr824vt0qsv66dmpa.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bizfit.bizfit",
-            "certificate_hash": "44CAFA110C2F83F4F1E0BAC5EB513E4C8FB0547D"
-          }
+          "client_id": "101704415790-hohblqnrqv5bvb90qr90li0or4vffk5e.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
-          "client_id": "781079134076-p1vnhupb8dpqcbp92iv01sed8gm8380h.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "101704415790-o1ptmt10cseo5ch5ov2c11b2167h13c1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha",
+            "certificate_hash": "44cafa110c2f83f4f1e0bac5eb513e4c8fb0547d"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdVF0APfxjDMJwUPzsTN3UlSlXM9K7zcA"
+          "current_key": "AIzaSyCSIO8OumLVyvwgJpCUAOQQ31jCK8nDeIM"
         }
       ],
       "services": {
