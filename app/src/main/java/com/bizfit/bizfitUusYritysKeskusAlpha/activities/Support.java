@@ -43,15 +43,11 @@ public class Support extends AppCompatActivity {
                 CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
                 boolean respond = cb.isChecked();
 
-                String email = "";
                 if(respond) {
-                    email = User.getLastUser(null, null, null).userName;
+                    feedback = feedback + "\n\n" + getString(R.string.checked_support) + ".";
                 }
-                sendEmail(feedback);
-                // TODO: send information somewhere
 
-                Toast.makeText(getApplicationContext(), getString(R.string.toast_support_sent), Toast.LENGTH_SHORT).show();
-                finish();
+                sendEmail(feedback);
             }
         });
 

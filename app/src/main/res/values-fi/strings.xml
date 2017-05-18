@@ -8,6 +8,11 @@
     <string name="title_tab_messages">Viestit</string>
     <string name="title_tab_coaches">Valmentajat</string>
 
+    <string name="ensimetri_special">Erikoistunut </string>
+    <string name="ensimetri_kaj">myyntiin ja franchisingiin</string>
+    <string name="ensimetri_taina">taloushallintoon</string>
+    <string name="ensimetri_tapani">yritysostoihin</string>
+
     <!-- actions -->
 
     <string name="action_confirm">OK</string>
@@ -67,6 +72,7 @@
     <string name="service_doc">Dokumentti</string>
     <string name="free">Ilmainen</string>
     <string name="currently_unavailable">Ei tällä hetkellä saatavilla</string>
+    <string name="service_chat_terms">Päivittäiset viestien läpikäynnit</string>
 
     <string name="error_field_required">Tämä kenttä ei saa olla tyhjä</string>
     <string name="error_incorrect_password">Salasana on väärä</string>

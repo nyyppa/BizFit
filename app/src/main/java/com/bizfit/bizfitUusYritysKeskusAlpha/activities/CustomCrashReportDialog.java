@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ import org.acra.ACRAConstants;
 import org.acra.dialog.BaseCrashReportDialog;
 import org.acra.prefs.PrefUtils;
 import org.acra.prefs.SharedPreferencesFactory;
+
+import static android.os.Build.VERSION.SDK;
 
 
 /**
@@ -88,13 +91,16 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
 
-        int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
-        View divider = mDialog.findViewById(dividerId);
-        divider.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
+            View divider = mDialog.findViewById(dividerId);
+            divider.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
 
-        int textViewId = mDialog.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
-        TextView tv = (TextView) mDialog.findViewById(textViewId);
-        tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            int textViewId = mDialog.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
+            TextView tv = (TextView) mDialog.findViewById(textViewId);
+            tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+        }
+
     }
 
     @NonNull
@@ -111,7 +117,7 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         // Add an optional prompt for user comments
         final View comment = getCommentLabel();
         if (comment != null) {
-            comment.setPadding(comment.getPaddingLeft(), comment.getPaddingTop(), comment.getPaddingRight(), comment.getPaddingBottom());
+            comment.setPadding(comment.getPaddingLeft(), PADDING, comment.getPaddingRight(), comment.getPaddingBottom());
             addViewToDialog(comment);
             String savedComment = null;
             if (savedInstanceState != null) {

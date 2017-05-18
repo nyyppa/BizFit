@@ -134,6 +134,7 @@
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_body</item>
     </style>
 
 </resources>

@@ -12,6 +12,11 @@
     <string name="support">Support</string>
     <string name="security">Security</string>
 
+    <string name="ensimetri_special">Expert in</string>
+    <string name="ensimetri_kaj">Sales and Franchising</string>
+    <string name="ensimetri_taina">Financial Management</string>
+    <string name="ensimetri_tapani">Acquisitions</string>
+
     <!-- security activity strings -->
 
     <string name="security_publicity">This is a test version of the Bizfit app. Users of this app are people, who have been given rights to install the app. These people include coaches and their customers.</string>
@@ -53,6 +58,7 @@
     <string name="service_doc">Document</string>
     <string name="free">Free</string>
     <string name="currently_unavailable">Currently unavailable</string>
+    <string name="service_chat_terms">Daily message checkups</string>
 
 
     <!-- Strings related to login -->

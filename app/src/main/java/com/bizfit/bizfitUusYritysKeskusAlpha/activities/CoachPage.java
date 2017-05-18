@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
 /**
  * Fetches and displays an overview of hireable coaches.
@@ -41,13 +42,6 @@ public class CoachPage extends AppCompatActivity {
         String[] countriesAndCities = getResources().getStringArray(R.array.random_country_and_city);
         tVplaceofResidence.setText(countriesAndCities[(int) (Math.random() * countriesAndCities.length - 1)]);
         */
-
-        TextView tVSalesPitch = (TextView) findViewById(R.id.coach_sales_pitch);
-        String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
-        tVSalesPitch.setText(pitches[(int) (Math.random() * pitches.length - 1)]);
-
-        TextView tv = (TextView) findViewById(R.id.action_send);
-        tv.setText("Erroorrr");
 
         /*
         TextView tVpriceChat = (TextView) findViewById(R.id.order_price_chat);
@@ -130,6 +124,10 @@ public class CoachPage extends AppCompatActivity {
             if (name != null)
                 ((TextView) findViewById(R.id.coach_name)).setText(name);
         }
+
+        TextView tVSalesPitch = (TextView) findViewById(R.id.coach_sales_pitch);
+        String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
+        tVSalesPitch.setText(Utils.getDesc(COACH_ID));
 
         //Button btnOrderChat = (Button) findViewById(R.id.order_chat);
         ConstraintLayout btnOrderChat = (ConstraintLayout) findViewById(R.id.order_chat);

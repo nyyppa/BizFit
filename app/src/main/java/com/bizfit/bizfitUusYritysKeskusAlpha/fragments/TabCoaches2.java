@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.Coach;
+import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -105,35 +109,24 @@ public class TabCoaches2 extends Fragment {
 
         ArrayList<Coach> coaches = new ArrayList<>();
 
-        // define profile images
-
-        Drawable jari = ResourcesCompat.getDrawable(getResources(), R.drawable.jartsa, null);
-        Drawable pasi = ResourcesCompat.getDrawable(getResources(), R.drawable.pasi, null);
-        Drawable atte = ResourcesCompat.getDrawable(getResources(), R.drawable.atte, null);
-        Drawable mylly = ResourcesCompat.getDrawable(getResources(), R.drawable.mylly, null);
-        final TypedArray worksIds = getResources().obtainTypedArray(R.array.work_imgs);
-
         // add coaches to array
 
-        for(int j=0; j<4; j++) {
+        for(int j=0; j<3; j++) {
+            String coach = "";
 
-            int imageID = worksIds.getResourceId(j, -1);
-
-            if (imageID == -1) {
-                coaches.add(new Coach("Jari Myllymäki", mylly, imageID, (int) (Math.random() * 400), "jari.myllymaki@gmail.com", "0447358220"));
-            }
             if (j == 0) {
-                coaches.add(new Coach("Jari Myllymäki", mylly, imageID, (int) (Math.random() * 400), "jari.myllymaki@gmail.com", "0447358220"));
+                coach = Constants.kaj_email;
             }
             if (j == 1) {
-                coaches.add(new Coach("Pasi Ojanen", pasi, imageID, (int) (Math.random() * 400), "pasojan@gmail.com", "0407283115"));
+                coach = Constants.taina_email;
             }
             if (j == 2) {
-                coaches.add(new Coach("Atte Yliverronen", atte, imageID, (int) (Math.random() * 400), "atte.yliverronen@gmail.com", null));
+                coach = Constants.tapani_email;
             }
-            if (j == 3) {
-                coaches.add(new Coach("Jari Järvenpää", jari, imageID, (int) (Math.random() * 400), "jari.k4rita@gmail.com", null));
-            }
+
+            Drawable img = ContextCompat.getDrawable(MyApplication.getContext(), Utils.getDrawableID(coach));
+
+            coaches.add(new Coach(Utils.getCoachName(coach), img, Utils.getDrawableID(coach), (int) (Math.random() * 400), coach, "044123", Utils.getDesc(coach)));
         }
 
         return coaches;
