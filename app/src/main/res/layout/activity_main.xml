@@ -59,7 +59,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.bizfit.bizfit.views.ViewPagerNoSwipes
+    <com.bizfit.bizfitUusYritysKeskusAlpha.views.ViewPagerNoSwipes
         android:id="@+id/pager_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

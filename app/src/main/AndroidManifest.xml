@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizfit.bizfit">
+    package="com.bizfit.bizfitUusYritysKeskusAlpha">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -17,12 +17,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".MyApplication">
-        <service android:name=".MyAlarmService" />
+        android:name="com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication">
+        <service android:name="com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService" />
 
         <!-- Splash screen -->
         <activity
-            android:name=".activities.SplashScreen"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
@@ -36,7 +36,7 @@
 
         <!-- Home view -->
         <activity
-            android:name=".activities.MainPage"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,18 +46,18 @@
         </activity>
         <!-- Login -->
         <activity
-            android:name=".activities.LoginActivity2"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.LoginActivity2"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar"/>
         <!-- Settings -->
         <activity
-            android:name=".activities.Settings"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Settings"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Start a new goal -->
         <activity
-            android:name=".activities.AddTracker"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.AddTracker"
             android:label="@string/title_new_goal"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar"
@@ -66,37 +66,37 @@
         <!-- Single tracker info -->
 
         <!-- Store page -->
-        <activity android:name=".activities.CoachPage" />
+        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.CoachPage" />
 
         <!-- Support page -->
-        <activity android:name=".activities.Support" />
+        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Support" />
 
         <!-- Security information page -->
-        <activity android:name=".activities.Security" />
+        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Security" />
 
         <!-- Displays search results -->
-        <activity android:name=".activities.Search">
+        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MessageActivity"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MessageActivity"
             android:label="@string/title_activity_message"
-            android:parentActivityName=".activities.MainPage">
+            android:parentActivityName="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainPage"/>
+                android:value="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage"/>
         </activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activities.OrderChat"
+        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.OrderChat"
             android:windowSoftInputMode="adjustPan"></activity>
 
         <activity
-            android:name=".activities.CustomCrashReportDialog"
+            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.CustomCrashReportDialog"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
