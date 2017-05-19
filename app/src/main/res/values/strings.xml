@@ -89,7 +89,7 @@
 
     <string name="title_activity_message" translatable="false">MessageActivity</string>
     <string name="server_client_id" translatable="false">101704415790-hohblqnrqv5bvb90qr90li0or4vffk5e.apps.googleusercontent.com</string>
-
+    <string name="server_client_id_release" translatable="false"> 101704415790-71gd4vja64fhs5rsf30of9p5k7ngbrq2.apps.googleusercontent.com </string>
     <!-- months -->
 
     <string name="month_january">January</string>

@@ -13,6 +13,10 @@
       },
       "oauth_client": [
         {
+          "client_id": "101704415790-h93kfbmltng90e06k0shrq0tnn0u9dp2.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "101704415790-hohblqnrqv5bvb90qr90li0or4vffk5e.apps.googleusercontent.com",
           "client_type": 3
         },
@@ -22,6 +26,14 @@
           "android_info": {
             "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha",
             "certificate_hash": "44cafa110c2f83f4f1e0bac5eb513e4c8fb0547d"
+          }
+        },
+        {
+          "client_id": "101704415790-71gd4vja64fhs5rsf30of9p5k7ngbrq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha",
+            "certificate_hash": "e8afd762ad5f7a26c2ac21e080cbc32728134786"
           }
         }
       ],

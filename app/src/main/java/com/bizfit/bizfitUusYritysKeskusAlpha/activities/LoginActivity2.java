@@ -1,12 +1,16 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.BuildConfig;
+import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.google.android.gms.auth.api.Auth;
@@ -32,9 +36,17 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_v2);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+        String IDToken=null;
+        if(BuildConfig.DEBUG)
+        {
+            IDToken=getString(R.string.server_client_id);
+        }
+        else
+        {
+            IDToken=getString(R.string.server_client_id_release);
+        }
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken(getString(R.string.server_client_id))
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
@@ -113,6 +125,9 @@ public class LoginActivity2  extends AppCompatActivity implements GoogleApiClien
         intent2.putExtra("lastName",acct.getFamilyName());
         intent2.putExtra("loggedIn", true);
         Intent intent3 = getIntent();
+        DebugPrinter.Debug("userName:"+acct.getEmail());
+        DebugPrinter.Debug("firstName:"+acct.getGivenName());
+        DebugPrinter.Debug("lastName:"+acct.getFamilyName());
         if(intent3.hasExtra("coachID"))
         {
             intent2.putExtra("coachID", intent3.getStringExtra("coachID"));

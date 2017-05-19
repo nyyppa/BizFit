@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
+        config {
+            keyAlias 'bizfitapha'
+            keyPassword 'testitesti'
+            storeFile file('C:/Users/attey/BizfitStoreKey/bizfitkey2.jks')
+            storePassword 'testitesti'
+        }
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -17,12 +23,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'
