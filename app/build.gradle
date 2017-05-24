@@ -8,10 +8,8 @@ android {
         config {
             keyAlias 'bizfitapha'
             keyPassword 'testitesti'
-            storeFile file('C:/Users/attey/BizfitStoreKey/bizfitkey2.jks')
+            storeFile file('../app/bizfitkey2.jks')
             storePassword 'testitesti'
-        }
-        debug {
         }
     }
     compileSdkVersion 25
@@ -32,29 +30,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
-        DebugBuild {
-            debuggable true
-            jniDebuggable false
-            renderscriptDebuggable false
-            minifyEnabled false
-        }
     }
     productFlavors {
-        ReleaseConfig {
-            minSdkVersion 15
-            applicationId 'com.bizfit.bizfitUusYritysKeskusAlpha'
-            signingConfig signingConfigs.config
-            targetSdkVersion 25
-            versionCode 1
-            versionName '1.0'
-        }
-        DebugConfig {
-            minSdkVersion 15
-            applicationId 'com.bizfit.bizfitUusYritysKeskusAlpha'
-            targetSdkVersion 25
-            versionNameSuffix 'debug'
-            signingConfig signingConfigs.debug
-        }
     }
 }
 
