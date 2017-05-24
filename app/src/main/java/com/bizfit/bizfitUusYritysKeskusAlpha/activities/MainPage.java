@@ -352,7 +352,7 @@ public class MainPage extends AppCompatActivity implements
     public void initNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.ensimetri_nimi));
-        builder.setCancelable(false);
+        builder.setCancelable(true);
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -383,7 +383,14 @@ public class MainPage extends AppCompatActivity implements
                 }
             }
         });
-
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Intent intent = new Intent(MainPage.this,LoginActivity2.class);
+                User.signOut(intent,MainPage.this);
+                //do whatever you want the back key to do
+            }
+        });
         builder.show();
     }
 }
