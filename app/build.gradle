@@ -8,6 +8,8 @@ android {
             storeFile file('C:/Users/attey/BizfitStoreKey/bizfitkey2.jks')
             storePassword 'testitesti'
         }
+        debug {
+        }
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -18,6 +20,8 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true;
+        versionNameSuffix 'debug'
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         release {
@@ -30,6 +34,23 @@ android {
             jniDebuggable false
             renderscriptDebuggable false
             minifyEnabled false
+        }
+    }
+    productFlavors {
+        ReleaseConfig {
+            minSdkVersion 15
+            applicationId 'com.bizfit.bizfitUusYritysKeskusAlpha'
+            signingConfig signingConfigs.config
+            targetSdkVersion 25
+            versionCode 1
+            versionName '1.0'
+        }
+        DebugConfig {
+            minSdkVersion 15
+            applicationId 'com.bizfit.bizfitUusYritysKeskusAlpha'
+            targetSdkVersion 25
+            versionNameSuffix 'debug'
+            signingConfig signingConfigs.debug
         }
     }
 }
