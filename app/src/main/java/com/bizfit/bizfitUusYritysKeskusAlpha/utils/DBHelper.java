@@ -368,7 +368,7 @@ public class DBHelper extends SQLiteOpenHelper {
         message.setJob();
         return message;
     }
-    private Contact readContact(String ID, SQLiteDatabase db)
+    public Contact readContact(String ID, SQLiteDatabase db)
     {
         Cursor cursor=db.rawQuery("SELECT * FROM Contact WHERE userID = \'" +
                 ID + "\'" , null);

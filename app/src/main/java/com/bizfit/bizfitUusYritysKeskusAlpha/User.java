@@ -4,8 +4,10 @@ package com.bizfit.bizfitUusYritysKeskusAlpha;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.chat.Conversation;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetMessage;
@@ -448,6 +450,7 @@ public class User  {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
@@ -510,7 +513,8 @@ public class User  {
         }
         else
         {
-            return null;
+            DBthread=new DBT(MyApplication.getContext());
+            return DBthread.dbHelper;
         }
     }
     private static class DBT extends OurRunnable
@@ -929,8 +933,12 @@ public class User  {
             });
         }
     }
-    public void setMyContactInfo(final Contact contact)
+    public void setMyContactInfo(Contact contact)
     {
+        if (!contact.isValid())
+        {
+            return;
+        }
         this.myContactInfo=contact;
         JSONObject jsonObject=new JSONObject();
         try {
@@ -944,9 +952,15 @@ public class User  {
             public void returnMessage(String message) {
                 if(message.equals(Constants.networkconn_failed))
                 {
-                    setMyContactInfo(contact);
+                    setMyContactInfo(User.this.myContactInfo);
                 }
             }
         },jsonObject));
+        BackgroundThread.addOurRunnable(new OurRunnable() {
+            @Override
+            public void run() {
+                getDBHelper().saveContact(User.this.myContactInfo,getDBHelper().getWritableDatabase());
+            }
+        });
     }
 }

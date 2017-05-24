@@ -173,4 +173,9 @@ public class Contact {
         }
         return jsonObject;
     }
+
+    public boolean isValid()
+    {
+        return firstName!=null&&!firstName.isEmpty()&&lastName!=null&&!lastName.isEmpty();
+    }
 }

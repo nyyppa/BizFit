@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationList;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.DBHelper;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.StoreRow;
 import com.bizfit.bizfitUusYritysKeskusAlpha.views.ViewPagerNoSwipes;
 
@@ -219,6 +221,26 @@ public class MainPage extends AppCompatActivity implements
         {
             User user=User.getLastUser(null, this, getIntent().getStringExtra("userName"));
             user.setMyContactInfo(new Contact(getIntent().getStringExtra("firstName"),getIntent().getStringExtra("lastName"),getIntent().getStringExtra("userName")));
+            new AsyncTask<Void, Void, Contact>() {
+            @Override
+                protected Contact doInBackground( final Void ... params ) {
+                    // something you know that will take a few seconds
+                    DBHelper dbHelper=User.getDBHelper();
+                    Contact contact=dbHelper.readContact(MainPage.this.getIntent().getStringExtra("userName"),dbHelper.getWritableDatabase());
+
+                    return contact;
+                }
+
+                @Override
+                protected void onPostExecute( final Contact result ) {
+                    // continue what you are doing...
+                    if(result==null||!result.isValid())
+                    {
+                        initNameDialog();
+                    }
+
+                }
+            }.execute();
             if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com+UAHUARGAYGEYAGEHAGDASDHJKA")){
                 MediaPlayer mediaPlayer=MediaPlayer.create(this,R.raw.good_morning_vietnam);
                 mediaPlayer.start();
@@ -349,6 +371,16 @@ public class MainPage extends AppCompatActivity implements
                 // TODO: split name
                 // TODO: set name to user
                 // user.name = input.getText().toString();
+                if(input.getText().toString().isEmpty())
+                {
+                    initNameDialog();
+                }
+                else
+                {
+                    String string=input.getText().toString();
+                    String [] strings=string.split(" ");
+                    User.getLastUser(null,null,null).setMyContactInfo(new Contact(strings[0],strings[1],MainPage.this.getIntent().getStringExtra("userName")));
+                }
             }
         });
 
