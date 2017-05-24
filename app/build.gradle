@@ -2,11 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'bizfitapha'
-            keyPassword 'testitesti'
-            storeFile file('C:/Users/attey/BizfitStoreKey/bizfitkey2.jks')
-            storePassword 'testitesti'
+        configAtteLäppäri {
         }
     }
     compileSdkVersion 25
@@ -23,7 +19,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.configAtteLäppäri
+        }
+        DebugBuild {
+            debuggable true
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled false
         }
     }
 }
