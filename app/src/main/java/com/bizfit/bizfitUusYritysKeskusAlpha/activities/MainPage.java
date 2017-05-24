@@ -330,6 +330,7 @@ public class MainPage extends AppCompatActivity implements
     public void initNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.ensimetri_nimi));
+        builder.setCancelable(false);
 
         // Set up the input
         final EditText input = new EditText(this);
