@@ -2,7 +2,9 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -10,14 +12,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -99,6 +104,8 @@ public class MainPage extends AppCompatActivity implements
 
             }
         });
+
+        initNameDialog();
     }
 
     private void startBackGroundService() {
@@ -318,5 +325,32 @@ public class MainPage extends AppCompatActivity implements
         /*moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);*/
+    }
+
+    public void initNameDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.ensimetri_nimi));
+
+        // Set up the input
+        final EditText input = new EditText(this);
+
+        // Specify the type of input expected
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        //TODO: jos googlella tietoja, pistä tähän
+        input.setText("");
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO: split name
+                // TODO: set name to user
+                // user.name = input.getText().toString();
+            }
+        });
+
+        builder.show();
     }
 }
