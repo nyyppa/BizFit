@@ -513,7 +513,6 @@ public class User  {
         }
         else
         {
-            DBthread=new DBT(MyApplication.getContext());
             return DBthread.dbHelper;
         }
     }
@@ -525,6 +524,9 @@ public class User  {
         {
             super(true,10000);
             DBT.this.context=context;
+            if(dbHelper==null&&context!=null){
+                dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
+            }
         }
         @Override
         public void run() {
@@ -933,7 +935,7 @@ public class User  {
             });
         }
     }
-    public void setMyContactInfo(Contact contact)
+    public void setMyContactInfo(final Contact contact)
     {
         if (!contact.isValid())
         {
@@ -956,11 +958,6 @@ public class User  {
                 }
             }
         },jsonObject));
-        BackgroundThread.addOurRunnable(new OurRunnable() {
-            @Override
-            public void run() {
-                getDBHelper().saveContact(User.this.myContactInfo,getDBHelper().getWritableDatabase());
-            }
-        });
+
     }
 }
