@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Modified by JariJ 22.3.17
+     * Modified by JariJ 24.5.17
      * Saves user and all of it's dependands to given database
      *
 
@@ -67,6 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
         saveLastUser(db, user.userName);
         saveConversation(user, db);
         //saveChatRequest(user, db);
+        saveContact(user.myContactInfo, db);
 
 
 

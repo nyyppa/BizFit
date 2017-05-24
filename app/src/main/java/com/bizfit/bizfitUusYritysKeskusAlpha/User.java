@@ -57,7 +57,7 @@ public class User  {
     public List<ChatRequest> requestsForMe=new ArrayList<>();
     public UUID uuid;
     public List<ChatRequest> requestsFromMe=new ArrayList<>();
-    Contact myContactInfo;
+    public Contact myContactInfo;
 
     private User(){
         userName="";
@@ -929,7 +929,7 @@ public class User  {
             });
         }
     }
-    public void setMyContactInfo(Contact contact)
+    public void setMyContactInfo(final Contact contact)
     {
         this.myContactInfo=contact;
         JSONObject jsonObject=new JSONObject();
@@ -944,7 +944,7 @@ public class User  {
             public void returnMessage(String message) {
                 if(message.equals(Constants.networkconn_failed))
                 {
-
+                    setMyContactInfo(contact);
                 }
             }
         },jsonObject));
