@@ -29,6 +29,7 @@ import android.widget.PopupWindow;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.Coach;
 import com.bizfit.bizfitUusYritysKeskusAlpha.Contact;
+import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
@@ -107,7 +108,6 @@ public class MainPage extends AppCompatActivity implements
             }
         });
 
-        initNameDialog();
     }
 
     private void startBackGroundService() {
@@ -221,26 +221,6 @@ public class MainPage extends AppCompatActivity implements
         {
             User user=User.getLastUser(null, this, getIntent().getStringExtra("userName"));
             user.setMyContactInfo(new Contact(getIntent().getStringExtra("firstName"),getIntent().getStringExtra("lastName"),getIntent().getStringExtra("userName")));
-            new AsyncTask<Void, Void, Contact>() {
-            @Override
-                protected Contact doInBackground( final Void ... params ) {
-                    // something you know that will take a few seconds
-                    DBHelper dbHelper=User.getDBHelper();
-                    Contact contact=dbHelper.readContact(MainPage.this.getIntent().getStringExtra("userName"),dbHelper.getWritableDatabase());
-
-                    return contact;
-                }
-
-                @Override
-                protected void onPostExecute( final Contact result ) {
-                    // continue what you are doing...
-                    if(result==null||!result.isValid())
-                    {
-                        initNameDialog();
-                    }
-
-                }
-            }.execute();
             if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com+UAHUARGAYGEYAGEHAGDASDHJKA")){
                 MediaPlayer mediaPlayer=MediaPlayer.create(this,R.raw.good_morning_vietnam);
                 mediaPlayer.start();
@@ -349,48 +329,4 @@ public class MainPage extends AppCompatActivity implements
         System.exit(1);*/
     }
 
-    public void initNameDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.ensimetri_nimi));
-        builder.setCancelable(true);
-
-        // Set up the input
-        final EditText input = new EditText(this);
-
-        // Specify the type of input expected
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        //TODO: jos googlella tietoja, pistä tähän
-        input.setText("");
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO: split name
-                // TODO: set name to user
-                // user.name = input.getText().toString();
-                if(input.getText().toString().isEmpty())
-                {
-                    initNameDialog();
-                }
-                else
-                {
-                    String string=input.getText().toString();
-                    String [] strings=string.split(" ");
-                    User.getLastUser(null,null,null).setMyContactInfo(new Contact(strings[0],strings[1],MainPage.this.getIntent().getStringExtra("userName")));
-                }
-            }
-        });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Intent intent = new Intent(MainPage.this,LoginActivity2.class);
-                User.signOut(intent,MainPage.this);
-                //do whatever you want the back key to do
-            }
-        });
-        builder.show();
-    }
 }
