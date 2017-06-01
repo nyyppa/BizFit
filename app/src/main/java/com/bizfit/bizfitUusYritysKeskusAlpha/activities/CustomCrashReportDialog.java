@@ -94,11 +94,15 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
             View divider = mDialog.findViewById(dividerId);
-            divider.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            if(divider != null) {
+                divider.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            }
 
             int textViewId = mDialog.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
             TextView tv = (TextView) mDialog.findViewById(textViewId);
-            tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            if(tv != null) {
+                tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            }
         }
 
     }

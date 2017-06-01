@@ -2,27 +2,34 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.Coach;
 import com.bizfit.bizfitUusYritysKeskusAlpha.Contact;
+import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
@@ -32,6 +39,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationList;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.DBHelper;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.StoreRow;
 import com.bizfit.bizfitUusYritysKeskusAlpha.views.ViewPagerNoSwipes;
 
@@ -99,6 +107,7 @@ public class MainPage extends AppCompatActivity implements
 
             }
         });
+
     }
 
     private void startBackGroundService() {
@@ -319,4 +328,5 @@ public class MainPage extends AppCompatActivity implements
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);*/
     }
+
 }

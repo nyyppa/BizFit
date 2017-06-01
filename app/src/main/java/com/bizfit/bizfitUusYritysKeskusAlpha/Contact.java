@@ -45,6 +45,7 @@ public class Contact {
             byte[]byteArray = cursor.getBlob(columnIndex);
             setPicture(byteArray);
         }
+        cursor.close();
     }
 
     public String getUserID() {
@@ -172,5 +173,10 @@ public class Contact {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public boolean isValid()
+    {
+        return firstName!=null&&!firstName.isEmpty()&&lastName!=null&&!lastName.isEmpty();
     }
 }

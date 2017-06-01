@@ -1,7 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    lintOptions {
+        abortOnError false
+    }
     signingConfigs {
+        config {
+            keyAlias 'bizfitapha'
+            keyPassword 'testitesti'
+            storeFile file('../app/bizfitkey2.jks')
+            storePassword 'testitesti'
+        }
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -12,17 +21,21 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true;
+        versionNameSuffix 'debug'
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'org.apache.httpcomponents'

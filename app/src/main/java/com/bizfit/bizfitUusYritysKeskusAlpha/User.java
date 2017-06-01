@@ -4,8 +4,10 @@ package com.bizfit.bizfitUusYritysKeskusAlpha;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.chat.Conversation;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetMessage;
@@ -57,7 +59,7 @@ public class User  {
     public List<ChatRequest> requestsForMe=new ArrayList<>();
     public UUID uuid;
     public List<ChatRequest> requestsFromMe=new ArrayList<>();
-    Contact myContactInfo;
+    public Contact myContactInfo;
 
     private User(){
         userName="";
@@ -448,6 +450,7 @@ public class User  {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     public static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
@@ -510,7 +513,7 @@ public class User  {
         }
         else
         {
-            return null;
+            return DBthread.dbHelper;
         }
     }
     private static class DBT extends OurRunnable
@@ -521,6 +524,9 @@ public class User  {
         {
             super(true,10000);
             DBT.this.context=context;
+            if(dbHelper==null&&context!=null){
+                dbHelper=new DBHelper(context, "database1", null, Constants.db_version);
+            }
         }
         @Override
         public void run() {
@@ -929,8 +935,12 @@ public class User  {
             });
         }
     }
-    public void setMyContactInfo(Contact contact)
+    public void setMyContactInfo(final Contact contact)
     {
+        if (!contact.isValid())
+        {
+            return;
+        }
         this.myContactInfo=contact;
         JSONObject jsonObject=new JSONObject();
         try {
@@ -944,9 +954,10 @@ public class User  {
             public void returnMessage(String message) {
                 if(message.equals(Constants.networkconn_failed))
                 {
-
+                    setMyContactInfo(User.this.myContactInfo);
                 }
             }
         },jsonObject));
+
     }
 }
