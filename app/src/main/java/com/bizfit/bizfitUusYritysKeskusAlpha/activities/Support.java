@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+
 import android.net.Uri;
 import android.content.Intent;
 import android.util.Log;
@@ -55,11 +57,11 @@ public class Support extends AppCompatActivity {
     }
     protected void sendEmail(String feedBack) {
         Log.i("Send email", "");
-        String[] TO = {"bizfithelp@gmail.com"};
+        String[] TO = {Constants.support_email};
         String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setData(Uri.parse("mailto:bizfithelp@gmail.com"));
+        emailIntent.setData(Uri.parse("mailto:"+Constants.support_email));
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);

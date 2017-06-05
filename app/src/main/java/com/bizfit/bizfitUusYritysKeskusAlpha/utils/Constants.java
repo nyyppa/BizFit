@@ -27,7 +27,7 @@ public class Constants
 	public static final String jariM_email = "jari.myllymaki@gmail.com";
 	public static final String pasi_email = "pasojan@gmail.com";
 	public static final String jari_email = "jari.k4rita@gmail.com";
-	public static final String support_email = "bizfithelp@gmail.com";
+	public static final String support_email = "bizfithelp@bizfit.fi";
 
 
 	// ensimetri constants
