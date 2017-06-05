@@ -18,10 +18,10 @@ android {
         applicationId "com.bizfit.bizfitUusYritysKeskusAlpha"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         vectorDrawables.useSupportLibrary = true;
-        versionNameSuffix 'debug'
+        versionNameSuffix 'alpha'
         signingConfig signingConfigs.debug
     }
     buildTypes {
