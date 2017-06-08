@@ -17,12 +17,12 @@ import java.util.UUID;
 
 public class ChatRequest
 {
+    public UUID uuid;
     public String customer="";
     public String coach="";
     public Need need = Need.UNDEFINED;
     public Skill skill = Skill.UNDEFINED;
     public String message="";
-    public UUID uuid = new UUID(0L, 0L);
 
     public ChatRequest(){
         uuid=UUID.randomUUID();

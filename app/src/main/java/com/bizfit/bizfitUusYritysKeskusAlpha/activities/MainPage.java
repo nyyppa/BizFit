@@ -38,6 +38,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabCoaches2;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationList;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterStoreRow;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationRequests;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.DBHelper;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.StoreRow;
@@ -189,7 +190,7 @@ public class MainPage extends AppCompatActivity implements
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabCoaches2(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
-        //adapter.addFragment(new TabConversationRequests(),"Requests");
+        adapter.addFragment(new TabConversationRequests(),"Requests");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 

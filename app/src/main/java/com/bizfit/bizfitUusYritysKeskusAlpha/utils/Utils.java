@@ -79,7 +79,7 @@ public class Utils {
         return id;
     }
 
-    static public String getCouchID(String name)
+    static public String getCoachID(String name)
     {
         String couchID=null;
         switch (name)

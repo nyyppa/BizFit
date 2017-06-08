@@ -66,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         saveLastUser(db, user.userName);
         saveConversation(user, db);
-        //saveChatRequest(user, db);
+        saveChatRequest(user, db);
         saveContact(user.myContactInfo, db);
 
 
@@ -147,26 +147,26 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             for(int i=0; i < user.getRequestsForMe().size(); i++)
             {
+                contentValues.put("pendingRequestID", user.getRequestsForMe().get(i).getUUID());
                 contentValues.put("customer", user.getRequestsForMe().get(i).getCustomer());
                 contentValues.put("coach", user.getRequestsForMe().get(i).getCoach());
                 contentValues.put("need", user.getRequestsForMe().get(i).getNeed());
                 contentValues.put("skill", user.getRequestsForMe().get(i).getSkill());
                 contentValues.put("message", user.getRequestsForMe().get(i).getMessage());
-                contentValues.put("UUID", user.getRequestsForMe().get(i).getUUID());
 
                 db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
             }
         }
-        if(user!=null &&user.getMySentChatRequests()!=null && user.getMySentChatRequests().size()>-0)
+        if(user!=null &&user.getMySentChatRequests()!=null && user.getMySentChatRequests().size()>0)
         {
             for(int i=0; i < user.getMySentChatRequests().size(); i++)
             {
+                contentValues.put("pendingRequestID", user.getMySentChatRequests().get(i).getUUID());
                 contentValues.put("customer", user.getMySentChatRequests().get(i).getCustomer());
                 contentValues.put("coach", user.getMySentChatRequests().get(i).getCoach());
                 contentValues.put("need", user.getMySentChatRequests().get(i).getNeed());
                 contentValues.put("skill", user.getMySentChatRequests().get(i).getSkill());
                 contentValues.put("message", user.getMySentChatRequests().get(i).getMessage());
-                contentValues.put("UUID", user.getMySentChatRequests().get(i).getUUID());
 
                 db.insertWithOnConflict("Pending_request", null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
             }
@@ -194,22 +194,21 @@ public class DBHelper extends SQLiteOpenHelper {
                     "         other text NOT NULL\n" +
                     "     );");
         }
-        /*
+
         if(!isTableExists(db, "Pending_request"))
         {
             db.execSQL(" CREATE TABLE Pending_request\n" +
                     "     (\n" +
-                    "         pendingRequestID INTEGER NOT NULL PRIMARY KEY,\n" +
-                    "         customer TEXT NOT NULL,\n" +
-                    "         coach TEXT NOT NULL,\n" +
-                    "         need TEXT NOT NULL,\n" +
-                    "         skill TEXT NOT NULL,\n" +
-                    "         type INTEGER NOT NULL,\n" +
-                    "         message TEXT NOT NULL,\n" +
-                    "         UUID text\n" +
+                    "         pendingRequestID text NOT NULL PRIMARY KEY,\n" +
+                    "         customer TEXT,\n" +
+                    "         coach TEXT,\n" +
+                    "         need TEXT,\n" +
+                    "         skill TEXT,\n" +
+                    "         type INTEGER,\n" +
+                    "         message TEXT\n" +
                     "     );");
         }
-        */
+
         if(!isTableExists(db, "User" ))
         {
             db.execSQL("  CREATE TABLE User\n" +
@@ -396,7 +395,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE coach = \' " +
                   username + "\'" + " OR customer = \'" + username + "\'", null );
-            while(cursor.moveToNext())
+            cursor.moveToFirst();
             {
                 ChatRequest chatRequest = new ChatRequest();
 
@@ -420,7 +419,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE customer = \' " +
                     username + "\'" + " OR coach = \'" + username + "\'", null);
-            while (cursor.moveToNext())
+            cursor.moveToFirst();
             {
                 ChatRequest chatRequest = new ChatRequest();
 
@@ -443,7 +442,7 @@ public class DBHelper extends SQLiteOpenHelper {
      //* @param cursor
      * @return
      */
-    /* private ChatRequest readChatRequest(Cursor cursor)
+     private ChatRequest readChatRequest(Cursor cursor)
     {
         ChatRequest chatRequest = new ChatRequest();
 
@@ -456,7 +455,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return chatRequest;
     }
-    */
     private static boolean intToBoolean(int i)
     {
         if(i==0)
@@ -492,8 +490,8 @@ public class DBHelper extends SQLiteOpenHelper {
             {
                 user=new User(username);
                 user.conversations = readConversations(user, db);
-                //user.requestsForMe = readChatRequestsForMe(username, db);
-                //user.requestsFromMe = readChatRequestsFromMe(username, db);
+                user.requestsForMe = readChatRequestsForMe(username, db);
+                user.requestsFromMe = readChatRequestsFromMe(username, db);
                 cursor.close();
             }
 

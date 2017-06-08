@@ -7,10 +7,13 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.ChatRequest;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
+import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
@@ -144,10 +147,10 @@ public class CoachPage extends AppCompatActivity {
 
                     // wizard and requests not needed in uusyrityskeskus build
 
-                    //new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
-                    //Intent intent = new Intent(view.getContext(), OrderChat.class);
-                    //intent.putExtra(Constants.coach_id, COACH_ID);
-                    //view.getContext().startActivity(intent);
+                    new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
+                    Intent intent = new Intent(view.getContext(), OrderChat.class);
+                    intent.putExtra(Constants.coach_id, COACH_ID);
+                    view.getContext().startActivity(intent);
                 }
             }
         });

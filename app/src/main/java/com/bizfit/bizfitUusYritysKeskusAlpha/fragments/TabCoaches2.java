@@ -115,10 +115,10 @@ public class TabCoaches2 extends Fragment {
             String coach = "";
 
             if (j == 0) {
-                coach = Constants.kaj_email;
+                coach = Constants.jari_email;
             }
             if (j == 1) {
-                coach = Constants.taina_email;
+                coach = Constants.atte_email;
             }
             if (j == 2) {
                 coach = Constants.tapani_email;
