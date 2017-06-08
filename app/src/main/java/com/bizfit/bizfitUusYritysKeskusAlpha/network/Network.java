@@ -1,10 +1,13 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.network;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,9 +17,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+
 
 /**
  * Created by attey on 08/12/2016.
@@ -58,24 +75,60 @@ public class Network extends Thread{
                     int len = 500;
 
                     try {
-                        DebugPrinter.Debug(netMessage.message);
+
+                        // Load CAs from an InputStream
+                        // (could be from a resource or ByteArrayInputStream or ...)
+                        CertificateFactory cf = CertificateFactory.getInstance("X.509","BC");
+                        // From https://www.washington.edu/itconnect/security/ca/load-der.crt
+                        ;
+                        InputStream caInput = new BufferedInputStream(MyApplication.getContext().getAssets().open("certs/server_bizfit_ca_signed.crt"));
+                        Certificate ca;
+                        try {
+                            ca = cf.generateCertificate(caInput);
+                            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+                        } finally {
+                            caInput.close();
+                        }
+
+                        // Create a KeyStore containing our trusted CAs
+                        String keyStoreType = KeyStore.getDefaultType();
+                        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+                        keyStore.load(null, null);
+                        keyStore.setCertificateEntry("ca", ca);
+
+                        // Create a TrustManager that trusts the CAs in our KeyStore
+                        String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+                        TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+                        tmf.init(keyStore);
+
+                        // Create an SSLContext that uses our TrustManager
+                        SSLContext context = SSLContext.getInstance("TLS");
+                        context.init(null, tmf.getTrustManagers(), null);
+
+                        // Tell the URLConnection to use a SocketFactory from our SSLContext
                         URL url = new URL(netMessage.getConnectionAddress());
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setReadTimeout(10000 /* milliseconds */);
-                        conn.setConnectTimeout(15000 /* milliseconds */);
-                        conn.setRequestMethod("POST");
-                        conn.setDoInput(true);
-                        conn.setDoOutput(true);
-                        OutputStream os = conn.getOutputStream();
+                        HttpsURLConnection urlConnection =
+                                (HttpsURLConnection)url.openConnection();
+                        urlConnection.setSSLSocketFactory(context.getSocketFactory());
+                        //InputStream in = urlConnection.getInputStream();
+
+
+                        //HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        urlConnection.setReadTimeout(10000 /* milliseconds */);
+                        urlConnection.setConnectTimeout(15000 /* milliseconds */);
+                        urlConnection.setRequestMethod("POST");
+                        urlConnection.setDoInput(true);
+                        urlConnection.setDoOutput(true);
+                        OutputStream os = urlConnection.getOutputStream();
                         BufferedWriter writer = new BufferedWriter(
                                 new OutputStreamWriter(os, "UTF-8"));
 
                         writer.write(netMessage.getMessage().toString());
                         writer.flush();
-                        conn.connect();
-                        int response = conn.getResponseCode();
+                        urlConnection.connect();
+                        int response = urlConnection.getResponseCode();
                         if (response==200) {
-                            is = conn.getInputStream();
+                            is = urlConnection.getInputStream();
                             // Convert the InputStream into a string
                             BufferedReader r = new BufferedReader(new InputStreamReader(is));
                             StringBuilder total = new StringBuilder();
@@ -101,6 +154,16 @@ public class Network extends Thread{
                     } catch (ProtocolException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (CertificateException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (KeyManagementException e) {
+                        e.printStackTrace();
+                    } catch (KeyStoreException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchProviderException e) {
                         e.printStackTrace();
                     } finally {
                         if (is != null) {
