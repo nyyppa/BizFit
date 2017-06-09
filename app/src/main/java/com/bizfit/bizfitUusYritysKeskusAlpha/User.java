@@ -484,6 +484,10 @@ public class User  {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put(Constants.job, Constants.save);
+            if(currentUser==null)
+            {
+                return;
+            }
             jsonObject.put(Constants.user, currentUser.toJSON(true));
         } catch (JSONException e) {
             e.printStackTrace();

@@ -395,7 +395,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE coach = \' " +
                   username + "\'" + " OR customer = \'" + username + "\'", null );
-            cursor.moveToFirst();
+            while(cursor.moveToNext())
             {
                 ChatRequest chatRequest = new ChatRequest();
 
@@ -404,7 +404,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 chatRequest.need = ChatRequest.Need.valueOf(cursor.getString(cursor.getColumnIndex("need")));
                 chatRequest.skill = ChatRequest.Skill.valueOf(cursor.getString(cursor.getColumnIndex("skill")));
                 chatRequest.message = cursor.getString(cursor.getColumnIndex("message"));
-                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
+                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("pendingRequestID")));
                 chatRequestForMeList.add(chatRequest);
             }
         }
@@ -419,7 +419,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             Cursor cursor = db.rawQuery("SELECT * FROM Pending_request WHERE customer = \' " +
                     username + "\'" + " OR coach = \'" + username + "\'", null);
-            cursor.moveToFirst();
+            while(cursor.moveToNext())
             {
                 ChatRequest chatRequest = new ChatRequest();
 
@@ -428,7 +428,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 chatRequest.need = ChatRequest.Need.valueOf(cursor.getString(cursor.getColumnIndex("need")));
                 chatRequest.skill = ChatRequest.Skill.valueOf(cursor.getString(cursor.getColumnIndex("skill")));
                 chatRequest.message = cursor.getString(cursor.getColumnIndex("message"));
-                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
+                chatRequest.uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("pendingRequestID")));
 
                 chatRequestFromMeList.add(chatRequest);
             }
