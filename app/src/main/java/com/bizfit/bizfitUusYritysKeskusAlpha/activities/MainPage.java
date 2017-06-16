@@ -8,7 +8,9 @@ import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -65,19 +67,52 @@ public class MainPage extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         //SQLiteDatabase db=this.openOrCreateDatabase("database",MODE_PRIVATE,null);
         findUser();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_v2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
         toolbar.setTitle("Bizfit "+ Constants.version);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Bizfit "+ Constants.version);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
+
+        BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.bottomNavigationItemView);
+        bottomNavigation.setSelectedItemId(R.id.action_coaches);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                boolean switched = false;
+
+                switch(item.getItemId()) {
+                    case R.id.action_profile:
+                        break;
+
+                    case R.id.action_coaches:
+                        viewPager.setCurrentItem(0);
+                        switched = true;
+                        break;
+
+                    case R.id.action_messages:
+                        viewPager.setCurrentItem(1);
+                        switched = true;
+                        break;
+
+                    case R.id.action_settings:
+                        break;
+                }
+
+                return switched;
+            }
+        });
+
+        //TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        //tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(getIntent().getIntExtra("goToTab", 0));
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.hide(); //because tab is not switched, activated in onPageSelected
+        //final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.hide(); //because tab is not switched, activated in onPageSelected
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -88,7 +123,7 @@ public class MainPage extends AppCompatActivity implements
 
             @Override
             public void onPageSelected(int position) {
-                fab.clearAnimation();
+                //fab.clearAnimation();
                 switch (position) {
                     case 0:
                         //fab.show();
@@ -97,7 +132,7 @@ public class MainPage extends AppCompatActivity implements
 
                     default:
                         ((AppBarLayout) (findViewById(R.id.app_bar_main))).setExpanded(true);
-                        fab.hide();
+                        //fab.hide();
                         break;
                 }
             }

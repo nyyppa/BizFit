@@ -8,6 +8,11 @@
     <string name="title_tab_messages">Viestit</string>
     <string name="title_tab_coaches">Valmentajat</string>
 
+    <string name="menu_profile">Profiili</string>
+    <string name="menu_coaches">Valmentajat</string>
+    <string name="menu_messages">Viestit</string>
+    <string name="menu_settings">Asetukset</string>
+
     <string name="ensimetri_special">Erikoistunut </string>
     <string name="ensimetri_kaj">myyntiin ja franchisingiin</string>
     <string name="ensimetri_taina">taloushallintoon</string>
@@ -184,6 +189,8 @@
     </string-array>
 
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum venenatis arcu, et tincidunt mi molestie vel. Nunc gravida diam augue, ut ultricies purus sodales vel. Quisque quis aliquet nisi. Cras euismod leo id turpis fringilla, eget fermentum lectus malesuada. Quisque eu quam at eros mattis accumsan. Cras a tincidunt neque, sit amet auctor leo. Nulla ut dictum nibh, ac sagittis enim. Praesent tincidunt varius felis, laoreet aliquam erat.  Suspendisse ultrices imperdiet diam, a placerat erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Etiam euismod pretium lacus, at euismod leo dapibus ut. Vestibulum bibendum sagittis metus in elementum. Etiam viverra fermentum congue. Sed sit amet risus eu erat dignissim varius ut vel dolor. Nunc molestie dui et dapibus rhoncus. Aenean enim justo, pharetra fringilla felis id, rhoncus ullamcorper ligula. Aenean mollis, neque ac pretium posuere, massa ligula commodo nulla, nec aliquet nibh odio venenatis nunc. Duis facilisis, mauris at placerat congue, eros tortor ornare mi, vitae molestie mauris justo sit amet metus.</string>
+    <string name="dummy_shorter">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+
 
     <!-- OLD STRINGS -->
 
