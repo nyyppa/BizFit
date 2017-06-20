@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_profile"
+        android:title="@string/menu_profile"
+        android:icon="@drawable/ic_profile" />
+    <item android:id="@+id/action_coaches"
+        android:title="@string/menu_coaches"
+        android:icon="@drawable/ic_coaches" />
+    <item android:id="@+id/action_messages"
+        android:title="@string/menu_messages"
+        android:icon="@drawable/ic_chat_android" />
+    <item android:id="@+id/action_settings"
+        android:title="@string/menu_settings"
+        android:icon="@drawable/ic_settings_white_24dp" />
+
+</menu>
