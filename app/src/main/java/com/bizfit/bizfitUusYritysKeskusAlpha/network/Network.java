@@ -30,8 +30,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
 
@@ -81,7 +83,7 @@ public class Network extends Thread{
                         CertificateFactory cf = CertificateFactory.getInstance("X.509","BC");
                         // From https://www.washington.edu/itconnect/security/ca/load-der.crt
                         ;
-                        InputStream caInput = new BufferedInputStream(MyApplication.getContext().getAssets().open("certs/server_bizfit_ca_signed.crt"));
+                        InputStream caInput = new BufferedInputStream(MyApplication.getContext().getAssets().open("certs/server_ca_signed.crt"));
                         Certificate ca;
                         try {
                             ca = cf.generateCertificate(caInput);
@@ -119,6 +121,13 @@ public class Network extends Thread{
                         urlConnection.setRequestMethod("POST");
                         urlConnection.setDoInput(true);
                         urlConnection.setDoOutput(true);
+                        //TODO replace with actual verification
+                        urlConnection.setHostnameVerifier(new HostnameVerifier() {
+                            @Override
+                            public boolean verify(String hostname, SSLSession session) {
+                                return true;
+                            }
+                        });
                         OutputStream os = urlConnection.getOutputStream();
                         BufferedWriter writer = new BufferedWriter(
                                 new OutputStreamWriter(os, "UTF-8"));
