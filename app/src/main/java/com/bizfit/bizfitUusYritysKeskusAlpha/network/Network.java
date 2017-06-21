@@ -3,6 +3,7 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.network;
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -125,7 +126,12 @@ public class Network extends Thread{
                         urlConnection.setHostnameVerifier(new HostnameVerifier() {
                             @Override
                             public boolean verify(String hostname, SSLSession session) {
-                                return true;
+                                DebugPrinter.Debug("hostname:"+Constants.connection_address.split(":")[1].replaceFirst("//",""));
+                                if(hostname.startsWith(Constants.connection_address.split(":")[1].replaceFirst("//","")))
+                                {
+                                    return true;
+                                }
+                                return false;
                             }
                         });
                         OutputStream os = urlConnection.getOutputStream();
