@@ -34,6 +34,7 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
 
@@ -88,7 +89,7 @@ public class Network extends Thread{
                         Certificate ca;
                         try {
                             ca = cf.generateCertificate(caInput);
-                            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+                            //System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
                         } finally {
                             caInput.close();
                         }
@@ -126,12 +127,9 @@ public class Network extends Thread{
                         urlConnection.setHostnameVerifier(new HostnameVerifier() {
                             @Override
                             public boolean verify(String hostname, SSLSession session) {
-                                DebugPrinter.Debug("hostname:"+Constants.connection_address.split(":")[1].replaceFirst("//",""));
-                                if(hostname.startsWith(Constants.connection_address.split(":")[1].replaceFirst("//","")))
-                                {
-                                    return true;
-                                }
-                                return false;
+
+                                return HttpsURLConnection.getDefaultHostnameVerifier().verify("bizfit server",session);
+
                             }
                         });
                         OutputStream os = urlConnection.getOutputStream();
