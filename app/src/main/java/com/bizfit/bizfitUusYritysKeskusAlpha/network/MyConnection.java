@@ -143,4 +143,48 @@ public class MyConnection{
             return httpURLConnection.getInputStream();
         }
     }
+
+    public String getHeaderField(String s) {
+        if(httpsURLConnection!=null)
+        {
+            return httpsURLConnection.getHeaderField(s);
+        }
+        else
+        {
+            return httpURLConnection.getHeaderField(s);
+        }
+    }
+
+    public String getContentType() {
+        if(httpsURLConnection!=null)
+        {
+            return httpsURLConnection.getContentType();
+        }
+        else
+        {
+            return httpURLConnection.getContentType();
+        }
+    }
+
+    public int getContentLength() {
+        if(httpsURLConnection!=null)
+        {
+            return httpsURLConnection.getContentLength();
+        }
+        else
+        {
+            return httpURLConnection.getContentLength();
+        }
+    }
+
+    public void disconnect() {
+        if(httpsURLConnection!=null)
+        {
+            httpsURLConnection.disconnect();
+        }
+        else
+        {
+            httpURLConnection.disconnect();
+        }
+    }
 }

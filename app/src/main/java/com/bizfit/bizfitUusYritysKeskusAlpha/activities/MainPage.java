@@ -317,7 +317,7 @@ public class MainPage extends AppCompatActivity implements
 
         return popupWindow;
     }
-
+    
     private AdapterView.OnItemClickListener onItemClickListener() {
         return new AdapterView.OnItemClickListener() {
 

@@ -496,7 +496,8 @@
         <item>Zambia</item>
         -->
     </string-array>
+    <string name="title_activity_kuva_testi">KuvaTestiActivity</string>
 
 </resources>
 
-<!-- END OF FILE -->
+    <!-- END OF FILE -->
