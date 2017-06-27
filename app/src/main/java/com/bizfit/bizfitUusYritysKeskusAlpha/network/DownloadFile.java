@@ -23,6 +23,7 @@ import java.security.NoSuchProviderException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.util.UUID;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -113,7 +114,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
                 // opens input stream from the HTTP connection
                 InputStream inputStream = httpConn.getInputStream();
                 //TODO change to use temp files?
-                file = new File(MyApplication.getContext().getFilesDir(), "img.png");
+                file = File.createTempFile(UUID.randomUUID().toString(),null,MyApplication.getContext().getFilesDir());
                 // opens an output stream to save into file
                 FileOutputStream outputStream = new FileOutputStream(file);
 
