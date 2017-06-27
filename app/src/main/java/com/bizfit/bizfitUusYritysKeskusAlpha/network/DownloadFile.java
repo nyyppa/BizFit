@@ -112,7 +112,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
 
                 // opens input stream from the HTTP connection
                 InputStream inputStream = httpConn.getInputStream();
-
+                //TODO change to use temp files?
                 file = new File(MyApplication.getContext().getFilesDir(), "img.png");
                 // opens an output stream to save into file
                 FileOutputStream outputStream = new FileOutputStream(file);
