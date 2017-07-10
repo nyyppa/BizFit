@@ -20,7 +20,7 @@ public class MyConnection{
     HttpsURLConnection httpsURLConnection;
     HttpURLConnection httpURLConnection;
 
-    MyConnection(URL url) throws IOException {
+    public MyConnection(URL url) throws IOException {
         if (url.getProtocol().equals("https"))
         {
             httpsURLConnection=(HttpsURLConnection) url.openConnection();

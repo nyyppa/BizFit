@@ -1,10 +1,11 @@
-package com.bizfit.bizfitUusYritysKeskusAlpha.network;
+package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload;
 
 import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -153,9 +154,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
     protected void onProgressUpdate(Integer... progress) {
     }
 
-    protected void onPostExecute(File result) {
-
-    }
+    protected abstract void onPostExecute(File result);
 
     public abstract void doResult(T result);
 }

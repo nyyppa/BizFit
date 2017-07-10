@@ -1,11 +1,12 @@
-package com.bizfit.bizfitUusYritysKeskusAlpha.network;
+package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload;
 
 import android.graphics.drawable.Drawable;
+
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload.DownloadFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 /**
  * Created by Atte Ylivrronen on 16.6.2017.
