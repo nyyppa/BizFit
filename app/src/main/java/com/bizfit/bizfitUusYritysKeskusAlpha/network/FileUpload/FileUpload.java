@@ -3,6 +3,7 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload;
 import android.os.AsyncTask;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -23,7 +24,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
         File f=convertGenerictoFile(params[0]);
         try {
 
-            HttpURLConnection conn = null;
+            MyConnection conn = null;
             DataOutputStream dos = null;
             String lineEnd = "\r\n";
             String twoHyphens = "--";
@@ -38,14 +39,13 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
 
                 try {
                     String upLoadServerUri = "http://51.15.48.66:8081";
-                    DebugPrinter.Debug("tiedosto koko"+f.length());
                     // open a URL connection to the Servlet
                     FileInputStream fileInputStream = new FileInputStream(
                             sourceFile);
                     URL url = new URL(upLoadServerUri);
 
                     // Open a HTTP connection to the URL
-                    conn = (HttpURLConnection) url.openConnection();
+                    conn = new MyConnection(url);
                     conn.setDoInput(true); // Allow Inputs
                     conn.setDoOutput(true); // Allow Outputs
                     conn.setUseCaches(false); // Don't use a Cached Copy

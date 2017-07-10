@@ -187,4 +187,36 @@ public class MyConnection{
             httpURLConnection.disconnect();
         }
     }
+
+    public void setUseCaches(boolean b) {
+        if(httpsURLConnection!=null)
+        {
+            httpsURLConnection.setUseCaches(b);
+        }
+        else{
+            httpURLConnection.setUseCaches(b);
+        }
+    }
+
+    public void setRequestProperty(String keyword, String value) {
+        if(httpsURLConnection!=null)
+        {
+            httpsURLConnection.setRequestProperty(keyword,value);
+        }
+        else
+        {
+            httpURLConnection.setRequestProperty(keyword,value);
+        }
+    }
+
+    public String getResponseMessage() throws IOException {
+        if(httpsURLConnection!=null)
+        {
+            return httpsURLConnection.getResponseMessage();
+        }
+        else
+        {
+            return httpURLConnection.getResponseMessage();
+        }
+    }
 }
