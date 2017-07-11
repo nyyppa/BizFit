@@ -1,18 +1,14 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload;
 
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.webkit.MimeTypeMap;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
-import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
-import com.google.common.io.Files;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.HttpURLConnection;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -55,6 +51,20 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setDoOutput(true); // Allow Outputs
                     conn.setUseCaches(false); // Don't use a Cached Copy
                     conn.setRequestMethod("POST");
+                    String filename=getFileName();
+                    if(filename==null||filename.isEmpty())
+                    {
+                        filename=f.getName();
+                    }
+                    String fileType=getFileType();
+                    if(fileType==null||fileType.isEmpty())
+                    {
+                        fileType= getFileTypeFromUrl(f.toURL());
+                        if(fileType==null||fileType.isEmpty())
+                        {
+                            fileType="unknown";
+                        }
+                    }
                     URLConnection connection=f.toURL().openConnection();
                     DebugPrinter.Debug("tiedosto nimi:"+connection.getContentType());
                     conn.setRequestProperty("Connection", "Keep-Alive");
@@ -63,8 +73,8 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setRequestProperty("Content-Type",
                             "multipart/form-data;boundary=" + boundary);
 
-                    conn.setRequestProperty("bill", sourceFileUri);
-
+                    conn.setRequestProperty("fileType", fileType);
+                    conn.setRequestProperty("fileName",filename);
                     dos = new DataOutputStream(conn.getOutputStream());
 /*
 
@@ -150,6 +160,12 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
 
     public enum ResultCode{
         success,failure;
+    }
+    public abstract String getFileName();
+    public abstract String getFileType();
+    public String getFileTypeFromUrl(URL url) throws IOException {
+        URLConnection connection =url.openConnection();
+        return connection.getContentType();
     }
 
 }
