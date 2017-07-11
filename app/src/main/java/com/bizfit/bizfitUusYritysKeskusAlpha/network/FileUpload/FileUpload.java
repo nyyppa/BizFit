@@ -62,7 +62,11 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     String fileType=getFileType();
                     if(fileType==null||fileType.isEmpty())
                     {
-                        fileType= getFileTypeFromFile(f);
+                        fileType= getFileTypeFromUrl(f.toURL());
+                        if(fileType.equals("content/unknown"))
+                        {
+                            fileType=getFileTypeFromFile(f);
+                        }
                         if(fileType==null||fileType.isEmpty())
                         {
                             fileType="unknown";
