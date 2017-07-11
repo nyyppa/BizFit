@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -51,6 +53,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setDoOutput(true); // Allow Outputs
                     conn.setUseCaches(false); // Don't use a Cached Copy
                     conn.setRequestMethod("POST");
+
                     String filename=getFileName();
                     if(filename==null||filename.isEmpty())
                     {
@@ -59,14 +62,12 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     String fileType=getFileType();
                     if(fileType==null||fileType.isEmpty())
                     {
-                        fileType= getFileTypeFromUrl(f.toURL());
+                        fileType= getFileTypeFromFile(f);
                         if(fileType==null||fileType.isEmpty())
                         {
                             fileType="unknown";
                         }
                     }
-                    URLConnection connection=f.toURL().openConnection();
-                    DebugPrinter.Debug("tiedosto nimi:"+connection.getContentType());
                     conn.setRequestProperty("Connection", "Keep-Alive");
                     conn.setRequestProperty("ENCTYPE",
                             "multipart/form-data");
@@ -76,6 +77,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setRequestProperty("fileType", fileType);
                     conn.setRequestProperty("fileName",filename);
                     dos = new DataOutputStream(conn.getOutputStream());
+                    //DebugPrinter.Debug("tiedosto nimi"+getFileTypeFromUrl(f.toURL()));
 /*
 
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -167,5 +169,10 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
         URLConnection connection =url.openConnection();
         return connection.getContentType();
     }
+    public String getFileTypeFromFile(File file) throws IOException {
+        BufferedReader brTest = new BufferedReader(new FileReader(file));
+        return brTest .readLine().replaceAll("[^a-zA-Z0-9 ]","");
+    }
+
 
 }

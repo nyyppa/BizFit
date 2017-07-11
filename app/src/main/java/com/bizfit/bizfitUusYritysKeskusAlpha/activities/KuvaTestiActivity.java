@@ -38,8 +38,18 @@ public class KuvaTestiActivity extends AppCompatActivity {
         ImageView imageView=(ImageView)findViewById(R.id.kuva);
         new DrawableUploader() {
             @Override
-            protected void onPostExecute(FileUpload.ResultCode result) {
+            public void onPostExecute(FileUpload.ResultCode result) {
 
+            }
+
+            @Override
+            public String getFileName() {
+                return null;
+            }
+
+            @Override
+            public String getFileType() {
+                return null;
             }
         }.execute(new Drawable[]{imageView.getDrawable()});
     }

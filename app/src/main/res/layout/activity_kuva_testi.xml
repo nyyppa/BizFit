@@ -10,6 +10,6 @@
         android:id="@+id/kuva"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/bizfit_logo_pysty" />
+        app:srcCompat="@drawable/atte"/>
 
 </android.support.design.widget.CoordinatorLayout>
