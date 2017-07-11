@@ -1,7 +1,9 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.FileUpload;
 
@@ -23,6 +25,7 @@ public abstract class PictureUploader extends FileUpload<Bitmap> {
         try {
             f = File.createTempFile(UUID.randomUUID().toString(),null, MyApplication.getContext().getFilesDir());
             Bitmap bitmap = param;
+            DebugPrinter.Debug("Tiedosto muoto:"+param.getConfig().name());
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
             FileOutputStream fos = new FileOutputStream(f);

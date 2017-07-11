@@ -1,15 +1,20 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload;
 
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.webkit.MimeTypeMap;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
+import com.google.common.io.Files;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by attey on 05/07/2017.
@@ -50,6 +55,8 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setDoOutput(true); // Allow Outputs
                     conn.setUseCaches(false); // Don't use a Cached Copy
                     conn.setRequestMethod("POST");
+                    URLConnection connection=f.toURL().openConnection();
+                    DebugPrinter.Debug("tiedosto nimi:"+connection.getContentType());
                     conn.setRequestProperty("Connection", "Keep-Alive");
                     conn.setRequestProperty("ENCTYPE",
                             "multipart/form-data");
@@ -60,6 +67,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
 
                     dos = new DataOutputStream(conn.getOutputStream());
 /*
+
                     dos.writeBytes(twoHyphens + boundary + lineEnd);
                     dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\""
                             + sourceFileUri + "\"" + lineEnd);
@@ -108,6 +116,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     }
 
                     // close the streams //
+
                     fileInputStream.close();
                     dos.flush();
                     dos.close();
