@@ -20,7 +20,19 @@ public abstract class DrawableUploader {
             protected void onPostExecute(ResultCode result) {
                 DrawableUploader.this.onPostExecute(result);
             }
+
+            @Override
+            public String getFileName() {
+                return DrawableUploader.this.getFileName();
+            }
+
+            @Override
+            public String getFileType() {
+                return DrawableUploader.this.getFileType();
+            }
         }.execute(Utils.drawableToBitmap(drawable[0]));
     }
-    protected abstract void onPostExecute(FileUpload.ResultCode result);
+    public abstract void onPostExecute(FileUpload.ResultCode result);
+    public abstract String getFileName();
+    public abstract String getFileType();
 }
