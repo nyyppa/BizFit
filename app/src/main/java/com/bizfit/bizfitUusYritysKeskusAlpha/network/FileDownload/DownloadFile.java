@@ -72,6 +72,9 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
 
 
             MyConnection httpConn=new MyConnection(url);
+            httpConn.setRequestMethod("POST");
+            httpConn.setRequestProperty("job","downloadfile");
+            httpConn.setRequestProperty("fileid",getFileID());
             httpConn.setSSLSocketFactory(context.getSocketFactory());
             //httpConn.setReadTimeout(10000 /* milliseconds */);
             //httpConn.setConnectTimeout(15000 /* milliseconds */);
@@ -153,6 +156,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
 
     protected void onProgressUpdate(Integer... progress) {
     }
+    public abstract String getFileID();
 
     protected abstract void onPostExecute(File result);
 

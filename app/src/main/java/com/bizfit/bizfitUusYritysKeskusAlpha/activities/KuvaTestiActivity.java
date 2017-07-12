@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
+import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload.DrawableDownloader;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.DrawableUploader;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.FileUpload;
@@ -20,7 +21,7 @@ public class KuvaTestiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kuva_testi);
-        /*URL[] urls=new URL[1];
+        URL[] urls=new URL[1];
         try {
             urls[0]=new URL(Constants.connection_address);
         } catch (MalformedURLException e) {
@@ -28,13 +29,18 @@ public class KuvaTestiActivity extends AppCompatActivity {
         }
         new DrawableDownloader() {
             @Override
+            public String getFileID() {
+                return "29070f4f-4974-4f05-926f-3d7df730e6ac43503770";
+            }
+
+            @Override
             public void doResult(Drawable result) {
                 ImageView imageView=(ImageView)KuvaTestiActivity.this.findViewById(R.id.kuva);
                 imageView.setImageDrawable(result);
             }
         }.execute(urls);
 
-        */
+        /*
         ImageView imageView=(ImageView)findViewById(R.id.kuva);
         new DrawableUploader() {
             @Override
@@ -51,7 +57,17 @@ public class KuvaTestiActivity extends AppCompatActivity {
             public String getFileType() {
                 return null;
             }
-        }.execute(new Drawable[]{imageView.getDrawable()});
+
+            @Override
+            public String getFileExtension() {
+                return null;
+            }
+
+            @Override
+            public String getUplader() {
+                return "atte";
+            }
+        }.execute(new Drawable[]{imageView.getDrawable()});*/
     }
 
 }

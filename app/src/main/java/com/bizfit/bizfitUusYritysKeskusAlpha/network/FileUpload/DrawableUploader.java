@@ -27,6 +27,16 @@ public abstract class DrawableUploader {
             }
 
             @Override
+            public String getFileExtension() {
+                return  DrawableUploader.this.getFileExtension();
+            }
+
+            @Override
+            public String getUplader() {
+                return DrawableUploader.this.getUplader();
+            }
+
+            @Override
             public String getFileType() {
                 return DrawableUploader.this.getFileType();
             }
@@ -35,4 +45,6 @@ public abstract class DrawableUploader {
     public abstract void onPostExecute(FileUpload.ResultCode result);
     public abstract String getFileName();
     public abstract String getFileType();
+    public abstract String getFileExtension();
+    public abstract String getUplader();
 }
