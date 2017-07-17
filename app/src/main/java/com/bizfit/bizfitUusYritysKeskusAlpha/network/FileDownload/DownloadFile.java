@@ -170,19 +170,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
 
     public abstract void error(Exception e);
 
-    public class DownloadFileExeption extends Exception{
-        public DownloadFileExeption(String message)
-        {
-            super(message);
-        }
-        public DownloadFileExeption(String message, Throwable throwable) {
-            super(message, throwable);
-        }
-        public DownloadFileExeption(Throwable cause) {
-            super(cause);
-            // TODO Auto-generated constructor stub
-        }
-    }
+
     public class FileResult{
         private File result;
         Exception exception;
