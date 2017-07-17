@@ -36,9 +36,9 @@ import javax.net.ssl.TrustManagerFactory;
  * Created by Atte Ylivrronen on 14.6.2017.
  */
 
-public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
+public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadFile.FileResult> {
 
-    protected File doInBackground(URL... urls) {
+    protected FileResult doInBackground(URL... urls) {
         URL url = urls[0];
         File file=null;
 
@@ -97,6 +97,10 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
                 String fileName = "";
                 String disposition = httpConn.getHeaderField("Content-Disposition");
                 String contentType = httpConn.getContentType();
+                if(httpConn.getHeaderField("filefound").equals("false"))
+                {
+                    throw new DownloadFileExeption("file not found");
+                }
                 int contentLength = httpConn.getContentLength();
 
                 if (disposition != null) {
@@ -138,27 +142,67 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, File> {
             }
             httpConn.disconnect();
         } catch (IOException e) {
-            e.printStackTrace();
+            return new FileResult(e);
         } catch (CertificateException e) {
-            e.printStackTrace();
+            return new FileResult(e);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return new FileResult(e);
         } catch (NoSuchProviderException e) {
-            e.printStackTrace();
+            return new FileResult(e);
         } catch (KeyStoreException e) {
-            e.printStackTrace();
+            return new FileResult(e);
         } catch (KeyManagementException e) {
-            e.printStackTrace();
+            return new FileResult(e);
+        } catch (DownloadFileExeption downloadFileExeption) {
+            return new FileResult(downloadFileExeption);
         }
 
-        return file;
+        return new FileResult(file);
     }
 
     protected void onProgressUpdate(Integer... progress) {
     }
     public abstract String getFileID();
 
-    protected abstract void onPostExecute(File result);
+    protected abstract void onPostExecute(FileResult result);
 
     public abstract void doResult(T result);
+
+    public abstract void error(Exception e);
+
+    public class DownloadFileExeption extends Exception{
+        public DownloadFileExeption(String message)
+        {
+            super(message);
+        }
+        public DownloadFileExeption(String message, Throwable throwable) {
+            super(message, throwable);
+        }
+        public DownloadFileExeption(Throwable cause) {
+            super(cause);
+            // TODO Auto-generated constructor stub
+        }
+    }
+    public class FileResult{
+        private File result;
+        Exception exception;
+        public FileResult(File result)
+        {
+            super();
+            this.result=result;
+        }
+        public FileResult(Exception exception)
+        {
+            super();
+            this.exception=exception;
+        }
+        public File  getResult  () throws Exception
+        {
+            if(exception!=null)
+            {
+                throw exception;
+            }
+            return result;
+        }
+    }
 }

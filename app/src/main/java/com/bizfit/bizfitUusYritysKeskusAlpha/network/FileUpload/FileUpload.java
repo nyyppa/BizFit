@@ -241,6 +241,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
             // dialog.dismiss();
 
             ex.printStackTrace();
+            return ResultCode.failure;
         }
         return ResultCode.failure;
     }

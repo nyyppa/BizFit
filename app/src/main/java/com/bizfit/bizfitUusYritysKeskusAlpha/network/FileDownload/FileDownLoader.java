@@ -11,9 +11,17 @@ import java.io.File;
 public abstract class FileDownLoader extends DownloadFile<File> {
 
 
+
+
+
+
     @Override
-    protected void onPostExecute(File result) {
-        doResult(result);
+    protected void onPostExecute(FileResult result) {
+        try {
+            doResult(result.getResult());
+        } catch (Exception e) {
+            error(e);
+        }
     }
 
 }

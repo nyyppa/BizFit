@@ -21,26 +21,6 @@ public class KuvaTestiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kuva_testi);
-        URL[] urls=new URL[1];
-        try {
-            urls[0]=new URL(Constants.connection_address);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        new DrawableDownloader() {
-            @Override
-            public String getFileID() {
-                return "29070f4f-4974-4f05-926f-3d7df730e6ac43503770";
-            }
-
-            @Override
-            public void doResult(Drawable result) {
-                ImageView imageView=(ImageView)KuvaTestiActivity.this.findViewById(R.id.kuva);
-                imageView.setImageDrawable(result);
-            }
-        }.execute(urls);
-
-        /*
         ImageView imageView=(ImageView)findViewById(R.id.kuva);
         new DrawableUploader() {
             @Override
@@ -67,7 +47,33 @@ public class KuvaTestiActivity extends AppCompatActivity {
             public String getUplader() {
                 return "atte";
             }
-        }.execute(new Drawable[]{imageView.getDrawable()});*/
+        }.execute(new Drawable[]{imageView.getDrawable()});
+
+        URL[] urls=new URL[1];
+        try {
+            urls[0]=new URL(Constants.connection_address);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        new DrawableDownloader() {
+            @Override
+            public String getFileID() {
+                return "56ca8a98-8524-49dd-877e-366d5a2295ad845761484";
+            }
+
+            @Override
+            public void doResult(Drawable result) {
+                ImageView imageView=(ImageView)KuvaTestiActivity.this.findViewById(R.id.kuva);
+                imageView.setImageDrawable(result);
+            }
+
+            @Override
+            public void error(Exception e) {
+
+            }
+        }.execute(urls);
+
+
     }
 
 }
