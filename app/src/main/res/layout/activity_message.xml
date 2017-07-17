@@ -9,5 +9,5 @@
         android:layout_height="match_parent"
         android:name="com.bizfit.bizfitUusYritysKeskusAlpha.fragments.ChatFragment"
         android:id="@+id/fragment"
-        tools:layout="@layout/fragment_messages" />
+        tools:layout="@layout/fragment_messages2" />
 </RelativeLayout>

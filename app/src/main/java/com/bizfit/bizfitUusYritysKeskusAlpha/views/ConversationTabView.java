@@ -3,6 +3,7 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +31,12 @@ public class ConversationTabView extends android.support.v7.widget.AppCompatText
     public ConversationTabView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+    }
+
     public void setUnreadMessages(TextView textView)
     {
         this.unreadMessages=textView;

@@ -12,6 +12,15 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary">
 
+        <ImageButton
+            android:id="@+id/button_messages_menu"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_more_vert_black_24dp"
+            tools:layout_editor_absoluteX="321dp"
+            tools:layout_editor_absoluteY="3dp" />
+
         <ImageView
             android:id="@+id/coach_image"
             android:layout_width="50dp"

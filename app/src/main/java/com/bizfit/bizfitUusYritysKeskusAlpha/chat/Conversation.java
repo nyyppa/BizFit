@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.Contact;
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.PinnedMessages;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetMessage;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.Network;
@@ -406,6 +407,8 @@ public class Conversation implements NetworkReturn
         updateMessageSeens();
         sortConversation();
     }
+
+
     //TODO Merge
     public boolean isConversationAlreadyInList(List<Conversation>list){
         for(int i=0;i<list.size();i++){
@@ -481,4 +484,18 @@ public class Conversation implements NetworkReturn
             },jsonObject));
         }
     }
+
+    public List <Message> getPinnedMessages() {
+        List <Message> pinnedMessages = new ArrayList<>();
+        List <Message> messages = getMessages();
+        String user = User.getLastUser(null,null,null).userName;
+        for (int i = 0; i < messages.size(); i++) {
+            Message m = messages.get(i);
+            if (m.hasBeenPinned(user)) {
+                pinnedMessages.add(m);
+            }
+        }
+        return pinnedMessages;
+    }
+
 }

@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,6 +34,7 @@ public class Message implements NetworkReturn, Serializable {
     public Job job;
     public boolean hasBeenSeen=false;
     public UUID uuid;
+    List <String> pinnedUsers;
     MessageObject messageObject;
     OurDateTime timestamp;
 
@@ -323,6 +325,17 @@ public class Message implements NetworkReturn, Serializable {
     public enum Status{
         PENDING, ACCEPTED, CANCELLED, DELETED
     }
+
+    public boolean hasBeenPinned(String user) {
+        boolean pinned = false;
+        for (int i = 0; i < pinnedUsers.size() && !pinned; i++) {
+            if (pinnedUsers.get(i).equals(user)) {
+                pinned = true;
+            }
+        }
+        return pinned;
+    }
+
     @Override
     public String toString()
     {

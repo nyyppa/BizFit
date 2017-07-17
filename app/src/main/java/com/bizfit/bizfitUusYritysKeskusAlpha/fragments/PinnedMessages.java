@@ -1,41 +1,40 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
-
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterMessages;
+import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterPinnedMessages;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
+import java.util.List;
 
-/**
- *
- */
-public class ChatFragment extends Fragment implements View.OnClickListener {
 
-    private RecyclerViewAdapterMessages mAdapter;
+public class PinnedMessages extends Fragment implements View.OnClickListener {
+
+    private RecyclerViewAdapterPinnedMessages mAdapter;
     private RecyclerView mRecyclerView;
     private EditText input;
 
     // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
+    public static PinnedMessages newInstance(String param1, String param2) {
+        PinnedMessages fragment = new PinnedMessages();
         return fragment;
     }
 
-    public ChatFragment() {
+    public PinnedMessages() {
         // Required empty public constructor
     }
 
@@ -58,15 +57,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         linearLayoutManager.setReverseLayout(true);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_messages_recyclerView);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new RecyclerViewAdapterMessages(getActivity().getIntent(), getContext());
+        mAdapter = new RecyclerViewAdapterPinnedMessages(getActivity().getIntent(), getContext());
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setChatFragment(this);
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
         v.findViewById(R.id.button_send_message).setOnClickListener(this);
         ImageView iVcoach=(ImageView)v.findViewById(R.id.coach_image);
-        iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(),Utils.getDrawableID(mAdapter.getConversation().getOther())));
+        iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(mAdapter.getConversation().getOther())));
 
         String coachName = Utils.getCoachName(mAdapter.getConversation().getOther());
 
@@ -77,7 +75,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
         input = (EditText) v.findViewById(R.id.message);
         if(mAdapter.getItemCount() == 0) {
-            input.setHint(getString(R.string.hint_message_field, coachNameSplit[0]));
+            input.setHint(getString(R.string.hint_message_field, coachNameSplit[0]) + "pinnnni");
         }
 
         return v;
@@ -104,9 +102,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.button_messages_menu:
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment, new PinnedMessages(), "Pinned");
-                ft.commit();
+
                 break;
         }
     }
@@ -119,7 +115,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public RecyclerViewAdapterMessages getmAdapter()
+    public RecyclerViewAdapterPinnedMessages getmAdapter()
     {
         return mAdapter;
     }
@@ -129,4 +125,3 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         return mRecyclerView;
     }
 }
-

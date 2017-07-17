@@ -30,6 +30,8 @@ public class CoachPage extends AppCompatActivity {
 
     private static final float defaultFontScale = 1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
