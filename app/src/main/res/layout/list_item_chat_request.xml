@@ -146,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/ic_action_accept"
+        android:drawableLeft="@drawable/ic_accept"
         android:drawablePadding="8dp"
         android:text="Accept"
         app:layout_constraintTop_toBottomOf="@+id/cardView"

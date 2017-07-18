@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterMessages;
+import com.bizfit.bizfitUusYritysKeskusAlpha.activities.MessageActivity;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
 
@@ -80,6 +82,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
             input.setHint(getString(R.string.hint_message_field, coachNameSplit[0]));
         }
 
+        ImageButton imgb = (ImageButton) v.findViewById(R.id.button_messages_menu);
+        imgb.setOnClickListener(this);
+
         return v;
     }
 
@@ -104,9 +109,8 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.button_messages_menu:
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment, new PinnedMessages(), "Pinned");
-                ft.commit();
+                MessageActivity ma = (MessageActivity) getActivity();
+                ma.switchToPinned();
                 break;
         }
     }

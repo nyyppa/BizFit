@@ -41,6 +41,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationList;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationRequests;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabSettings;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.DBHelper;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.StoreRow;
@@ -89,6 +90,7 @@ public class MainPage extends AppCompatActivity implements
 
                 switch(item.getItemId()) {
                     case R.id.action_profile:
+                        startActivity(new Intent(MainPage.this, Profile.class));
                         break;
 
                     case R.id.action_coaches:
@@ -102,6 +104,8 @@ public class MainPage extends AppCompatActivity implements
                         break;
 
                     case R.id.action_settings:
+                        viewPager.setCurrentItem(3);
+                        switched = true;
                         break;
                 }
 
@@ -226,6 +230,7 @@ public class MainPage extends AppCompatActivity implements
         adapter.addFragment(new TabCoaches2(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         adapter.addFragment(new TabConversationRequests(),"Requests");
+        adapter.addFragment(new TabSettings(), "Settings");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 

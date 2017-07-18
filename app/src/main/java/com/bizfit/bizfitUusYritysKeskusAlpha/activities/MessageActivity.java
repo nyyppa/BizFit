@@ -4,9 +4,12 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.ChatFragment;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.PinnedMessages;
 
 public class MessageActivity extends AppCompatActivity {
     /** Last updated 9.5.17 by JariJ
@@ -36,6 +39,19 @@ public class MessageActivity extends AppCompatActivity {
         Intent intent=new Intent(context ,MessageActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    public void switchToPinned() {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new PinnedMessages(), "Pinned");
+        ft.addToBackStack("Messages");
+        ft.commit();
+    }
+
+    public void switchToRegular() {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new ChatFragment(), "Messages");
+        ft.commit();
     }
 
 }

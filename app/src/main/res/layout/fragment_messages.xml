@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/dummy" />
 
         <TextView
-            android:id="@+id/coach_name"
+            android:id="@+id/user_name"
             android:textSize="@dimen/text_subheading"
             android:textColor="@color/colorTextLight"
             android:layout_width="wrap_content"

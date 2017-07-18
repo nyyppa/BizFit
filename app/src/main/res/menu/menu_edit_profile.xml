@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/toolbar_save"
+        android:orderInCategory="100"
+        android:title="Save"
+        android:icon="@drawable/ic_accept"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toolbar_cancel"
+        android:orderInCategory="200"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_decline"
+        app:showAsAction="ifRoom" />
+
+</menu>

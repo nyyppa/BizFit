@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/coach_info_card"
+        android:id="@+id/user_info_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/coach_banner_image"
+                android:id="@+id/user_banner_image"
                 android:layout_width="0dp"
                 android:layout_height="320dp"
                 android:layout_marginLeft="8dp"
@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/dummy" />
 
             <TextView
-                android:id="@+id/coach_name"
+                android:id="@+id/user_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -50,10 +50,10 @@
                 android:textSize="@dimen/text_headline"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coach_banner_image" />
+                app:layout_constraintTop_toBottomOf="@+id/user_banner_image" />
 
             <TextView
-                android:id="@+id/coach_categories"
+                android:id="@+id/user_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -64,10 +64,10 @@
                 android:textSize="@dimen/text_subheading"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coach_name" />
+                app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
             <TextView
-                android:id="@+id/coach_sales_pitch"
+                android:id="@+id/user_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -84,7 +84,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coach_categories" />
+                app:layout_constraintTop_toBottomOf="@+id/user_job" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -107,7 +107,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coach_info_card" />
+        app:layout_constraintTop_toBottomOf="@+id/user_info_card" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/chat_card"

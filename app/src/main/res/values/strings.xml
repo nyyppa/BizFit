@@ -497,6 +497,7 @@
         -->
     </string-array>
     <string name="title_activity_kuva_testi">KuvaTestiActivity</string>
+    <string name="pinned">Pinned</string>
 
 </resources>
 

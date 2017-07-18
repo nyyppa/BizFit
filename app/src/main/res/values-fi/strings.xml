@@ -240,4 +240,7 @@
     <string name="message_remove_successful">Poistettu</string>
     <string name="message_tracker_not_saved">Tavoitetta ei tallennetu</string>
 
+    <string name="title_activity_kuva_testi">KuvaTestiActivity</string>
+    <string name="pinned">Merkityt</string>
+
 </resources>

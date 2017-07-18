@@ -38,7 +38,7 @@ public class CoachPage extends AppCompatActivity {
         setContentView(R.layout.activity_coach_page);
 
         //random coach information assignments
-        TextView tVfieldOfExpertise = (TextView) findViewById(R.id.coach_categories);
+        TextView tVfieldOfExpertise = (TextView) findViewById(R.id.user_job);
         String[] jobTitles = getResources().getStringArray(R.array.random_job_title);
         tVfieldOfExpertise.setText(jobTitles[(int) (Math.random() * jobTitles.length - 1)]);
 
@@ -121,16 +121,16 @@ public class CoachPage extends AppCompatActivity {
 
             if (imgId != IMAGE_NOT_FOUND) {
                 //  Fixed by JariJ 25.11.16
-                ((ImageView) findViewById(R.id.coach_banner_image)).setImageDrawable(ContextCompat.getDrawable(this, imgId));
+                ((ImageView) findViewById(R.id.user_banner_image)).setImageDrawable(ContextCompat.getDrawable(this, imgId));
             }
             /** Deprecated function getResources()
              // ((ImageView) findViewById(R.id.coach_banner_image)).setImageDrawable(getResources().getDrawable(imgId));
              */
             if (name != null)
-                ((TextView) findViewById(R.id.coach_name)).setText(name);
+                ((TextView) findViewById(R.id.user_name)).setText(name);
         }
 
-        TextView tVSalesPitch = (TextView) findViewById(R.id.coach_sales_pitch);
+        TextView tVSalesPitch = (TextView) findViewById(R.id.user_desc);
         String[] pitches = getResources().getStringArray(R.array.random_sales_pitch);
         tVSalesPitch.setText(Utils.getDesc(COACH_ID));
 

@@ -109,6 +109,9 @@
             android:name=".activities.KuvaTestiActivity"
             android:label="@string/title_activity_kuva_testi"
             android:theme="@style/AppTheme"></activity>
+
+        <activity android:name=".activities.Profile" />
+        <activity android:name=".activities.EditProfile" />
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/coach_info_card"
+        android:id="@+id/user_info_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -27,7 +27,7 @@
             tools:layout_editor_absoluteY="0dp">
 
             <ImageView
-                android:id="@+id/coach_banner_image"
+                android:id="@+id/user_banner_image"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:layout_marginBottom="8dp"
@@ -47,13 +47,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/coach_banner_image"
+                app:layout_constraintLeft_toRightOf="@+id/user_banner_image"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginRight="16dp"
                 app:layout_constraintRight_toRightOf="parent">
 
                 <TextView
-                    android:id="@+id/coach_name"
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -69,7 +69,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/coach_categories"
+                    android:id="@+id/user_job"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -80,10 +80,10 @@
                     android:textSize="@dimen/text_subheading"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coach_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
                 <TextView
-                    android:id="@+id/coach_sales_pitch"
+                    android:id="@+id/user_desc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -97,7 +97,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coach_categories"
+                    app:layout_constraintTop_toBottomOf="@+id/user_job"
                     app:layout_constraintVertical_bias="1.0" />
 
             </android.support.constraint.ConstraintLayout>
@@ -123,7 +123,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coach_info_card" />
+        app:layout_constraintTop_toBottomOf="@+id/user_info_card" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/chat_card"

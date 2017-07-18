@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterMessages;
 import com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews.RecyclerViewAdapterPinnedMessages;
+import com.bizfit.bizfitUusYritysKeskusAlpha.activities.MessageActivity;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
 
 import java.util.List;
@@ -52,7 +54,7 @@ public class PinnedMessages extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState)
     {
 
-        View v = inflater.inflate(R.layout.fragment_messages2, container, false);
+        View v = inflater.inflate(R.layout.fragment_pinnedmessages, container, false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_messages_recyclerView);
@@ -62,21 +64,18 @@ public class PinnedMessages extends Fragment implements View.OnClickListener {
         //new GetMessagesFromServer(mAdapter,getActivity()).start();
         //mAdapter.getConversation().getNewMessagesAndSentOldOnes();
 
-        v.findViewById(R.id.button_send_message).setOnClickListener(this);
         ImageView iVcoach=(ImageView)v.findViewById(R.id.coach_image);
         iVcoach.setImageDrawable(ContextCompat.getDrawable(getContext(), Utils.getDrawableID(mAdapter.getConversation().getOther())));
 
         String coachName = Utils.getCoachName(mAdapter.getConversation().getOther());
 
         TextView tVname=(TextView)v.findViewById(R.id.coach_name);
-        tVname.setText(coachName);
+        tVname.setText(coachName + " - " + getString(R.string.pinned));
 
         String [] coachNameSplit = coachName.split(" ");
 
-        input = (EditText) v.findViewById(R.id.message);
-        if(mAdapter.getItemCount() == 0) {
-            input.setHint(getString(R.string.hint_message_field, coachNameSplit[0]) + "pinnnni");
-        }
+        ImageButton imgb = (ImageButton) v.findViewById(R.id.button_messages_menu);
+        imgb.setOnClickListener(this);
 
         return v;
     }
@@ -85,24 +84,9 @@ public class PinnedMessages extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.button_send_message:
-                // TODO A finer solution with text trimming.
-                if(!String.valueOf(input.getText()).trim().isEmpty())
-                {
-                    mAdapter.getConversation().createMessage((input.getText()+""));
-                    mAdapter.notifyItemInserted(0);
-                    mRecyclerView.smoothScrollToPosition(0);
-                    input.setText("");
-                    input.setHint("");
-                }
-
-                //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
-
-                mAdapter.getConversation().getNewMessagesAndSendOldOnes();
-
-                break;
             case R.id.button_messages_menu:
-
+                MessageActivity ma = (MessageActivity) getActivity();
+                ma.switchToRegular();
                 break;
         }
     }

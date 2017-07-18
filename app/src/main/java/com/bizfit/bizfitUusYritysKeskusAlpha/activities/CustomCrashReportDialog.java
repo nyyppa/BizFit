@@ -89,7 +89,6 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
 
         mDialog = dialogBuilder.create();
         mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
 
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
@@ -104,6 +103,8 @@ public class CustomCrashReportDialog extends BaseCrashReportDialog implements Di
                 tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
             }
         }
+
+        mDialog.show();
 
     }
 
