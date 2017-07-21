@@ -104,11 +104,50 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
         return (conversation.getPinnedMessages() != null) ? conversation.getPinnedMessages().size() : 0;
     }
 
+
     @Override
     public int getItemViewType(int position) {
         return conversation.getMessages().get(position).getJob().ordinal();
     }
 
+
+    public void setChatFragment(final ChatFragment chatFragment)
+    {
+
+
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while(true)
+                {
+                    if(getConversation()==null)
+                    {
+                        synchronized (this){
+                            try
+                            {
+                                wait(1);
+                            }
+                            catch (InterruptedException e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        getConversation().setChatFragment(chatFragment);
+                        return;
+                    }
+                }
+            }
+        }).start();
+
+
+        this.chatFragment=chatFragment;
+    }
 
     /**
      * Holds references to Views which need to be accessed upon recycle.
@@ -128,7 +167,9 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
             tVtimestamp = (TextView) itemView.findViewById(R.id.tVtimestamp);
         }
 
-        public void prepareToDisplay(Message message, RecyclerViewAdapterPinnedMessages.MarginSize mSize)
+
+
+        public void prepareToDisplay(final Message message, RecyclerViewAdapterPinnedMessages.MarginSize mSize)
         {
             // TODO Check previous layout param state used for this particular item.
 
@@ -148,6 +189,13 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
                 p.setMargins(p.leftMargin, top, p.rightMargin, p.bottomMargin);
                 this.message.requestLayout();
             }
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    message.editPinnedUser(User.getLastUser(null,null,null).userName);
+                    return false;
+                }
+            });
 
             this.message.setMaxWidth((parent.getWidth()/4) * 3);
         }

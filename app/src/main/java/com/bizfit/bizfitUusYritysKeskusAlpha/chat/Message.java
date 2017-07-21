@@ -11,12 +11,15 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetworkReturn;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.DBHelper;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.OurDateTime;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 /**
@@ -72,6 +75,13 @@ public class Message implements NetworkReturn, Serializable {
                 uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
             }else{
                 uuid=UUID.randomUUID();
+            }
+            if(jsonObject.has("pinners")) {
+                JSONArray jsonArray = jsonObject.getJSONArray("pinners");
+                pinnedUsers= new ArrayList<>();
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    pinnedUsers.add(jsonArray.getString(i));
+                }
             }
 
         } catch (JSONException e) {
@@ -307,6 +317,13 @@ public class Message implements NetworkReturn, Serializable {
             jsonObject.put(Constants.hasBeenSent, hasBeenSent);
             jsonObject.put(Constants.hasBeenSeen,hasBeenSeen);
             jsonObject.put(Constants.UUID,uuid.toString());
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; pinnedUsers!=null && i < pinnedUsers.size(); i++){
+                jsonArray.put(pinnedUsers.get(i));
+            }
+            if (jsonArray.length()>0){
+                jsonObject.put("pinners", jsonArray);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -328,12 +345,38 @@ public class Message implements NetworkReturn, Serializable {
 
     public boolean hasBeenPinned(String user) {
         boolean pinned = false;
-        for (int i = 0; i < pinnedUsers.size() && !pinned; i++) {
+        for (int i = 0; pinnedUsers!=null && i < pinnedUsers.size() && !pinned; i++) {
             if (pinnedUsers.get(i).equals(user)) {
                 pinned = true;
             }
         }
+
         return pinned;
+    }
+
+    public void editPinnedUser(String user) {
+        DebugPrinter.Debug("pinned:"+user);
+        if(pinnedUsers==null) {
+            pinnedUsers = new ArrayList<>();
+        }
+        if(!hasBeenPinned(user)) {
+           pinnedUsers.add(user);
+        }
+        else {
+            removePinnedUser(user);
+        }
+    }
+    private void removePinnedUser(String user) {
+        if(pinnedUsers!=null) {
+            ListIterator<String> iterator=pinnedUsers.listIterator();
+            while (iterator.hasNext()) {
+                String s = iterator.next();
+                if(s.equals(user)) {
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
     }
 
     @Override
