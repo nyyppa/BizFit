@@ -2,6 +2,8 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.RecyclerViews;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.chat.Conversation;
 import com.bizfit.bizfitUusYritysKeskusAlpha.chat.Message;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
@@ -198,6 +201,38 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
             });
 
             this.message.setMaxWidth((parent.getWidth()/4) * 3);
+            switch (message.getJob())
+            {
+                case INCOMING:
+                    leftSide();
+                    break;
+                case OUTGOING:
+                    leftSide();
+                    rightSide();
+                    break;
+            }
+        }
+        private void rightSide()
+        {
+
+        }
+        private void leftSide()
+        {
+
+            DebugPrinter.Debug("herperderker: "+message.getLayout());
+            DebugPrinter.Debug("herperderker2: "+message.getParent());
+
+
+            ViewGroup row = (ViewGroup) tVtimestamp.getParent();
+            for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
+                View view = row.getChildAt(itemPos);
+                ConstraintSet constraintSet = new ConstraintSet();
+                ConstraintLayout constraintLayout = (ConstraintLayout) view.getParent();
+                constraintSet.clone(constraintLayout);
+                constraintSet.connect(view.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT, 0);
+                constraintSet.applyTo(constraintLayout);
+            }
+
         }
     }
 
