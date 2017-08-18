@@ -33,7 +33,7 @@
                 app:layout_constraintRight_toRightOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/profilePicture"
                     android:layout_width="320dp"
                     android:layout_height="320dp"
                     android:padding="10dp"
@@ -42,8 +42,8 @@
                 <View
                     android:layout_width="320dp"
                     android:layout_height="320dp"
-                    android:layout_alignLeft="@+id/imageView12"
-                    android:layout_alignTop="@+id/imageView12"
+                    android:layout_alignLeft="@+id/profilePicture"
+                    android:layout_alignTop="@+id/profilePicture"
                     android:layout_margin="0dp"
                     android:background="@drawable/rounded_foreground" />
 

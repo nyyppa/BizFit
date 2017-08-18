@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.bizfit.bizfitUusYritysKeskusAlpha.AudioRecordTest;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 
 public class SplashScreen extends Activity {

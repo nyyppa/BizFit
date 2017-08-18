@@ -23,7 +23,7 @@ public class Profile extends AppCompatActivity {
 
         // TODO: fill user information into fields
 
-        ImageView profilePicture = (ImageView) findViewById(R.id.imageView12);
+        ImageView profilePicture = (ImageView) findViewById(R.id.profilePicture);
         TextView userName = (TextView) findViewById(R.id.user_name);
         // job is in form JOB TITLE + " in " + COMPANY
         TextView userJob = (TextView) findViewById(R.id.user_job);
