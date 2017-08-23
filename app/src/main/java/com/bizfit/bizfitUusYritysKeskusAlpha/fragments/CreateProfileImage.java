@@ -2,6 +2,9 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +22,8 @@ import android.widget.ImageView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.DrawableUploader;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.FileUpload;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -103,29 +108,7 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
                 break;
 
             case R.id.takeImage:
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    // Create the File where the photo should go
-                    File photoFile = null;
-
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException ex) {
-                        // Error occurred while creating the File
-                    }
-
-                    // Continue only if the File was successfully created
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                                "com.example.android.fileprovider",
-                                photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, ACTIVITY_TAKE_IMAGE);
-                    }
-                }
-
+                // TODO: start camrera activity for result
                 break;
 
             case R.id.skip:
@@ -152,7 +135,9 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
 
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(imgUri);
-                d = Drawable.createFromStream(inputStream, imgUri.toString() );
+                Bitmap bm = BitmapFactory.decodeStream(inputStream);
+                bm = Bitmap.createScaledBitmap(bm, 160, 160, true);
+                d = new BitmapDrawable(getResources(), bm);
                 genericImage = false;
                 proceed.setVisibility(View.VISIBLE);
             } catch (FileNotFoundException e) {
@@ -162,7 +147,7 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
 
             imgView.setImageDrawable(d);
         } else if(requestCode == ACTIVITY_TAKE_IMAGE && resultCode == RESULT_OK) {
-            galleryAddPic();
+            // TODO: scale image, save it and add to view
         }
     }
 
@@ -175,30 +160,6 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
             imgView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.general_profile));
             genericImage = true;
         }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        getActivity().sendBroadcast(mediaScanIntent);
     }
 
 }

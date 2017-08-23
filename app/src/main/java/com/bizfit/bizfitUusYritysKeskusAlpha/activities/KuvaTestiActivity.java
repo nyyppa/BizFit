@@ -49,6 +49,7 @@ public class KuvaTestiActivity extends AppCompatActivity {
             }
         }.execute(new Drawable[]{imageView.getDrawable()});
 
+
         URL[] urls=new URL[1];
         try {
             urls[0]=new URL(Constants.connection_address);
