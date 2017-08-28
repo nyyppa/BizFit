@@ -54,7 +54,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.cardView3:
-                startActivity(new Intent(getActivity(), CreateProfile.class));
+                startActivityForResult(new Intent(getActivity(), CreateProfile.class), 1);
                 break;
         }
     }

@@ -1,16 +1,20 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.solver.widgets.Rectangle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -22,15 +26,12 @@ import android.widget.ImageView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
-import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.DrawableUploader;
-import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.FileUpload;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -55,10 +56,14 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
     ImageView imgView;
     boolean genericImage;
 
-    int ACTIVITY_CHOOSE_IMAGE = 1;
-    int ACTIVITY_TAKE_IMAGE = 2;
-
     String mCurrentPhotoPath;
+
+    final int REQUEST_TAKE_PICTURE = 1;
+    final int REQUEST_CHOOSE_FROM_GALLERY = 2;
+
+    public CreateProfileImage() {
+        super();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,16 +104,34 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
+        Intent intent;
+
         switch(v.getId()) {
             case R.id.chooseImage:
-                Intent intent = new Intent();
+
+                intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Valitse kuva"), ACTIVITY_CHOOSE_IMAGE);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, REQUEST_CHOOSE_FROM_GALLERY);
+
                 break;
 
             case R.id.takeImage:
-                // TODO: start camrera activity for result
+
+
+                /*
+                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
+                startActivityForResult(intent, REQUEST_TAKE_PICTURE);
+
+                */
+
+                CropImage.activity()
+                        .setRequestedSize(1024, 1024)
+                        .start(getContext(), this);
+
                 break;
 
             case R.id.skip:
@@ -128,26 +151,53 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestCode == ACTIVITY_CHOOSE_IMAGE && resultCode == RESULT_OK)
-        {
-            Uri imgUri = data.getData();
-            Drawable d;
 
-            try {
-                InputStream inputStream = getActivity().getContentResolver().openInputStream(imgUri);
-                Bitmap bm = BitmapFactory.decodeStream(inputStream);
-                bm = Bitmap.createScaledBitmap(bm, 160, 160, true);
-                d = new BitmapDrawable(getResources(), bm);
-                genericImage = false;
-                proceed.setVisibility(View.VISIBLE);
-            } catch (FileNotFoundException e) {
-                d = ContextCompat.getDrawable(getContext(), R.drawable.general_profile);
-                genericImage = true;
-            }
+        Bitmap bitmap = null;
+        InputStream stream = null;
 
-            imgView.setImageDrawable(d);
-        } else if(requestCode == ACTIVITY_TAKE_IMAGE && resultCode == RESULT_OK) {
-            // TODO: scale image, save it and add to view
+        switch (requestCode) {
+
+            case REQUEST_TAKE_PICTURE:
+                if(resultCode == RESULT_OK) {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    imgView.setImageBitmap(photo);
+                }
+                break;
+
+            case REQUEST_CHOOSE_FROM_GALLERY:
+                if(resultCode == RESULT_OK) {
+                    try {
+                        // recyle unused bitmaps
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                        }
+                        stream = parentActivity.getContentResolver().openInputStream(data.getData());
+                        bitmap = BitmapFactory.decodeStream(stream);
+
+                        imgView.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (stream != null)
+                            try {
+                                stream.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                    }
+                }
+                break;
+
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                if(resultCode == RESULT_OK) {
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    Uri resultUri = result.getUri();
+                    imgView.setImageURI(resultUri);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -160,6 +210,10 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
             imgView.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.general_profile));
             genericImage = true;
         }
+    }
+
+    public void setPicUri(Uri uri) {
+        imgView.setImageURI(uri);
     }
 
 }

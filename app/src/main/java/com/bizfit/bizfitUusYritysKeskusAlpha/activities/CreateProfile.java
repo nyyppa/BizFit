@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileCompany;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileFinish;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileHasCompany;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileImage;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileIsExpert;
@@ -28,6 +29,7 @@ public class CreateProfile extends AppCompatActivity {
     Fragment company;
     Fragment picture;
     Fragment expert;
+    Fragment finish;
 
     // FragmentManager and FragmentTransaction are used in switching fragments
     FragmentManager manager;
@@ -59,6 +61,7 @@ public class CreateProfile extends AppCompatActivity {
         company = new CreateProfileCompany();
         picture = new CreateProfileImage();
         expert = new CreateProfileIsExpert();
+        finish = new CreateProfileFinish();
 
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
@@ -108,11 +111,9 @@ public class CreateProfile extends AppCompatActivity {
                 break;
             case ISEXPERT:
                 saveProfile();
-                if(isExpert) {
-                    // TODO switch to basic info completed fragment
-                } else {
-                    // TODO switch to basic completion fragment
-                }
+                transaction = manager.beginTransaction();
+                transaction.replace(R.id.fragmentContainer, finish);
+                transaction.commit();
                 break;
         }
 

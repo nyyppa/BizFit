@@ -36,6 +36,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.PagerAdapter;
+import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabCoaches;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabCoaches2;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.TabConversationList;
 
@@ -227,7 +228,7 @@ public class MainPage extends AppCompatActivity implements
      */
     private void setupViewPager(ViewPager viewPager) {
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TabCoaches2(), getResources().getString(R.string.title_tab_coaches));
+        adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         adapter.addFragment(new TabConversationRequests(),"Requests");
         adapter.addFragment(new TabSettings(), "Settings");

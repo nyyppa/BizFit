@@ -52,7 +52,10 @@ public class Constants
 	public static final String hasBeenSeen="hasBeenSeen";
     public static final String timestamp="timestamp";
 
+	// profile
 
+	public static final String send_profile = "send_profile";
+    public static final String profile = "profile";
 
     //Tracker
 	public static final String start_date = "startDate";

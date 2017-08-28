@@ -8,17 +8,21 @@
 
     <ImageView
         android:id="@+id/imageView13"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
-        app:srcCompat="@drawable/ic_thumb" />
+        app:srcCompat="@drawable/ic_thumb"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/successMessage"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/successMessage"
@@ -26,15 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
         android:text="Profiilisi luotiin onnistuneesti! \nVoit nyt palata etusivulle."
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView13"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/createExpert" />
 
     <android.support.constraint.ConstraintLayout

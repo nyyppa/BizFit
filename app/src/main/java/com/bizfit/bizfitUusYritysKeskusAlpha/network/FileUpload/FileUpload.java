@@ -163,7 +163,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setRequestProperty("fileName",filename);
                     conn.setRequestProperty("fileExtension",fileExtension);
                     conn.setRequestProperty("fileID",f.getName().substring(0,f.getName().lastIndexOf(".")));
-                    conn.setRequestProperty("uploader",getUplader());
+                    conn.setRequestProperty("uploader", getUploader());
                     conn.setRequestProperty("job","uploadfile");
                     dos = new DataOutputStream(conn.getOutputStream());
                     //DebugPrinter.Debug("tiedosto nimi"+getFileTypeFromUrl(f.toURL()));
@@ -255,7 +255,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
     }
     public abstract String getFileName();
     public abstract String getFileExtension();
-    public abstract String getUplader();
+    public abstract String getUploader();
 
     /**
      * Valid returns are video,profile,image,document,voice,undefined.

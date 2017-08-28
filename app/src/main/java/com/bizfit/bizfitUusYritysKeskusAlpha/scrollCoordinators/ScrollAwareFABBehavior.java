@@ -88,7 +88,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior
                         }
                     }).start();
         } else {
-            Animation anim = AnimationUtils.loadAnimation(button.getContext(), R.anim.design_fab_out);
+            Animation anim = AnimationUtils.loadAnimation(button.getContext(), R.anim.animation_click);
             anim.setInterpolator(INTERPOLATOR);
             anim.setDuration(200L);
             anim.setAnimationListener(new Animation.AnimationListener() {
@@ -117,7 +117,7 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior
                     .setInterpolator(INTERPOLATOR).withLayer().setListener(null)
                     .start();
         } else {
-            Animation anim = AnimationUtils.loadAnimation(button.getContext(), R.anim.design_fab_out);
+            Animation anim = AnimationUtils.loadAnimation(button.getContext(), R.anim.animation_click);
             anim.setDuration(200L);
             anim.setInterpolator(INTERPOLATOR);
             button.startAnimation(anim);

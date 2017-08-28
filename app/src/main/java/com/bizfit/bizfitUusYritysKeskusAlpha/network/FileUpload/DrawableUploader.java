@@ -1,11 +1,8 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Utils;
-
-import java.io.File;
 
 /**
  * Created by attey on 05/07/2017.
@@ -32,8 +29,8 @@ public abstract class DrawableUploader {
             }
 
             @Override
-            public String getUplader() {
-                return DrawableUploader.this.getUplader();
+            public String getUploader() {
+                return DrawableUploader.this.getUploader();
             }
 
             @Override
@@ -46,5 +43,5 @@ public abstract class DrawableUploader {
     public abstract String getFileName();
     public abstract String getFileType();
     public abstract String getFileExtension();
-    public abstract String getUplader();
+    public abstract String getUploader();
 }

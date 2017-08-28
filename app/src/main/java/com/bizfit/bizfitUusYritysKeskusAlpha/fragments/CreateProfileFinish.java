@@ -11,10 +11,10 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 
 /**
- * Created by iipa on 15.8.2017.
+ * Created by iipa on 28.8.2017.
  */
 
-public class CreateProfileStart extends Fragment implements View.OnClickListener {
+public class CreateProfileFinish extends Fragment implements View.OnClickListener {
 
     CreateProfile parentActivity;
 
@@ -27,19 +27,17 @@ public class CreateProfileStart extends Fragment implements View.OnClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_create_profile_start, container, false);
+        return inflater.inflate(R.layout.fragment_create_profile_finish, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        Button b1 = (Button) getActivity().findViewById(R.id.createProfile);
-        Button b2 = (Button) getActivity().findViewById(R.id.askLater);
-        Button b3 = (Button) getActivity().findViewById(R.id.neverAsk);
+        Button b1 = (Button) getActivity().findViewById(R.id.createExpert);
+        Button b2 = (Button) getActivity().findViewById(R.id.backHome);
 
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
 
     }
 
@@ -47,23 +45,16 @@ public class CreateProfileStart extends Fragment implements View.OnClickListener
 
         switch(v.getId()) {
 
-            case R.id.createProfile:
-                parentActivity.switchPhase(CreateProfile.Phase.START);
+            case R.id.createExpert:
                 break;
 
-            case R.id.askLater:
+            case R.id.backHome:
                 // TODO
                 // back to home
                 // local preferences: canAsk = true;
 
                 parentActivity.setResult(1);
                 parentActivity.finish();
-                break;
-
-            case R.id.neverAsk:
-                // TODO
-                // back to home
-                // local preferences: canAsk = false;
                 break;
 
         }

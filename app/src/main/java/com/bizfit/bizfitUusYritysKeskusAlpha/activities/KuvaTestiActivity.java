@@ -44,7 +44,7 @@ public class KuvaTestiActivity extends AppCompatActivity {
             }
 
             @Override
-            public String getUplader() {
+            public String getUploader() {
                 return "atte";
             }
         }.execute(new Drawable[]{imageView.getDrawable()});
