@@ -113,6 +113,13 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.putExtra("crop", "true");
+                intent.putExtra("scale", true);
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                // indicate output X and Y
+                intent.putExtra("outputX", 1024);
+                intent.putExtra("outputY", 1024);
                 startActivityForResult(intent, REQUEST_CHOOSE_FROM_GALLERY);
 
                 break;
