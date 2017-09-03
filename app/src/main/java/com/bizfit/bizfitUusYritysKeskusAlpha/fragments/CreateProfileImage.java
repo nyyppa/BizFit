@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
@@ -109,7 +110,7 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
         if(parentActivity.getProfile() != null) {
 
             Profile profile = parentActivity.getProfile();
-            profile.drawToImgView(imgView);
+            profile.drawToImgView(imgView, (TextView) getActivity().findViewById(R.id.textViewTitle));
 
         }
 

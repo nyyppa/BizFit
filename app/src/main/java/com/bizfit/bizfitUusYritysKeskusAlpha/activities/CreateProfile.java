@@ -90,10 +90,6 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
 
-        // show the first step
-        transaction.replace(R.id.fragmentContainer, name);
-        transaction.commit();
-
         // retrieve possible profile from database
 
         JSONObject json = new JSONObject();
@@ -120,6 +116,10 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
                         e.printStackTrace();
                     }
                 }
+
+                // show the first step
+                transaction.replace(R.id.fragmentContainer, name);
+                transaction.commit();
             }
         },json);
 

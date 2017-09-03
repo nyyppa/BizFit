@@ -48,7 +48,8 @@ public class CreateProfileStart extends Fragment implements View.OnClickListener
         switch(v.getId()) {
 
             case R.id.createProfile:
-                parentActivity.switchPhase(CreateProfile.Phase.START);
+                // TODO
+                // go to select which profile to create
                 break;
 
             case R.id.askLater:
