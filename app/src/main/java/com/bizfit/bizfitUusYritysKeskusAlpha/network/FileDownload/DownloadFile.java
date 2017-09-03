@@ -97,7 +97,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
                 String fileName = "";
                 String disposition = httpConn.getHeaderField("Content-Disposition");
                 String contentType = httpConn.getContentType();
-                if(httpConn.getHeaderField("filefound").equals("false"))
+                if(httpConn.getHeaderField("filefound")==null||httpConn.getHeaderField("filefound").equals("false"))
                 {
                     throw new DownloadFileExeption("file not found");
                 }
