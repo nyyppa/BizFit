@@ -1,5 +1,6 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,11 +11,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.solver.widgets.Rectangle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -26,12 +29,15 @@ import android.widget.ImageView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.mikelau.croperino.Croperino;
+import com.mikelau.croperino.CroperinoConfig;
+import com.mikelau.croperino.CroperinoFileUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -109,35 +115,30 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
         switch(v.getId()) {
             case R.id.chooseImage:
 
-                intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.putExtra("crop", "true");
-                intent.putExtra("scale", true);
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                // indicate output X and Y
-                intent.putExtra("outputX", 1024);
-                intent.putExtra("outputY", 1024);
-                startActivityForResult(intent, REQUEST_CHOOSE_FROM_GALLERY);
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (parentActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        startGallery();
+                    }
+                } else {
+                    startGallery();
+                }
                 break;
 
             case R.id.takeImage:
 
-
-                /*
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
-                startActivityForResult(intent, REQUEST_TAKE_PICTURE);
-
-                */
-
-                CropImage.activity()
-                        .setRequestedSize(1024, 1024)
-                        .start(getContext(), this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (parentActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.CAMERA}, 2);
+                    } else if (parentActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                    } else {
+                        startCamera();
+                    }
+                } else {
+                    startCamera();
+                }
 
                 break;
 
@@ -155,59 +156,6 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-
-        Bitmap bitmap = null;
-        InputStream stream = null;
-
-        switch (requestCode) {
-
-            case REQUEST_TAKE_PICTURE:
-                if(resultCode == RESULT_OK) {
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
-                    imgView.setImageBitmap(photo);
-                }
-                break;
-
-            case REQUEST_CHOOSE_FROM_GALLERY:
-                if(resultCode == RESULT_OK) {
-                    try {
-                        // recyle unused bitmaps
-                        if (bitmap != null) {
-                            bitmap.recycle();
-                        }
-                        stream = parentActivity.getContentResolver().openInputStream(data.getData());
-                        bitmap = BitmapFactory.decodeStream(stream);
-
-                        imgView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } finally {
-                        if (stream != null)
-                            try {
-                                stream.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                    }
-                }
-                break;
-
-            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
-                if(resultCode == RESULT_OK) {
-                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                    Uri resultUri = result.getUri();
-                    imgView.setImageURI(resultUri);
-                }
-                break;
-
-            default:
-                break;
-        }
-    }
-
     public void setPicture(Drawable img) {
         if(img != null) {
             imgView.setImageDrawable(img);
@@ -219,8 +167,27 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
         }
     }
 
-    public void setPicUri(Uri uri) {
-        imgView.setImageURI(uri);
+    public void startCamera() {
+        //Initialize on every usage
+        new CroperinoConfig("IMG_" + System.currentTimeMillis() + ".jpg", "/Bizfit/Pictures", Environment.getExternalStorageDirectory().getPath() +  "/Bizfit/Pictures");
+        CroperinoFileUtil.verifyStoragePermissions(parentActivity);
+        CroperinoFileUtil.setupDirectory(parentActivity);
+
+        //Prepare Camera
+        try {
+            Croperino.prepareCamera(parentActivity);
+        } catch(Exception e) {
+
+        }
+    }
+
+    public void startGallery() {
+        //Initialize on every usage
+        new CroperinoConfig("IMG_" + System.currentTimeMillis() + ".jpg", "/Bizfit/Pictures", Environment.getExternalStorageDirectory().getPath() +  "/Bizfit/Pictures");
+        CroperinoFileUtil.verifyStoragePermissions(parentActivity);
+        CroperinoFileUtil.setupDirectory(parentActivity);
+
+        Croperino.prepareGallery(parentActivity);
     }
 
 }

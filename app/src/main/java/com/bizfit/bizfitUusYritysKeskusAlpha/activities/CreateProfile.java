@@ -1,13 +1,22 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha.activities;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
+import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileCompany;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileFinish;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileHasCompany;
@@ -15,19 +24,36 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileImage;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileIsExpert;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileName;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileStart;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.DrawableUploader;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.FileUpload;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetMessage;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.Network;
+import com.bizfit.bizfitUusYritysKeskusAlpha.network.NetworkReturn;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
+import com.mikelau.croperino.Croperino;
+import com.mikelau.croperino.CroperinoConfig;
+import com.mikelau.croperino.CroperinoFileUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.UUID;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by iipa on 15.8.2017.
  */
 
-public class CreateProfile extends AppCompatActivity {
+public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     // fragments aka steps of wizard
     Fragment start;
     Fragment name;
     Fragment hasCompany;
     Fragment company;
-    Fragment picture;
+    CreateProfileImage picture;
     Fragment expert;
     Fragment finish;
 
@@ -38,6 +64,7 @@ public class CreateProfile extends AppCompatActivity {
     // user information
     String firstName;
     String lastName;
+    UUID imageUUID;
     Drawable image;
     boolean ownsCompany;
     boolean askedCompany;
@@ -167,6 +194,131 @@ public class CreateProfile extends AppCompatActivity {
 
     public void saveProfile() {
 
+        saveProfilePicture();
+
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put(Constants.job, Constants.send_profile);
+            json.put(Constants.profile, toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Network.addNetMessage(new NetMessage(null, this, json));
+
+    }
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+
+        try {
+            // TODO: make constants
+            json.put("email", User.getLastUser(null, null, null).userName);
+            json.put("firstName", firstName);
+            json.put("lastName", lastName);
+            json.put("imageUUID", imageUUID.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+
+    public void saveProfilePicture() {
+
+        if(imageUUID == null) {
+            imageUUID = UUID.randomUUID();
+        }
+
+
+
+        new DrawableUploader() {
+            @Override
+            public void onPostExecute(FileUpload.ResultCode result) {
+
+            }
+
+            @Override
+            public String getFileName() {
+                return imageUUID.toString();
+            }
+
+            @Override
+            public String getFileType() {
+                return Constants.profile;
+            }
+
+            @Override
+            public String getFileExtension() {
+                return null;
+            }
+
+            @Override
+            public String getUploader() {
+                return User.getLastUser(null, null, null).userName;
+            }
+
+        }.execute(new Drawable[]{image});
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case CroperinoConfig.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    /* Parameters of runCropImage = File, Activity Context, Image is Scalable or Not, Aspect Ratio X, Aspect Ratio Y, Button Bar Color, Background Color */
+                    Croperino.runCropImage(CroperinoFileUtil.getmFileTemp(), CreateProfile.this, true, 1, 1, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark), ContextCompat.getColor(getApplicationContext(), R.color.materialLight));
+                }
+                break;
+            case CroperinoConfig.REQUEST_PICK_FILE:
+                if (resultCode == Activity.RESULT_OK) {
+                    CroperinoFileUtil.newGalleryFile(data, CreateProfile.this);
+                    Croperino.runCropImage(CroperinoFileUtil.getmFileTemp(), CreateProfile.this, true, 1, 1, ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark), ContextCompat.getColor(getApplicationContext(), R.color.materialLight));
+                }
+                break;
+            case CroperinoConfig.REQUEST_CROP_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri i = Uri.fromFile(CroperinoFileUtil.getmFileTemp());
+                    //The image file can always be retrieved via CroperinoFileUtil.getmFileTemp()
+                    Bitmap bm = BitmapFactory.decodeFile(CroperinoFileUtil.getmFileTemp().getPath());
+                    bm = Bitmap.createScaledBitmap(bm, 1024, 1024, true);
+                    Drawable d = new BitmapDrawable(getResources(), bm);
+                    setImage(d);
+                    picture.setPicture(d);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                picture.startGallery();
+            } else {
+                Crouton.makeText(this, "Permission denied", Style.ALERT).show();
+            }
+        } else if(requestCode == 2) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                picture.startCamera();
+            } else {
+                Crouton.makeText(this, "Permission denied", Style.ALERT).show();
+            }
+        }
+    }
+
+    @Override
+    public void returnMessage(String message) {
+        if(message.equals(Constants.networkconn_failed)) {
+            // epäonnistui, haluux tehä jottai
+        }
     }
 
     // enum for phase recognition

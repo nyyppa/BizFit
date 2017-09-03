@@ -46,7 +46,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
 
         // TODO: add settings
 
-        CardView cd = (CardView) getActivity().findViewById(R.id.cardView3);
+        CardView cd = getActivity().findViewById(R.id.cardView3);
         cd.setOnClickListener(this);
 
     }

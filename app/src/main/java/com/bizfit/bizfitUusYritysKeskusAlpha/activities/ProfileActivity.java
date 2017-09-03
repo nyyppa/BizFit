@@ -14,7 +14,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.R;
  * Created by iipa on 20.6.2017.
  */
 
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

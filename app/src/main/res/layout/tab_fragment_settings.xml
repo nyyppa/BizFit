@@ -59,14 +59,16 @@
 
             <TextView
                 android:id="@+id/textView22"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="Firstname Lastname"
-                android:textSize="@dimen/text_headline"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/text_subheading"
                 app:layout_constraintBottom_toTopOf="@+id/textView23"
                 app:layout_constraintLeft_toRightOf="@+id/user_banner_image"
-                android:layout_marginLeft="16dp" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView23"
