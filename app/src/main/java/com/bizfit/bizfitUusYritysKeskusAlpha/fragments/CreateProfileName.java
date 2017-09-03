@@ -49,6 +49,10 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
         firstName = (EditText) getActivity().findViewById(R.id.firstName);
         lastName = (EditText) getActivity().findViewById(R.id.lastName);
 
+        if(parentActivity.getProfile() != null) {
+            // TODO tarkista info ja aseta jos löytyypi
+        }
+
         // if there is input in first and last name, show the proceed button
 
         TextWatcher tw = new TextWatcher() {

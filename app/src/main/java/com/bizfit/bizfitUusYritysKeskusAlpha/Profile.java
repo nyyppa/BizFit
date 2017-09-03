@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload.DrawableDownloader;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
@@ -21,12 +22,24 @@ public class Profile {
     // TODO: add information attributes
 
     Drawable image;
-    UUID imageID;
+    UUID imageUUID;
 
     // TODO: retrieve information from jsonObject
     public Profile(JSONObject jsonObject) {
 
+        try {
+            // 1. tarkista löytyykö
+            // 2. hae tieto
 
+            if(jsonObject.has("firstName")) {
+                String name = jsonObject.getString("firstName");
+            }
+            if(jsonObject.has("uuid")) {
+                imageUUID = UUID.fromString(jsonObject.getString("uuid"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -41,7 +54,7 @@ public class Profile {
             new DrawableDownloader() {
                 @Override
                 public String getFileID() {
-                    return imageID.toString();
+                    return imageUUID.toString();
                 }
 
                 @Override
@@ -57,10 +70,6 @@ public class Profile {
 
             }.execute(new URL[]{new URL(Constants.connection_address)});
         }
-
-    }
-
-    public void downloadImage() {
 
     }
 
