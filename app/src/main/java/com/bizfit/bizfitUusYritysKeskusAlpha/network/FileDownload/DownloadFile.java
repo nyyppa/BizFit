@@ -128,9 +128,12 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
                 int i=0;
                 int bytesRead = -1;
                 byte[] buffer = new byte[1024];
+                double total=0;
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     DebugPrinter.Debug("heheee");
-                    publishProgress(i);
+                    publishProgress((int)(total/contentLength*100));
+                    DebugPrinter.Debug("bytesRead: "+bytesRead);
+                    total+=bytesRead;
                     outputStream.write(buffer, 0, bytesRead);
                     i++;
                 }
