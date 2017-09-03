@@ -57,6 +57,18 @@ public class Constants
 	public static final String send_profile = "send_profile";
 	public static final String load_profile = "load_profile";
     public static final String profile = "profile";
+	public static final String profile_not_found = "profile not found";
+
+	public static final String firstName = "firstName";
+	public static final String lastName = "lastName";
+	public static final String imageUUID = "imageUUID";
+	public static final String ownsCompany = "ownsCompany";
+	public static final String askedCompany = "askedCompany";
+	public static final String companyName = "companyName";
+	public static final String companyField = "companyField";
+	public static final String companyDesc = "companyDesc";
+	public static final String isExpert = "isExpert";
+	public static final String askedExpert = "askedExpert";
 
     //Tracker
 	public static final String start_date = "startDate";

@@ -33,11 +33,9 @@ public class CreateProfileFinish extends Fragment implements View.OnClickListene
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        Button b1 = (Button) getActivity().findViewById(R.id.createExpert);
-        Button b2 = (Button) getActivity().findViewById(R.id.backHome);
+        Button button = (Button) getActivity().findViewById(R.id.backHome);
 
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
+        button.setOnClickListener(this);
 
     }
 
@@ -45,15 +43,7 @@ public class CreateProfileFinish extends Fragment implements View.OnClickListene
 
         switch(v.getId()) {
 
-            case R.id.createExpert:
-                break;
-
             case R.id.backHome:
-                // TODO
-                // back to home
-                // local preferences: canAsk = true;
-
-                parentActivity.setResult(1);
                 parentActivity.finish();
                 break;
 

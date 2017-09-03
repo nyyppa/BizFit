@@ -21,6 +21,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.LoginActivity2;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.Security;
+import com.bizfit.bizfitUusYritysKeskusAlpha.activities.SelectProfileType;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.Support;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.cardView3:
-                startActivityForResult(new Intent(getActivity(), CreateProfile.class), 1);
+                startActivity(new Intent(getActivity(), SelectProfileType.class));
                 break;
         }
     }

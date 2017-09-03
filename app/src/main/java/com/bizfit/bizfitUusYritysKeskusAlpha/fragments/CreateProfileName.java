@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 
@@ -49,8 +50,24 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
         firstName = (EditText) getActivity().findViewById(R.id.firstName);
         lastName = (EditText) getActivity().findViewById(R.id.lastName);
 
+        // check if information already exists
+        // if it does, add to fields
+
         if(parentActivity.getProfile() != null) {
-            // TODO tarkista info ja aseta jos löytyypi
+            Profile profile = parentActivity.getProfile();
+
+            if(profile.firstName != null) {
+                firstName.setText(profile.firstName);
+            }
+
+            if(profile.lastName != null) {
+                lastName.setText(profile.lastName);
+            }
+
+            if(!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()) {
+                proceed.setVisibility(View.VISIBLE);
+            }
+
         }
 
         // if there is input in first and last name, show the proceed button

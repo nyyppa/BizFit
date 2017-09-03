@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 
@@ -55,8 +56,31 @@ public class CreateProfileCompany extends Fragment implements View.OnClickListen
         companyField = (EditText) getActivity().findViewById(R.id.companyField);
         companyDesc = (EditText) getActivity().findViewById(R.id.companyDesc);
 
+        // check if information already exists
+        // if it does, add to fields
 
-        // if there is input in first and last name, show the proceed button
+        if(parentActivity.getProfile() != null) {
+
+            Profile profile = parentActivity.getProfile();
+
+            if (profile.companyName != null) {
+                companyName.setText(profile.companyName);
+                proceed.setVisibility(View.VISIBLE);
+            }
+
+            if(profile.companyField != null) {
+                companyField.setText(profile.companyField);
+                proceed.setVisibility(View.VISIBLE);
+            }
+
+            if(profile.companyDesc != null) {
+                companyDesc.setText(profile.companyDesc);
+                proceed.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+        // if there is input in any of the fields, show proceed button
 
         TextWatcher tw = new TextWatcher() {
             @Override

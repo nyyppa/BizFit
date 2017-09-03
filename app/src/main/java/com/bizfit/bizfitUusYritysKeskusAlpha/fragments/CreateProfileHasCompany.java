@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 
@@ -29,6 +30,7 @@ public class CreateProfileHasCompany extends Fragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         parentActivity = (CreateProfile) getActivity();
+
     }
 
     @Override
@@ -49,12 +51,21 @@ public class CreateProfileHasCompany extends Fragment implements View.OnClickLis
         no = (RadioButton) getActivity().findViewById(R.id.no);
         no.setOnClickListener(this);
 
-        if(parentActivity.checkIfOwnsCompany()) {
-            yes.setChecked(true);
-            proceed.setVisibility(View.VISIBLE);
-        } else if(parentActivity.checkIfAskedCompany()) {
-            no.setChecked(true);
-            proceed.setVisibility(View.VISIBLE);
+        // check if information already exists
+        // if it does, add to fields
+
+        if(parentActivity.getProfile() != null) {
+
+            Profile profile = parentActivity.getProfile();
+
+            if(profile.ownsCompany) {
+                yes.setChecked(true);
+                proceed.setVisibility(View.VISIBLE);
+            } else if(profile.askedCompany) {
+                no.setChecked(true);
+                proceed.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 

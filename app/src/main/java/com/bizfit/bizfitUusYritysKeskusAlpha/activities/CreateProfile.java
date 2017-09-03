@@ -22,7 +22,6 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileCompany;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileFinish;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileHasCompany;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileImage;
-import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileIsExpert;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileName;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileStart;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileUpload.DrawableUploader;
@@ -50,12 +49,10 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     // fragments aka steps of wizard
-    Fragment start;
     Fragment name;
     Fragment hasCompany;
     Fragment company;
     CreateProfileImage picture;
-    Fragment expert;
     Fragment finish;
 
     // FragmentManager and FragmentTransaction are used in switching fragments
@@ -67,14 +64,13 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     // user information
     String firstName;
     String lastName;
+
     UUID imageUUID;
     Drawable image;
-    boolean ownsCompany;
-    boolean askedCompany;
-    boolean isExpert;
-    boolean askedExpert;
 
     // company information
+    boolean ownsCompany;
+    boolean askedCompany;
     String companyName;
     String companyField;
     String companyDesc;
@@ -85,19 +81,17 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
         setContentView(R.layout.activity_create_profile);
 
         // define fragments
-        start = new CreateProfileStart();
         name = new CreateProfileName();
         hasCompany = new CreateProfileHasCompany();
         company = new CreateProfileCompany();
         picture = new CreateProfileImage();
-        expert = new CreateProfileIsExpert();
         finish = new CreateProfileFinish();
 
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
 
         // show the first step
-        transaction.replace(R.id.fragmentContainer, start);
+        transaction.replace(R.id.fragmentContainer, name);
         transaction.commit();
 
         // retrieve possible profile from database
@@ -116,6 +110,8 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
             public void returnMessage(String message) {
                 if(message.equals(Constants.networkconn_failed)) {
 
+                } else if (message.equals(Constants.profile_not_found)){
+                    profile = null;
                 } else {
                     try {
                         JSONObject jsonObject = new JSONObject(message);
@@ -137,12 +133,6 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
         switch(currentPhase) {
 
-            // on start phase this method is called only if user wants to proceed
-            case START:
-                transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentContainer, name);
-                transaction.commit();
-                break;
             case NAME:
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragmentContainer, hasCompany);
@@ -165,11 +155,6 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
                 transaction.commit();
                 break;
             case PICTURE:
-                transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragmentContainer, expert);
-                transaction.commit();
-                break;
-            case ISEXPERT:
                 saveProfile();
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragmentContainer, finish);
@@ -197,10 +182,6 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     public void setImage(Drawable img) { image = img; }
 
-    public void setExpert(boolean bool) { isExpert = bool; }
-
-    public void setAskedExpert(boolean bool) { askedExpert = bool; }
-
     // getters
 
     public Profile getProfile() {
@@ -222,10 +203,6 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     public String getCompanyDesc() { return companyDesc; }
 
     public Drawable getImage() { return image; }
-
-    public boolean checkIfIsExpert() { return isExpert; }
-
-    public boolean checkIfAskedExpert() { return askedExpert; }
 
     // method for saving user given information
 
@@ -250,11 +227,42 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
         JSONObject json = new JSONObject();
 
         try {
-            // TODO: make constants
+
             json.put(Constants.profile, User.getLastUser(null, null, null).userName);
-            json.put("firstName", firstName);
-            json.put("lastName", lastName);
-            json.put("imageUUID", imageUUID.toString());
+
+            // must check if Strings are null before adding to json
+            // otherwise bad things happen
+            // very bad things
+
+            if(firstName != null) {
+                json.put(Constants.firstName, firstName);
+            }
+
+            if(lastName != null) {
+                json.put(Constants.lastName, lastName);
+            }
+
+            if(imageUUID != null) {
+                json.put(Constants.imageUUID, imageUUID.toString());
+            }
+
+            json.put(Constants.ownsCompany, ownsCompany);
+            json.put(Constants.askedCompany, askedCompany);
+
+            if(companyName != null) {
+                json.put(Constants.companyName, companyName);
+            }
+
+            if(companyField != null) {
+                json.put(Constants.companyField, companyField);
+            }
+
+            if(companyDesc != null) {
+                json.put(Constants.companyDesc, companyDesc);
+            }
+
+            json.put(Constants.isExpert, false);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -361,7 +369,7 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     // enum for phase recognition
 
     public enum Phase {
-        START, NAME, HASCOMPANY, COMPANY, PICTURE, ISEXPERT
+        NAME, HASCOMPANY, COMPANY, PICTURE
     }
 
 }

@@ -210,7 +210,12 @@
 
     <!-- strings related to profile -->
 
-    <string name="profile_basic_info">Basic information</string>
+    <string name="profile_select_profile_title">Select profile type</string>
+    <string name="profile_select_progile_basic_desc">With basic profile you can order expert services. \n\nYour profile is only visible to experts that you have ordered services from.</string>
+    <string name="profile_select_profile_expert_desc">With expert profile you can both order and offer expert services. \n\nYour profile is public and visible to anyone.</string>
+
+    <string name="profile_basic_profile">Basic profile</string>
+    <string name="profile_expert_profile">Expert profile</string>
 
     <string name="profile_noprofile_title">You don\'t have a profile</string>
     <string name="profile_noprofile_desc">You need a profile to order expert services. Would you like to do one now?</string>

@@ -117,10 +117,11 @@
             android:label="@string/title_activity_kuva_testi"
             android:theme="@style/AppTheme" />
 
-        <activity android:name=".activities.Profile" />
+        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.EditProfile" />
         <activity android:name="AudioRecordTest" />
         <activity android:name=".activities.CreateProfile" />
+        <activity android:name=".activities.SelectProfileType" />
 
     </application>
 

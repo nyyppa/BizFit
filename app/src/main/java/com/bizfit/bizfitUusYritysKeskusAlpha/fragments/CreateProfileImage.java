@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.activities.CreateProfile;
 import com.mikelau.croperino.Croperino;
@@ -36,6 +37,7 @@ import com.mikelau.croperino.CroperinoFileUtil;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -103,14 +105,18 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
         }
 
         imgView = (ImageView) getActivity().findViewById(R.id.profilePicture);
-        setPicture(parentActivity.getImage());
+
+        if(parentActivity.getProfile() != null) {
+
+            Profile profile = parentActivity.getProfile();
+            profile.drawToImgView(imgView);
+
+        }
 
     }
 
     @Override
     public void onClick(View v) {
-
-        Intent intent;
 
         switch(v.getId()) {
             case R.id.chooseImage:

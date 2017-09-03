@@ -193,7 +193,12 @@
 
     <!-- strings related to profile -->
 
-    <string name="profile_basic_info">Perustiedot</string>
+    <string name="profile_select_profile_title">Valitse profiilityyppi</string>
+    <string name="profile_select_progile_basic_desc">Perusprofiililla voit ostaa asiantuntijapalveluita. \n\nProfiilisi näkyy vain asiantuntijoille, joilta olet tilannut palveluita.</string>
+    <string name="profile_select_profile_expert_desc">Asiantuntijaprofiililla voit sekä ostaa että myydä asiantuntijapalveluita. \n\nProfiilisi on julkinen, ja näkyy kaikille.</string>
+
+    <string name="profile_basic_profile">Perusprofiili</string>
+    <string name="profile_expert_profile">Asiantuntijaprofiili</string>
 
     <string name="profile_noprofile_title">Sinulla ei ole profiilia</string>
     <string name="profile_noprofile_desc">Tarvitset oman profiilin asiantuntijapalveluiden tilaamiseen. Haluatko tehdä sellaisen nyt?</string>
