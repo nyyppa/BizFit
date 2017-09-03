@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.CreateProfileCompany;
@@ -61,6 +62,8 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     FragmentManager manager;
     FragmentTransaction transaction;
 
+    Profile profile;
+
     // user information
     String firstName;
     String lastName;
@@ -96,6 +99,36 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
         // show the first step
         transaction.replace(R.id.fragmentContainer, start);
         transaction.commit();
+
+        // retrieve possible profile from database
+
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put(Constants.job, Constants.load_profile);
+            json.put(Constants.profile, User.getLastUser(null, null, null).userName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetMessage netMessage = new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals(Constants.networkconn_failed)) {
+
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(message);
+                        profile = new Profile(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        },json);
+
+        Network.addNetMessage(netMessage);
+
     }
 
     public void switchPhase(Phase currentPhase) {
@@ -170,6 +203,10 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     // getters
 
+    public Profile getProfile() {
+        return profile;
+    }
+
     public String getFirstName() { return firstName; }
 
     public String getLastName() { return lastName; }
@@ -214,7 +251,7 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
         try {
             // TODO: make constants
-            json.put("email", User.getLastUser(null, null, null).userName);
+            json.put(Constants.profile, User.getLastUser(null, null, null).userName);
             json.put("firstName", firstName);
             json.put("lastName", lastName);
             json.put("imageUUID", imageUUID.toString());

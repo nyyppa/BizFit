@@ -55,6 +55,7 @@ public class Constants
 	// profile
 
 	public static final String send_profile = "send_profile";
+	public static final String load_profile = "load_profile";
     public static final String profile = "profile";
 
     //Tracker

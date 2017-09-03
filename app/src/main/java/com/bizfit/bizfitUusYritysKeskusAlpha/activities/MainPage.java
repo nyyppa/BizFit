@@ -91,7 +91,7 @@ public class MainPage extends AppCompatActivity implements
 
                 switch(item.getItemId()) {
                     case R.id.action_profile:
-                        startActivity(new Intent(MainPage.this, Profile.class));
+                        startActivity(new Intent(MainPage.this, ProfileActivity.class));
                         break;
 
                     case R.id.action_coaches:
