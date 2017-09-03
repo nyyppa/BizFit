@@ -17,7 +17,7 @@ public abstract class DrawableDownloader extends DownloadFile<Drawable> {
 
 
     @Override
-    protected void onPostExecute(FileResult result) {
+    public void onPostExecute(DownloadFile.FileResult result) {
         try {
             doResult(Drawable.createFromStream( new FileInputStream(result.getResult()),"aaa"));
         } catch (FileNotFoundException e) {

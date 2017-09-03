@@ -107,8 +107,8 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
                     // extracts file name from header field
                     int index = disposition.indexOf("filename=");
                     if (index > 0) {
-                        fileName = disposition.substring(index + 10,
-                                disposition.length() - 1);
+                        fileName = disposition.substring(index + 9,
+                                disposition.length());
                     }
                 } else {
 
@@ -129,7 +129,6 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
                 int bytesRead = -1;
                 byte[] buffer = new byte[1024];
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    DebugPrinter.Debug("heheee");
                     publishProgress(i);
                     outputStream.write(buffer, 0, bytesRead);
                     i++;
@@ -165,7 +164,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
     public abstract void onProgressUpdate(Integer... progress);
     public abstract String getFileID();
 
-    protected abstract void onPostExecute(FileResult result);
+    public abstract void onPostExecute(FileResult result);
 
     public abstract void doResult(T result);
 

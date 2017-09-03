@@ -16,7 +16,7 @@ public abstract class FileDownLoader extends DownloadFile<File> {
 
 
     @Override
-    protected void onPostExecute(FileResult result) {
+    public void onPostExecute(FileResult result) {
         try {
             doResult(result.getResult());
         } catch (Exception e) {

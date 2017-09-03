@@ -1,8 +1,13 @@
 package com.bizfit.bizfitUusYritysKeskusAlpha;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.FileDownload.DrawableDownloader;
 import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
@@ -27,9 +32,9 @@ public class Profile {
 
     // profile pic info
 
-    public boolean hasProfilePic;
     public Drawable image;
     public UUID imageUUID;
+    ImageView imageView;
 
     // company info
 
@@ -59,8 +64,6 @@ public class Profile {
 
             if(jsonObject.has(Constants.imageUUID)) {
                 imageUUID = UUID.fromString(jsonObject.getString(Constants.imageUUID));
-            } else {
-                hasProfilePic = false;
             }
 
             if(jsonObject.has(Constants.ownsCompany)) {
@@ -93,9 +96,11 @@ public class Profile {
 
     }
 
-    public void drawToImgView(final ImageView imageView) {
+    public void drawToImgView(ImageView imageView, final TextView tv) {
 
-        if(hasProfilePic) {
+        this.imageView = imageView;
+
+        if(imageUUID != null) {
 
             if (image != null) {
 
@@ -106,22 +111,30 @@ public class Profile {
                 try {
                     new DrawableDownloader() {
                         @Override
+                        public void onProgressUpdate(Integer... progress) {
+                            tv.setText(String.valueOf(progress[0]));
+                        }
+
+                        @Override
                         public String getFileID() {
                             return imageUUID.toString();
                         }
 
                         @Override
                         public void doResult(Drawable result) {
-                            imageView.setImageDrawable(result);
-                            image = result;
+                            Bitmap bm = ((BitmapDrawable) result).getBitmap();
+                            bm = Bitmap.createScaledBitmap(bm, 1024, 1024, true);
+                            image = new BitmapDrawable(bm);
+                            drawTo(image, Profile.this.imageView);
                         }
 
                         @Override
                         public void error(Exception e) {
-
+                            tv.setText(e.toString());
+                            e.printStackTrace();
                         }
 
-                    }.execute(new URL[]{new URL(Constants.connection_address)});
+                    }.execute(new URL[]{new URL(Constants.file_connection_address)});
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -131,6 +144,10 @@ public class Profile {
             imageView.setImageDrawable(ContextCompat.getDrawable(imageView.getContext(), R.drawable.general_profile));
         }
 
+    }
+
+    public void drawTo(Drawable d, ImageView iv) {
+        iv.setImageDrawable(d);
     }
 
 }
