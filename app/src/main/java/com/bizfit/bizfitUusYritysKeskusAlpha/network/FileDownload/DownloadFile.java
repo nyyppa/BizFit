@@ -125,12 +125,14 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
                 file = File.createTempFile(UUID.randomUUID().toString(),null,MyApplication.getContext().getFilesDir());
                 // opens an output stream to save into file
                 FileOutputStream outputStream = new FileOutputStream(file);
-
+                int i=0;
                 int bytesRead = -1;
                 byte[] buffer = new byte[1024];
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     DebugPrinter.Debug("heheee");
+                    publishProgress(i);
                     outputStream.write(buffer, 0, bytesRead);
+                    i++;
                 }
 
                 outputStream.close();
@@ -160,8 +162,7 @@ public abstract class DownloadFile <T> extends AsyncTask<URL, Integer, DownloadF
         return new FileResult(file);
     }
 
-    protected void onProgressUpdate(Integer... progress) {
-    }
+    public abstract void onProgressUpdate(Integer... progress);
     public abstract String getFileID();
 
     protected abstract void onPostExecute(FileResult result);

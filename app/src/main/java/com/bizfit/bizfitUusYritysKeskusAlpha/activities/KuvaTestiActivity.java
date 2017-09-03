@@ -58,6 +58,11 @@ public class KuvaTestiActivity extends AppCompatActivity {
         }
         new DrawableDownloader() {
             @Override
+            public void onProgressUpdate(Integer... progress) {
+
+            }
+
+            @Override
             public String getFileID() {
                 return "56ca8a98-8524-49dd-877e-366d5a2295ad845761484";
             }
