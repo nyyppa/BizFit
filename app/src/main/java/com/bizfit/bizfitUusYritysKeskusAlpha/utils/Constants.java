@@ -102,6 +102,8 @@ public class Constants
 	private static final String deployment_address ="http://51.15.37.28:8080";
 	public static final String connection_address = debug_address;
 
+	public static final  String file_connection_address="https://51.15.48.66:8082";
+
     //CoachPage
 	public static final String coach_id = "coachID";
 	public static final String networkconn_failed = "failed";

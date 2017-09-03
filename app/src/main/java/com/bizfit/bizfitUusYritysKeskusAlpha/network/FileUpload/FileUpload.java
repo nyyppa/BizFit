@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication;
 import com.bizfit.bizfitUusYritysKeskusAlpha.network.MyConnection;
+import com.bizfit.bizfitUusYritysKeskusAlpha.utils.Constants;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -80,7 +81,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     SSLContext context = SSLContext.getInstance("TLS");
                     context.init(null, tmf.getTrustManagers(), null);
 
-                    String upLoadServerUri = "https://51.15.48.66:8081";
+                    String upLoadServerUri = Constants.file_connection_address;
                     URL url = new URL(upLoadServerUri);
                     conn=new MyConnection(url);
                     conn.setSSLSocketFactory(context.getSocketFactory());

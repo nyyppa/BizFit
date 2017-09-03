@@ -52,7 +52,7 @@ public class KuvaTestiActivity extends AppCompatActivity {
 
         URL[] urls=new URL[1];
         try {
-            urls[0]=new URL(Constants.connection_address);
+            urls[0]=new URL(Constants.file_connection_address);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
