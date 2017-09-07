@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,7 @@ import com.bizfit.bizfitUusYritysKeskusAlpha.Coach;
 import com.bizfit.bizfitUusYritysKeskusAlpha.Contact;
 import com.bizfit.bizfitUusYritysKeskusAlpha.DebugPrinter;
 import com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService;
+import com.bizfit.bizfitUusYritysKeskusAlpha.Profile;
 import com.bizfit.bizfitUusYritysKeskusAlpha.R;
 import com.bizfit.bizfitUusYritysKeskusAlpha.User;
 import com.bizfit.bizfitUusYritysKeskusAlpha.fragments.PagerAdapter;
@@ -65,6 +67,8 @@ public class MainPage extends AppCompatActivity implements
     public static long lastMessageTime;
     private PopupWindow popupWindow;
 
+    Profile currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,9 +76,8 @@ public class MainPage extends AppCompatActivity implements
         findUser();
         setContentView(R.layout.activity_main_v2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_tracker);
-        toolbar.setTitle("Bizfit "+ Constants.version);
+        //toolbar.setTitle("Bizfit "+ Constants.version);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Bizfit "+ Constants.version);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_main);
         setupViewPager(viewPager);
@@ -213,10 +216,12 @@ public class MainPage extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            /* removed from top bar, sommented out to save an example
             case R.id.toolbar_settings:
                 PopupWindow popUp = popupWindowsort();
                 popUp.showAsDropDown(findViewById(R.id.toolbar_settings), 0, 0); // show popup like dropdown list
                 break;
+            */
         }
         return super.onOptionsItemSelected(item);
     }

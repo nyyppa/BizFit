@@ -122,9 +122,7 @@ public class Profile {
 
                         @Override
                         public void doResult(Drawable result) {
-                            Bitmap bm = ((BitmapDrawable) result).getBitmap();
-                            bm = Bitmap.createScaledBitmap(bm, 1024, 1024, true);
-                            image = new BitmapDrawable(bm);
+                            image = result;
                             drawTo(image, Profile.this.imageView);
                         }
 

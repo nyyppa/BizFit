@@ -2,6 +2,7 @@ package com.bizfit.bizfitUusYritysKeskusAlpha.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -47,15 +48,37 @@ public class TabSettings extends Fragment implements View.OnClickListener {
 
         // TODO: add settings
 
-        CardView cd = getActivity().findViewById(R.id.cardView3);
-        cd.setOnClickListener(this);
+        ConstraintLayout profile = getActivity().findViewById(R.id.selectProfile);
+        ConstraintLayout support = getActivity().findViewById(R.id.support);
+        ConstraintLayout security = getActivity().findViewById(R.id.security);
+        ConstraintLayout logout = getActivity().findViewById(R.id.logOut);
+
+        profile.setOnClickListener(this);
+        support.setOnClickListener(this);
+        security.setOnClickListener(this);
+        logout.setOnClickListener(this);
 
     }
 
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.cardView3:
+            case R.id.selectProfile:
                 startActivity(new Intent(getActivity(), SelectProfileType.class));
+                break;
+
+            case R.id.support:
+                Intent intent2 = new Intent(getActivity(), Support.class);
+                startActivity(intent2);
+                break;
+
+            case R.id.security:
+                Intent intent3 = new Intent(getActivity(), Security.class);
+                startActivity(intent3);
+                break;
+
+            case R.id.logOut:
+                Intent intent = new Intent(getActivity(), LoginActivity2.class);
+                User.signOut(intent, getActivity());
                 break;
         }
     }
