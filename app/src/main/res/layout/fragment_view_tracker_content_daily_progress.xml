@@ -17,7 +17,7 @@
             android:layout_weight="0.15">
         </RelativeLayout>
 
-        <com.bizfit.bizfitUusYritysKeskusAlpha.views.SquareFrameLayout
+        <com.bizfit.bizfit.views.SquareFrameLayout
             android:id="@+id/top_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </RelativeLayout>
-        </com.bizfit.bizfitUusYritysKeskusAlpha.views.SquareFrameLayout>
+        </com.bizfit.bizfit.views.SquareFrameLayout>
 
         <RelativeLayout
             android:layout_width="0dip"

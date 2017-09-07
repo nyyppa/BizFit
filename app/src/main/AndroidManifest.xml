@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizfit.bizfitUusYritysKeskusAlpha">
+    package="com.bizfit.bizfit">
 
     <!--
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -21,17 +21,17 @@
 
     <!-- TODO Atte, was ist das? -->
     <application
-        android:name=".MyApplication"
+        android:name="com.bizfit.bizfit.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".MyAlarmService" />
+        <service android:name="com.bizfit.bizfit.MyAlarmService" />
 
         <!-- Splash screen -->
         <activity
-            android:name=".activities.SplashScreen"
+            android:name="com.bizfit.bizfit.activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
@@ -45,7 +45,7 @@
 
         <!-- Home view -->
         <activity
-            android:name=".activities.MainPage"
+            android:name="com.bizfit.bizfit.activities.MainPage"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar">
@@ -55,18 +55,18 @@
         </activity>
         <!-- Login -->
         <activity
-            android:name=".activities.LoginActivity2"
+            android:name="com.bizfit.bizfit.activities.LoginActivity2"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- Settings -->
         <activity
-            android:name=".activities.Settings"
+            android:name="com.bizfit.bizfit.activities.Settings"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Start a new goal -->
         <activity
-            android:name=".activities.AddTracker"
+            android:name="com.bizfit.bizfit.activities.AddTracker"
             android:label="@string/title_new_goal"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar"
@@ -76,27 +76,27 @@
 
 
         <!-- Store page -->
-        <activity android:name=".activities.CoachPage" />
+        <activity android:name="com.bizfit.bizfit.activities.CoachPage" />
 
         <!-- Support page -->
-        <activity android:name=".activities.Support" />
+        <activity android:name="com.bizfit.bizfit.activities.Support" />
 
         <!-- Security information page -->
-        <activity android:name=".activities.Security" />
+        <activity android:name="com.bizfit.bizfit.activities.Security" />
 
         <!-- Displays search results -->
-        <activity android:name=".activities.Search">
+        <activity android:name="com.bizfit.bizfit.activities.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MessageActivity"
+            android:name="com.bizfit.bizfit.activities.MessageActivity"
             android:label="@string/title_activity_message"
-            android:parentActivityName=".activities.MainPage">
+            android:parentActivityName="com.bizfit.bizfit.activities.MainPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage" />
+                android:value="com.bizfit.bizfit.activities.MainPage" />
         </activity>
 
         <meta-data
@@ -104,24 +104,24 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activities.OrderChat"
+            android:name="com.bizfit.bizfit.activities.OrderChat"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.CustomCrashReportDialog"
+            android:name="com.bizfit.bizfit.activities.CustomCrashReportDialog"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
             android:theme="@style/ErrorDialogueTheme" />
         <activity
-            android:name=".activities.KuvaTestiActivity"
+            android:name="com.bizfit.bizfit.activities.KuvaTestiActivity"
             android:label="@string/title_activity_kuva_testi"
             android:theme="@style/AppTheme" />
 
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.EditProfile" />
-        <activity android:name="AudioRecordTest" />
-        <activity android:name=".activities.CreateProfile" />
-        <activity android:name=".activities.SelectProfileType" />
+        <activity android:name="com.bizfit.bizfit.activities.ProfileActivity" />
+        <activity android:name="com.bizfit.bizfit.activities.EditProfile" />
+        <activity android:name="com.bizfit.bizfit.AudioRecordTest" />
+        <activity android:name="com.bizfit.bizfit.activities.CreateProfile" />
+        <activity android:name="com.bizfit.bizfit.activities.SelectProfileType" />
 
     </application>
 

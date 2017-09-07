@@ -36,7 +36,7 @@
         android:layout_marginBottom="4dp"/>
         -->
 
-    <com.bizfit.bizfitUusYritysKeskusAlpha.views.CustomRecyclerView
+    <com.bizfit.bizfit.views.CustomRecyclerView
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
