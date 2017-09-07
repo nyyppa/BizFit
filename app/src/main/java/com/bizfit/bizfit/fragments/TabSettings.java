@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.LoginActivity2;
+import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.activities.Security;
 import com.bizfit.bizfit.activities.SelectProfileType;
 import com.bizfit.bizfit.activities.Support;
@@ -34,8 +36,6 @@ public class TabSettings extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        // TODO: add settings
-
         ConstraintLayout profile = getActivity().findViewById(R.id.selectProfile);
         ConstraintLayout support = getActivity().findViewById(R.id.support);
         ConstraintLayout security = getActivity().findViewById(R.id.security);
@@ -45,6 +45,9 @@ public class TabSettings extends Fragment implements View.OnClickListener {
         support.setOnClickListener(this);
         security.setOnClickListener(this);
         logout.setOnClickListener(this);
+
+        Button b = getActivity().findViewById(R.id.chat_test);
+        b.setOnClickListener(this);
 
     }
 
@@ -67,6 +70,10 @@ public class TabSettings extends Fragment implements View.OnClickListener {
             case R.id.logOut:
                 Intent intent = new Intent(getActivity(), LoginActivity2.class);
                 User.signOut(intent, getActivity());
+                break;
+
+            case R.id.chat_test:
+                MessageActivity.startChat(getContext(), "atte.yliverronen@gmail.com");
                 break;
         }
     }
