@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
+import com.bizfit.bizfit.chat.Messages.Message2;
 import com.bizfit.bizfit.utils.Utils;
 import com.bizfit.bizfit.views.ConversationTabView;
 
@@ -48,7 +49,7 @@ public class ConversationArrayAdapter extends ArrayAdapter<Conversation> {
 
         ConversationTabView conversationTabView = (ConversationTabView) convertView.findViewById(R.id.tVPreview);
         conversation.setNewMessageRecievedListener(conversationTabView);
-        Message previewMessage = conversation.getLastRecievedMessage();
+        Message2 previewMessage = conversation.getLastRecievedMessage();
         int unreadMessageNumber=conversation.getUnreadMessageNumber();
         TextView textView=(TextView)convertView.findViewById(R.id.unreadIcon);
         conversationTabView.setUnreadMessages(textView);

@@ -92,7 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             for(int j=0;j<user.getConversations().get(i).getMessages().size();j++)
             {
-                saveMessage(user.getConversations().get(i).getMessages().get(j),db);
+                //saveMessage(user.getConversations().get(i).getMessages().get(j),db);
             }
             ContentValues conversationsValues = new ContentValues();
             conversationsValues.put("other",user.getConversations().get(i).getOther());
@@ -314,7 +314,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Conversation conversation = new Conversation();
                 conversation.setOwner(user.userName);
                 conversation.setOther(cursor.getString(cursor.getColumnIndex("other")));
-                conversation.messageList = readMessages(user.userName, conversation.getOther(), db);
+                //conversation.messageList = readMessages(user.userName, conversation.getOther(), db);
                 conversation.setUser(user);
                 conversation.setContact(readContact(conversation.getOther(),db));
                 conversationsList.add(conversation);

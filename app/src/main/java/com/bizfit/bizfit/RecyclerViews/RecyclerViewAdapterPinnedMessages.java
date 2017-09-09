@@ -12,6 +12,7 @@ import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
+import com.bizfit.bizfit.chat.Messages.Message2;
 import com.bizfit.bizfit.fragments.ChatFragment;
 import com.bizfit.bizfit.utils.Constants;
 
@@ -80,7 +81,7 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         RecyclerViewAdapterPinnedMessages.MarginSize marginSize;
-        List<Message> list=conversation.getPinnedMessages();
+        List<Message2> list=conversation.getPinnedMessages();
         if (position == list.size() - 1) {
             marginSize = RecyclerViewAdapterPinnedMessages.MarginSize.SMALL;
         } else {
@@ -91,7 +92,7 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
 
         }
 
-        ((RecyclerViewAdapterPinnedMessages.ViewHolder) holder).prepareToDisplay(list.get(position), marginSize);
+        //((RecyclerViewAdapterPinnedMessages.ViewHolder) holder).prepareToDisplay(list.get(position), marginSize);
     }
 
     @Override

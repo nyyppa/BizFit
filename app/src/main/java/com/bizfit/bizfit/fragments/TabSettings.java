@@ -73,7 +73,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.chat_test:
-                MessageActivity.startChat(getContext(), "atte.yliverronen@gmail.com");
+                MessageActivity.startChat(getContext(), "testi@gmail.com");
                 break;
         }
     }

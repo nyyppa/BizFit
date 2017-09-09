@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import com.bizfit.bizfit.Contact;
 import com.bizfit.bizfit.DebugPrinter;
+import com.bizfit.bizfit.chat.Messages.Message2;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.network.NetMessage;
 import com.bizfit.bizfit.network.Network;
@@ -36,7 +37,7 @@ public class Conversation implements NetworkReturn
 
     private String owner="";
     private String other="";
-    public List<Message> messageList;
+    public List<Message2> messageList;
 
     private User user;
     private transient ChatFragment chatFragment;
@@ -73,7 +74,7 @@ public class Conversation implements NetworkReturn
             {
                 jsonArray=jsonObject.getJSONArray(Constants.messages);
                 for (int i=0;i<jsonArray.length();i++){
-                    messageList.add(new Message(jsonArray.getJSONObject(i),this));
+                    //messageList.add(new Message(jsonArray.getJSONObject(i),this));
                 }
             }
 
@@ -118,11 +119,11 @@ public class Conversation implements NetworkReturn
         this.other=other;
     }
 
-    public void setMessages(List<Message> messageList)
+    public void setMessages(List<Message2> messageList)
     {
         this.messageList=messageList;
     }
-    public List<Message> getMessages()
+    public List<Message2> getMessages()
     {
         if(messageList ==null){
             messageList =new ArrayList<>();
@@ -136,7 +137,7 @@ public class Conversation implements NetworkReturn
             jsonObject.put(Constants.other,other);
             JSONArray jsonArray=new JSONArray();
             for(int i = 0; i< messageList.size(); i++){
-                jsonArray.put(messageList.get(i).toJson());
+                jsonArray.put(messageList.get(i).toJSON());
             }
             jsonObject.put(Constants.messages,jsonArray);
         } catch (JSONException e) {
@@ -182,12 +183,12 @@ public class Conversation implements NetworkReturn
         }
         Network.addNetMessage(new NetMessage(null,this,jsonObject));
     }
-    public Message getLastRecievedMessage(){
-        List<Message> list=getMessages();
-        Message message=null;
+    public Message2 getLastRecievedMessage(){
+        List<Message2> list=getMessages();
+        Message2 message=null;
         if(list!=null&&list.size()>0){
             for(int i=0;i<list.size();i++){
-                if(list.get(i).getJob()== Message.Job.INCOMING){
+                if(list.get(i).getJob()== Message2.Job.INCOMING){
                     message=list.get(i);
                     break;
                 }
@@ -213,7 +214,7 @@ public class Conversation implements NetworkReturn
     private long getLastReceivedMessageTime(){
         long lastReceivedMessage=0;
         for(int i = 0; i< messageList.size(); i++){
-            Message message = messageList.get(i);
+            Message2 message = messageList.get(i);
             switch (message.getJob()){
                 case OUTGOING:
                     break;
@@ -229,7 +230,7 @@ public class Conversation implements NetworkReturn
     private long getLastSentMessage(){
         long lastSentMessage=0;
         for(int i = 0; i< messageList.size(); i++){
-            Message message = messageList.get(i);
+            Message2 message = messageList.get(i);
             switch (message.getJob()){
                 case OUTGOING:
                     if(message.getCreationTime()>lastSentMessage){
@@ -272,12 +273,12 @@ public class Conversation implements NetworkReturn
     public String getOther(){
         return other;
     }
-    public List<Message> sortConversation()
+    public List<Message2> sortConversation()
     {
 
-        Comparator<Message> comparator=new Comparator<Message>() {
+        Comparator<Message2> comparator=new Comparator<Message2>() {
             @Override
-            public int compare(Message myNewAndBetterMessage, Message t1) {
+            public int compare(Message2 myNewAndBetterMessage, Message2 t1) {
                 int order=0;
                 if(myNewAndBetterMessage.getCreationTime()>t1.getCreationTime()){
                     order=-1;
@@ -308,7 +309,7 @@ public class Conversation implements NetworkReturn
         return chatFragment!=null&&chatFragment.getActivity()!=null;
     }
 
-    private boolean messageAlreadyExists(Message message){
+    private boolean messageAlreadyExists(Message2 message){
         for(int i=0;i<messageList.size();i++){
             if(message.equals(messageList.get(i))){
                 return true;
@@ -322,10 +323,10 @@ public class Conversation implements NetworkReturn
             try {
                 JSONArray jsonArray=new JSONArray(message);
                 boolean messagesReceived=false;
-                Message message1=null;
+                Message2 message1=null;
                 for(int i=0;i<jsonArray.length();i++)
                 {
-                    Message m=new Message(new JSONObject(jsonArray.getString(i)),this);
+                    Message2 m=Message2.createMessage(new JSONObject(jsonArray.getString(i)),this);
                     if(!messageAlreadyExists(m)){
                         if(isActive())
                         {
@@ -363,7 +364,7 @@ public class Conversation implements NetworkReturn
                         }
                     });
                 }else if(messagesReceived&&message1!=null&&!message1.getHasBeenSeen()){
-                    Message message2=getLastRecievedMessage();
+                    Message2 message2=getLastRecievedMessage();
                     if(message2!=null && User.getContext()!=null && chatFragment==null)
                     {
                         NotificationSender.sendNotification(User.getContext(), Utils.getCoachName(getOther()),message2.getMessage(),getOther());
@@ -376,8 +377,8 @@ public class Conversation implements NetworkReturn
                 }
                 if(messagesReceived&&message1!=null&&newMessageRecievedListener!=null)
                 {
-                    Message message2=getLastRecievedMessage();
-                    newMessageRecievedListener.newMessageRecieved(message2);
+                    Message2 message2=getLastRecievedMessage();
+                    //newMessageRecievedListener.newMessageRecieved(message2);
                     newMessageRecievedListener.setUnreadMessageNumber(getUnreadMessageNumber());
                 }
             } catch (JSONException e) {
@@ -484,12 +485,12 @@ public class Conversation implements NetworkReturn
         }
     }
 
-    public List <Message> getPinnedMessages() {
-        List <Message> pinnedMessages = new ArrayList<>();
-        List <Message> messages = getMessages();
+    public List <Message2> getPinnedMessages() {
+        List <Message2> pinnedMessages = new ArrayList<>();
+        List <Message2> messages = getMessages();
         String user = User.getLastUser(null,null,null).userName;
         for (int i = 0; i < messages.size(); i++) {
-            Message m = messages.get(i);
+            Message2 m = messages.get(i);
             if (m.hasBeenPinned(user)) {
                 pinnedMessages.add(m);
             }

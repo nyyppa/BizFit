@@ -15,6 +15,7 @@ import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.chat.Messages.Message2;
 import com.bizfit.bizfit.fragments.ChatFragment;
 import com.bizfit.bizfit.utils.Constants;
 
@@ -122,7 +123,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MarginSize marginSize;
-        List<Message> list=conversation.getMessages();
+        List<Message2> list=conversation.getMessages();
         if (position == list.size() - 1) {
             marginSize = MarginSize.SMALL;
         } else {
@@ -161,23 +162,27 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
          */
         private TextView message;
         private TextView tVtimestamp;
-
+        ConstraintLayout layout;
+        View view;
         public ViewHolder(View itemView)
         {
             super(itemView);
             message = (TextView) itemView.findViewById(R.id.message);
             tVtimestamp = (TextView) itemView.findViewById(R.id.tVtimestamp);
+            view=itemView;
+
         }
 
-        public void prepareToDisplay(final Message message, MarginSize mSize)
+        public void prepareToDisplay(final Message2 message, MarginSize mSize)
         {
             // TODO Check previous layout param state used for this particular item.
 
-            this.message.setText(message.getMessage());
+            //this.message.setText(message.getMessage());
             if(tVtimestamp!=null)
             {
-                this.tVtimestamp.setText(message.getTimestamp());
+                //this.tVtimestamp.setText(message.getTimestamp());
             }
+            message.drawThySelf(view);
             if (this.message.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) this.message.getLayoutParams();
 
@@ -190,7 +195,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 this.message.requestLayout();
 
             }
-
+/*
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -231,7 +236,7 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
                 constraintSet.connect(view.getId(), ConstraintSet.LEFT, constraintLayout.getId(), ConstraintSet.LEFT, 0);
                 constraintSet.applyTo(constraintLayout);
             }
-
+            */
         }
     }
 

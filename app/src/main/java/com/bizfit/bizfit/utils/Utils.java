@@ -133,7 +133,10 @@ public class Utils {
     public static String getDesc(String coachId) {
 
         String desc = MyApplication.getContext().getString(R.string.ensimetri_special);
-
+        if(coachId==null)
+        {
+            return "Lorem ipsum dolor si amet.";
+        }
         switch (coachId) {
             case Constants.kaj_email:
                 desc = desc + " " + MyApplication.getContext().getString(R.string.ensimetri_kaj);
