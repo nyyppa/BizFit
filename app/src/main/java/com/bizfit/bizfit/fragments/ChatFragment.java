@@ -103,7 +103,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                 }
 
                 //mAdapter.addData(new Message(String.valueOf(input.getText()), Message.Type.SENT,getContext()));
-
                 mAdapter.getConversation().getNewMessagesAndSendOldOnes();
 
                 break;

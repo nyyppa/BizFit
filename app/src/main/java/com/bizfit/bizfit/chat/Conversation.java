@@ -294,12 +294,12 @@ public class Conversation implements NetworkReturn
     }
 
     public void createMessage(String message){
-        //Message myNewAndBetterMessage=new Message(this,getOther(),getOwner(),message);
+        Message2 myNewAndBetterMessage=Message2.createMessage(this,getOther(),getOwner(),message,Message2.MessageType.TEXT,null);
         //myNewAndBetterMessage.sendMessage(null);
         if(messageList ==null){
             messageList =new ArrayList<>();
         }
-        //messageList.add(0,myNewAndBetterMessage);
+        messageList.add(0,myNewAndBetterMessage);
         if(getUser()!=null)
         {
             getUser().save(this);
