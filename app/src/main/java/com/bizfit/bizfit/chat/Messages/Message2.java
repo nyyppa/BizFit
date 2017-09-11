@@ -189,6 +189,10 @@ public abstract class Message2 implements NetworkReturn, Serializable {
 
     public void checkToResend() {
     }
+    public String getSender()
+    {
+        return sender;
+    }
 
     public long getCreationTime() {
         return creationTime;
