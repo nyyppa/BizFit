@@ -39,7 +39,7 @@ public class DrawableObject  extends FileObject<Drawable>  {
         new DrawableUploader() {
             @Override
             public void onPostExecute(FileUpload.ResultCode result) {
-
+                fileID=this.getFileID();
             }
 
             @Override

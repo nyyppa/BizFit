@@ -9,10 +9,10 @@ import com.bizfit.bizfit.utils.Utils;
  */
 
 public abstract class DrawableUploader {
-
+    PictureUploader pictureUploader;
     public void execute(Drawable [] drawable)
     {
-        new PictureUploader() {
+        pictureUploader=new PictureUploader() {
             @Override
             protected void onPostExecute(ResultCode result) {
                 DrawableUploader.this.onPostExecute(result);
@@ -37,11 +37,17 @@ public abstract class DrawableUploader {
             public String getFileType() {
                 return DrawableUploader.this.getFileType();
             }
-        }.execute(Utils.drawableToBitmap(drawable[0]));
+        };
+        pictureUploader.execute(Utils.drawableToBitmap(drawable[0]));
     }
     public abstract void onPostExecute(FileUpload.ResultCode result);
     public abstract String getFileName();
     public abstract String getFileType();
     public abstract String getFileExtension();
     public abstract String getUploader();
+    public String getFileID()
+    {
+        return pictureUploader.getFileID();
+    }
+
 }

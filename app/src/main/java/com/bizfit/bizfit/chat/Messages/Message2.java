@@ -187,7 +187,13 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         return job;
     }
 
+
+    private void setHasBeenSent(boolean hasBeenSent)
+    {
+        this.hasBeenSent=hasBeenSent;
+    }
     public void checkToResend() {
+
     }
     public String getSender()
     {
