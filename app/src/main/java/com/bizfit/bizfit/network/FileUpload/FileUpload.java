@@ -20,6 +20,7 @@ import java.net.URLConnection;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
+import java.util.UUID;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -33,7 +34,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCode>{
 
-
+    String fileID;
 
     @Override
     protected ResultCode doInBackground(T... params) {
@@ -65,7 +66,7 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     } finally {
                         caInput.close();
                     }
-
+                    fileID= UUID.randomUUID().toString();
                     // Create a KeyStore containing our trusted CAs
                     String keyStoreType = KeyStore.getDefaultType();
                     KeyStore keyStore = KeyStore.getInstance(keyStoreType);
@@ -163,7 +164,8 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setRequestProperty("fileType", fileType);
                     conn.setRequestProperty("fileName",filename);
                     conn.setRequestProperty("fileExtension",fileExtension);
-                    conn.setRequestProperty("fileID",f.getName().substring(0,f.getName().lastIndexOf(".")));
+                    //conn.setRequestProperty("fileID",f.getName().substring(0,f.getName().lastIndexOf(".")));
+                    conn.setRequestProperty("fileID",fileID);
                     conn.setRequestProperty("uploader", getUploader());
                     conn.setRequestProperty("job","uploadfile");
                     dos = new DataOutputStream(conn.getOutputStream());
@@ -271,6 +273,10 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
     public String getFileTypeFromFile(File file) throws IOException {
         BufferedReader brTest = new BufferedReader(new FileReader(file));
         return brTest .readLine().replaceAll("[^a-zA-Z0-9 ]","");
+    }
+    public String getFileID()
+    {
+        return fileID;
     }
 
     public String quessFileType(String fileExtension)
