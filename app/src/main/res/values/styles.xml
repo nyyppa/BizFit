@@ -143,4 +143,8 @@
         <item name="android:textSize">@dimen/text_body</item>
     </style>
 
+    <style name="Progress_color">
+        <item name="colorAccent">@color/white</item> <!-- Whatever color you want-->
+    </style>
+
 </resources>
