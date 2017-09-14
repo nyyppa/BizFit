@@ -69,10 +69,10 @@ public class RecyclerViewAdapterPinnedMessages extends RecyclerView.Adapter{
 
         if (viewType == Message.Job.INCOMING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_message_received, parent, false);
+                    .inflate(R.layout.list_item_message_text_received, parent, false);
         } else if ( viewType == Message.Job.OUTGOING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_message_sent, parent, false);
+                    .inflate(R.layout.list_item_message_text_sent, parent, false);
         }
 
         return new RecyclerViewAdapterPinnedMessages.ViewHolder(v);

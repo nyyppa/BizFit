@@ -130,11 +130,11 @@ public class WizardMessageAdapter extends BaseAdapter {
                 holder = new ViewHolder();
                 switch (type) {
                     case TYPE_MESSAGE_WIZARD:
-                        convertView = mInflater.inflate(R.layout.list_item_message_received, null);
+                        convertView = mInflater.inflate(R.layout.list_item_message_text_received, null);
                         holder.textView = (TextView)convertView.findViewById(R.id.message);
                         break;
                     case TYPE_MESSAGE_USER:
-                        convertView = mInflater.inflate(R.layout.list_item_message_sent, null);
+                        convertView = mInflater.inflate(R.layout.list_item_message_text_sent, null);
                         holder.textView = (TextView)convertView.findViewById(R.id.message);
                         break;
                     case TYPE_BUTTON:
