@@ -3,14 +3,12 @@ package com.bizfit.bizfit.RecyclerViews;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
 import com.bizfit.bizfit.R;
@@ -111,10 +109,10 @@ public class RecyclerViewAdapterMessages extends RecyclerView.Adapter {
 
         if (viewType == Message.Job.INCOMING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_message_received, parent, false);
+                    .inflate(R.layout.list_item_message_text_received, parent, false);
         } else if ( viewType == Message.Job.OUTGOING.ordinal()) {
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_message_sent, parent, false);
+                    .inflate(R.layout.list_item_message_text_sent, parent, false);
         }
 
         return new ViewHolder(v);

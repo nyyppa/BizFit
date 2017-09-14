@@ -260,7 +260,7 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
                 json.put(Constants.companyDesc, companyDesc);
             }
 
-            json.put(Constants.isExpert, false);
+            json.put(Constants.isExpert, true);
 
         } catch (JSONException e) {
             e.printStackTrace();
