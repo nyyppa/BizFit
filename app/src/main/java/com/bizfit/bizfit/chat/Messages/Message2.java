@@ -6,12 +6,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
+import com.bizfit.bizfit.BackgroundThread;
+import com.bizfit.bizfit.OurRunnable;
+import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.chat.Conversation;
 import com.bizfit.bizfit.chat.Message;
+import com.bizfit.bizfit.chat.Messages.FileObjects.FileObject;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
 import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.DBHelper;
 import com.bizfit.bizfit.utils.OurDateTime;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,8 +45,9 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     List <String> pinnedUsers;
     OurDateTime timestamp;
     MessageType messageType;
+    FileObject fileObject;
 
-    public static Message2 createMessage(Conversation conversation, String resipient, String sender, String message,MessageType messageType,Object file){
+    public static Message2 createMessage(Conversation conversation, String resipient, String sender, String message,MessageType messageType,FileObject file){
         switch (messageType) {
             case TEXT:
                 return new MessageText(conversation,resipient,sender,message,messageType);
@@ -88,7 +97,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         return null;
     }
 
-    protected Message2(Conversation conversation, String resipient, String sender, String message,MessageType messageType,Object file)
+    protected Message2(Conversation conversation, String resipient, String sender, String message,MessageType messageType,FileObject file)
     {
         this(conversation, resipient, sender, message, messageType);
     }
@@ -192,9 +201,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     {
         this.hasBeenSent=hasBeenSent;
     }
-    public void checkToResend() {
 
-    }
     public String getSender()
     {
         return sender;
@@ -204,10 +211,57 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         return creationTime;
     }
 
-    public boolean updateHasBeenSeen(boolean b) {
-        return true;
+    public boolean updateHasBeenSeen(boolean newValue) {
+        if(job==Job.OUTGOING)
+        {
+            return false;
+        }
+        boolean oldValue=hasBeenSeen;
+        this.hasBeenSeen=newValue;
+        if(oldValue !=newValue)
+        {
+            updateHasBeenSeenToServer(newValue);
+            BackgroundThread.addOurRunnable(new OurRunnable() {
+                @Override
+                public void run()
+                {
+                    DBHelper db = User.getDBHelper();
+                    if(db !=null)
+                    {
+
+                        //db.saveMessage(Message.this, db.getWritableDatabase());
+                    }
+                }
+            });
+
+        }
+        return oldValue!=newValue;
     }
 
+    public void updateHasBeenSeenToServer(final boolean newValue)
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put(Constants.job,"updateMessageHasBeenSeen");
+            jsonObject.put("UpdatedHasBeenSeen", newValue);
+            jsonObject.put(Constants.UUID,uuid.toString());
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        NetMessage netMessage=new NetMessage(null, new NetworkReturn() {
+            @Override
+            public void returnMessage(String message) {
+                if(message.equals(Constants.networkconn_failed))
+                {
+                    updateHasBeenSeenToServer(newValue);
+                }
+            }
+        },jsonObject);
+        Network.addNetMessage(netMessage);
+    }
     public boolean getHasBeenSeen() {
         return hasBeenSeen;
     }
@@ -223,12 +277,57 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     public enum MessageType{
         TEXT,PICTURE,VOICE,VIDEO
     }
-    public enum Job{
-        OUTGOING, INCOMING;
-    }
+
     public JSONObject toJSON()
     {
-        return null;
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put(Constants.sender, sender);
+            jsonObject.put(Constants.resipient ,resipient);
+            jsonObject.put(Constants.message, message);
+            jsonObject.put(Constants.creationTime, creationTime);
+            jsonObject.put(Constants.hasBeenSent, hasBeenSent);
+            jsonObject.put(Constants.hasBeenSeen,hasBeenSeen);
+            jsonObject.put(Constants.UUID,uuid.toString());
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; pinnedUsers!=null && i < pinnedUsers.size(); i++){
+                jsonArray.put(pinnedUsers.get(i));
+            }
+            if (jsonArray.length()>0){
+                jsonObject.put("pinners", jsonArray);
+            }
+            if(fileObject!=null)
+            {
+                jsonObject.put("fileObjet",fileObject.toJSON());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+    public void checkToResend()
+    {
+        if(!hasBeenSent && getJob()==Job.OUTGOING)
+        {
+            sendMessage(null);
+        }
+    }
+
+    public void sendMessage(String targetAddress){
+        JSONObject message=new JSONObject();
+        try {
+            setHasBeenSent(true);
+            message.put(Constants.job, Constants.send_message);
+            message.put(Constants.message, this.toJSON());
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network.addNetMessage(new NetMessage(targetAddress,this,message));
+
+    }
+    public enum Job{
+        OUTGOING, INCOMING;
     }
 }
 
