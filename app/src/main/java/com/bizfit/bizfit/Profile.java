@@ -26,6 +26,8 @@ public class Profile {
     public String firstName;
     public String lastName;
 
+    public String profileID;
+
     // profile pic info
 
     public Drawable image;
@@ -85,6 +87,9 @@ public class Profile {
             if(jsonObject.has(Constants.isExpert)) {
                 isExpert = jsonObject.getBoolean(Constants.isExpert);
             }
+            if(jsonObject.has(Constants.profile)){
+                profileID=jsonObject.getString(Constants.profile);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -108,7 +113,11 @@ public class Profile {
                     new DrawableDownloader() {
                         @Override
                         public void onProgressUpdate(Integer... progress) {
-                            tv.setText(String.valueOf(progress[0]));
+                            if(tv!=null)
+                            {
+                                tv.setText(String.valueOf(progress[0]));
+                            }
+
                         }
 
                         @Override
@@ -124,7 +133,10 @@ public class Profile {
 
                         @Override
                         public void error(Exception e) {
-                            tv.setText(e.toString());
+                            if(tv!=null)
+                            {
+                                tv.setText(e.toString());
+                            }
                             e.printStackTrace();
                         }
 

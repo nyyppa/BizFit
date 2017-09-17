@@ -122,8 +122,16 @@ public class RecyclerViewAdapterStoreRow extends RecyclerView.Adapter {
         protected void prepForDisplay(StoreRow.StoreItem item, int index)
         {
             this.index = index;
-            name.setText(item.name);
-            image.setImageDrawable(item.image);
+
+            if (item.profile==null)
+            {
+                name.setText(item.name);
+                image.setImageDrawable(item.image);
+            }
+            else{
+                name.setText(item.name);
+                item.profile.drawToImgView(image,null);
+            }
             //testimonials.setText(item.testimonials +"");
         }
 

@@ -3,6 +3,7 @@ package com.bizfit.bizfit.utils;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
+import com.bizfit.bizfit.Profile;
 import com.bizfit.bizfit.activities.CoachPage;
 
 import java.util.HashMap;
@@ -136,6 +137,7 @@ public class StoreRow<T> {
         public int testimonials;
         public String coachID;
         public String telNumber="5556";
+        public Profile profile;
 
         public StoreItem(String name, Drawable image, int imageId, int testimonials,String coachID,String telNumber)
         {
@@ -148,6 +150,12 @@ public class StoreRow<T> {
                 this.telNumber=telNumber;
             }
 
+        }
+        public StoreItem(Profile profile)
+        {
+            this.profile=profile;
+            name=profile.firstName+" "+profile.lastName;
+            coachID=profile.profileID;
         }
 
         public String getName() {

@@ -12,10 +12,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bizfit.bizfit.Profile;
 import com.bizfit.bizfit.R;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterCoaches;
+import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -62,10 +71,10 @@ public class TabCoaches extends Fragment {
         final TypedArray worksIds = getResources().obtainTypedArray(R.array.work_imgs);
 
 
-        for (int i = 0; i < jobTitles.length; i++)
+        for (int i = 0; i < jobTitles.length||i<1; i++)
         {
-            LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
-            if(i==1)
+            final LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
+            if(i==100)
             {
                 for(int j = 0; j < 4; j++)
                 {
@@ -103,16 +112,38 @@ public class TabCoaches extends Fragment {
                 {
                     // Assign a random name and image.
                     // TODO Parse info from server
+                    /*
                     int imageId = imgIDs.getResourceId((int) (Math.random() * imgIDs.length()), -1);
                     items.add(new StoreRow.StoreItem(firstNames[(int) (Math.random() * firstNames.length)] + " " +
                             lastNames[(int) (Math.random() * lastNames.length)],
                             ContextCompat.getDrawable(view.getContext(), imageId), imageId,(int) (Math.random()*400),null,null));
+                            */
+                    JSONObject jsonObject=new JSONObject();
+                    try {
+                        jsonObject.put(Constants.job,"get_expert_profiles");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
+                        @Override
+                        public void returnMessage(String message) {
+                            try {
+                                JSONArray jsonArray=new JSONArray(message);
+                                for(int n=0;n<jsonArray.length();n++){
+                                    items.add(new StoreRow.StoreItem(new Profile(jsonArray.getJSONObject(n))));
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },jsonObject));
 
                 }
             }
 
             HashMap<String, String> stringData = new HashMap<>();
-            stringData.put(StoreRow.TITLE,jobTitles[i]);
+            //stringData.put(StoreRow.TITLE,jobTitles[i]);
             storeRows.add(new StoreRow(stringData, items));
         }
 
