@@ -149,9 +149,9 @@ public class Conversation implements NetworkReturn
     {
         getIncomingMessages();
         getOutgoingMessages();
-        for(int i = 0; i< messageList.size(); i++){
-            messageList.get(i).checkToResend();
-        }
+//        for(int i = 0; i< messageList.size(); i++){
+     //       messageList.get(i).checkToResend();
+      //  }
     }
     private void getIncomingMessages()
     {

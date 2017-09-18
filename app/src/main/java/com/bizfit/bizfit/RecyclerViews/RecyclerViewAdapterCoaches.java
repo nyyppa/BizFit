@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bizfit.bizfit.MyApplication;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.scrollCoordinators.EndlessRecyclerOnScrollListener;
 import com.bizfit.bizfit.utils.StoreRow;
@@ -113,6 +114,7 @@ public class RecyclerViewAdapterCoaches extends RecyclerView.Adapter implements 
      * @param row Row to be added.
      */
     public void addData(StoreRow row) {
+        notifyDataSetChanged();
         data.add(row);
     }
 

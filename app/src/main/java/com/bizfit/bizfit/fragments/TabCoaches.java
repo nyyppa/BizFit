@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bizfit.bizfit.DebugPrinter;
 import com.bizfit.bizfit.Profile;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.network.NetMessage;
@@ -124,14 +125,28 @@ public class TabCoaches extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    DebugPrinter.Debug("viestipiesti");
                     Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                         @Override
                         public void returnMessage(String message) {
                             try {
+
+
                                 JSONArray jsonArray=new JSONArray(message);
                                 for(int n=0;n<jsonArray.length();n++){
+                                    DebugPrinter.Debug("viestipiesti2: "+jsonArray.getJSONObject(n));
                                     items.add(new StoreRow.StoreItem(new Profile(jsonArray.getJSONObject(n))));
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            HashMap<String, String> stringData = new HashMap<>();
+                                            adapter.addData(new StoreRow(stringData, items));
+                                        }
+                                    });
+
                                 }
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -141,10 +156,11 @@ public class TabCoaches extends Fragment {
 
                 }
             }
-
             HashMap<String, String> stringData = new HashMap<>();
             //stringData.put(StoreRow.TITLE,jobTitles[i]);
             storeRows.add(new StoreRow(stringData, items));
+
+
         }
 
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.tab_fragment_coaches_recycler_view);
