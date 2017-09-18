@@ -102,6 +102,8 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (parentActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    } else if(parentActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
                     } else {
                         startGallery();
                     }
@@ -114,7 +116,7 @@ public class CreateProfileImage extends Fragment implements View.OnClickListener
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (parentActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.CAMERA}, 2);
+                        ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.CAMERA}, 3);
                     } else if (parentActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(parentActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
                     } else {

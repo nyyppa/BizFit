@@ -164,8 +164,8 @@ public abstract class FileUpload<T> extends AsyncTask<T,Void,FileUpload.ResultCo
                     conn.setRequestProperty("fileType", fileType);
                     conn.setRequestProperty("fileName",filename);
                     conn.setRequestProperty("fileExtension",fileExtension);
-                    //conn.setRequestProperty("fileID",f.getName().substring(0,f.getName().lastIndexOf(".")));
-                    conn.setRequestProperty("fileID",fileID);
+                    conn.setRequestProperty("fileID",f.getName().substring(0,f.getName().lastIndexOf(".")));
+                    //conn.setRequestProperty("fileID",fileID);
                     conn.setRequestProperty("uploader", getUploader());
                     conn.setRequestProperty("job","uploadfile");
                     dos = new DataOutputStream(conn.getOutputStream());

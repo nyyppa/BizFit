@@ -34,8 +34,15 @@ import com.bizfit.bizfit.fragments.TabConversationList;
 import com.bizfit.bizfit.RecyclerViews.RecyclerViewAdapterStoreRow;
 import com.bizfit.bizfit.fragments.TabConversationRequests;
 import com.bizfit.bizfit.fragments.TabSettings;
+import com.bizfit.bizfit.network.NetMessage;
+import com.bizfit.bizfit.network.Network;
+import com.bizfit.bizfit.network.NetworkReturn;
+import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.StoreRow;
 import com.bizfit.bizfit.views.ViewPagerNoSwipes;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +61,7 @@ public class MainPage extends AppCompatActivity implements
     public static long lastMessageTime;
     private PopupWindow popupWindow;
 
-    Profile currentUser;
+    TabSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,19 +226,19 @@ public class MainPage extends AppCompatActivity implements
      * @param viewPager ViewPager to populate.
      */
     private void setupViewPager(ViewPager viewPager) {
+        settings = new TabSettings();
+
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabCoaches(), getResources().getString(R.string.title_tab_coaches));
         adapter.addFragment(new TabConversationList(), getResources().getString(R.string.title_tab_messages));
         adapter.addFragment(new TabConversationRequests(),"Requests");
-        adapter.addFragment(new TabSettings(), "Settings");
+        adapter.addFragment(settings, "Settings");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(CACHED_PAGE_LIMIT);
 
         if (viewPager instanceof ViewPagerNoSwipes)
             ((ViewPagerNoSwipes) viewPager).setPagingEnabled(false);
     }
-
-
 
     @Override
     public void itemClicked(StoreRow.StoreItem data) {
@@ -255,6 +262,40 @@ public class MainPage extends AppCompatActivity implements
         {
             User user=User.getLastUser(null, this, getIntent().getStringExtra("userName"));
             user.setMyContactInfo(new Contact(getIntent().getStringExtra("firstName"),getIntent().getStringExtra("lastName"),getIntent().getStringExtra("userName")));
+
+            JSONObject json = new JSONObject();
+
+            try {
+                json.put(Constants.job, Constants.load_profile);
+                json.put(Constants.profile, User.getLastUser(null, null, null).userName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            NetMessage netMessage = new NetMessage(null, new NetworkReturn() {
+                @Override
+                public void returnMessage(String message) {
+                    if(message.equals(Constants.networkconn_failed)) {
+
+                    } else if (message.equals(Constants.profile_not_found)){
+
+                    } else {
+
+                        try {
+                            Profile p = new Profile(new JSONObject(message));
+                            User.setUserProfile(p);
+
+                            // TODO: update fragment
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            },json);
+
+            Network.addNetMessage(netMessage);
+
+
             if(getIntent().getStringExtra("userName").equals("jari.myllymaki@gmail.com+UAHUARGAYGEYAGEHAGDASDHJKA")){
                 MediaPlayer mediaPlayer=MediaPlayer.create(this,R.raw.good_morning_vietnam);
                 mediaPlayer.start();
@@ -272,6 +313,7 @@ public class MainPage extends AppCompatActivity implements
                     }
                 });
             }
+
         }
         /*else
         {
@@ -362,5 +404,4 @@ public class MainPage extends AppCompatActivity implements
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);*/
     }
-
 }

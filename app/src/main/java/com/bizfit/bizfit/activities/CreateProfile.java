@@ -1,5 +1,6 @@
 package com.bizfit.bizfit.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -207,6 +209,8 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     public void saveProfile() {
 
+        User.userProfile = new Profile(toJSON());
+
         saveProfilePicture();
 
         JSONObject json = new JSONObject();
@@ -344,11 +348,22 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
         if (requestCode == 1) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                picture.startGallery();
+                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+                } else {
+                    picture.startGallery();
+                }
             } else {
                 Crouton.makeText(this, "Permission denied", Style.ALERT).show();
             }
         } else if(requestCode == 2) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                picture.startGallery();
+            } else {
+                Crouton.makeText(this, "Permission denied", Style.ALERT).show();
+            }
+        } else if(requestCode == 3) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 picture.startCamera();

@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bizfit.bizfit.Profile;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
 import com.bizfit.bizfit.activities.LoginActivity2;
+import com.bizfit.bizfit.activities.MainPage;
 import com.bizfit.bizfit.activities.MessageActivity;
 import com.bizfit.bizfit.activities.Security;
 import com.bizfit.bizfit.activities.SelectProfileType;
@@ -22,6 +26,8 @@ import com.bizfit.bizfit.activities.Support;
  */
 
 public class TabSettings extends Fragment implements View.OnClickListener {
+
+    public Profile userProfile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,22 @@ public class TabSettings extends Fragment implements View.OnClickListener {
 
         Button b = getActivity().findViewById(R.id.chat_test);
         b.setOnClickListener(this);
+
+        userProfile = User.getUserProfile();
+
+        ImageView profPic = getActivity().findViewById(R.id.profilePicture);
+        TextView tv = getActivity().findViewById(R.id.textView22);
+
+        if(userProfile != null) {
+
+            userProfile.drawToImgView(profPic, new TextView(null));
+            tv.setText(userProfile.firstName + " " + userProfile.lastName);
+
+        } else {
+
+            tv.setText(User.getLastUser(null, null, null).userName);
+
+        }
 
     }
 

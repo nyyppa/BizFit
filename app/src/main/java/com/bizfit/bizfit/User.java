@@ -60,6 +60,7 @@ public class User  {
     public UUID uuid;
     public List<ChatRequest> requestsFromMe=new ArrayList<>();
     public Contact myContactInfo;
+    public static Profile userProfile;
 
     private User(){
         userName="";
@@ -963,5 +964,13 @@ public class User  {
             }
         },jsonObject));
 
+    }
+
+    public static void setUserProfile(Profile p) {
+        userProfile = p;
+    }
+
+    public static Profile getUserProfile() {
+        return userProfile;
     }
 }
