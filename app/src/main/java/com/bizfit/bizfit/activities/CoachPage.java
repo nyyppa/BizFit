@@ -2,6 +2,7 @@ package com.bizfit.bizfit.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -13,8 +14,12 @@ import android.widget.TextView;
 import com.bizfit.bizfit.ChatRequest;
 import com.bizfit.bizfit.R;
 import com.bizfit.bizfit.User;
+import com.bizfit.bizfit.network.FileDownload.DrawableDownloader;
 import com.bizfit.bizfit.utils.Constants;
 import com.bizfit.bizfit.utils.Utils;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Fetches and displays an overview of hireable coaches.
@@ -110,15 +115,44 @@ public class CoachPage extends AppCompatActivity {
 
 
         // TODO Content should be fetched from the server. API specific resource reference.
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
 
         if (intent != null) {
             String name = intent.getStringExtra(FIELD_COACH_NAME);
             int imgId = intent.getIntExtra(FIELD_COACH_IMAGE_ID, IMAGE_NOT_FOUND);
             COACH_ID = intent.getStringExtra(Constants.coach_id);
             telNumber=intent.getStringExtra(Constants.telNumber);
+            if(intent.hasExtra("imageUUID"))
+            {
+                URL[] urls=new URL[1];
+                try {
+                    urls[0]=new URL(Constants.file_connection_address);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                new DrawableDownloader() {
+                    @Override
+                    public void onProgressUpdate(Integer... progress) {
 
-            if (imgId != IMAGE_NOT_FOUND) {
+                    }
+
+                    @Override
+                    public String getFileID() {
+                        return intent.getStringExtra("imageUUID");
+                    }
+
+                    @Override
+                    public void doResult(Drawable result) {
+                        ((ImageView) findViewById(R.id.user_banner_image)).setImageDrawable(result);
+                    }
+
+                    @Override
+                    public void error(Exception e) {
+
+                    }
+                }.execute(urls);
+            }
+            else if (imgId != IMAGE_NOT_FOUND) {
                 //  Fixed by JariJ 25.11.16
                 ((ImageView) findViewById(R.id.user_banner_image)).setImageDrawable(ContextCompat.getDrawable(this, imgId));
             }
@@ -147,11 +181,11 @@ public class CoachPage extends AppCompatActivity {
                     MessageActivity.startChat(CoachPage.this, COACH_ID);
 
                     // wizard and requests not needed in uusyrityskeskus build
-
+                    /*
                     new ChatRequest(User.getLastUser(null,null,null).userName,COACH_ID).sendToNet();
                     Intent intent = new Intent(view.getContext(), OrderChat.class);
                     intent.putExtra(Constants.coach_id, COACH_ID);
-                    view.getContext().startActivity(intent);
+                    view.getContext().startActivity(intent);*/
                 }
             }
         });

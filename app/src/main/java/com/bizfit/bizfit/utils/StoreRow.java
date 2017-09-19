@@ -173,6 +173,10 @@ public class StoreRow<T> {
             return telNumber;
         }
         public void fillIntent(Intent intent){
+            if(profile!=null)
+            {
+                intent.putExtra("imageUUID",profile.imageUUID.toString());
+            }
             intent.putExtra(CoachPage.FIELD_COACH_NAME, getName());
             intent.putExtra(CoachPage.FIELD_COACH_IMAGE_ID, getImageId());
             intent.putExtra(Constants.coach_id,getCoachId());

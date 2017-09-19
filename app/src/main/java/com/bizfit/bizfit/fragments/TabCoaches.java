@@ -109,7 +109,7 @@ public class TabCoaches extends Fragment {
             }
             else
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 1; j++)
                 {
                     // Assign a random name and image.
                     // TODO Parse info from server
@@ -129,12 +129,14 @@ public class TabCoaches extends Fragment {
                     Network.addNetMessage(new NetMessage(null, new NetworkReturn() {
                         @Override
                         public void returnMessage(String message) {
+                            DebugPrinter.Debug("viestipiesti3: "+message);
                             try {
 
 
                                 JSONArray jsonArray=new JSONArray(message);
                                 for(int n=0;n<jsonArray.length();n++){
                                     DebugPrinter.Debug("viestipiesti2: "+jsonArray.getJSONObject(n));
+                                    final LinkedList<StoreRow.StoreItem> items=new LinkedList<StoreRow.StoreItem>();
                                     items.add(new StoreRow.StoreItem(new Profile(jsonArray.getJSONObject(n))));
 
                                     getActivity().runOnUiThread(new Runnable() {
