@@ -267,7 +267,7 @@ public class MainPage extends AppCompatActivity implements
 
             try {
                 json.put(Constants.job, Constants.load_profile);
-                json.put(Constants.profile, User.getLastUser(null, null, null).userName);
+                json.put(Constants.profile, getIntent().getStringExtra("userName"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -277,17 +277,25 @@ public class MainPage extends AppCompatActivity implements
                 public void returnMessage(String message) {
                     if(message.equals(Constants.networkconn_failed)) {
 
-                    } else if (message.equals(Constants.profile_not_found)){
+                    } else if (message.trim().equals(Constants.profile_not_found)){
 
+                        System.out.println("töötpruutfruut oikia errori");
                     } else {
+
+                        System.out.println("töötmöötkööt: " + message);
+                        System.out.println(message);
+                        System.out.println(message);
 
                         try {
                             Profile p = new Profile(new JSONObject(message));
                             User.setUserProfile(p);
 
-                            // TODO: update fragment
+                            settings.addInfoToView();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            System.out.println("IIROOR");
+                            System.out.println("IIROOR");
+                            System.out.println("IIROOR");
                         }
                     }
                 }

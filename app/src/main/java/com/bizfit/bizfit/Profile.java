@@ -97,7 +97,7 @@ public class Profile {
 
     }
 
-    public void drawToImgView(ImageView imageView, final TextView tv) {
+    public void drawToImgView(final ImageView imageView, final TextView tv) {
 
         this.imageView = imageView;
 
@@ -138,6 +138,7 @@ public class Profile {
                                 tv.setText(e.toString());
                             }
                             e.printStackTrace();
+                            drawTo(ContextCompat.getDrawable(imageView.getContext(), R.drawable.general_profile), imageView);
                         }
 
                     }.execute(new URL[]{new URL(Constants.file_connection_address)});
