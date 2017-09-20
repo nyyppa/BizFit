@@ -61,6 +61,7 @@ public class Constants
 
 	public static final String firstName = "firstName";
 	public static final String lastName = "lastName";
+	public static final String phoneNumber = "phoneNumber";
 	public static final String imageUUID = "imageUUID";
 	public static final String ownsCompany = "ownsCompany";
 	public static final String askedCompany = "askedCompany";

@@ -24,6 +24,7 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
 
     EditText firstName;
     EditText lastName;
+    EditText phoneNumber;
 
     Button proceed;
 
@@ -49,6 +50,7 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
 
         firstName = (EditText) getActivity().findViewById(R.id.firstName);
         lastName = (EditText) getActivity().findViewById(R.id.lastName);
+        phoneNumber = (EditText) getActivity().findViewById(R.id.phoneNumber);
 
         // check if information already exists
         // if it does, add to fields
@@ -64,7 +66,11 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
                 lastName.setText(profile.lastName);
             }
 
-            if(!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()) {
+            if(profile.phoneNumber != null) {
+                phoneNumber.setText(profile.phoneNumber);
+            }
+
+            if(!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty() && !phoneNumber.getText().toString().isEmpty()) {
                 proceed.setVisibility(View.VISIBLE);
             }
 
@@ -81,8 +87,9 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
 
                 String first = firstName.getText().toString();
                 String last = lastName.getText().toString();
+                String phone = phoneNumber.getText().toString();
 
-                if(!first.isEmpty() && !last.isEmpty()) {
+                if(!first.isEmpty() && !last.isEmpty() && !phone.isEmpty()) {
                     proceed.setVisibility(View.VISIBLE);
                 } else {
                     proceed.setVisibility(View.GONE);
@@ -96,22 +103,7 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
 
         firstName.addTextChangedListener(tw);
         lastName.addTextChangedListener(tw);
-
-        // if there is already a name, show it and make it able to proceed
-
-        String first = parentActivity.getFirstName();
-        String last = parentActivity.getLastName();
-        if(first != null && !first.isEmpty()) {
-            firstName.setText(first);
-        }
-
-        if(last != null && !last.isEmpty()) {
-            lastName.setText(last);
-        }
-
-        if(!firstName.getText().toString().isEmpty() && !lastName.getText().toString().isEmpty()) {
-            proceed.setVisibility(View.VISIBLE);
-        }
+        phoneNumber.addTextChangedListener(tw);
 
     }
 
@@ -123,6 +115,7 @@ public class CreateProfileName extends Fragment implements View.OnClickListener 
                 // save the information and move to the next step
                 parentActivity.setFirstName(firstName.getText().toString());
                 parentActivity.setLastName(lastName.getText().toString());
+                parentActivity.setPhoneNumber(phoneNumber.getText().toString());
                 parentActivity.switchPhase(CreateProfile.Phase.NAME);
                 break;
         }

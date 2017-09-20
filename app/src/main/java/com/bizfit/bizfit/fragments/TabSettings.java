@@ -89,24 +89,28 @@ public class TabSettings extends Fragment implements View.OnClickListener {
     }
 
     public void addInfoToView() {
-        System.out.println("ADD INFO TO VIEW");
-        System.out.println("ADD INFO TO VIEW");
-        System.out.println("ADD INFO TO VIEW");
 
-        userProfile = User.getUserProfile();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        ImageView profPic = getActivity().findViewById(R.id.profilePicture);
-        TextView tv = getActivity().findViewById(R.id.textView22);
+                userProfile = User.getUserProfile();
 
-        if(userProfile != null && userProfile.imageUUID != null) {
-            userProfile.drawToImgView(profPic, null);
-        }
+                ImageView profPic = getActivity().findViewById(R.id.profilePicture);
+                TextView tv = getActivity().findViewById(R.id.textView22);
 
-        if(userProfile != null && !userProfile.firstName.isEmpty() && !userProfile.lastName.isEmpty()) {
-            tv.setText(userProfile.firstName + " " + userProfile.lastName);
-        } else {
-            tv.setText(User.getLastUser(null, null, null).userName);
-        }
+                if(userProfile != null && userProfile.imageUUID != null) {
+                    userProfile.drawToImgView(profPic, null);
+                }
+
+                if(userProfile != null && !userProfile.firstName.isEmpty() && !userProfile.lastName.isEmpty()) {
+                    tv.setText(userProfile.firstName + " " + userProfile.lastName);
+                } else {
+                    tv.setText(User.getLastUser(null, null, null).userName);
+                }
+
+            }
+        });
     }
 
 }

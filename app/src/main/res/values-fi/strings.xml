@@ -203,9 +203,11 @@
     <string name="profile_noprofile_title">Sinulla ei ole profiilia</string>
     <string name="profile_noprofile_desc">Tarvitset oman profiilin asiantuntijapalveluiden tilaamiseen. Haluatko tehdä sellaisen nyt?</string>
 
-    <string name="profile_name_title">Kerro nimesi</string>
+    <string name="profile_name_title">Yhteystiedot</string>
     <string name="profile_name_firstname">Etunimi</string>
     <string name="profile_name_lastname">Sukunimi</string>
+    <string name="profile_name_phone">Puhelinnumero</string>
+    <string name="profile_name_phone_hint">Tarvitsemme puhelinnumerosi, jotta voit tilata asiantuntijoilta puhelupalveluita.</string>
 
     <string name="profile_company_has_company_title">Onko sinulla oma yritys?</string>
     <string name="profile_company_title">Kerro yrityksestäsi</string>

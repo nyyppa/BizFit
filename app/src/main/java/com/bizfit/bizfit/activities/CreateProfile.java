@@ -65,6 +65,7 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     // user information
     String firstName;
     String lastName;
+    String phoneNumber;
 
     UUID imageUUID;
     Drawable image;
@@ -171,6 +172,8 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
     public void setLastName(String name) { lastName = name; }
 
+    public void setPhoneNumber(String number) { phoneNumber = number; }
+
     public void setOwnsCompany(boolean bool) { ownsCompany = bool; }
 
     public void setAskedCompany(boolean bool) { askedCompany = bool; }
@@ -192,6 +195,8 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
     public String getFirstName() { return firstName; }
 
     public String getLastName() { return lastName; }
+
+    public String getPhoneNumber() { return phoneNumber; }
 
     public boolean checkIfOwnsCompany() { return ownsCompany; }
 
@@ -243,6 +248,10 @@ public class CreateProfile extends AppCompatActivity implements NetworkReturn {
 
             if(lastName != null) {
                 json.put(Constants.lastName, lastName);
+            }
+
+            if(phoneNumber != null) {
+                json.put(Constants.phoneNumber, phoneNumber);
             }
 
             if(imageUUID != null) {

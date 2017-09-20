@@ -25,6 +25,7 @@ public class Profile {
 
     public String firstName;
     public String lastName;
+    public String phoneNumber;
 
     public String profileID;
 
@@ -58,6 +59,10 @@ public class Profile {
 
             if(jsonObject.has(Constants.lastName)) {
                 lastName = jsonObject.getString(Constants.lastName);
+            }
+
+            if(jsonObject.has(Constants.phoneNumber)) {
+                phoneNumber = jsonObject.getString(Constants.phoneNumber);
             }
 
             if(jsonObject.has(Constants.imageUUID)) {

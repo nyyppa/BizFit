@@ -223,6 +223,8 @@
     <string name="profile_name_title">What\'s your name?</string>
     <string name="profile_name_firstname">First name</string>
     <string name="profile_name_lastname">Last name</string>
+    <string name="profile_name_phone">Phone number</string>
+    <string name="profile_name_phone_hint">We need your phone number for you to be able to order call services from experts.</string>
 
     <string name="profile_company_has_company_title">Do you own a company?</string>
     <string name="profile_company_title">Company information</string>
