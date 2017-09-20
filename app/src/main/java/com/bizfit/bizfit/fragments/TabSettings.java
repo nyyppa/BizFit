@@ -57,19 +57,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
 
         userProfile = User.getUserProfile();
 
-        ImageView profPic = getActivity().findViewById(R.id.profilePicture);
-        TextView tv = getActivity().findViewById(R.id.textView22);
-
-        if(userProfile != null) {
-
-            userProfile.drawToImgView(profPic, new TextView(null));
-            tv.setText(userProfile.firstName + " " + userProfile.lastName);
-
-        } else {
-
-            tv.setText(User.getLastUser(null, null, null).userName);
-
-        }
+        addInfoToView();
 
     }
 
@@ -97,6 +85,27 @@ public class TabSettings extends Fragment implements View.OnClickListener {
             case R.id.chat_test:
                 MessageActivity.startChat(getContext(), "testi@gmail.com");
                 break;
+        }
+    }
+
+    public void addInfoToView() {
+        System.out.println("ADD INFO TO VIEW");
+        System.out.println("ADD INFO TO VIEW");
+        System.out.println("ADD INFO TO VIEW");
+
+        userProfile = User.getUserProfile();
+
+        ImageView profPic = getActivity().findViewById(R.id.profilePicture);
+        TextView tv = getActivity().findViewById(R.id.textView22);
+
+        if(userProfile != null && userProfile.imageUUID != null) {
+            userProfile.drawToImgView(profPic, null);
+        }
+
+        if(userProfile != null && !userProfile.firstName.isEmpty() && !userProfile.lastName.isEmpty()) {
+            tv.setText(userProfile.firstName + " " + userProfile.lastName);
+        } else {
+            tv.setText(User.getLastUser(null, null, null).userName);
         }
     }
 

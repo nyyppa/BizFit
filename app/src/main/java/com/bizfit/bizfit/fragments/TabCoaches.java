@@ -72,7 +72,7 @@ public class TabCoaches extends Fragment {
         final TypedArray worksIds = getResources().obtainTypedArray(R.array.work_imgs);
 
 
-        for (int i = 0; i < jobTitles.length||i<1; i++)
+        for (int i = 0; i < jobTitles.length||i<2; i++)
         {
             final LinkedList<StoreRow.StoreItem> items = new LinkedList<>();
             if(i==100)
@@ -134,21 +134,21 @@ public class TabCoaches extends Fragment {
 
 
                                 JSONArray jsonArray=new JSONArray(message);
+                                final LinkedList<StoreRow.StoreItem> items=new LinkedList<StoreRow.StoreItem>();
+
                                 for(int n=0;n<jsonArray.length();n++){
                                     DebugPrinter.Debug("viestipiesti2: "+jsonArray.getJSONObject(n));
-                                    final LinkedList<StoreRow.StoreItem> items=new LinkedList<StoreRow.StoreItem>();
                                     items.add(new StoreRow.StoreItem(new Profile(jsonArray.getJSONObject(n))));
-
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            HashMap<String, String> stringData = new HashMap<>();
-                                            adapter.addData(new StoreRow(stringData, items));
-                                        }
-                                    });
-
                                 }
 
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        HashMap<String, String> stringData = new HashMap<>();
+                                        stringData.put(StoreRow.TITLE, "titteli");
+                                        adapter.addData(new StoreRow(stringData, items));
+                                    }
+                                });
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -158,9 +158,9 @@ public class TabCoaches extends Fragment {
 
                 }
             }
-            HashMap<String, String> stringData = new HashMap<>();
-            //stringData.put(StoreRow.TITLE,jobTitles[i]);
-            storeRows.add(new StoreRow(stringData, items));
+            //HashMap<String, String> stringData = new HashMap<>();
+            //stringData.put(StoreRow.TITLE, "Titteli");
+            //storeRows.add(new StoreRow(stringData, items));
 
 
         }
