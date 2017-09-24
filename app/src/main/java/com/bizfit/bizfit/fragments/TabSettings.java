@@ -89,7 +89,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
     }
 
     public void addInfoToView() {
-
+/*
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -111,6 +111,7 @@ public class TabSettings extends Fragment implements View.OnClickListener {
 
             }
         });
+        */
     }
 
 }

@@ -136,7 +136,7 @@ public class Conversation implements NetworkReturn
             jsonObject.put(Constants.owner,owner);
             jsonObject.put(Constants.other,other);
             JSONArray jsonArray=new JSONArray();
-            for(int i = 0; i< messageList.size(); i++){
+            for(int i = 0;messageList!=null&& i< messageList.size(); i++){
                 jsonArray.put(messageList.get(i).toJSON());
             }
             jsonObject.put(Constants.messages,jsonArray);
@@ -149,9 +149,9 @@ public class Conversation implements NetworkReturn
     {
         getIncomingMessages();
         getOutgoingMessages();
-//        for(int i = 0; i< messageList.size(); i++){
-     //       messageList.get(i).checkToResend();
-      //  }
+       for(int i = 0; messageList!=null&&i< messageList.size(); i++){
+          messageList.get(i).checkToResend();
+     }
     }
     private void getIncomingMessages()
     {
@@ -310,7 +310,7 @@ public class Conversation implements NetworkReturn
     }
 
     private boolean messageAlreadyExists(Message2 message){
-        for(int i=0;i<messageList.size();i++){
+        for(int i=0;messageList!=null&&i<messageList.size();i++){
             if(message.equals(messageList.get(i))){
                 return true;
             }
@@ -331,6 +331,10 @@ public class Conversation implements NetworkReturn
                         if(isActive())
                         {
                             m.updateHasBeenSeen(true);
+                        }
+                        if(messageList==null)
+                        {
+                            messageList=new ArrayList<>();
                         }
                         messageList.add(0, m);
                         message1= messageList.get(0);

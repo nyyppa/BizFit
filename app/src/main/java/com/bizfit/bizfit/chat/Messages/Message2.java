@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
@@ -114,7 +115,51 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         uuid=UUID.randomUUID();
     }
     protected Message2(JSONObject jsonObject,Conversation conversation){
+        this.conversation = conversation;
+        try
+        {
+            if(jsonObject.has(Constants.sender))
+            {
+                sender=jsonObject.getString(Constants.sender);
+            }
+            if(jsonObject.has(Constants.resipient))
+            {
+                resipient=jsonObject.getString(Constants.resipient);
+            }
+            if(jsonObject.has(Constants.message))
+            {
+                message=jsonObject.getString(Constants.message);
+            }
 
+            if(jsonObject.has(Constants.creationTime))
+            {
+                creationTime=jsonObject.getLong(Constants.creationTime);
+                timestamp = new OurDateTime(creationTime);
+            }
+            if(jsonObject.has(Constants.hasBeenSent))
+            {
+                hasBeenSent=jsonObject.getBoolean(Constants.hasBeenSent);
+            }
+            if(jsonObject.has(Constants.hasBeenSeen)){
+                hasBeenSeen=jsonObject.getBoolean(Constants.hasBeenSeen);
+            }
+            if(jsonObject.has(Constants.UUID)){
+                uuid=UUID.fromString(jsonObject.getString(Constants.UUID));
+            }else{
+                uuid=UUID.randomUUID();
+            }
+            if(jsonObject.has("pinners")) {
+                JSONArray jsonArray = jsonObject.getJSONArray("pinners");
+                pinnedUsers= new ArrayList<>();
+                for(int i = 0; i < jsonArray.length(); i++) {
+                    pinnedUsers.add(jsonArray.getString(i));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        setJob();
     }
     protected Message2(Cursor cursor){
         /*
@@ -274,6 +319,11 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         return true;
     }
 
+    public boolean equals(Message2 message2)
+    {
+        return uuid.equals(message2.uuid);
+    }
+
     public enum MessageType{
         TEXT,PICTURE,VOICE,VIDEO
     }
@@ -288,7 +338,10 @@ public abstract class Message2 implements NetworkReturn, Serializable {
             jsonObject.put(Constants.creationTime, creationTime);
             jsonObject.put(Constants.hasBeenSent, hasBeenSent);
             jsonObject.put(Constants.hasBeenSeen,hasBeenSeen);
-            jsonObject.put(Constants.UUID,uuid.toString());
+            if(uuid!=null)
+            {
+                jsonObject.put(Constants.UUID,uuid.toString());
+            }
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; pinnedUsers!=null && i < pinnedUsers.size(); i++){
                 jsonArray.put(pinnedUsers.get(i));
