@@ -18,9 +18,11 @@ import org.json.JSONObject;
 public class MessageText extends Message2 {
 
 
+
     protected MessageText(Cursor cursor) {
         super(cursor);
     }
+
 
     public MessageText(Conversation conversation, String resipient, String sender, String message, MessageType messageType) {
         super(conversation, resipient, sender, message, messageType);

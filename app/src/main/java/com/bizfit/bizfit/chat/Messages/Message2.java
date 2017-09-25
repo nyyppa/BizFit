@@ -161,6 +161,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         }
         setJob();
     }
+
     protected Message2(Cursor cursor){
         /*
         Message message = new Message();
@@ -173,6 +174,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         message.creationTime=cursor.getInt(cursor.getColumnIndex("creationTime"));
         message.setJob();*/
     }
+
     public void setJob(){
         if(conversation.getOwner().equals(sender)){
             job=Job.OUTGOING;
