@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bizfit.bizfit.activities.MessageActivity"
+    tools:context="com.bizfit.release.activities.MessageActivity"
     android:id="@+id/fragment_container">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.bizfit.bizfit.fragments.ChatFragment"
+        android:name="com.bizfit.release.fragments.ChatFragment"
         android:id="@+id/fragment"
         tools:layout="@layout/fragment_messages2" />
 </RelativeLayout>

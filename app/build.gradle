@@ -1,27 +1,30 @@
 apply plugin: 'com.android.application'
-
+apply from: 'signing.gradle'
+def keystorePropertiesFile = rootProject.file("../bizfit/app/keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     lintOptions {
         abortOnError false
     }
     signingConfigs {
         config {
-            keyAlias 'bizfitapha'
-            keyPassword 'testitesti'
-            storeFile file('../app/bizfitkey2.jks')
-            storePassword 'testitesti'
+            storeFile signingConfigs.release.storeFile
+            storePassword signingConfigs.release.storePassword
+            keyAlias signingConfigs.release.keyAlias
+            keyPassword signingConfigs.release.keyPassword
         }
     }
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.bizfit.bizfit"
+        applicationId "com.bizfit.release"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 5
-        versionName "5.0"
+        versionCode 1
+        versionName "1.0"
         vectorDrawables.useSupportLibrary = true;
-        versionNameSuffix 'alpha'
+        versionNameSuffix 'release'
         signingConfig signingConfigs.debug
     }
     buildTypes {

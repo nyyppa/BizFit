@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bizfit.bizfit.views.WorkaroundNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bizfit.release.views.WorkaroundNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_100"
@@ -45,4 +45,4 @@
             android:tintMode="src_in" />
 
     </RelativeLayout>
-</com.bizfit.bizfit.views.WorkaroundNestedScrollView>
+</com.bizfit.release.views.WorkaroundNestedScrollView>

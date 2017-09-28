@@ -58,7 +58,7 @@
         app:itemIconTint="@color/colorTextLight"
         app:itemTextColor="@color/colorTextLight"/>
 
-    <com.bizfit.bizfit.views.ViewPagerNoSwipes
+    <com.bizfit.release.views.ViewPagerNoSwipes
         android:id="@+id/pager_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
