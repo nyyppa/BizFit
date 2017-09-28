@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: 'signing.gradle'
-def keystorePropertiesFile = rootProject.file("../bizfit/app/keystore.properties");
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     lintOptions {
         abortOnError false
