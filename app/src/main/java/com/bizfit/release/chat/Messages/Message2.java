@@ -332,7 +332,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     }
 
     public enum MessageType{
-        TEXT,PICTURE,VOICE,VIDEO
+        TEXT, PICTURE, VOICE, VIDEO, REQUEST
     }
 
     public JSONObject toJSON()
