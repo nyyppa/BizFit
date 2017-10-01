@@ -43,7 +43,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     public UUID uuid;
     List <String> pinnedUsers;
     OurDateTime timestamp;
-    MessageType messageType;
+    MessageType messageType=MessageType.TEXT;
     FileObject fileObject;
 
     public static Message2 createMessage(Conversation conversation, String resipient, String sender, String message,MessageType messageType,FileObject file){
