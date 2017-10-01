@@ -116,6 +116,13 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         this.conversation = conversation;
         try
         {
+            if(jsonObject.has("messageType")){
+                try {
+                    messageType=MessageType.valueOf(jsonObject.getString("messageType"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             if(jsonObject.has(Constants.sender))
             {
                 sender=jsonObject.getString(Constants.sender);
@@ -349,6 +356,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
             if (jsonArray.length()>0){
                 jsonObject.put("pinners", jsonArray);
             }
+            jsonObject.put("messageType",messageType.toString());
             if(fileObject!=null)
             {
                 jsonObject.put("fileObjet",fileObject.toJSON());
