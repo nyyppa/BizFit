@@ -136,4 +136,9 @@ public class Constants
 	public static final String handle_chat_request="handleChatRequest";
 	public static final String resultChat = "resultChat";
 
+
+	public static final String deleteUserJob="delete_user";
+	public static final String deleteUserCommand="id";
+
+
 }
