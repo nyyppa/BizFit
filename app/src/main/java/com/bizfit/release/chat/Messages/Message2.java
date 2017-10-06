@@ -43,7 +43,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     public UUID uuid;
     List <String> pinnedUsers;
     OurDateTime timestamp;
-    MessageType messageType;
+    MessageType messageType=MessageType.TEXT;
     FileObject fileObject;
 
     public static Message2 createMessage(Conversation conversation, String resipient, String sender, String message,MessageType messageType,FileObject file){
@@ -116,6 +116,13 @@ public abstract class Message2 implements NetworkReturn, Serializable {
         this.conversation = conversation;
         try
         {
+            if(jsonObject.has("messageType")){
+                try {
+                    messageType=MessageType.valueOf(jsonObject.getString("messageType"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             if(jsonObject.has(Constants.sender))
             {
                 sender=jsonObject.getString(Constants.sender);
@@ -325,7 +332,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
     }
 
     public enum MessageType{
-        TEXT,PICTURE,VOICE,VIDEO
+        TEXT, PICTURE, VOICE, VIDEO, REQUEST
     }
 
     public JSONObject toJSON()
@@ -349,6 +356,7 @@ public abstract class Message2 implements NetworkReturn, Serializable {
             if (jsonArray.length()>0){
                 jsonObject.put("pinners", jsonArray);
             }
+            jsonObject.put("messageType",messageType.toString());
             if(fileObject!=null)
             {
                 jsonObject.put("fileObjet",fileObject.toJSON());
