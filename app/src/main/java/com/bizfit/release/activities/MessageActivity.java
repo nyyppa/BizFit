@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bizfit.release.R;
 import com.bizfit.release.fragments.ChatFragment;
@@ -50,8 +53,10 @@ public class MessageActivity extends AppCompatActivity {
 
     public void switchToRegular() {
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        getSupportFragmentManager().popBackStack();
         ft.replace(R.id.fragment_container, new ChatFragment(), "Messages");
         ft.commit();
     }
+
 
 }
