@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bizfit.bizfitUusYritysKeskusAlpha">
+    package="com.bizfit.release">
 
-    <!--<uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />-->
+    <!--
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <!-- TODO Atte, was ist das? -->
     <application
+        android:name="com.bizfit.release.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="com.bizfit.bizfitUusYritysKeskusAlpha.MyApplication">
-        <service android:name="com.bizfit.bizfitUusYritysKeskusAlpha.MyAlarmService" />
+        android:theme="@style/AppTheme">
+        <service android:name="com.bizfit.release.MyAlarmService" />
 
         <!-- Splash screen -->
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.SplashScreen"
+            android:name="com.bizfit.release.activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
@@ -36,7 +46,7 @@
 
         <!-- Home view -->
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage"
+            android:name="com.bizfit.release.activities.MainPage"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,18 +56,18 @@
         </activity>
         <!-- Login -->
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.LoginActivity2"
+            android:name="com.bizfit.release.activities.LoginActivity2"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- Settings -->
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Settings"
+            android:name="com.bizfit.release.activities.Settings"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Start a new goal -->
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.AddTracker"
+            android:name="com.bizfit.release.activities.AddTracker"
             android:label="@string/title_new_goal"
             android:screenOrientation="user"
             android:theme="@style/AppTheme.NoActionBar"
@@ -65,42 +75,53 @@
 
         <!-- Single tracker info -->
 
+
         <!-- Store page -->
-        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.CoachPage" />
+        <activity android:name="com.bizfit.release.activities.CoachPage" />
 
         <!-- Support page -->
-        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Support" />
+        <activity android:name="com.bizfit.release.activities.Support" />
 
         <!-- Security information page -->
-        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Security" />
+        <activity android:name="com.bizfit.release.activities.Security" />
 
         <!-- Displays search results -->
-        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.Search">
+        <activity android:name="com.bizfit.release.activities.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MessageActivity"
+            android:name="com.bizfit.release.activities.MessageActivity"
             android:label="@string/title_activity_message"
-            android:parentActivityName="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage">
+            android:parentActivityName="com.bizfit.release.activities.MainPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bizfit.bizfitUusYritysKeskusAlpha.activities.MainPage"/>
+                android:value="com.bizfit.release.activities.MainPage" />
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.OrderChat"
-            android:windowSoftInputMode="adjustPan"></activity>
-
         <activity
-            android:name="com.bizfit.bizfitUusYritysKeskusAlpha.activities.CustomCrashReportDialog"
+            android:name="com.bizfit.release.activities.OrderChat"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.bizfit.release.activities.CustomCrashReportDialog"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance"
             android:theme="@style/ErrorDialogueTheme" />
+        <activity
+            android:name="com.bizfit.release.activities.KuvaTestiActivity"
+            android:label="@string/title_activity_kuva_testi"
+            android:theme="@style/AppTheme" />
+
+        <activity android:name="com.bizfit.release.activities.ProfileActivity" />
+        <activity android:name="com.bizfit.release.activities.EditProfile" />
+        <activity android:name="com.bizfit.release.activities.CreateProfile" />
+        <activity android:name="com.bizfit.release.activities.SelectProfileType" />
 
     </application>
 

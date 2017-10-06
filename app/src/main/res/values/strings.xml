@@ -96,6 +96,7 @@
     <string name="title_activity_message" translatable="false">MessageActivity</string>
     <string name="server_client_id" translatable="false">101704415790-hohblqnrqv5bvb90qr90li0or4vffk5e.apps.googleusercontent.com</string>
     <string name="server_client_id_release" translatable="false"> 101704415790-71gd4vja64fhs5rsf30of9p5k7ngbrq2.apps.googleusercontent.com </string>
+
     <!-- months -->
 
     <string name="month_january">January</string>
@@ -206,6 +207,53 @@
     <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <string name="dummy_shorter">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+
+    <!-- strings related to profile -->
+
+    <string name="profile_select_profile_title">Select profile type</string>
+    <string name="profile_select_progile_basic_desc">With basic profile you can order expert services. \n\nYour profile is only visible to experts that you have ordered services from.</string>
+    <string name="profile_select_profile_expert_desc">With expert profile you can both order and offer expert services. \n\nYour profile is public and visible to anyone.</string>
+
+    <string name="profile_basic_profile">Basic profile</string>
+    <string name="profile_expert_profile">Expert profile</string>
+
+    <string name="profile_noprofile_title">You don\'t have a profile</string>
+    <string name="profile_noprofile_desc">You need a profile to order expert services. Would you like to do one now?</string>
+
+    <string name="profile_name_title">What\'s your name?</string>
+    <string name="profile_name_firstname">First name</string>
+    <string name="profile_name_lastname">Last name</string>
+    <string name="profile_name_phone">Phone number</string>
+    <string name="profile_name_phone_hint">We need your phone number for you to be able to order call services from experts.</string>
+
+    <string name="profile_company_has_company_title">Do you own a company?</string>
+    <string name="profile_company_title">Company information</string>
+    <string name="profile_company_name">Company name</string>
+    <string name="profile_company_field">Business field</string>
+    <string name="profile_company_desc">Describe your company</string>
+
+    <string name="profile_picture_title">Add a profile picture</string>
+    <string name="profile_picture_select">Select from gallery</string>
+    <string name="profile_picture_take">Take new photo</string>
+
+    <string name="profile_isexpert_title">Do you want to create an expert profile?</string>
+    <string name="profile_isexpert_desc">If you have an expert profile, you can offer your services in the app.</string>
+
+    <string name="profile_finish_title">Profile created</string>
+    <string name="profile_finish_desc">Your profile was created succesfully! You can now return to main page.</string>
+
+
+    <!-- string related to buttons -->
+
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <string name="button_ask_later">Ask Later</string>
+    <string name="button_ask_never">Never ask again</string>
+    <string name="button_continue">Continue</string>
+    <string name="button_skip">Skip</string>
+
+    <string name="button_return_main">Return to main page</string>
+    <string name="button_create_expert">Create expert profile</string>
 
     <!-- OLD STRINGS -->
 
@@ -496,7 +544,9 @@
         <item>Zambia</item>
         -->
     </string-array>
+    <string name="title_activity_kuva_testi">KuvaTestiActivity</string>
+    <string name="pinned">Pinned</string>
 
 </resources>
 
-<!-- END OF FILE -->
+    <!-- END OF FILE -->

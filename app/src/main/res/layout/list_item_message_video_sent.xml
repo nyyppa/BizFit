@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <VideoView
+        android:id="@+id/message_video"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_border"
+        app:layout_constraintLeft_toLeftOf="@+id/image_border"
+        app:layout_constraintRight_toRightOf="@+id/image_border"
+        app:layout_constraintTop_toTopOf="@+id/image_border" />
+
+    <ImageView
+        android:id="@+id/image_border"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rounded_foreground_backgroundcolor"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tVtimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="time"
+        app:layout_constraintTop_toBottomOf="@+id/image_border"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="@+id/image_border" />
+
+</android.support.constraint.ConstraintLayout>

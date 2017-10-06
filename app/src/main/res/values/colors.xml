@@ -3,6 +3,8 @@
     <!-- In notation nameXXX the 3 numbers indicate the opacity of the color.
     In notation name_XXX the 3 numbers indicate the brightness of the color.-->
 
+    <color name="materialLight">#FFFAFAFA</color>
+
     <color name="colorPrimaryDark">@color/grey_800</color>
     <color name="colorPrimary">@color/grey_800</color>
     <color name="colorPrimaryLighter">@color/grey_600</color>
@@ -35,7 +37,7 @@
     <color name="black10">#1a000000</color>
     <color name="black05">#0a000000</color>
 
-    <color name="white100">#fff</color>
+    <color name="white100">#ffffff</color>
     <color name="white70">#80ffffff</color>
 
     <color name="transparent">#00FFFFFF</color>
@@ -91,5 +93,6 @@
     <color name="blue_grey_900">#263238</color>
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_500">#607D8B</color>
+    <color name="background_material_light">#fafafa</color>
 
 </resources>

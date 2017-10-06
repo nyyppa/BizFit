@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp">
+
+            <TextView
+                android:id="@+id/orderInfo_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tilauksen tiedot"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <ImageView
+                android:id="@+id/serviceIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_chat_android"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/orderInfo_title"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/serviceType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Service type"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="@+id/serviceIcon"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/serviceIcon"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintLeft_toRightOf="@+id/serviceIcon"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/expertName_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Asiantuntija"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/statusCircle"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/expertName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Alli Asiantuntija"
+                android:textAlignment="textEnd"
+                app:layout_constraintTop_toTopOf="@+id/expertName_title"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/expertName_title"
+                android:layout_marginLeft="8dp" />
+
+            <ImageView
+                android:id="@+id/statusCircle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:tint="@color/green"
+                app:srcCompat="@drawable/ic_circle"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/serviceIcon"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Aktiivinen"
+                android:layout_marginLeft="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/serviceType"
+                app:layout_constraintTop_toTopOf="@+id/statusCircle"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/statusCircle"
+                android:layout_marginBottom="0dp" />
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21.9.2017"
+                app:layout_constraintTop_toTopOf="@+id/startDate_title"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/startDate_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Tilauspäivä"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/expertName_title"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/startDate"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:id="@+id/endDate_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Päättymispäivä"
+                android:layout_marginTop="17dp"
+                app:layout_constraintTop_toBottomOf="@+id/startDate_title"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/endDate"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.1.2018"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/endDate_title"
+                android:layout_marginTop="0dp" />
+
+            <TextView
+                android:id="@+id/price_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Hinta"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/endDate_title"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/price"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X €"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/price_title"
+                android:layout_marginTop="0dp" />
+
+            <Button
+                android:id="@+id/button_rate"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Rate"
+                app:layout_constraintRight_toLeftOf="@+id/button_dispute"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/price_title" />
+
+            <Button
+                android:id="@+id/button_dispute"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Dispute"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/button_rate"
+                app:layout_constraintTop_toTopOf="@+id/button_rate"
+                android:layout_marginTop="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/button_rate"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginRight="16dp" />
+
+            <Button
+                android:id="@+id/button_cancel"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Cancel Order"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/button_rate"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginRight="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

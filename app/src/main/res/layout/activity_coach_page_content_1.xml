@@ -17,7 +17,7 @@
             android:id="@+id/fLPic">
 
             <ImageView
-                android:id="@+id/coach_banner_image"
+                android:id="@+id/user_banner_image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/dummy"

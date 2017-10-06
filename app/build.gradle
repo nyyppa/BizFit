@@ -1,27 +1,27 @@
 apply plugin: 'com.android.application'
-
+apply from: 'signing.gradle'
 android {
     lintOptions {
         abortOnError false
     }
     signingConfigs {
         config {
-            keyAlias 'bizfitapha'
-            keyPassword 'testitesti'
-            storeFile file('../app/bizfitkey2.jks')
-            storePassword 'testitesti'
+            storeFile signingConfigs.release.storeFile
+            storePassword signingConfigs.release.storePassword
+            keyAlias signingConfigs.release.keyAlias
+            keyPassword signingConfigs.release.keyPassword
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.bizfit.bizfitUusYritysKeskusAlpha"
+        applicationId "com.bizfit.release"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 3
-        versionName "3.0"
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
         vectorDrawables.useSupportLibrary = true;
-        versionNameSuffix 'alpha'
+        versionNameSuffix 'release'
         signingConfig signingConfigs.debug
     }
     buildTypes {
@@ -43,12 +43,12 @@ dependencies {
     compile('com.google.apis:google-api-services-gmail:v1-rev64-1.22.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile 'com.google.android.gms:play-services-auth:10.2.6'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.google.android.gms:play-services-auth:11.2.0'
+    compile 'com.android.support:cardview-v7:26.0.1'
+    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile 'org.xdty.preference:color-picker:0.0.4'
     compile 'com.ms-square:expandableTextView:0.1.4'
@@ -58,5 +58,6 @@ dependencies {
     compile 'ch.acra:acra:4.9.0'
     compile 'pub.devrel:easypermissions:0.3.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.ekimual:croperino:1.1.4'
 }
 apply plugin: "com.google.gms.google-services"

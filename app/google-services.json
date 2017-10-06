@@ -8,7 +8,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:101704415790:android:c35d6e5efe925ae0",
         "android_client_info": {
-          "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha"
+          "package_name": "com.bizfit.release"
         }
       },
       "oauth_client": [
@@ -21,18 +21,18 @@
           "client_type": 3
         },
         {
-          "client_id": "101704415790-o1ptmt10cseo5ch5ov2c11b2167h13c1.apps.googleusercontent.com",
+          "client_id": " 101704415790-q1d14qgciccvbvrk50je70u6knpv558c.apps.googleusercontent.com ",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha",
+            "package_name": "com.bizfit.release",
             "certificate_hash": "44cafa110c2f83f4f1e0bac5eb513e4c8fb0547d"
           }
         },
         {
-          "client_id": "101704415790-71gd4vja64fhs5rsf30of9p5k7ngbrq2.apps.googleusercontent.com",
+          "client_id": " 101704415790-q1d14qgciccvbvrk50je70u6knpv558c.apps.googleusercontent.com ",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bizfit.bizfitUusYritysKeskusAlpha",
+            "package_name": "com.bizfit.release",
             "certificate_hash": "e8afd762ad5f7a26c2ac21e080cbc32728134786"
           }
         }

@@ -4,12 +4,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/background_material_light</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="EditTextCustom" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -105,8 +109,10 @@
     <style name="MessageBase" parent="AppTheme">
         <item name="android:layout_marginRight">@dimen/activity_vertical_margin</item>
         <item name="android:layout_marginLeft">@dimen/activity_vertical_margin</item>
-        <item name="android:layout_marginTop">@dimen/list_item_message_horizontal_margin_small</item>
-        <item name="android:layout_marginBottom">@dimen/list_item_message_horizontal_margin_small</item>
+        <item name="android:layout_marginTop">@dimen/list_item_message_horizontal_margin_small
+        </item>
+        <item name="android:layout_marginBottom">@dimen/list_item_message_horizontal_margin_small
+        </item>
         <item name="android:padding">6dp</item>
         <item name="android:textSize">16sp</item>
     </style>
@@ -135,6 +141,10 @@
         <item name="android:paddingRight">8dp</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textSize">@dimen/text_body</item>
+    </style>
+
+    <style name="Progress_color">
+        <item name="colorAccent">@color/white</item> <!-- Whatever color you want-->
     </style>
 
 </resources>

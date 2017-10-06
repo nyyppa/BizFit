@@ -9,7 +9,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ViewTrackerActivity">
 
-    <com.bizfit.bizfitUusYritysKeskusAlpha.views.ViewPagerNoSwipes
+    <com.bizfit.release.views.ViewPagerNoSwipes
         android:id="@+id/pager_view_tracker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
